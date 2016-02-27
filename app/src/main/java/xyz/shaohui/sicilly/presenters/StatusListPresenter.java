@@ -84,7 +84,6 @@ public class StatusListPresenter implements StatusListFragment.StatusListInter {
                     @Override
                     public void call() {
                         if (isIndex) {
-                            dataList.clear();
                             mPage = 1;
                         }
                     }
@@ -106,6 +105,9 @@ public class StatusListPresenter implements StatusListFragment.StatusListInter {
                 .map(new Func1<JsonElement, Status>() {
                     @Override
                     public Status call(JsonElement jsonElement) {
+                        if (isIndex) {
+                            dataList.clear();
+                        }
                         return toObject(jsonElement);
                     }
                 })
