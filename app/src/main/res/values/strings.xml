@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">尚饭</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_index">IndexActivity</string>
+
+    <string name="login">登录</string>
+    <string name="username">用户名</string>
+    <string name="password">密码</string>
+
+    <string name="page_home">主页</string>
+    <string name="page_about_me">关于我的</string>
+    <string name="page_public">随便看看</string>
+    <string name="user_index">个人主页</string>
+
+    <string name="user_name">邵辉Vista</string>
+    <string name="user_id">ideaPlus</string>
+    <string name="user_location">北京, 海淀区</string>
+    <string name="user_brief">天空不留下任何痕迹, 但鸟儿已经飞过,</string>
+    <string name="user_followed">关注</string>
+    <string name="user_follower">粉丝</string>
+    <string name="user_status">消息</string>
+    <string name="user_loading">加载中..</string>
+
+    <string name="status_detail">消息详情</string>
+    <string name="action_show_all">上下文</string>
+    <string name="action_copy">复制内容</string>
+    <string name="status_text">风微风范围风微风范围份儿饭为服务夫妻夫妻额非法违法违法午饭晚饭前俄方威风威风</string>
+    <string name="status_source">2016-12-2 20:23:23 于 尚饭</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_user_info">UserInfoActivity</string>
+    <string name="title_activity_status_detail">StatusDetailActivity</string>
+    <string name="title_activity_photo">PhotoActivity</string>
+    <string name="title_activity_web_view">WebViewActivity</string>
+</resources>

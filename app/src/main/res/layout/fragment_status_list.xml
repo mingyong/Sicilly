@@ -1,0 +1,24 @@
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/swipe_refresh"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingRight="@dimen/spacing_normal"
+    android:paddingLeft="@dimen/spacing_normal"
+    tools:context="xyz.shaohui.sicilly.ui.fragments.StatusListFragment">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <Button
+        android:id="@+id/main_btn"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="点击刷新"/>
+
+</android.support.v4.widget.SwipeRefreshLayout>
