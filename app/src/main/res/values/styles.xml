@@ -6,6 +6,11 @@
         <item name="android:textColorPrimary">@color/white</item>
     </style>
 
+    <style name="AppTheme.Index" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/main</item>
+        <item name="android:textColorPrimary">@color/white</item>
+    </style>
+
     <style name="AppTheme.ActionBar">
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>

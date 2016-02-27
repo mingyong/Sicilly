@@ -43,14 +43,11 @@ public class IndexPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                context.getString(R.string.page_home);
-                break;
+                return context.getString(R.string.page_home);
             case 1:
-                context.getString(R.string.page_about_me);
-                break;
+                return context.getString(R.string.page_about_me);
             case 2:
-                context.getString(R.string.page_public);
-                break;
+                return context.getString(R.string.page_public);
         }
         return null;
     }

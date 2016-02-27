@@ -18,8 +18,8 @@
                 android:id="@+id/tool_bar"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/action_bar"
-                android:background="@color/white"
-                app:theme="@style/ThemeOverlay.AppCompat.Light">
+                android:background="@color/main_300"
+                style="@style/AppTheme.ActionBar">
             </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -27,11 +27,11 @@
             android:id="@+id/tab_bar"
             android:layout_width="match_parent"
             android:layout_height="@dimen/tab_bar"
-            android:background="@color/white"
+            android:background="@color/main_300"
             app:layout_collapseMode="pin"
-            app:tabIndicatorColor="@color/main_black"
-            app:tabTextColor="@color/main_black_300"
-            app:tabSelectedTextColor="@color/main_black"
+            app:tabIndicatorColor="@color/white"
+            app:tabTextColor="@color/white"
+            app:tabSelectedTextColor="@color/white"
             app:tabMode="fixed"/>
         <View
             android:layout_width="match_parent"
