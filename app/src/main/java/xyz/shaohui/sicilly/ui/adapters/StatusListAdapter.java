@@ -26,6 +26,7 @@ import xyz.shaohui.sicilly.ui.activities.StatusDetailActivity;
 import xyz.shaohui.sicilly.ui.activities.UserInfoActivity;
 import xyz.shaohui.sicilly.utils.HtmlParse;
 import xyz.shaohui.sicilly.utils.MyToast;
+import xyz.shaohui.sicilly.utils.TimeFormat;
 import xyz.shaohui.sicilly.utils.imageUtils.CircleTransform;
 
 /**
@@ -60,8 +61,23 @@ public class StatusListAdapter extends RecyclerView.Adapter {
         viewHolder.text.setText(status.getText());
         viewHolder.name.setText(user.getName());
         viewHolder.id.setText(user.getId());
-        viewHolder.time.setText(status.getCreatedAt());
-        viewHolder.source.setText(HtmlParse.cleanAllTag(status.getSource()));
+        viewHolder.time.setText(TimeFormat.format(status.getCreatedAt()));
+        viewHolder.source.setText(context.getString(R.string.status_from) + HtmlParse.cleanAllTag(status.getSource()));
+
+        int imgVisibility = status.getUser().isFollowing() ? View.INVISIBLE : View.VISIBLE;
+        viewHolder.follow.setVisibility(imgVisibility);
+
+        if (status.isFavorited()) {
+            viewHolder.favorite.setText(context.getString(R.string.status_favorited));
+        } else {
+            viewHolder.favorite.setText(context.getString(R.string.status_favorite));
+        }
+
+        try {
+
+        } catch (Exception e) {
+
+        }
 
         viewHolder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,13 +93,50 @@ public class StatusListAdapter extends RecyclerView.Adapter {
             }
         });
 
-//        Log.i("TAG_status_id", status.getId());
+        viewHolder.favorite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (status.isFavorited()) {
+                    destroyFavorite(status, context, viewHolder.favorite);
+                } else {
+                    createFavorite(status, context, viewHolder.favorite);
+                }
+            }
+        });
 
         Picasso.with(viewHolder.profileImg.getContext())
                 .load(user.getProfileImageUrl())
                 .transform(new CircleTransform())
                 .into(viewHolder.profileImg);
 
+    }
+
+    private void createFavorite(Status status,final Context context, final TextView textView) {
+        UserService.destroyFavorite(status.getId(), new UserService.CallBack() {
+            @Override
+            public void success() {
+                textView.setText(context.getString(R.string.status_favorite));
+            }
+
+            @Override
+            public void failure() {
+                MyToast.showToast(context, "取消收藏失败, 请重试");
+            }
+        });
+    }
+
+    private void destroyFavorite(Status status, final Context context, final TextView textView) {
+        UserService.createFavorite(status.getId(), new UserService.CallBack() {
+            @Override
+            public void success() {
+                textView.setText(context.getString(R.string.status_favorited));
+            }
+
+            @Override
+            public void failure() {
+                MyToast.showToast(context, "收藏失败, 请重试");
+            }
+        });
     }
 
     @Override

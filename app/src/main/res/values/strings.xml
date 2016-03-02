@@ -28,7 +28,9 @@
     <string name="action_copy">复制内容</string>
     <string name="status_text">风微风范围风微风范围份儿饭为服务夫妻夫妻额非法违法违法午饭晚饭前俄方威风威风</string>
     <string name="status_source">2016-12-2 20:23:23 于 尚饭</string>
+    <string name="status_from">来自 </string>
     <string name="status_favorite">收藏</string>
+    <string name="status_favorited">已收藏</string>
     <string name="status_repost">转发</string>
     <string name="status_reply">回复</string>
 

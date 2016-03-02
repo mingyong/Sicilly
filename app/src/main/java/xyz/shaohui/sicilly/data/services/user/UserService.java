@@ -27,7 +27,7 @@ public class UserService {
      * @param id
      * @param callBack
      */
-    public static void CreateFavorite(String id, final CallBack callBack) {
+    public static void createFavorite(String id, final CallBack callBack) {
 
         RetrofitService service = SicillyFactory.getRetrofitService();
         service.getUserService().createFavorite(id)
@@ -36,7 +36,7 @@ public class UserService {
                 .subscribe(new Observer<JsonObject>() {
                     @Override
                     public void onCompleted() {
-                        callBack.succeess();
+                        callBack.success();
                     }
 
                     @Override
@@ -52,7 +52,7 @@ public class UserService {
                 });
     }
 
-    public static void DestroyFavorite(String id, final UserService.CallBack callBack) {
+    public static void destroyFavorite(String id, final UserService.CallBack callBack) {
 
         RetrofitService service = SicillyFactory.getRetrofitService();
         service.getUserService().destroyFavorite(id)
@@ -61,7 +61,7 @@ public class UserService {
                 .subscribe(new Observer<JsonObject>() {
                     @Override
                     public void onCompleted() {
-                        callBack.succeess();
+                        callBack.success();
                     }
 
                     @Override
@@ -98,7 +98,7 @@ public class UserService {
 
     public interface CallBack {
 
-        public void succeess();
+        public void success();
 
         public void failure();
     }
