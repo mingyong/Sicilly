@@ -130,6 +130,7 @@ public class StatusListPresenter implements StatusListFragment.StatusListInter {
                     @Override
                     public void onError(Throwable e) {
                         fragment.dismissRefresh();
+                        e.printStackTrace();
                         MyToast.showToast(fragment.getActivity(), "处理错误,请刷新重试");
                     }
 

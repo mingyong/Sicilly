@@ -101,15 +101,11 @@ public class StatusListAdapter extends RecyclerView.Adapter {
         @Bind(R.id.status_time)TextView time;
         @Bind(R.id.status_resource)TextView source;
         @Bind(R.id.status_text)TextView text;
-
+//
         @Bind(R.id.status_ic_follow)ImageView follow;
-        @Bind(R.id.status_ic_background)LinearLayout icBackground;
-        @Bind(R.id.status_ic_reply)RelativeLayout reply;
-        @Bind(R.id.status_ic_share)RelativeLayout retweet;
-        @Bind(R.id.status_ic_star)RelativeLayout favorite;
-        @Bind(R.id.status_ic_star_text)TextView starText;
-        @Bind(R.id.status_ic_star_img)ImageView starImg;
-
+        @Bind(R.id.status_ic_reply)TextView reply;
+        @Bind(R.id.status_ic_star)TextView favorite;
+        @Bind(R.id.status_ic_repost)TextView repost;
 
         public MyViewHolder(View itemView) {
             super(itemView);
