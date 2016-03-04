@@ -50,6 +50,7 @@
                 android:id="@+id/status_ic_follow"
                 android:layout_width="wrap_content"
                 android:layout_height="16dp"
+                android:scaleType="centerCrop"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:src="@mipmap/ic_follow" />
@@ -63,9 +64,10 @@
             android:text="@string/status_text"/>
         <ImageView
             android:id="@+id/status_img"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxHeight="200dp"/>
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:scaleType="fitCenter"
+            android:background="@color/main_300" />
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">

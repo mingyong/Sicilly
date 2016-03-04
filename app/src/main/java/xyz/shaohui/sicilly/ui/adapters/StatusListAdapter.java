@@ -2,7 +2,9 @@ package xyz.shaohui.sicilly.ui.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +24,7 @@ import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.data.services.user.UserService;
+import xyz.shaohui.sicilly.ui.activities.PhotoActivity;
 import xyz.shaohui.sicilly.ui.activities.StatusDetailActivity;
 import xyz.shaohui.sicilly.ui.activities.UserInfoActivity;
 import xyz.shaohui.sicilly.utils.HtmlParse;
@@ -64,8 +67,8 @@ public class StatusListAdapter extends RecyclerView.Adapter {
         viewHolder.time.setText(TimeFormat.format(status.getCreatedAt()));
         viewHolder.source.setText(context.getString(R.string.status_from) + HtmlParse.cleanAllTag(status.getSource()));
 
-        int imgVisibility = status.getUser().isFollowing() ? View.INVISIBLE : View.VISIBLE;
-        viewHolder.follow.setVisibility(imgVisibility);
+        int followVisi = status.getUser().isFollowing() ? View.INVISIBLE : View.VISIBLE;
+        viewHolder.follow.setVisibility(followVisi);
 
         if (status.isFavorited()) {
             viewHolder.favorite.setText(context.getString(R.string.status_favorited));
@@ -73,10 +76,18 @@ public class StatusListAdapter extends RecyclerView.Adapter {
             viewHolder.favorite.setText(context.getString(R.string.status_favorite));
         }
 
-        try {
-
-        } catch (Exception e) {
-
+        int imgVisi = TextUtils.isEmpty(status.getImageUrl()) ? View.GONE: View.VISIBLE;
+        viewHolder.img.setVisibility(imgVisi);
+        if (!TextUtils.isEmpty(status.getImageUrl())) {
+            Picasso.with(context)
+                    .load(Uri.parse(status.getImageUrl()))
+                    .into(viewHolder.img);
+            viewHolder.img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    context.startActivity(PhotoActivity.newIntent(status.getImageLargeUrl()));
+                }
+            });
         }
 
         viewHolder.parent.setOnClickListener(new View.OnClickListener() {
@@ -120,7 +131,7 @@ public class StatusListAdapter extends RecyclerView.Adapter {
 
             @Override
             public void failure() {
-                MyToast.showToast(context, "取消收藏失败, 请重试");
+                MyToast.showToast(context, "收藏失败, 请重试");
             }
         });
     }
@@ -134,7 +145,7 @@ public class StatusListAdapter extends RecyclerView.Adapter {
 
             @Override
             public void failure() {
-                MyToast.showToast(context, "收藏失败, 请重试");
+                MyToast.showToast(context, "取消收藏失败, 请重试");
             }
         });
     }

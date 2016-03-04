@@ -3,6 +3,7 @@ package xyz.shaohui.sicilly.presenters;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.google.gson.JsonArray;
@@ -179,9 +180,16 @@ public class StatusListPresenter implements StatusListFragment.StatusListInter {
         status.setRawid(json.get("rawid").getAsInt());
         status.setText(json.get("text").getAsString());
         status.setSource(json.get("source").getAsString());
+        status.setFavorited(json.get("favorited").getAsBoolean());
 
         JsonObject jsonUser = json.get("user").getAsJsonObject();
         User user = User.toObject(jsonUser);
+
+        if (json.get("photo")!=null) {
+            JsonObject jsonPhoto = json.get("photo").getAsJsonObject();
+            status.setImageUrl(jsonPhoto.get("imageurl").getAsString());
+            status.setImageLargeUrl(jsonPhoto.get("largeurl").getAsString());
+        }
 
         status.setUser(user);
         status.setUserId(user.getId());
