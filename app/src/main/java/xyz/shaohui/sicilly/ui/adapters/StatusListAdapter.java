@@ -85,7 +85,7 @@ public class StatusListAdapter extends RecyclerView.Adapter {
             viewHolder.img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    context.startActivity(PhotoActivity.newIntent(status.getImageLargeUrl()));
+                    context.startActivity(PhotoActivity.newIntent(context, status.getImageLargeUrl()));
                 }
             });
         }
@@ -123,7 +123,7 @@ public class StatusListAdapter extends RecyclerView.Adapter {
     }
 
     private void createFavorite(Status status,final Context context, final TextView textView) {
-        UserService.destroyFavorite(status.getId(), new UserService.CallBack() {
+        UserService.createFavorite(status.getId(), new UserService.CallBack() {
             @Override
             public void success() {
                 textView.setText(context.getString(R.string.status_favorite));
@@ -137,7 +137,7 @@ public class StatusListAdapter extends RecyclerView.Adapter {
     }
 
     private void destroyFavorite(Status status, final Context context, final TextView textView) {
-        UserService.createFavorite(status.getId(), new UserService.CallBack() {
+        UserService.destroyFavorite(status.getId(), new UserService.CallBack() {
             @Override
             public void success() {
                 textView.setText(context.getString(R.string.status_favorited));
