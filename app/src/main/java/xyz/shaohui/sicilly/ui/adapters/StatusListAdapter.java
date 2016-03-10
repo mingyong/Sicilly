@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.TextUtils;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +31,7 @@ import xyz.shaohui.sicilly.ui.activities.StatusDetailActivity;
 import xyz.shaohui.sicilly.ui.activities.UserInfoActivity;
 import xyz.shaohui.sicilly.utils.HtmlParse;
 import xyz.shaohui.sicilly.utils.MyToast;
+import xyz.shaohui.sicilly.utils.TextHtmlParse;
 import xyz.shaohui.sicilly.utils.TimeFormat;
 import xyz.shaohui.sicilly.utils.imageUtils.CircleTransform;
 
@@ -61,7 +64,10 @@ public class StatusListAdapter extends RecyclerView.Adapter {
         final MyViewHolder viewHolder = (MyViewHolder) holder;
         final Context context = viewHolder.text.getContext();
 
-        viewHolder.text.setText(status.getText());
+//        TextHtmlParse.setTextView(viewHolder.text, status.getText());
+        viewHolder.text.setText(TextHtmlParse.updateMainText(status.getText()));
+        viewHolder.text.setMovementMethod(LinkMovementMethod.getInstance());
+
         viewHolder.name.setText(user.getName());
         viewHolder.id.setText(user.getId());
         viewHolder.time.setText(TimeFormat.format(status.getCreatedAt()));

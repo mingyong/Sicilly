@@ -1,5 +1,7 @@
 package xyz.shaohui.sicilly.ui.activities;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,10 +11,20 @@ import xyz.shaohui.sicilly.R;
 
 public class WebViewActivity extends AppCompatActivity {
 
+    private String url;
+
+    public static Intent newIntent(Context context, String url) {
+        Intent intent = new Intent(context, WebViewActivity.class);
+        intent.putExtra("url", url);
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
+
+        url = getIntent().getStringExtra("url");
     }
 
     @Override

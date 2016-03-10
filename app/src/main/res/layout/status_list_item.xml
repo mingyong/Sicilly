@@ -61,6 +61,7 @@
             android:layout_height="wrap_content"
             android:padding="4dp"
             android:lineSpacingExtra="4dp"
+            android:textColorLink="@color/main_300"
             android:text="@string/status_text"/>
         <ImageView
             android:id="@+id/status_img"

@@ -20,6 +20,13 @@ public class SicillyFactory {
     public static final int PAGE_ABOUT_ME = 2;
     public static final int PAGE_PUBLIC = 3;
 
+    public static final String PREFIX_USER = "user://";
+    public static final String PREFIX_TREND = "trend://";
+    public static final String PREFIX_WEB = "web://";
+    public static final String PREFIX_FAN_INDEX = "http://fanfou.com/";
+    public static final String PREFIX_FAN_TREND = "/q/";
+    public static final String PREFIX_FAN_WEB = "http://";
+
     public static void setToken(OAuthToken token) {
         SicillyFactory.token = token;
     }

@@ -16,7 +16,7 @@
         <activity
             android:name=".ui.activities.IndexActivity"
             android:label="@string/title_activity_index"
-            android:theme="@style/AppTheme.Index">
+            android:theme="@style/AppTheme.Index" >
         </activity>
         <activity
             android:name=".ui.activities.LoginActivity"
@@ -46,6 +46,21 @@
         <activity
             android:name=".ui.activities.WebViewActivity"
             android:label="@string/title_activity_web_view" >
+        </activity>
+        <activity
+            android:name=".ui.activities.CreateStatusActivity"
+            android:label="@string/title_activity_create_status" >
+        </activity>
+        <activity
+            android:name=".ui.activities.TransferActivity"
+            android:label="@string/title_activity_transfer" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <data android:scheme="user"/>
+                <data android:scheme="trend"/>
+                <data android:scheme="web"/>
+            </intent-filter>
         </activity>
     </application>
 
