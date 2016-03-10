@@ -1,5 +1,6 @@
 package xyz.shaohui.sicilly.ui.activities;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -8,11 +9,13 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.BindInt;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyFactory;
 import xyz.shaohui.sicilly.ui.adapters.IndexPagerAdapter;
@@ -50,6 +53,12 @@ public class IndexActivity extends AppCompatActivity {
         tabBar.setupWithViewPager(viewPager);
         tabBar.setTabsFromPagerAdapter(mAdatper);
 
+    }
+
+    @OnClick(R.id.create_status)
+    void createStatus() {
+        Intent intent = CreateStatusActivity.newIntent(this, null, null);
+        startActivity(intent);
     }
 
     @Override

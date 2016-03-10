@@ -25,6 +25,9 @@ public class SicillyInterceptor implements Interceptor {
         Request request = originalRequest.newBuilder()
                 .header("Authorization",auth)
                 .build();
+
+        Log.i("TAG", auth);
+
         return chain.proceed(request);
     }
 }

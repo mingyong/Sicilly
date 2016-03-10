@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context="xyz.shaohui.sicilly.ui.activities.CreateStatusActivity">
     <android.support.v7.widget.Toolbar
         android:id="@+id/tool_bar"
@@ -18,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textMultiLine"
+        android:textColor="@color/basic_black"
         android:layout_below="@id/tool_bar"/>
     <ImageView
         android:layout_width="80dp"

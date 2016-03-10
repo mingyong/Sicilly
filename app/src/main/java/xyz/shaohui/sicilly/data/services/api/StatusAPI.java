@@ -9,6 +9,7 @@ import okhttp3.RequestBody;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.PartMap;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -33,8 +34,9 @@ public interface StatusAPI {
     @GET("statuses/context_timeline.json?format=html&mode=lite")
     Observable<JsonArray> contextTimeline(@Query("id")String id);
 
+    @Multipart
     @POST("statuses/update.json")
-    Observable<JsonObject> createStatus(@Query("status")String status, @Query("source")String source);
+    Observable<JsonObject> createStatus(@Part("status")RequestBody status);
 
     @Multipart
     @POST("photos/upload.json")
@@ -44,8 +46,13 @@ public interface StatusAPI {
     Observable<JsonObject> replyStatus(
             @Query("status")String status, @Query("in_reply_to_status_id")String id, @Query("source")String source);
 
+    @Multipart
     @POST("statuses/update.json")
-    Observable<JsonObject> repostStatus(@Query("status")String status, @Query("repost_status_id")String id);
+    Observable<JsonObject> repostStatus(@Part("status")RequestBody status, @Part("repost_status_id")RequestBody id);
+
+    @Multipart
+    @POST("statuses/update.json")
+    Observable<JsonObject> repostStatus(@Part("status")RequestBody body);
 
     @POST("statuses/destroy.json")
     Observable<JsonObject> destroyStatus(@Query("id")String id);

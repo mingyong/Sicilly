@@ -26,6 +26,7 @@ import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.data.services.user.UserService;
+import xyz.shaohui.sicilly.ui.activities.CreateStatusActivity;
 import xyz.shaohui.sicilly.ui.activities.PhotoActivity;
 import xyz.shaohui.sicilly.ui.activities.StatusDetailActivity;
 import xyz.shaohui.sicilly.ui.activities.UserInfoActivity;
@@ -60,7 +61,7 @@ public class StatusListAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         final Status status = dataList.get(position);
-        User user = status.getUser();
+        final User user = status.getUser();
         final MyViewHolder viewHolder = (MyViewHolder) holder;
         final Context context = viewHolder.text.getContext();
 
@@ -121,6 +122,13 @@ public class StatusListAdapter extends RecyclerView.Adapter {
             }
         });
 
+        viewHolder.repost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                repostStatus(context, status, user);
+            }
+        });
+
         Picasso.with(viewHolder.profileImg.getContext())
                 .load(user.getProfileImageUrl())
                 .transform(new CircleTransform())
@@ -154,6 +162,13 @@ public class StatusListAdapter extends RecyclerView.Adapter {
                 MyToast.showToast(context, "取消收藏失败, 请重试");
             }
         });
+    }
+
+    private void repostStatus(Context context, Status status, User user) {
+        String str = HtmlParse.cleanAllTag(status.getText());
+        String text = " 转@" + user.getNickName() + " " + str;
+        Intent intent = CreateStatusActivity.newIntent(context, status.getId(), text);
+        context.startActivity(intent);
     }
 
     @Override

@@ -11,6 +11,7 @@ import java.util.Map;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import rx.Observer;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import xyz.shaohui.sicilly.SicillyFactory;
@@ -78,7 +79,32 @@ public class UserService {
 
     }
 
-    public static void createStatus(Uri imgUri, String text, UserService.CallBack callBack) {
+    public static void createStatus(String text, final UserService.CallBack callBack) {
+        RetrofitService service = SicillyFactory.getRetrofitService();
+        service.getStatusService().createStatus(toRequestBody(text))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<JsonObject>() {
+                    @Override
+                    public void onCompleted() {
+                        callBack.success();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        callBack.failure();
+                    }
+
+                    @Override
+                    public void onNext(JsonObject jsonObject) {
+
+                    }
+                });
+
+    }
+
+    public static void createStatusImg(Uri imgUri, String text, UserService.CallBack callBack) {
 
         Map<String, RequestBody> map = new HashMap<>();
         map.put("text", toRequestBody(text));
@@ -89,6 +115,30 @@ public class UserService {
             map.put("file", fileBody);
         }
 
+    }
+
+    public static void repostStatus(String text, String repostStatusId, final UserService.CallBack callBack) {
+        RetrofitService service = SicillyFactory.getRetrofitService();
+        service.getStatusService().repostStatus(toRequestBody(text), toRequestBody(repostStatusId))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<JsonObject>() {
+                    @Override
+                    public void onCompleted() {
+                        callBack.success();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callBack.failure();
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(JsonObject jsonObject) {
+
+                    }
+                });
     }
 
     public static RequestBody toRequestBody(String str) {

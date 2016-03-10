@@ -57,6 +57,7 @@
             android:layout_height="1px"
             android:background="@color/text_hint"/>
         <LinearLayout
+            android:id="@+id/create_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingRight="@dimen/spacing_small"
