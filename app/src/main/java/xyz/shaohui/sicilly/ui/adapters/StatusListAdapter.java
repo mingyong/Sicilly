@@ -65,7 +65,6 @@ public class StatusListAdapter extends RecyclerView.Adapter {
         final MyViewHolder viewHolder = (MyViewHolder) holder;
         final Context context = viewHolder.text.getContext();
 
-//        TextHtmlParse.setTextView(viewHolder.text, status.getText());
         viewHolder.text.setText(TextHtmlParse.updateMainText(status.getText()));
         viewHolder.text.setMovementMethod(LinkMovementMethod.getInstance());
 
@@ -97,37 +96,42 @@ public class StatusListAdapter extends RecyclerView.Adapter {
             });
         }
 
-        viewHolder.parent.setOnClickListener(new View.OnClickListener() {
+        View.OnClickListener mListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(StatusDetailActivity.newIntent(context, status.getId()));
-            }
-        });
-
-        viewHolder.profileImg.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                context.startActivity(UserInfoActivity.newIntent(context, status.getUserId()));
-            }
-        });
-
-        viewHolder.favorite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (status.isFavorited()) {
-                    destroyFavorite(status, context, viewHolder.favorite);
-                } else {
-                    createFavorite(status, context, viewHolder.favorite);
+                switch (v.getId()) {
+                    case R.id.status_item:
+                        context.startActivity(StatusDetailActivity.newIntent(context, status.getId()));
+                        break;
+                    case R.id.status_user_name:
+                    case R.id.status_user_id:
+                    case R.id.status_user_avatar:
+                        context.startActivity(UserInfoActivity.newIntent(context, status.getUserId()));
+                        break;
+                    case R.id.action_favorite:
+                        if (status.isFavorited()) {
+                            destroyFavorite(status, context, viewHolder.favorite);
+                        } else {
+                            createFavorite(status, context, viewHolder.favorite);
+                        }
+                        break;
+                    case R.id.action_repost:
+                        repostStatus(context, status, user);
+                        break;
+                    case R.id.action_reply:
+                        replyStatus(context, status, user);
+                        break;
                 }
             }
-        });
+        };
 
-        viewHolder.repost.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                repostStatus(context, status, user);
-            }
-        });
+        viewHolder.parent.setOnClickListener(mListener);
+        viewHolder.profileImg.setOnClickListener(mListener);
+        viewHolder.reply.setOnClickListener(mListener);
+        viewHolder.repost.setOnClickListener(mListener);
+        viewHolder.favorite.setOnClickListener(mListener);
+        viewHolder.name.setOnClickListener(mListener);
+        viewHolder.id.setOnClickListener(mListener);
 
         Picasso.with(viewHolder.profileImg.getContext())
                 .load(user.getProfileImageUrl())
@@ -167,7 +171,15 @@ public class StatusListAdapter extends RecyclerView.Adapter {
     private void repostStatus(Context context, Status status, User user) {
         String str = HtmlParse.cleanAllTag(status.getText());
         String text = " 转@" + user.getNickName() + " " + str;
-        Intent intent = CreateStatusActivity.newIntent(context, status.getId(), text);
+        Intent intent = CreateStatusActivity.newIntent(context,
+                CreateStatusActivity.TYPE_REPOST, status.getId(), text);
+        context.startActivity(intent);
+    }
+
+    private void replyStatus(Context context, Status status, User user) {
+        String text = "@" + user.getNickName() + " ";
+        Intent intent = CreateStatusActivity.newIntent(context,
+                CreateStatusActivity.TYPE_REPLY, status.getId(), text);
         context.startActivity(intent);
     }
 

@@ -14,17 +14,26 @@
         android:fitsSystemWindows="true"
         style="@style/AppTheme.ActionBar"
         app:title="@string/create_status"/>
-    <EditText
-        android:id="@+id/main_edit"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textMultiLine"
-        android:textColor="@color/basic_black"
-        android:layout_below="@id/tool_bar"/>
-    <ImageView
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_below="@id/main_edit"/>
+        android:layout_below="@id/tool_bar">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/main_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:textColor="@color/basic_black" />
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="80dp"
+                android:layout_height="80dp" />
+        </LinearLayout>
+    </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,6 +55,7 @@
             android:text="草稿箱"
             android:textColor="@color/white" />
         <TextView
+            android:id="@+id/pick_photo"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -53,6 +63,7 @@
             android:text="选择图片"
             android:textColor="@color/white" />
         <TextView
+            android:id="@+id/take_photo"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

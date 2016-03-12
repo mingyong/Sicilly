@@ -42,9 +42,9 @@ public interface StatusAPI {
     @POST("photos/upload.json")
     Observable<JsonObject> createStatusWithPhoto(@PartMap Map<String, RequestBody> map);
 
+    @Multipart
     @POST("statuses/update.json")
-    Observable<JsonObject> replyStatus(
-            @Query("status")String status, @Query("in_reply_to_status_id")String id, @Query("source")String source);
+    Observable<JsonObject> replyStatus(@Part("status")RequestBody status, @Part("in_reply_to_status_id")RequestBody id);
 
     @Multipart
     @POST("statuses/update.json")

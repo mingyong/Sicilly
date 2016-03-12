@@ -150,5 +150,11 @@ public class StatusListFragment extends Fragment {
 
     }
 
+    public interface ActivityCallBack {
+
+        public void statusReply();
+
+    }
+
 
 }

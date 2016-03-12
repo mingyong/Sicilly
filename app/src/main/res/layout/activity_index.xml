@@ -73,6 +73,13 @@
                 android:hint="今天发生了什么?"
                 android:textColor="@color/black"
                 android:textSize="@dimen/font_larger"/>
+            <TextView
+                android:id="@+id/open"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="展开"
+                android:textColor="@color/basic_black" />
             <ImageView
                 android:id="@+id/status_commit"
                 android:layout_gravity="center"

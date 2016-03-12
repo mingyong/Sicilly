@@ -7,8 +7,10 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,14 +20,17 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyFactory;
+import xyz.shaohui.sicilly.data.services.user.UserService;
 import xyz.shaohui.sicilly.ui.adapters.IndexPagerAdapter;
 import xyz.shaohui.sicilly.ui.fragments.StatusListFragment;
+import xyz.shaohui.sicilly.utils.MyToast;
 
-public class IndexActivity extends AppCompatActivity {
+public class IndexActivity extends AppCompatActivity implements StatusListFragment.ActivityCallBack{
 
     @Bind(R.id.tool_bar)Toolbar toolBar;
     @Bind(R.id.tab_bar)TabLayout tabBar;
     @Bind(R.id.main_pager)ViewPager viewPager;
+    @Bind(R.id.status_text)EditText mainEdit;
 
     private IndexPagerAdapter mAdatper;
 
@@ -57,7 +62,29 @@ public class IndexActivity extends AppCompatActivity {
 
     @OnClick(R.id.create_status)
     void createStatus() {
-        Intent intent = CreateStatusActivity.newIntent(this, null, null);
+        UserService.createStatus(mainEdit.getText().toString(), new UserService.CallBack() {
+            @Override
+            public void success() {
+                mainEdit.setText("");
+                MyToast.showToast(getApplicationContext(), "发送成功");
+            }
+
+            @Override
+            public void failure() {
+                MyToast.showToast(getApplicationContext(), "发送失败, 请重试");
+            }
+        });
+    }
+
+    @OnClick(R.id.open)
+    void openActivity() {
+        Intent intent;
+        if (mainEdit.getTag() != null) {
+            intent = CreateStatusActivity.newIntent(this, CreateStatusActivity.TYPE_REPLY,
+                    mainEdit.getTag().toString(), mainEdit.getText().toString());
+        } else {
+            intent = CreateStatusActivity.newIntent(this, CreateStatusActivity.TYPE_NULL, null, null);
+        }
         startActivity(intent);
     }
 
@@ -78,5 +105,10 @@ public class IndexActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void statusReply() {
+
     }
 }

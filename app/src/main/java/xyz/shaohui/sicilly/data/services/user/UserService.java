@@ -10,6 +10,7 @@ import java.util.Map;
 
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
+import retrofit2.Retrofit;
 import rx.Observer;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -132,6 +133,31 @@ public class UserService {
                     public void onError(Throwable e) {
                         callBack.failure();
                         e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(JsonObject jsonObject) {
+
+                    }
+                });
+    }
+
+    public static void replyStatus(String text, String replyStatusId,
+                                   final UserService.CallBack callBack) {
+        RetrofitService service = SicillyFactory.getRetrofitService();
+        service.getStatusService().replyStatus(toRequestBody(text), toRequestBody(replyStatusId))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<JsonObject>() {
+                    @Override
+                    public void onCompleted() {
+                        callBack.success();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        callBack.failure();
                     }
 
                     @Override
