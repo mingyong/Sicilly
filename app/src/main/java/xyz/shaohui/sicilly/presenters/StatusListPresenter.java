@@ -34,7 +34,7 @@ import xyz.shaohui.sicilly.utils.MyToast;
 /**
  * Created by kpt on 16/2/22.
  */
-public class StatusListPresenter implements StatusListFragment.StatusListInter {
+public class StatusListPresenter {
 
     private StatusListFragment fragment;
     private StatusAPI statusService;
@@ -59,7 +59,6 @@ public class StatusListPresenter implements StatusListFragment.StatusListInter {
         mHandler = new Handler();
     }
 
-    @Override
     public void fetchData() {
 
     }
@@ -100,6 +99,7 @@ public class StatusListPresenter implements StatusListFragment.StatusListInter {
                 .flatMap(new Func1<JsonArray, Observable<JsonElement>>() {
                     @Override
                     public Observable<JsonElement> call(JsonArray jsonElements) {
+                        Log.i("TAG_jsonElement", jsonElements.toString());
                         return Observable.from(jsonElements);
                     }
                 })
@@ -107,7 +107,7 @@ public class StatusListPresenter implements StatusListFragment.StatusListInter {
                     @Override
                     public Status call(JsonElement jsonElement) {
                         if (isIndex) {
-                            dataList.clear();
+//                            dataList.clear();
                         }
                         return toObject(jsonElement);
                     }
@@ -138,6 +138,7 @@ public class StatusListPresenter implements StatusListFragment.StatusListInter {
                     @Override
                     public void onNext(Status status) {
                         dataList.add(status);
+                        Log.i("TAG", "add++++");
                     }
                 });
     }
@@ -151,19 +152,16 @@ public class StatusListPresenter implements StatusListFragment.StatusListInter {
         }
     }
 
-    @Override
     public void fetchCache() {
 
     }
 
-    @Override
     public StatusListAdapter getAdapter() {
         return mAdapter;
     }
 
-    @Override
     public void swipeFresh() {
-        mHandler.postDelayed(new Runnable() {
+        new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 fetchData(true);

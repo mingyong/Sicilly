@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="xyz.shaohui.sicilly" >
-    <uses-feature android:name="android.hardware.camera2" android:required="true"/>
+
+    <uses-feature
+        android:name="android.hardware.camera2"
+        android:required="true" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -56,12 +60,18 @@
             android:name=".ui.activities.TransferActivity"
             android:label="@string/title_activity_transfer" >
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <data android:scheme="user"/>
-                <data android:scheme="trend"/>
-                <data android:scheme="web"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:scheme="user" />
+                <data android:scheme="trend" />
+                <data android:scheme="web" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.activities.EditInfoActivity"
+            android:label="@string/title_activity_edit_info" >
         </activity>
     </application>
 

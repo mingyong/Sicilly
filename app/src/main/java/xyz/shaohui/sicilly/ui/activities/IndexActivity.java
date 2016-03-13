@@ -25,7 +25,7 @@ import xyz.shaohui.sicilly.ui.adapters.IndexPagerAdapter;
 import xyz.shaohui.sicilly.ui.fragments.StatusListFragment;
 import xyz.shaohui.sicilly.utils.MyToast;
 
-public class IndexActivity extends AppCompatActivity implements StatusListFragment.ActivityCallBack{
+public class IndexActivity extends AppCompatActivity{
 
     @Bind(R.id.tool_bar)Toolbar toolBar;
     @Bind(R.id.tab_bar)TabLayout tabBar;
@@ -107,8 +107,4 @@ public class IndexActivity extends AppCompatActivity implements StatusListFragme
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void statusReply() {
-
-    }
 }

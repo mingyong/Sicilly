@@ -100,6 +100,7 @@ public class StatusListAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
+                    case R.id.status_text:
                     case R.id.status_item:
                         context.startActivity(StatusDetailActivity.newIntent(context, status.getId()));
                         break;
@@ -132,6 +133,7 @@ public class StatusListAdapter extends RecyclerView.Adapter {
         viewHolder.favorite.setOnClickListener(mListener);
         viewHolder.name.setOnClickListener(mListener);
         viewHolder.id.setOnClickListener(mListener);
+        viewHolder.text.setOnClickListener(mListener);
 
         Picasso.with(viewHolder.profileImg.getContext())
                 .load(user.getProfileImageUrl())

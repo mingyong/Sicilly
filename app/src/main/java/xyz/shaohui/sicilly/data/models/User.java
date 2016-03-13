@@ -15,7 +15,7 @@ public class User {
 
     private String location;
 
-    private String gendar;
+    private String gender;
 
     private String birthday;
 
@@ -57,8 +57,8 @@ public class User {
         this.location = location;
     }
 
-    public void setGendar(String gendar) {
-        this.gendar = gendar;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public void setBirthday(String birthday) {
@@ -125,8 +125,8 @@ public class User {
         return location;
     }
 
-    public String getGendar() {
-        return gendar;
+    public String getGender() {
+        return gender;
     }
 
     public String getBirthday() {
@@ -184,7 +184,7 @@ public class User {
         user.setName(json.get("name").getAsString());
         user.setNickName(json.get("screen_name").getAsString());
         user.setLocation(json.get("location").getAsString());
-        user.setGendar(json.get("gender").getAsString());
+        user.setGender(json.get("gender").getAsString());
         user.setBirthday(json.get("birthday").getAsString());
         user.setDescription(json.get("description").getAsString());
         user.setProfileImageUrl(json.get("profile_image_url").getAsString());

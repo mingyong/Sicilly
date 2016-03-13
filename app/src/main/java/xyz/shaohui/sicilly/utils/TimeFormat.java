@@ -1,5 +1,7 @@
 package xyz.shaohui.sicilly.utils;
 
+import android.util.Log;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -19,12 +21,17 @@ public class TimeFormat {
             long currentTime = System.currentTimeMillis();
             long dateTime = date.getTime();
             long s = (currentTime - dateTime) /1000;
+            Log.i("TAG_currentTime", currentTime + "");
+            Log.i("TAG_dateTime", dateTime + "");
             int m = (int) (s/60);
             if (m < 60){
                 int c = m == 0?1:m;
                 return c+"分钟前";
             } else if (m/60 < 24){
                 int c = m/60 == 0?1:m/60;
+                Log.i("TAG_S", s + "");
+                Log.i("TAG_time", str);
+                Log.i("TAG_format", date.toString());
                 return c+"小时前";
             } else if (m/60/24 < 3){
                 int c = m/60/24 == 0?1:m/60/24;

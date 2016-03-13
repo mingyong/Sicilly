@@ -2,20 +2,41 @@ package xyz.shaohui.sicilly.ui.fragments;
 
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.functions.Action1;
+import rx.functions.Func1;
+import rx.schedulers.Schedulers;
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.SicillyFactory;
+import xyz.shaohui.sicilly.data.models.Status;
+import xyz.shaohui.sicilly.data.models.User;
+import xyz.shaohui.sicilly.data.services.api.StatusAPI;
 import xyz.shaohui.sicilly.presenters.StatusListPresenter;
 import xyz.shaohui.sicilly.ui.adapters.StatusListAdapter;
+import xyz.shaohui.sicilly.utils.MyToast;
 
 
 public class StatusListFragment extends Fragment {
@@ -23,7 +44,15 @@ public class StatusListFragment extends Fragment {
     @Bind(R.id.swipe_refresh)SwipeRefreshLayout swipeRefreshLayout;
     @Bind(R.id.recycler)RecyclerView recyclerView;
 
-    private StatusListPresenter presenter;
+
+    private StatusAPI statusService;
+    private StatusListAdapter mAdapter;
+    private List<Status> dataList;
+    private int dataCode;
+
+    private int mPage = 1;
+
+    private final int PRELOAD_SIZE = 6;
 
     public static final int DATA_HOME = 1;
     public static final int DATA_ABOUT_ME = 2;
@@ -41,9 +70,12 @@ public class StatusListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        int dataCode = getArguments().getInt("dataCode");
+        dataCode = getArguments().getInt("dataCode");
 
-        presenter = new StatusListPresenter(this, dataCode);
+        statusService = SicillyFactory.getRetrofitService().getStatusService();
+
+        dataList = new ArrayList<>();
+        mAdapter = new StatusListAdapter(dataList);
 
     }
 
@@ -84,11 +116,11 @@ public class StatusListFragment extends Fragment {
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                presenter.loadMore((LinearLayoutManager) recyclerView.getLayoutManager());
+                loadMore((LinearLayoutManager) recyclerView.getLayoutManager());
             }
         });
 
-        recyclerView.setAdapter(presenter.getAdapter());
+        recyclerView.setAdapter(mAdapter);
 
     }
 
@@ -98,7 +130,7 @@ public class StatusListFragment extends Fragment {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.swipeFresh();
+                swipeFresh();
             }
         });
     }
@@ -106,7 +138,7 @@ public class StatusListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        presenter.fetchData(true);
+        fetchData(true);
     }
 
     /**
@@ -138,23 +170,126 @@ public class StatusListFragment extends Fragment {
         return swipeRefreshLayout.isRefreshing();
     }
 
-    public interface StatusListInter {
+    public void fetchData(final boolean isIndex) {
+        int page = isIndex ? 1:mPage;
 
-        public void fetchData();
+        Observable<JsonArray> observable ;
+        switch (dataCode) {
+            case StatusListFragment.DATA_HOME:
+                observable = statusService.homeData(SicillyFactory.PAGE_COUNT, page);
+                break;
+            case StatusListFragment.DATA_ABOUT_ME:
+                observable = statusService.aboutMeData(SicillyFactory.PAGE_COUNT, page);
+                break;
+            default:
+                observable = statusService.homeData(SicillyFactory.PAGE_COUNT, page);
+        }
 
-        public void fetchCache();
+        observable
+                .subscribeOn(Schedulers.io())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        if (isIndex) {
+                            mPage = 1;
+                        }
+                        if (isIndex) {
+                            dataList.clear();
+                        }
+                    }
+                })
+                .doOnRequest(new Action1<Long>() {
+                    @Override
+                    public void call(Long aLong) {
+                        showRefresh();
+                    }
+                })
+                .subscribeOn(AndroidSchedulers.mainThread())
+                .observeOn(Schedulers.io())
+                .flatMap(new Func1<JsonArray, Observable<JsonElement>>() {
+                    @Override
+                    public Observable<JsonElement> call(JsonArray jsonElements) {
+                        return Observable.from(jsonElements);
+                    }
+                })
+                .map(new Func1<JsonElement, Status>() {
+                    @Override
+                    public Status call(JsonElement jsonElement) {
+                        return toObject(jsonElement);
+                    }
+                })
+                .doOnNext(new Action1<Status>() {
+                    @Override
+                    public void call(Status status) {
+//                        Log.i("TAG", status.getText());
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Status>() {
+                    @Override
+                    public void onCompleted() {
+                        dismissRefresh();
+                        mAdapter.notifyDataSetChanged();
+                        mPage++;
+                        Log.i("TAG", "dataList.size = " + dataList.size());
+                    }
 
-        public StatusListAdapter getAdapter();
+                    @Override
+                    public void onError(Throwable e) {
+                        dismissRefresh();
+                        e.printStackTrace();
+                        MyToast.showToast(getActivity(), "处理错误,请刷新重试");
+                    }
 
-        public void swipeFresh();
-
+                    @Override
+                    public void onNext(Status status) {
+                        dataList.add(status);
+                    }
+                });
     }
 
-    public interface ActivityCallBack {
+    public void loadMore(LinearLayoutManager layoutManager) {
 
-        public void statusReply();
-
+        boolean isBottom = layoutManager.findLastCompletelyVisibleItemPosition() >=
+                mAdapter.getItemCount() - PRELOAD_SIZE;
+        if (!isRefreshing() && isBottom) {
+            fetchData(false);
+        }
     }
 
+    public void swipeFresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                fetchData(true);
+            }
+        }, 100);
+    }
+
+    private Status toObject(JsonElement element) {
+        JsonObject json = element.getAsJsonObject();
+
+        Status status = new Status();
+        status.setCreatedAt(json.get("created_at").getAsString());
+        status.setId(json.get("id").getAsString());
+        status.setRawid(json.get("rawid").getAsInt());
+        status.setText(json.get("text").getAsString());
+        status.setSource(json.get("source").getAsString());
+        status.setFavorited(json.get("favorited").getAsBoolean());
+
+        JsonObject jsonUser = json.get("user").getAsJsonObject();
+        User user = User.toObject(jsonUser);
+
+        if (json.get("photo")!=null) {
+            JsonObject jsonPhoto = json.get("photo").getAsJsonObject();
+            status.setImageUrl(jsonPhoto.get("imageurl").getAsString());
+            status.setImageLargeUrl(jsonPhoto.get("largeurl").getAsString());
+        }
+
+        status.setUser(user);
+        status.setUserId(user.getId());
+
+        return status;
+    }
 
 }
