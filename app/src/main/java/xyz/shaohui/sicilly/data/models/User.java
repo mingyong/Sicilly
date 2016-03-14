@@ -41,6 +41,16 @@ public class User {
 
     private int utcoffset;
 
+    private Status firstStatus;
+
+    public Status getFirstStatus() {
+        return firstStatus;
+    }
+
+    public void setFirstStatus(Status firstStatus) {
+        this.firstStatus = firstStatus;
+    }
+
     public void setId(String id) {
         this.id = id;
     }

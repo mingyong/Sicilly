@@ -105,6 +105,8 @@ public class IndexActivity extends AppCompatActivity{
             case R.id.message:
                 startActivity(new Intent(this, MessageActivity.class));
                 return true;
+            case R.id.search:
+                startActivity(new Intent(this, SearchActivity.class));
         }
 
         return super.onOptionsItemSelected(item);
