@@ -40,4 +40,5 @@ dependencies {
     compile 'de.greenrobot:greendao:2.1.0'
     compile 'org.jsoup:jsoup:1.8.3'
     compile 'com.commit451:PhotoView:1.2.4'
+    compile 'com.daimajia.numberprogressbar:library:1.2@aar'
 }

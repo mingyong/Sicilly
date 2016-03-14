@@ -46,6 +46,18 @@ public class TimeFormat {
         return null;
     }
 
+    public static long toLong(String str) {
+        SimpleDateFormat format = new SimpleDateFormat("EEE MMM d hh:mm:ss Z yyyy", Locale.US);
+        format.setTimeZone(TimeZone.getTimeZone("UTC"));
+        try {
+            Date date = format.parse(str);
+            return date.getTime();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
     public  static String isYear(Date date){
         final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);

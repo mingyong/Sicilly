@@ -73,6 +73,14 @@
             android:name=".ui.activities.EditInfoActivity"
             android:label="@string/title_activity_edit_info" >
         </activity>
+        <activity
+            android:name=".ui.activities.MessageActivity"
+            android:label="@string/title_activity_message" >
+        </activity>
+        <activity
+            android:name=".ui.activities.ChatActivity"
+            android:label="@string/title_activity_chat" >
+        </activity>
     </application>
 
 </manifest>

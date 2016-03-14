@@ -13,6 +13,7 @@
     <string name="page_about_me">关于我的</string>
     <string name="page_public">随便看看</string>
     <string name="user_index">个人主页</string>
+    <string name="message">私信</string>
 
     <string name="user_name">邵辉Vista</string>
     <string name="user_id">ideaPlus</string>
@@ -42,6 +43,8 @@
     <string name="user_info_site">网站</string>
     <string name="user_info_modify">修改信息</string>
 
+    <string name="web_activity">外部链接</string>
+
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_login">LoginActivity</string>
@@ -53,4 +56,6 @@
     <string name="title_activity_create_status">CreateStatusActivity</string>
     <string name="title_activity_transfer">TransferActivity</string>
     <string name="title_activity_edit_info">EditInfoActivity</string>
+    <string name="title_activity_message">MessageActivity</string>
+    <string name="title_activity_chat">ChatActivity</string>
 </resources>

@@ -2,16 +2,33 @@ package xyz.shaohui.sicilly.ui.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
+import com.daimajia.numberprogressbar.NumberProgressBar;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import xyz.shaohui.sicilly.R;
 
 public class WebViewActivity extends AppCompatActivity {
 
+    @Bind(R.id.tool_bar)Toolbar toolbar;
+    @Bind(R.id.progress_bar)NumberProgressBar progressBar;
+    @Bind(R.id.web_view)WebView webView;
+
     private String url;
+    private ActionBar actionBar;
 
     public static Intent newIntent(Context context, String url) {
         Intent intent = new Intent(context, WebViewActivity.class);
@@ -23,8 +40,45 @@ public class WebViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
+        ButterKnife.bind(this);
 
         url = getIntent().getStringExtra("url");
+        webView.loadData(url, null, null);
+    }
+
+    private void init() {
+        setSupportActionBar(toolbar);
+        actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        initWebView();
+    }
+
+    private void initWebView() {
+        WebSettings settings = webView.getSettings();
+        settings.setJavaScriptEnabled(true);
+
+        webView.setWebViewClient(new WebViewClient());
+        webView.setWebChromeClient(new WebChromeClient(){
+            @Override
+            public void onProgressChanged(WebView view, int newProgress) {
+                if (newProgress == 100) {
+                    progressBar.setVisibility(View.GONE);
+                    actionBar.setTitle(webView.getTitle());
+                } else {
+                    progressBar.setProgress(newProgress);
+                }
+            }
+        });
     }
 
     @Override
@@ -47,5 +101,19 @@ public class WebViewActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            if (webView.canGoBack()){
+                webView.goBack();
+                return true;
+            } else {
+                finish();
+                return true;
+            }
+        }
+        return false;
     }
 }
