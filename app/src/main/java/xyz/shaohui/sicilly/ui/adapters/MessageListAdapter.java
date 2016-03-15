@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
@@ -20,6 +21,7 @@ import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.data.models.Message;
 import xyz.shaohui.sicilly.data.models.MessageList;
 import xyz.shaohui.sicilly.data.models.User;
+import xyz.shaohui.sicilly.ui.activities.ChatActivity;
 import xyz.shaohui.sicilly.ui.activities.UserInfoActivity;
 import xyz.shaohui.sicilly.utils.TimeFormat;
 import xyz.shaohui.sicilly.utils.imageUtils.CircleTransform;
@@ -43,7 +45,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        MessageList item = dataList.get(position);
+        final MessageList item = dataList.get(position);
         Message message = item.getMessage();
         final MyViewHolder viewHolder = (MyViewHolder) holder;
         final Context context = viewHolder.avatar.getContext();
@@ -69,6 +71,13 @@ public class MessageListAdapter extends RecyclerView.Adapter {
                 context.startActivity(intent);
             }
         });
+        viewHolder.parent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = ChatActivity.newIntent(context, item.getOtherId(), user.getName());
+                context.startActivity(intent);
+            }
+        });
 
     }
 
@@ -79,6 +88,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
+        @Bind(R.id.parent)LinearLayout parent;
         @Bind(R.id.message_text)TextView text;
         @Bind(R.id.message_time)TextView time;
         @Bind(R.id.user_avatar)ImageView avatar;

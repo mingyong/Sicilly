@@ -25,6 +25,16 @@ public class Message {
 
     private User recipient;
 
+    private boolean sending;
+
+    public boolean isSending() {
+        return sending;
+    }
+
+    public void setSending(boolean sending) {
+        this.sending = sending;
+    }
+
     public void setId(String id) {
         this.id = id;
     }

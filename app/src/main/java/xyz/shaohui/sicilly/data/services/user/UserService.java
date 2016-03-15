@@ -167,6 +167,30 @@ public class UserService {
                 });
     }
 
+    public static void createMessage(String id, String text, final CallBack callBack) {
+        RetrofitService service = SicillyFactory.getRetrofitService();
+        service.getMessageService().newMessage(toRequestBody(id), toRequestBody(text))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<JsonObject>() {
+                    @Override
+                    public void onCompleted() {
+                        callBack.success();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        callBack.failure();
+                    }
+
+                    @Override
+                    public void onNext(JsonObject jsonObject) {
+
+                    }
+                });
+    }
+
     public static RequestBody toRequestBody(String str) {
         RequestBody body = RequestBody.create(MediaType.parse("text/plain"), str);
         return body;

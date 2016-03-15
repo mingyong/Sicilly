@@ -36,7 +36,6 @@ import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyFactory;
 import xyz.shaohui.sicilly.data.models.Message;
 import xyz.shaohui.sicilly.data.models.MessageList;
-import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.services.RetrofitService;
 import xyz.shaohui.sicilly.ui.adapters.MessageListAdapter;
 import xyz.shaohui.sicilly.utils.MyToast;
@@ -87,22 +86,6 @@ public class MessageActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(mAdapter);
-        recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(RecyclerView rv, MotionEvent e) {
-                return false;
-            }
-
-            @Override
-            public void onTouchEvent(RecyclerView rv, MotionEvent e) {
-
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-            }
-        });
     }
 
     private void initSwipeRefresh() {
@@ -127,7 +110,7 @@ public class MessageActivity extends AppCompatActivity {
 
     private void fetchData(final boolean isFirst) {
         RetrofitService service = SicillyFactory.getRetrofitService();
-        service.getMessageService().couversationList(mPage)
+        service.getMessageService().conversationList(mPage)
                 .subscribeOn(Schedulers.io())
                 .doOnSubscribe(new Action0() {
                     @Override
