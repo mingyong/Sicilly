@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,8 +34,8 @@ import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyFactory;
 import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.models.User;
+import xyz.shaohui.sicilly.data.services.RetrofitService;
 import xyz.shaohui.sicilly.data.services.api.StatusAPI;
-import xyz.shaohui.sicilly.presenters.StatusListPresenter;
 import xyz.shaohui.sicilly.ui.adapters.StatusListAdapter;
 import xyz.shaohui.sicilly.utils.MyToast;
 
@@ -49,6 +50,8 @@ public class StatusListFragment extends Fragment {
     private StatusListAdapter mAdapter;
     private List<Status> dataList;
     private int dataCode;
+    private String q;
+    private String userId;
 
     private int mPage = 1;
 
@@ -56,8 +59,9 @@ public class StatusListFragment extends Fragment {
 
     public static final int DATA_HOME = 1;
     public static final int DATA_ABOUT_ME = 2;
-    public static final int DATA_USER_HOME = 3;
-    public static final int DATA_SEARCH = 4;
+    public static final int DATA_PUBLIC = 3;
+    public static final int DATA_USER_HOME = 4;
+    public static final int DATA_SEARCH = 5;
 
     public static StatusListFragment newInstance(int dataCode) {
         StatusListFragment fragment = new StatusListFragment();
@@ -76,11 +80,23 @@ public class StatusListFragment extends Fragment {
         return fragment;
     }
 
+    public static StatusListFragment newInstanceForUser(String id) {
+        StatusListFragment fragment = new StatusListFragment();
+        Bundle args = new Bundle();
+        args.putInt("data_code", DATA_USER_HOME);
+        args.putString("user_id", id);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        dataCode = getArguments().getInt("dataCode");
+        Bundle args = getArguments();
+        dataCode = args.getInt("data_code");
+        q = args.getString("q", "");
+        userId = args.getString("user_id", "");
 
         statusService = SicillyFactory.getRetrofitService().getStatusService();
 
@@ -99,16 +115,9 @@ public class StatusListFragment extends Fragment {
         initRecycler();
         initSwipeRefresh();
 
-        return v;
-    }
+        fetchData(true);
 
-    @OnClick(R.id.main_btn)
-    void btnClick() {
-        if (swipeRefreshLayout.isRefreshing()) {
-            dismissRefresh();
-        } else {
-            showRefresh();
-        }
+        return v;
     }
 
     private void initRecycler() {
@@ -148,7 +157,6 @@ public class StatusListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        fetchData(true);
     }
 
     /**
@@ -184,6 +192,7 @@ public class StatusListFragment extends Fragment {
         int page = isIndex ? 1:mPage;
 
         Observable<JsonArray> observable ;
+        RetrofitService service = SicillyFactory.getRetrofitService();
         switch (dataCode) {
             case StatusListFragment.DATA_HOME:
                 observable = statusService.homeData(SicillyFactory.PAGE_COUNT, page);
@@ -191,9 +200,34 @@ public class StatusListFragment extends Fragment {
             case StatusListFragment.DATA_ABOUT_ME:
                 observable = statusService.aboutMeData(SicillyFactory.PAGE_COUNT, page);
                 break;
+            case StatusListFragment.DATA_PUBLIC:
+                if (isIndex) {
+                    observable = statusService.publicData(SicillyFactory.PAGE_COUNT);
+                } else {
+                    String id = dataList.get(dataList.size() - 1).getId();
+                    observable = statusService.publicDataMore(SicillyFactory.PAGE_COUNT, id);
+                }
+                break;
+            case StatusListFragment.DATA_SEARCH:
+                if (isIndex) {
+                    observable = service.getSearchService().searchStatus(q);
+                } else {
+                    String id = dataList.get(dataList.size() - 1).getId();
+                    observable = service.getSearchService().searchStatusMore(q, id);
+                }
+                break;
+            case StatusListFragment.DATA_USER_HOME:
+                if (TextUtils.isEmpty(userId)) {
+                    observable = service.getUserService().homePage(page);
+                } else {
+                    observable = service.getUserService().userTimeline(userId, page);
+                }
+                break;
             default:
                 observable = statusService.homeData(SicillyFactory.PAGE_COUNT, page);
         }
+
+        Log.i("TAG_page", page + "");
 
         observable
                 .subscribeOn(Schedulers.io())
@@ -263,6 +297,9 @@ public class StatusListFragment extends Fragment {
         boolean isBottom = layoutManager.findLastCompletelyVisibleItemPosition() >=
                 mAdapter.getItemCount() - PRELOAD_SIZE;
         if (!isRefreshing() && isBottom) {
+            Log.i("TAG", "调用一次recycler的检测底部事件");
+            showRefresh();
+            swipeRefreshLayout.setRefreshing(true);
             fetchData(false);
         }
     }

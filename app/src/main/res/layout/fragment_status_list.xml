@@ -15,10 +15,4 @@
         android:layout_height="match_parent"
         />
 
-    <Button
-        android:id="@+id/main_btn"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:text="点击刷新"/>
-
 </android.support.v4.widget.SwipeRefreshLayout>

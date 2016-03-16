@@ -24,8 +24,11 @@ public interface UserAPI {
     @GET("users/show.json?format=html&mode=lite")
     Observable<JsonObject> showUser(@Query("id")String id);
 
-    @GET("statuses/user_timeline.json?format=html&mode=lite")
-    Observable<JsonObject> userTimeline(@Query("id")String id, @Query("count")int count, @Query("page")int page);
+    @GET("statuses/user_timeline.json?format=html&mode=lite&count=30")
+    Observable<JsonArray> homePage(@Query("page")int page);
+
+    @GET("statuses/user_timeline.json?format=html&mode=lite&count=30")
+    Observable<JsonArray> userTimeline(@Query("id")String id, @Query("page")int page);
 
     @GET("photos/user_timeline.json?format=html&mode=lite")
     Observable<JsonArray> userPhoto(@Query("id")String id, @Query("count")int count, @Query("page")int page);

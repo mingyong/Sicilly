@@ -11,13 +11,12 @@ import rx.Observable;
  */
 public interface SearchAPI {
 
-    @GET("search/public_timeline.json?format=html&mode=lite")
-    Observable<JsonArray> searchAll(@Query("q")String q,
-                                    @Query("count")int count,
-                                    @Query("page")int page);
+    @GET("search/public_timeline.json?format=html&mode=lite&count=30")
+    Observable<JsonArray> searchStatus(@Query("q")String q);
 
-    @GET("search/users.json?format=html&mode=lite")
-    Observable<JsonArray> searchUser(@Query("q")String q,
-                                     @Query("count")int count,
-                                     @Query("page")int page);
+    @GET("search/public_timeline.json?format=html&mode=lite&count=30")
+    Observable<JsonArray> searchStatusMore(@Query("q")String q, @Query("since_id")String id);
+
+    @GET("search/users.json?format=html&mode=lite&count=30")
+    Observable<JsonArray> searchUser(@Query("q")String q, @Query("page")int page);
 }

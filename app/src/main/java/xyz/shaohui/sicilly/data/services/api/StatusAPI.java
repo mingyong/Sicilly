@@ -23,7 +23,10 @@ public interface StatusAPI {
     Observable<JsonArray> homeData(@Query("count")int count, @Query("page")int page);
 
     @GET("statuses/public_timeline.json?format=html&mode=lite")
-    Observable<JsonArray> publicData(@Query("count")int count, @Query("since_id")String id);
+    Observable<JsonArray> publicData(@Query("count")int count);
+
+    @GET("statuses/public_timeline.json?format=html&mode=lite")
+    Observable<JsonArray> publicDataMore(@Query("count")int count, @Query("since_id")String id);
 
     @GET("statuses/mentions.json?format=html&mode=lite")
     Observable<JsonArray> aboutMeData(@Query("count")int count, @Query("page")int page);
@@ -44,11 +47,13 @@ public interface StatusAPI {
 
     @Multipart
     @POST("statuses/update.json")
-    Observable<JsonObject> replyStatus(@Part("status")RequestBody status, @Part("in_reply_to_status_id")RequestBody id);
+    Observable<JsonObject> replyStatus(@Part("status")RequestBody status,
+                                       @Part("in_reply_to_status_id")RequestBody id);
 
     @Multipart
     @POST("statuses/update.json")
-    Observable<JsonObject> repostStatus(@Part("status")RequestBody status, @Part("repost_status_id")RequestBody id);
+    Observable<JsonObject> repostStatus(@Part("status")RequestBody status,
+                                        @Part("repost_status_id")RequestBody id);
 
     @Multipart
     @POST("statuses/update.json")

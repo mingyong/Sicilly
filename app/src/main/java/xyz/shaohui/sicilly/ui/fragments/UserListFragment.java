@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.ui.adapters.UserListAdapter;
 
 public class UserListFragment extends Fragment {
 
@@ -18,6 +19,8 @@ public class UserListFragment extends Fragment {
     @Bind(R.id.recycler)RecyclerView recyclerView;
 
     private String q;
+
+    private UserListAdapter mAdapter;
 
     public static UserListFragment newInstance(String q) {
         UserListFragment fragment = new UserListFragment();
@@ -38,6 +41,10 @@ public class UserListFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_user_list, container, false);
         ButterKnife.bind(this, v);
         return v;
+    }
+
+    private void init() {
+
     }
 
 }

@@ -28,7 +28,7 @@ public class IndexPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return StatusListFragment.newInstance(StatusListFragment.DATA_ABOUT_ME);
             case 2:
-                return StatusListFragment.newInstance(StatusListFragment.DATA_HOME);
+                return StatusListFragment.newInstance(StatusListFragment.DATA_PUBLIC);
             default:
                 return StatusListFragment.newInstance(StatusListFragment.DATA_HOME);
         }

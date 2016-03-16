@@ -12,6 +12,11 @@
         android:title="@string/search"
         android:orderInCategory="100"
         app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/user_info"
+        android:title="@string/user_index"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom"/>
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:orderInCategory="100"

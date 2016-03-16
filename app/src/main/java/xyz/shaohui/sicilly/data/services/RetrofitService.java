@@ -5,6 +5,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import xyz.shaohui.sicilly.data.services.api.MessageAPI;
+import xyz.shaohui.sicilly.data.services.api.SearchAPI;
 import xyz.shaohui.sicilly.data.services.api.StatusAPI;
 import xyz.shaohui.sicilly.data.services.api.UserAPI;
 import xyz.shaohui.sicilly.data.services.interceptors.SicillyInterceptor;
@@ -17,6 +18,7 @@ public class RetrofitService {
     private StatusAPI statusService;
     private UserAPI userService;
     private MessageAPI messageService;
+    private SearchAPI searchService;
 
     public RetrofitService() {
         OkHttpClient client = new OkHttpClient.Builder()
@@ -33,6 +35,8 @@ public class RetrofitService {
         statusService = retrofit.create(StatusAPI.class);
         userService = retrofit.create(UserAPI.class);
         messageService = retrofit.create(MessageAPI.class);
+        searchService = retrofit.create(SearchAPI.class);
+
     }
 
     public StatusAPI getStatusService() {
@@ -45,5 +49,9 @@ public class RetrofitService {
 
     public MessageAPI getMessageService() {
         return messageService;
+    }
+
+    public SearchAPI getSearchService() {
+        return searchService;
     }
 }

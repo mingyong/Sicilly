@@ -55,6 +55,7 @@ public class IndexActivity extends AppCompatActivity{
         mAdatper = new IndexPagerAdapter(getSupportFragmentManager(), this);
         viewPager.setAdapter(mAdatper);
         viewPager.setCurrentItem(0);
+        viewPager.setOffscreenPageLimit(3);
         tabBar.setupWithViewPager(viewPager);
         tabBar.setTabsFromPagerAdapter(mAdatper);
 
