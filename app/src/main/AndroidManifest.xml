@@ -89,6 +89,10 @@
             android:name=".ui.activities.SearchResultActivity"
             android:label="@string/title_activity_search_result" >
         </activity>
+        <activity
+            android:name=".ui.activities.LightUserActivity"
+            android:label="@string/title_activity_light_user" >
+        </activity>
     </application>
 
 </manifest>

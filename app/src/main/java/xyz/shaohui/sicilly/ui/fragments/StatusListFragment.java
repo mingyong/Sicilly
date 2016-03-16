@@ -57,11 +57,21 @@ public class StatusListFragment extends Fragment {
     public static final int DATA_HOME = 1;
     public static final int DATA_ABOUT_ME = 2;
     public static final int DATA_USER_HOME = 3;
+    public static final int DATA_SEARCH = 4;
 
     public static StatusListFragment newInstance(int dataCode) {
         StatusListFragment fragment = new StatusListFragment();
         Bundle args = new Bundle();
         args.putInt("data_code", dataCode);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static StatusListFragment newInstance(String q) {
+        StatusListFragment fragment = new StatusListFragment();
+        Bundle args = new Bundle();
+        args.putInt("data_code", DATA_SEARCH);
+        args.putString("q", q);
         fragment.setArguments(args);
         return fragment;
     }

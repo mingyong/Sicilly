@@ -14,14 +14,15 @@
         android:fitsSystemWindows="true"
         style="@style/AppTheme.ActionBar"
         app:title="@string/create_status"/>
-    <ScrollView
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tool_bar">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginTop="48dp">
             <EditText
                 android:id="@+id/main_edit"
                 android:layout_width="match_parent"
@@ -33,51 +34,50 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp" />
         </LinearLayout>
-    </ScrollView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/main_300">
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="艾特"
-            android:textColor="@color/white" />
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="草稿箱"
-            android:textColor="@color/white" />
-        <TextView
-            android:id="@+id/pick_photo"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="选择图片"
-            android:textColor="@color/white" />
-        <TextView
-            android:id="@+id/take_photo"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="拍照"
-            android:textColor="@color/white" />
-        <TextView
-            android:id="@+id/main_send"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:gravity="center"
-            android:text="发送"
-            android:textColor="@color/white" />
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="bottom"
+            android:background="@color/main_300">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="艾特"
+                android:textColor="@color/white" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="草稿箱"
+                android:textColor="@color/white" />
+            <TextView
+                android:id="@+id/pick_photo"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="选择图片"
+                android:textColor="@color/white" />
+            <TextView
+                android:id="@+id/take_photo"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="拍照"
+                android:textColor="@color/white" />
+            <TextView
+                android:id="@+id/main_send"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center"
+                android:text="发送"
+                android:textColor="@color/white" />
+        </LinearLayout>
+    </FrameLayout>
 
 </RelativeLayout>
