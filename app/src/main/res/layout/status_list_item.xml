@@ -48,7 +48,7 @@
                 />
             <ImageView
                 android:id="@+id/status_ic_follow"
-                android:layout_width="wrap_content"
+                android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:scaleType="centerCrop"
                 android:layout_alignParentRight="true"

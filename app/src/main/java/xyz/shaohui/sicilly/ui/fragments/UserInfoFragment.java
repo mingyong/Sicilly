@@ -1,6 +1,6 @@
 package xyz.shaohui.sicilly.ui.fragments;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +14,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.SicillyFactory;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.ui.activities.EditInfoActivity;
 
@@ -25,7 +26,7 @@ public class UserInfoFragment extends Fragment {
     @Bind(R.id.user_info_site)TextView site;
     @Bind(R.id.user_info_modify)TextView modify;
 
-    public static UserInfoFragment newInstance(User user, boolean isOwner) {
+    public static UserInfoFragment newInstance(User user) {
         UserInfoFragment fragment = new UserInfoFragment();
         Bundle args = new Bundle();
         ArrayList<String> data = new ArrayList<>();
@@ -33,8 +34,7 @@ public class UserInfoFragment extends Fragment {
         data.add(user.getBirthday());
         data.add(user.getDescription());
         data.add(user.getUrl());
-        args.putStringArrayList("data", data);
-        args.putBoolean("flag", isOwner);
+        data.add(user.getId());
         fragment.setArguments(args);
         return fragment;
     }
@@ -67,6 +67,9 @@ public class UserInfoFragment extends Fragment {
         birthday.setText(data.get(1).toString());
         description.setText(data.get(2).toString());
         site.setText(data.get(3).toString());
+        if (!data.get(4).toString().equals(SicillyFactory.getCurrentUser().getId())) {
+            modify.setVisibility(View.GONE);
+        }
     }
 
     @OnClick(R.id.user_info_modify)

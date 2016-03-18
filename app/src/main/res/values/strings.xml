@@ -43,6 +43,9 @@
     <string name="user_info_description">自述</string>
     <string name="user_info_site">网站</string>
     <string name="user_info_modify">修改信息</string>
+    <string name="user_info_pager_info">个人信息</string>
+    <string name="user_info_pager_status">时间线</string>
+    <string name="user_info_pager_photo">照片</string>
 
     <string name="web_activity">外部链接</string>
 

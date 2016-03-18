@@ -9,13 +9,21 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.gson.JsonObject;
+
 import butterknife.Bind;
 import butterknife.BindInt;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyFactory;
+import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.data.preferences.TokenSP;
+import xyz.shaohui.sicilly.data.preferences.UserSP;
+import xyz.shaohui.sicilly.data.services.RetrofitService;
 import xyz.shaohui.sicilly.data.services.auth.AuthService;
 
 public class LoginActivity extends AppCompatActivity {
@@ -60,12 +68,34 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void end() {
-                mDialog.dismiss();
                 SicillyFactory.token = TokenSP.accessToken(getApplicationContext());
-                startActivity(new Intent(LoginActivity.this, IndexActivity.class));
-                finish();
+
+                getUserInfo();
             }
         });
+    }
+
+    private void getUserInfo() {
+        RetrofitService service = SicillyFactory.getRetrofitService();
+        service.getUserService().personalInfo()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Action1<JsonObject>() {
+                    @Override
+                    public void call(JsonObject jsonObject) {
+                        User user = new User();
+                        user.setId(jsonObject.get("id").getAsString());
+                        user.setProfileImageUrl(jsonObject.get("profile_image_url").getAsString());
+                        user.setNickName(jsonObject.get("screen_name").getAsString());
+                        UserSP.saveCurrentUser(getApplicationContext(), user);
+
+                        SicillyFactory.currentUser = user;
+
+                        mDialog.dismiss();
+                        startActivity(new Intent(LoginActivity.this, IndexActivity.class));
+                        finish();
+                    }
+                });
     }
 
 }

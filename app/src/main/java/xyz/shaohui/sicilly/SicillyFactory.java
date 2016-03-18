@@ -1,5 +1,6 @@
 package xyz.shaohui.sicilly;
 
+import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.data.services.RetrofitService;
 import xyz.shaohui.sicilly.data.services.auth.OAuthToken;
 
@@ -11,6 +12,8 @@ public class SicillyFactory {
     public static final boolean DEBUG = true;
 
     public static OAuthToken token;
+
+    public static User currentUser;
 
     private static RetrofitService retrofitService;
 
@@ -35,10 +38,20 @@ public class SicillyFactory {
         return token;
     }
 
+    public static void setCurrentUser(User user) {
+        currentUser = user;
+    }
+
+    public static User getCurrentUser() {
+        return currentUser;
+    }
+
     public static RetrofitService getRetrofitService() {
         if (retrofitService == null) {
             retrofitService = new RetrofitService();
         }
         return retrofitService;
     }
+
+
 }

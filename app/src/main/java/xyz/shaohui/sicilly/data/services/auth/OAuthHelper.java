@@ -80,12 +80,12 @@ public class OAuthHelper {
         final String oauthBaseString = base.toString();
 
         if (SicillyFactory.DEBUG) {
-            Log.d(OAuthHelper.TAG, "getOAuthHeader() url=" + url);
-            Log.d(OAuthHelper.TAG, "getOAuthHeader() encodedUrl=" + encodedUrl);
-            Log.d(OAuthHelper.TAG, "getOAuthHeader() encodedParams="
-                    + encodedParams);
-            Log.d(OAuthHelper.TAG, "getOAuthHeader() baseString="
-                    + oauthBaseString);
+//            Log.d(OAuthHelper.TAG, "getOAuthHeader() url=" + url);
+//            Log.d(OAuthHelper.TAG, "getOAuthHeader() encodedUrl=" + encodedUrl);
+//            Log.d(OAuthHelper.TAG, "getOAuthHeader() encodedParams="
+//                    + encodedParams);
+//            Log.d(OAuthHelper.TAG, "getOAuthHeader() baseString="
+//                    + oauthBaseString);
         }
         final SecretKeySpec spec = OAuthHelper.getSecretKeySpec(provider,
                 otoken);

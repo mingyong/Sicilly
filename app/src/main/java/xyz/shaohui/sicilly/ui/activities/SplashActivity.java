@@ -9,7 +9,9 @@ import android.view.MenuItem;
 
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyFactory;
+import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.data.preferences.TokenSP;
+import xyz.shaohui.sicilly.data.preferences.UserSP;
 import xyz.shaohui.sicilly.data.services.auth.OAuthToken;
 
 public class SplashActivity extends AppCompatActivity {
@@ -24,11 +26,13 @@ public class SplashActivity extends AppCompatActivity {
 
     private void checkToken() {
         OAuthToken token = TokenSP.accessToken(this);
+        User user = UserSP.getUserInfo(this);
 
         if (TextUtils.isEmpty(token.getToken())) {
             startActivity(new Intent(SplashActivity.this, LoginActivity.class));
         } else {
             SicillyFactory.token = token;
+            SicillyFactory.currentUser = user;
             startActivity(new Intent(SplashActivity.this, IndexActivity.class));
         }
         finish();

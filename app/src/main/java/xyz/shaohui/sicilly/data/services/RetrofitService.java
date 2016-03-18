@@ -1,6 +1,7 @@
 package xyz.shaohui.sicilly.data.services;
 
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -21,8 +22,11 @@ public class RetrofitService {
     private SearchAPI searchService;
 
     public RetrofitService() {
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(new SicillyInterceptor())
+                .addInterceptor(interceptor)
+                .addNetworkInterceptor(new SicillyInterceptor())
                 .build();
 
         Retrofit retrofit = new Retrofit.Builder()
