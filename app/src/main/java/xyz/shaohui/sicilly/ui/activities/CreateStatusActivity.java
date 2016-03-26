@@ -1,6 +1,8 @@
 package xyz.shaohui.sicilly.ui.activities;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -10,6 +12,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -36,6 +39,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.data.preferences.DraftSP;
 import xyz.shaohui.sicilly.data.services.user.UserService;
 import xyz.shaohui.sicilly.utils.MyToast;
 
@@ -104,11 +108,15 @@ public class CreateStatusActivity extends AppCompatActivity {
         type = intent.getIntExtra("type", 1);
         switch (type) {
             case TYPE_NULL:
+                String text = DraftSP.loadDraft(this);
+                mainEdit.setText(text);
+                mainEdit.setSelection(text.length());
                 break;
             case TYPE_REPLY:
                 rId = intent.getStringExtra("r_id");
                 rText = intent.getStringExtra("r_text");
                 mainEdit.setText(rText);
+                mainEdit.setSelection(rText.length());
                 break;
             case TYPE_REPOST:
                 rId = intent.getStringExtra("r_id");
@@ -130,11 +138,32 @@ public class CreateStatusActivity extends AppCompatActivity {
     }
 
     private void quitEdit() {
-        if (!TextUtils.isEmpty(mainEdit.getText())) {
-            MyToast.showToast(this, "todo:提醒是否保存草稿");
+        if (!TextUtils.isEmpty(mainEdit.getText()) && type == TYPE_NULL) {
+            showNoticeDialog();
         } else {
             finish();
         }
+    }
+
+    private void showNoticeDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppTheme_AlertDialog);
+        builder.setTitle("保存草稿")
+                .setMessage("是否保存草稿?")
+                .setNegativeButton("删除", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                })
+                .setPositiveButton("保存", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        DraftSP.saveDraft(getApplicationContext(), mainEdit.getText().toString());
+                        MyToast.showToast(getApplicationContext(), "已保存");
+                        finish();
+                    }
+                });
+        builder.create().show();
     }
 
     @OnClick(R.id.main_send)
@@ -173,7 +202,7 @@ public class CreateStatusActivity extends AppCompatActivity {
     }
 
     private void createStatus() {
-        UserService.createStatus(mainEdit.getText().toString(), new UserService.CallBack() {
+        UserService.CallBack callBack = new UserService.CallBack() {
             @Override
             public void success() {
                 MyToast.showToast(getApplicationContext(), "发送成功" + mainEdit.getText().toString());
@@ -181,9 +210,16 @@ public class CreateStatusActivity extends AppCompatActivity {
 
             @Override
             public void failure() {
-                MyToast.showToast(getApplicationContext(), "失败");
+                MyToast.showToast(getApplicationContext(), "发送失败, 请重试");
             }
-        });
+        };
+        if (TextUtils.isEmpty(mCurrentPhotoPath)) {
+            UserService.createStatus(mainEdit.getText().toString(), callBack);
+        } else {
+            MyToast.showToast(this, "fa");
+            UserService.createStatusImg(Uri.parse(mCurrentPhotoPath), mainEdit.getText().toString(), callBack);
+        }
+
     }
 
     private void replyStatus() {
@@ -262,7 +298,7 @@ public class CreateStatusActivity extends AppCompatActivity {
         String[] projection = { MediaStore.Images.Media.DATA };
 
         Cursor cursor;
-        if (Build.VERSION.SDK_INT == 19) {
+        if (Build.VERSION.SDK_INT > 19) {
 
             String wholeID = DocumentsContract.getDocumentId(uri);
 

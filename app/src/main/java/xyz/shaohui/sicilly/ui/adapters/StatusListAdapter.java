@@ -109,17 +109,17 @@ public class StatusListAdapter extends RecyclerView.Adapter {
                     case R.id.status_user_avatar:
                         context.startActivity(UserInfoActivity.newIntent(context, status.getUserId()));
                         break;
-                    case R.id.action_favorite:
+                    case R.id.status_ic_star:
                         if (status.isFavorited()) {
                             destroyFavorite(status, context, viewHolder.favorite);
                         } else {
                             createFavorite(status, context, viewHolder.favorite);
                         }
                         break;
-                    case R.id.action_repost:
+                    case R.id.status_ic_repost:
                         repostStatus(context, status, user);
                         break;
-                    case R.id.action_reply:
+                    case R.id.status_ic_reply:
                         replyStatus(context, status, user);
                         break;
                 }
@@ -142,11 +142,12 @@ public class StatusListAdapter extends RecyclerView.Adapter {
 
     }
 
-    private void createFavorite(Status status,final Context context, final TextView textView) {
+    private void createFavorite(final Status status,final Context context, final TextView textView) {
         UserService.createFavorite(status.getId(), new UserService.CallBack() {
             @Override
             public void success() {
-                textView.setText(context.getString(R.string.status_favorite));
+                textView.setText(context.getString(R.string.status_favorited));
+                status.setFavorited(true);
             }
 
             @Override
@@ -156,11 +157,12 @@ public class StatusListAdapter extends RecyclerView.Adapter {
         });
     }
 
-    private void destroyFavorite(Status status, final Context context, final TextView textView) {
+    private void destroyFavorite(final Status status, final Context context, final TextView textView) {
         UserService.destroyFavorite(status.getId(), new UserService.CallBack() {
             @Override
             public void success() {
-                textView.setText(context.getString(R.string.status_favorited));
+                textView.setText(context.getString(R.string.status_favorite));
+                status.setFavorited(false);
             }
 
             @Override

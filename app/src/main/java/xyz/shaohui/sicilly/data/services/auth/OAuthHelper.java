@@ -84,8 +84,8 @@ public class OAuthHelper {
 //            Log.d(OAuthHelper.TAG, "getOAuthHeader() encodedUrl=" + encodedUrl);
 //            Log.d(OAuthHelper.TAG, "getOAuthHeader() encodedParams="
 //                    + encodedParams);
-//            Log.d(OAuthHelper.TAG, "getOAuthHeader() baseString="
-//                    + oauthBaseString);
+            Log.d(OAuthHelper.TAG, "getOAuthHeader() baseString="
+                    + oauthBaseString);
         }
         final SecretKeySpec spec = OAuthHelper.getSecretKeySpec(provider,
                 otoken);

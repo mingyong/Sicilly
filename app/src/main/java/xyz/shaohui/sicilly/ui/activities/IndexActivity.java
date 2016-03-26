@@ -2,27 +2,21 @@ package xyz.shaohui.sicilly.ui.activities;
 
 import android.content.Intent;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import butterknife.Bind;
-import butterknife.BindInt;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import xyz.shaohui.sicilly.R;
-import xyz.shaohui.sicilly.SicillyFactory;
+import xyz.shaohui.sicilly.data.services.notification.CreateStatusNotification;
 import xyz.shaohui.sicilly.data.services.user.UserService;
 import xyz.shaohui.sicilly.ui.adapters.IndexPagerAdapter;
-import xyz.shaohui.sicilly.ui.fragments.StatusListFragment;
 import xyz.shaohui.sicilly.utils.MyToast;
 
 public class IndexActivity extends AppCompatActivity{
@@ -104,6 +98,7 @@ public class IndexActivity extends AppCompatActivity{
             case R.id.action_settings:
                 return true;
             case R.id.message:
+                CreateStatusNotification.show(this);
                 startActivity(new Intent(this, MessageActivity.class));
                 return true;
             case R.id.search:

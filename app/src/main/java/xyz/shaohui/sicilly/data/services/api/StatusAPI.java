@@ -3,9 +3,12 @@ package xyz.shaohui.sicilly.data.services.api;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.io.File;
 import java.util.Map;
 
 import okhttp3.RequestBody;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -43,7 +46,7 @@ public interface StatusAPI {
 
     @Multipart
     @POST("photos/upload.json")
-    Observable<JsonObject> createStatusWithPhoto(@PartMap Map<String, RequestBody> map);
+    Observable<JsonObject> createStatusWithPhoto(@Part("photo")RequestBody photo, @Part("status")RequestBody status);
 
     @Multipart
     @POST("statuses/update.json")

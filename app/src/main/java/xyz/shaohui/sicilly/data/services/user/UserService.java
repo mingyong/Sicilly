@@ -105,16 +105,33 @@ public class UserService {
 
     }
 
-    public static void createStatusImg(Uri imgUri, String text, UserService.CallBack callBack) {
+    public static void createStatusImg(Uri imgUri, String text, final UserService.CallBack callBack) {
 
-        Map<String, RequestBody> map = new HashMap<>();
-        map.put("text", toRequestBody(text));
+        RetrofitService service = SicillyFactory.getRetrofitService();
 
-        if (imgUri != null) {
-            File file = new File(imgUri.getPath());
-            RequestBody fileBody = RequestBody.create(MediaType.parse("image/*"), file);
-            map.put("file", fileBody);
-        }
+        File file = new File(imgUri.getPath());
+        RequestBody photo = RequestBody.create(MediaType.parse("image/*"), file);
+
+        service.getStatusService().createStatusWithPhoto(photo, toRequestBody(text))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<JsonObject>() {
+                    @Override
+                    public void onCompleted() {
+                        callBack.success();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        callBack.failure();
+                    }
+
+                    @Override
+                    public void onNext(JsonObject jsonObject) {
+
+                    }
+                });
 
     }
 
