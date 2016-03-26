@@ -68,6 +68,12 @@ public class MessageActivity extends AppCompatActivity {
         initSwipeRefresh();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        swipeFresh();
+    }
+
     private void initToolbar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

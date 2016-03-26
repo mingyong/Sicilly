@@ -36,6 +36,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
 
     public ChatAdapter(List<Message> dataList, String userId) {
         this.dataList = dataList;
+        this.userId = userId;
     }
 
     @Override
