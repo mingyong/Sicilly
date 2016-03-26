@@ -22,22 +22,22 @@ import rx.Observable;
  */
 public interface StatusAPI {
 
-    @GET("statuses/home_timeline.json?format=html&mode=lite")
+    @GET("statuses/home_timeline.json?format=html")
     Observable<JsonArray> homeData(@Query("count")int count, @Query("page")int page);
 
-    @GET("statuses/public_timeline.json?format=html&mode=lite")
+    @GET("statuses/public_timeline.json?format=html")
     Observable<JsonArray> publicData(@Query("count")int count);
 
-    @GET("statuses/public_timeline.json?format=html&mode=lite")
+    @GET("statuses/public_timeline.json?format=html")
     Observable<JsonArray> publicDataMore(@Query("count")int count, @Query("since_id")String id);
 
-    @GET("statuses/mentions.json?format=html&mode=lite")
+    @GET("statuses/mentions.json?format=html")
     Observable<JsonArray> aboutMeData(@Query("count")int count, @Query("page")int page);
 
-    @GET("statuses/show.json?format=html&mode=lite")
+    @GET("statuses/show.json?format=html")
     Observable<JsonObject> showStatus(@Query("id")String id);
 
-    @GET("statuses/context_timeline.json?format=html&mode=lite")
+    @GET("statuses/context_timeline.json?format=html")
     Observable<JsonArray> contextTimeline(@Query("id")String id);
 
     @Multipart

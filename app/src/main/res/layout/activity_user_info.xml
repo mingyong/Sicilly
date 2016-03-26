@@ -4,131 +4,165 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="xyz.shaohui.sicilly.ui.activities.IndexActivity">
+    android:fitsSystemWindows="true"
+    tools:context="xyz.shaohui.sicilly.ui.activities.UserInfoActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/main_800">
+        android:fitsSystemWindows="true"
+        android:background="@color/main_300">
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/main"
             app:contentScrim="@color/main_300"
+            android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             android:minHeight="30dp">
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:paddingTop="60dp"
-                android:background="@mipmap/bg_user_info">
+                android:fitsSystemWindows="true">
                 <ImageView
-                    android:id="@+id/user_img"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp" />
-                <TextView
-                    android:id="@+id/user_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/user_name"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/font_larger"/>
-                <TextView
-                    android:id="@+id/user_location"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/user_location"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/font_normal"/>
-                <TextView
-                    android:id="@+id/user_brief"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:maxHeight="60dp"
-                    android:paddingRight="30dp"
-                    android:paddingLeft="30dp"
-                    android:text="@string/user_brief"
-                    android:textColor="@color/white"
-                    android:textSize="@dimen/font_small"/>
+                    android:id="@+id/user_bg_image"
+                    android:layout_width="match_parent"
+                    android:scaleType="centerCrop"
+                    android:layout_height="200dp"
+                    android:fitsSystemWindows="true"/>
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingRight="60dp"
-                    android:paddingLeft="60dp"
-                    android:layout_marginTop="@dimen/spacing_normal"
-                    android:layout_marginBottom="8dp">
+                    android:layout_height="200dp"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center_horizontal">
+                        android:layout_width="match_parent"
+                        android:layout_height="80dp"
+                        android:layout_marginTop="48dp"
+                        android:orientation="horizontal">
                         <TextView
-                            android:id="@+id/user_followed"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="88"
-                            android:textSize="@dimen/font_normal"
+                            android:id="@+id/action_message"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="私信"
                             android:textColor="@color/white"/>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="match_parent"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical">
+                            <ImageView
+                                android:id="@+id/user_img"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp" />
+                            <TextView
+                                android:id="@+id/user_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/user_name"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/font_larger"/>
+                        </LinearLayout>
                         <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/user_followed"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/font_smaller"/>
+                            android:id="@+id/action_follow"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="关注"
+                            android:textColor="@color/white"/>
                     </LinearLayout>
+                    <TextView
+                        android:id="@+id/user_brief"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="@dimen/spacing_large"
+                        android:layout_marginLeft="@dimen/spacing_large"
+                        android:textColor="@color/white"
+                        android:singleLine="true"/>
                     <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center_horizontal">
-                        <TextView
-                            android:id="@+id/user_follower"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="88"
-                            android:textSize="@dimen/font_normal"
-                            android:textColor="@color/white"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/user_follower"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/font_smaller"/>
-                    </LinearLayout>
-                    <LinearLayout
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:orientation="vertical"
-                        android:gravity="center_horizontal">
-                        <TextView
-                            android:id="@+id/user_status"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="88"
-                            android:textSize="@dimen/font_normal"
-                            android:textColor="@color/white"/>
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/user_status"
-                            android:textColor="@color/white"
-                            android:textSize="@dimen/font_smaller"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:paddingRight="60dp"
+                        android:paddingLeft="60dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="8dp">
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center_horizontal">
+                            <TextView
+                                android:id="@+id/user_followed"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="88"
+                                android:textSize="@dimen/font_normal"
+                                android:textColor="@color/white"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/user_followed"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/font_smaller"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center_horizontal">
+                            <TextView
+                                android:id="@+id/user_follower"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="88"
+                                android:textSize="@dimen/font_normal"
+                                android:textColor="@color/white"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/user_follower"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/font_smaller"/>
+                        </LinearLayout>
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="vertical"
+                            android:gravity="center_horizontal">
+                            <TextView
+                                android:id="@+id/user_status"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="88"
+                                android:textSize="@dimen/font_normal"
+                                android:textColor="@color/white"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/user_status"
+                                android:textColor="@color/white"
+                                android:textSize="@dimen/font_smaller"/>
+                        </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
-            </LinearLayout>
+            </FrameLayout>
             <android.support.v7.widget.Toolbar
                 android:id="@+id/tool_bar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:fitsSystemWindows="false"
                 style="@style/AppTheme.ActionBar"
                 app:layout_scrollFlags="scroll|enterAlways"
-                app:layout_collapseMode="pin"/>
+                app:layout_collapseMode="pin" />
         </android.support.design.widget.CollapsingToolbarLayout>
         <android.support.design.widget.TabLayout
             android:id="@+id/tab_bar"

@@ -43,10 +43,10 @@ public class UserInfoActivity extends AppCompatActivity {
     @Bind(R.id.user_name)TextView userName;
     @Bind(R.id.user_brief)TextView userBrief;
     @Bind(R.id.user_img)ImageView userImg;
-    @Bind(R.id.user_location)TextView userLocation;
     @Bind(R.id.user_followed)TextView userFollowed;
     @Bind(R.id.user_follower)TextView userFollower;
     @Bind(R.id.user_status)TextView userStatus;
+    @Bind(R.id.user_bg_image)ImageView bgImage;
 
     private UserInfoPresenter presenter;
     private IndexPagerAdapter mAdapter;
@@ -128,12 +128,15 @@ public class UserInfoActivity extends AppCompatActivity {
     public void setUpInfo(User user) {
         userName.setText(user.getNickName());
         userBrief.setText(user.getDescription());
-        userLocation.setText(user.getLocation());
 
         Picasso.with(this)
                 .load(Uri.parse(user.getProfileImageLargeUrl()))
                 .transform(new CircleTransform())
                 .into(userImg);
+
+        Picasso.with(this)
+                .load(Uri.parse(user.getBgImg()))
+                .into(bgImage);
 
         userStatus.setText(user.getStatusesCount() + "");
         userFollower.setText(user.getFollowersCount() + "");

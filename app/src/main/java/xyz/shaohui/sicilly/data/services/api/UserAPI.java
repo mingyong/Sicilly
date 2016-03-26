@@ -18,19 +18,19 @@ import rx.Observable;
  */
 public interface UserAPI {
 
-    @GET("account/verify_credentials.json?format=html&mode=lite")
+    @GET("account/verify_credentials.json?format=html")
     Observable<JsonObject> personalInfo();
 
-    @GET("users/show.json?format=html&mode=lite")
+    @GET("users/show.json?format=html&")
     Observable<JsonObject> showUser(@Query("id")String id);
 
-    @GET("statuses/user_timeline.json?format=html&mode=lite&count=30")
+    @GET("statuses/user_timeline.json?format=html&count=30")
     Observable<JsonArray> homePage(@Query("page")int page);
 
     @GET("statuses/user_timeline.json?format=html&mode=lite&count=30")
     Observable<JsonArray> userTimeline(@Query("id")String id, @Query("page")int page);
 
-    @GET("photos/user_timeline.json?format=html&mode=lite")
+    @GET("photos/user_timeline.json?format=html")
     Observable<JsonArray> userPhoto(@Query("id")String id, @Query("count")int count, @Query("page")int page);
 
     @POST("favorites/destroy/id.json")

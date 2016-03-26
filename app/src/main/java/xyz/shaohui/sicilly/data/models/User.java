@@ -43,6 +43,16 @@ public class User {
 
     private Status firstStatus;
 
+    private String bgImg;
+
+    public String getBgImg() {
+        return bgImg;
+    }
+
+    public void setBgImg(String bgImg) {
+        this.bgImg = bgImg;
+    }
+
     public Status getFirstStatus() {
         return firstStatus;
     }
@@ -207,6 +217,7 @@ public class User {
         user.setStatusesCount(json.get("statuses_count").getAsInt());
 
         user.setFollowing(json.get("following").getAsBoolean());
+        user.setBgImg(json.get("profile_background_image_url").getAsString());
 
         return user;
     }
