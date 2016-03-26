@@ -16,10 +16,10 @@ import rx.Observable;
  */
 public interface MessageAPI {
 
-    @GET("direct_messages/conversation_list.json?mode=lite&count=30")
+    @GET("direct_messages/conversation_list.json?count=30")
     Observable<JsonArray> conversationList(@Query("page")int page);
 
-    @GET("direct_messages/conversation.json?mode=lite&count=30")
+    @GET("direct_messages/conversation.json?count=30")
     Observable<JsonArray> conversation(@Query("id")String id, @Query("page")int page);
 
     @Multipart

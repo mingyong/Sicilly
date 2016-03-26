@@ -25,9 +25,11 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.BindInt;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.models.User;
+import xyz.shaohui.sicilly.data.services.user.UserService;
 import xyz.shaohui.sicilly.presenters.UserInfoPresenter;
 import xyz.shaohui.sicilly.ui.adapters.IndexPagerAdapter;
 import xyz.shaohui.sicilly.ui.adapters.StatusListAdapter;
@@ -47,9 +49,12 @@ public class UserInfoActivity extends AppCompatActivity {
     @Bind(R.id.user_follower)TextView userFollower;
     @Bind(R.id.user_status)TextView userStatus;
     @Bind(R.id.user_bg_image)ImageView bgImage;
+    @Bind(R.id.action_follow)TextView follow;
 
     private UserInfoPresenter presenter;
     private IndexPagerAdapter mAdapter;
+
+    private User user;
 
     private ProgressDialog mDialog;
 
@@ -126,6 +131,7 @@ public class UserInfoActivity extends AppCompatActivity {
     }
 
     public void setUpInfo(User user) {
+        this.user = user;
         userName.setText(user.getNickName());
         userBrief.setText(user.getDescription());
 
@@ -137,11 +143,51 @@ public class UserInfoActivity extends AppCompatActivity {
         Picasso.with(this)
                 .load(Uri.parse(user.getBgImg()))
                 .into(bgImage);
+        String followText = user.isFollowing()? "取消关注" : "关注";
+        follow.setText(followText);
 
         userStatus.setText(user.getStatusesCount() + "");
         userFollower.setText(user.getFollowersCount() + "");
         userFollowed.setText(user.getFriendCount() + "");
 
+    }
+
+    @OnClick(R.id.action_message)
+    void sendMessage() {
+        startActivity(ChatActivity.newIntent(this, user.getId(), user.getName()));
+    }
+
+    @OnClick(R.id.action_follow)
+    void updateFollow() {
+        if (user.isFollowing()) {
+            UserService.destroyFollow(user.getId(), new UserService.CallBack() {
+                @Override
+                public void success() {
+                    MyToast.showToast(getApplicationContext(), "已取消关注");
+                    follow.setText("关注");
+                    user.setFollowing(false);
+                }
+
+                @Override
+                public void failure() {
+                    MyToast.showToast(getApplicationContext(), "操作失败,请重试");
+                }
+            });
+        } else {
+            UserService.createFollow(user.getId(), new UserService.CallBack() {
+                @Override
+                public void success() {
+                    MyToast.showToast(getApplicationContext(), "关注成功");
+                    follow.setText("取消关注");
+                    user.setFollowing(true);
+                }
+
+                @Override
+                public void failure() {
+                    MyToast.showToast(getApplicationContext(), "操作失败,请重试");
+                }
+            });
+        }
     }
 
     @Override

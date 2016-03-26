@@ -89,7 +89,7 @@ public class ChatActivity extends AppCompatActivity {
                 finish();
             }
         });
-        toolbar.setTitle(userName);
+        getSupportActionBar().setTitle(userName);
     }
 
     private void initRecycler() {
