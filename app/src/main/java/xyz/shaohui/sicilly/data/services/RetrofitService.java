@@ -5,6 +5,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import xyz.shaohui.sicilly.data.services.api.FriendshipAPI;
 import xyz.shaohui.sicilly.data.services.api.MessageAPI;
 import xyz.shaohui.sicilly.data.services.api.SearchAPI;
 import xyz.shaohui.sicilly.data.services.api.StatusAPI;
@@ -20,6 +21,7 @@ public class RetrofitService {
     private UserAPI userService;
     private MessageAPI messageService;
     private SearchAPI searchService;
+    private FriendshipAPI friendshipService;
 
     public RetrofitService() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -40,6 +42,7 @@ public class RetrofitService {
         userService = retrofit.create(UserAPI.class);
         messageService = retrofit.create(MessageAPI.class);
         searchService = retrofit.create(SearchAPI.class);
+        friendshipService = retrofit.create(FriendshipAPI.class);
 
     }
 
@@ -57,5 +60,9 @@ public class RetrofitService {
 
     public SearchAPI getSearchService() {
         return searchService;
+    }
+
+    public FriendshipAPI getFriendshipService() {
+        return friendshipService;
     }
 }

@@ -208,6 +208,54 @@ public class UserService {
                 });
     }
 
+    public static void createFollow(String userId, final UserService.CallBack callBack) {
+        RetrofitService service = SicillyFactory.getRetrofitService();
+        service.getFriendshipService().create(toRequestBody(userId))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<JsonObject>() {
+                    @Override
+                    public void onCompleted() {
+                        callBack.success();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callBack.failure();
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(JsonObject jsonObject) {
+
+                    }
+                });
+    }
+
+    public static void destroyFollow(String userId, final UserService.CallBack callBack) {
+        RetrofitService service = SicillyFactory.getRetrofitService();
+        service.getFriendshipService().destroy(toRequestBody(userId))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Subscriber<JsonObject>() {
+                    @Override
+                    public void onCompleted() {
+                        callBack.success();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callBack.failure();
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(JsonObject jsonObject) {
+
+                    }
+                });
+    }
+
     public static RequestBody toRequestBody(String str) {
         RequestBody body = RequestBody.create(MediaType.parse("text/plain"), str);
         return body;

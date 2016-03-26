@@ -16,15 +16,21 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.SicillyFactory;
 import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.models.User;
+import xyz.shaohui.sicilly.data.services.RetrofitService;
 import xyz.shaohui.sicilly.data.services.user.UserService;
 import xyz.shaohui.sicilly.ui.activities.CreateStatusActivity;
 import xyz.shaohui.sicilly.ui.activities.PhotoActivity;
@@ -122,6 +128,9 @@ public class StatusListAdapter extends RecyclerView.Adapter {
                     case R.id.status_ic_reply:
                         replyStatus(context, status, user);
                         break;
+                    case R.id.status_ic_follow:
+                        followUser(context, viewHolder, status);
+                        break;
                 }
             }
         };
@@ -131,6 +140,7 @@ public class StatusListAdapter extends RecyclerView.Adapter {
         viewHolder.reply.setOnClickListener(mListener);
         viewHolder.repost.setOnClickListener(mListener);
         viewHolder.favorite.setOnClickListener(mListener);
+        viewHolder.follow.setOnClickListener(mListener);
         viewHolder.name.setOnClickListener(mListener);
         viewHolder.id.setOnClickListener(mListener);
         viewHolder.text.setOnClickListener(mListener);
@@ -185,6 +195,22 @@ public class StatusListAdapter extends RecyclerView.Adapter {
         Intent intent = CreateStatusActivity.newIntent(context,
                 CreateStatusActivity.TYPE_REPLY, status.getId(), text);
         context.startActivity(intent);
+    }
+
+    private void followUser(final Context context, final MyViewHolder viewHolder, Status status){
+        String id = status.getUserId();
+        UserService.createFollow(status.getUserId(), new UserService.CallBack() {
+            @Override
+            public void success() {
+                MyToast.showToast(context, "已关注");
+                viewHolder.follow.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
+            public void failure() {
+                MyToast.showToast(context, "貌似出了一点小问题");
+            }
+        });
     }
 
     @Override
