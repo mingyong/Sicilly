@@ -47,14 +47,11 @@ public class UserInfoViewPagerAdapter extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                context.getString(R.string.user_info_pager_info);
-                break;
+                return context.getString(R.string.user_info_pager_info);
             case 1:
-                context.getString(R.string.user_info_pager_status);
-                break;
+                return context.getString(R.string.user_info_pager_status);
             case 2:
-                context.getString(R.string.user_info_pager_photo);
-                break;
+                return context.getString(R.string.user_info_pager_photo);
         }
         return null;
     }

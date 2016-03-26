@@ -33,6 +33,7 @@ import xyz.shaohui.sicilly.data.services.user.UserService;
 import xyz.shaohui.sicilly.presenters.UserInfoPresenter;
 import xyz.shaohui.sicilly.ui.adapters.IndexPagerAdapter;
 import xyz.shaohui.sicilly.ui.adapters.StatusListAdapter;
+import xyz.shaohui.sicilly.ui.adapters.UserInfoViewPagerAdapter;
 import xyz.shaohui.sicilly.utils.MyToast;
 import xyz.shaohui.sicilly.utils.imageUtils.CircleTransform;
 
@@ -52,7 +53,7 @@ public class UserInfoActivity extends AppCompatActivity {
     @Bind(R.id.action_follow)TextView follow;
 
     private UserInfoPresenter presenter;
-    private IndexPagerAdapter mAdapter;
+    private UserInfoViewPagerAdapter mAdapter;
 
     private User user;
 
@@ -81,7 +82,6 @@ public class UserInfoActivity extends AppCompatActivity {
         presenter = new UserInfoPresenter(this, id);
 
         initToolbar();
-        initViewPager();
         initDialog();
     }
 
@@ -104,7 +104,7 @@ public class UserInfoActivity extends AppCompatActivity {
     }
 
     private void initViewPager() {
-        mAdapter = new IndexPagerAdapter(getSupportFragmentManager(), this);
+        mAdapter = new UserInfoViewPagerAdapter(this, getSupportFragmentManager(), user);
         viewPager.setAdapter(mAdapter);
         viewPager.setCurrentItem(0);
         tabBar.setupWithViewPager(viewPager);
@@ -132,6 +132,10 @@ public class UserInfoActivity extends AppCompatActivity {
 
     public void setUpInfo(User user) {
         this.user = user;
+
+        // 成功返回后 加载viewpager
+        initViewPager();
+
         userName.setText(user.getNickName());
         userBrief.setText(user.getDescription());
 

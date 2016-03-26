@@ -35,6 +35,7 @@ public class UserInfoFragment extends Fragment {
         data.add(user.getDescription());
         data.add(user.getUrl());
         data.add(user.getId());
+        args.putStringArrayList("data", data);
         fragment.setArguments(args);
         return fragment;
     }
