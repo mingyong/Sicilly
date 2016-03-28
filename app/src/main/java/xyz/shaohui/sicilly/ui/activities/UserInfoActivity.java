@@ -2,11 +2,13 @@ package xyz.shaohui.sicilly.ui.activities;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -164,19 +166,7 @@ public class UserInfoActivity extends AppCompatActivity {
     @OnClick(R.id.action_follow)
     void updateFollow() {
         if (user.isFollowing()) {
-            UserService.destroyFollow(user.getId(), new UserService.CallBack() {
-                @Override
-                public void success() {
-                    MyToast.showToast(getApplicationContext(), "已取消关注");
-                    follow.setText("关注");
-                    user.setFollowing(false);
-                }
-
-                @Override
-                public void failure() {
-                    MyToast.showToast(getApplicationContext(), "操作失败,请重试");
-                }
-            });
+            destroyFollow();
         } else {
             UserService.createFollow(user.getId(), new UserService.CallBack() {
                 @Override
@@ -192,6 +182,37 @@ public class UserInfoActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void destroyFollow() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppTheme_AlertDialog);
+        builder.setMessage("确定取消关注?")
+                .setPositiveButton("取消关注", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        UserService.destroyFollow(user.getId(), new UserService.CallBack() {
+                            @Override
+                            public void success() {
+                                MyToast.showToast(getApplicationContext(), "已取消关注");
+                                follow.setText("关注");
+                                user.setFollowing(false);
+                            }
+
+                            @Override
+                            public void failure() {
+                                MyToast.showToast(getApplicationContext(), "操作失败,请重试");
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton("暂不", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     @Override

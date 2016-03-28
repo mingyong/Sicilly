@@ -39,6 +39,9 @@ public interface UserAPI {
     @POST("favorites/create/id.json")
     Observable<JsonObject> createFavorite(@Query("id")String id);
 
+    @GET("photos/user_timeline.json")
+    Observable<JsonArray> showPhoto(@Query("id")String id);
+
     @Multipart
     @POST("")
     Observable<JsonObject> createStatus(@PartMap Map<String, RequestBody> map);
