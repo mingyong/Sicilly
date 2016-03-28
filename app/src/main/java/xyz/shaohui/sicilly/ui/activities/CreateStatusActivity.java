@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -361,6 +362,14 @@ public class CreateStatusActivity extends AppCompatActivity {
                     .centerCrop()
                     .into(image);
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            showNoticeDialog();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
