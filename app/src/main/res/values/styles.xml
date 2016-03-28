@@ -17,6 +17,12 @@
         <item name="android:background">@color/white</item>
     </style>
 
+    <style name="AppTheme.MessageDialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:background">@color/main_300</item>
+        <item name="android:textSize">12sp</item>
+    </style>
+
     <style name="AppTheme.ActionBar">
         <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
         <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>

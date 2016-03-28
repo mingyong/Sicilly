@@ -15,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -182,6 +183,22 @@ public class UserInfoActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    @OnClick({R.id.user_brief, R.id.user_brief_expand})
+    void expandUserBrief() {
+        expandBrief();
+    }
+
+    private void expandBrief() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppTheme_MessageDialog);
+        TextView textView = new TextView(this);
+        textView.setText(userBrief.getText());
+        textView.setTextSize(12);
+        textView.setPadding(20,20,20,20);
+        textView.setTextColor(getResources().getColor(R.color.white));
+        builder.setView(textView);
+        builder.create().show();
     }
 
     private void destroyFollow() {

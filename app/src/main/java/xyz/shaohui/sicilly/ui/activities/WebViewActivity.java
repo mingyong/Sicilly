@@ -85,8 +85,14 @@ public class WebViewActivity extends AppCompatActivity {
                     progressBar.setVisibility(View.GONE);
                     actionBar.setTitle(webView.getTitle());
                 } else {
+                    progressBar.setVisibility(View.VISIBLE);
                     progressBar.setProgress(newProgress);
                 }
+            }
+
+            @Override
+            public void onReceivedTitle(WebView view, String title) {
+                actionBar.setTitle(title);
             }
         });
     }
