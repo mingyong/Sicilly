@@ -3,6 +3,8 @@ package xyz.shaohui.sicilly.ui.fragments;
 import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,11 +30,7 @@ import xyz.shaohui.sicilly.utils.imageUtils.CircleTransform;
 
 public class StatusDetailFragment extends Fragment {
 
-    @Bind(R.id.user_name)TextView userName;
-    @Bind(R.id.user_id)TextView userId;
-    @Bind(R.id.user_img)ImageView userImg;
-    @Bind(R.id.main_text)TextView mainText;
-    @Bind(R.id.status_resource)TextView statusResource;
+    @Bind(R.id.recycler)RecyclerView recyclerView;
 
     private String id;
 
@@ -68,6 +66,11 @@ public class StatusDetailFragment extends Fragment {
         return v;
     }
 
+    private void initRecycler() {
+        LinearLayoutManager layoutManager =
+                new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+    }
+
     private void fetchStatusInfo() {
         service.getStatusService().showStatus(id)
                 .subscribeOn(Schedulers.io())
@@ -83,16 +86,6 @@ public class StatusDetailFragment extends Fragment {
     private void setUpInfo(JsonObject json) {
         JsonObject userJson = json.get("user").getAsJsonObject();
 
-        Picasso.with(getActivity())
-                .load(Uri.parse(userJson.get("profile_image_url").getAsString()))
-                .transform(new CircleTransform())
-                .into(userImg);
-
-        userName.setText(userJson.get("screen_name").getAsString());
-        userId.setText(userJson.get("id").getAsString());
-
-        mainText.setText(json.get("text").getAsString());
-        statusResource.setText(HtmlParse.cleanAllTag(json.get("source").getAsString()));
     }
 
     @OnClick(R.id.action_favorite)

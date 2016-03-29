@@ -4,35 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="xyz.shaohui.sicilly.ui.fragments.StatusDetailFragment">
-    <LinearLayout
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <include
-            layout="@layout/user_detail_item"/>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/main_black"/>
-        <TextView
-            android:id="@+id/main_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:paddingRight="8dp"
-            android:paddingLeft="8dp"
-            android:text="@string/status_text"
-            android:lineSpacingExtra="4dp"/>
-        <TextView
-            android:id="@+id/status_resource"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_gravity="right"
-            android:layout_marginRight="@dimen/spacing_large"
-            android:textSize="12sp"
-            android:text="@string/status_source"/>
-    </LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_marginBottom="40dp">
+
+    </android.support.v7.widget.RecyclerView>
 
     <LinearLayout
         android:layout_width="match_parent"
