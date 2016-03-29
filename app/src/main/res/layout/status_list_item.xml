@@ -53,9 +53,19 @@
                 android:padding="4dp"
                 android:scaleType="centerCrop"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="8dp"
+                android:layout_marginRight="28dp"
                 android:layout_centerVertical="true"
                 android:src="@mipmap/ic_follow" />
+            <TextView
+                android:id="@+id/status_ic_more"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:text="更多"
+                android:textColor="@color/font_hint"
+                android:textSize="10sp"
+                android:padding="5dp"/>
         </RelativeLayout>
         <TextView
             android:id="@+id/status_text"

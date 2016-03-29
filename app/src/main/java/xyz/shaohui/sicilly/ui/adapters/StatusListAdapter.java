@@ -1,8 +1,10 @@
 package xyz.shaohui.sicilly.ui.adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
@@ -131,6 +133,9 @@ public class StatusListAdapter extends RecyclerView.Adapter {
                     case R.id.status_ic_follow:
                         followUser(context, viewHolder, status);
                         break;
+                    case R.id.status_ic_more:
+                        showDialogMore(context, status);
+                        break;
                 }
             }
         };
@@ -144,12 +149,37 @@ public class StatusListAdapter extends RecyclerView.Adapter {
         viewHolder.name.setOnClickListener(mListener);
         viewHolder.id.setOnClickListener(mListener);
         viewHolder.text.setOnClickListener(mListener);
+        viewHolder.more.setOnClickListener(mListener);
 
         Picasso.with(viewHolder.profileImg.getContext())
                 .load(user.getProfileImageUrl())
                 .transform(new CircleTransform())
                 .into(viewHolder.profileImg);
 
+    }
+
+    private void showDialogMore(final Context context, Status status) {
+        AlertDialog.Builder  builder = new AlertDialog.Builder(context);
+        builder.setItems(new String[]{"关闭", "删除", "分享", "共享"}, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case 0:
+                        MyToast.showToast(context, "关闭");
+                        break;
+                    case 1:
+                        MyToast.showToast(context, "删除");
+                        break;
+                    case 2:
+                        MyToast.showToast(context, "分享");
+                        break;
+                    case 3:
+                        MyToast.showToast(context, "共享");
+                        break;
+                }
+            }
+        });
+        builder.create().show();
     }
 
     private void createFavorite(final Status status,final Context context, final TextView textView) {
@@ -233,6 +263,7 @@ public class StatusListAdapter extends RecyclerView.Adapter {
         @Bind(R.id.status_ic_reply)TextView reply;
         @Bind(R.id.status_ic_star)TextView favorite;
         @Bind(R.id.status_ic_repost)TextView repost;
+        @Bind(R.id.status_ic_more)TextView more;
 
         public MyViewHolder(View itemView) {
             super(itemView);
