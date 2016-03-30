@@ -22,11 +22,11 @@ public class StatusDetailActivity extends AppCompatActivity {
 
     @Bind(R.id.tool_bar)Toolbar toolBar;
 
-    private String statusId;
+    private String statusJson;
 
-    public static Intent newIntent(Context context, String statusId) {
+    public static Intent newIntent(Context context, String statusJson) {
         Intent intent = new Intent(context, StatusDetailActivity.class);
-        intent.putExtra("id", statusId);
+        intent.putExtra("status", statusJson);
         return intent;
     }
 
@@ -36,7 +36,7 @@ public class StatusDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_status_detail);
         ButterKnife.bind(this);
 
-        statusId = getIntent().getStringExtra("id");
+        statusJson = getIntent().getStringExtra("status");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             Window window = getWindow();
@@ -65,7 +65,7 @@ public class StatusDetailActivity extends AppCompatActivity {
     private void switchDetailFragment() {
         FragmentManager manager = getSupportFragmentManager();
         manager.beginTransaction()
-                .replace(R.id.main_frame, StatusDetailFragment.newInstance(statusId))
+                .replace(R.id.main_frame, StatusDetailFragment.newInstance(statusJson))
                 .commit();
     }
 

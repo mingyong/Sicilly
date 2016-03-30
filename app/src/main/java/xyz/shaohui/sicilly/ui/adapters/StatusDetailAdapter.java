@@ -2,6 +2,7 @@ package xyz.shaohui.sicilly.ui.adapters;
 
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,9 @@ import butterknife.ButterKnife;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.models.User;
+import xyz.shaohui.sicilly.utils.HtmlParse;
+import xyz.shaohui.sicilly.utils.TextHtmlParse;
+import xyz.shaohui.sicilly.utils.imageUtils.CircleTransform;
 
 /**
  * Created by kpt on 16/3/28.
@@ -40,13 +44,16 @@ public class StatusDetailAdapter extends RecyclerView.Adapter<StatusDetailAdapte
         Status status = dataList.get(position);
         User user = status.getUser();
 
-        holder.text.setText(status.getText());
+        holder.text.setText(TextHtmlParse.updateMainText(status.getText()));
+        holder.text.setMovementMethod(LinkMovementMethod.getInstance());
+
         holder.name.setText(user.getNickName());
-        holder.resource.setText(status.getSource());
+        holder.resource.setText(HtmlParse.cleanAllTag(status.getSource()));
         holder.time.setText(status.getCreatedAt());
 
         Picasso.with(holder.avatar.getContext())
                 .load(Uri.parse(user.getProfileImageUrl()))
+                .transform(new CircleTransform())
                 .into(holder.avatar);
     }
 

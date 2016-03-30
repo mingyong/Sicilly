@@ -262,7 +262,7 @@ public class StatusListFragment extends Fragment {
                 .map(new Func1<JsonElement, Status>() {
                     @Override
                     public Status call(JsonElement jsonElement) {
-                        return toObject(jsonElement);
+                        return Status.toObject(jsonElement);
                     }
                 })
                 .doOnNext(new Action1<Status>() {

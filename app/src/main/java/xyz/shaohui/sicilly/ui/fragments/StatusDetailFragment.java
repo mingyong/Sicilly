@@ -1,45 +1,53 @@
 package xyz.shaohui.sicilly.ui.fragments;
 
-import android.net.Uri;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.google.gson.JsonObject;
-import com.squareup.picasso.Picasso;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
+import rx.functions.Action0;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyFactory;
+import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.services.RetrofitService;
-import xyz.shaohui.sicilly.utils.HtmlParse;
+import xyz.shaohui.sicilly.ui.adapters.StatusDetailAdapter;
 import xyz.shaohui.sicilly.utils.MyToast;
-import xyz.shaohui.sicilly.utils.imageUtils.CircleTransform;
 
 
 public class StatusDetailFragment extends Fragment {
 
     @Bind(R.id.recycler)RecyclerView recyclerView;
 
-    private String id;
+    private LinearLayoutManager layoutManager;
+    private StatusDetailAdapter mAdapter;
+    private List<Status> dataList;
+
+    private Status status;
 
     private RetrofitService service;
 
-    public static StatusDetailFragment newInstance(String statusId) {
+    public static StatusDetailFragment newInstance(String statusJson) {
         StatusDetailFragment fragment = new StatusDetailFragment();
         Bundle args = new Bundle();
-        args.putString("id", statusId);
+        args.putString("status", statusJson);
         fragment.setArguments(args);
         return fragment;
     }
@@ -48,13 +56,22 @@ public class StatusDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        id = getArguments().getString("id");
+        String json = getArguments().getString("status");
+        status = new Gson().fromJson(json, Status.class);
+
         service = SicillyFactory.getRetrofitService();
+
+        dataList = new ArrayList<>();
+        mAdapter = new StatusDetailAdapter(dataList);
     }
 
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        dataList.add(status);
+        mAdapter.notifyDataSetChanged();
+
         fetchStatusInfo();
     }
 
@@ -63,30 +80,73 @@ public class StatusDetailFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_status_detail, container, false);
         ButterKnife.bind(this, v);
+
+        initRecycler();
+
         return v;
     }
 
     private void initRecycler() {
-        LinearLayoutManager layoutManager =
+        layoutManager =
                 new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(mAdapter);
     }
 
     private void fetchStatusInfo() {
-        service.getStatusService().showStatus(id)
+        service.getStatusService().contextTimeline(status.getId())
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<JsonObject>() {
+                .observeOn(Schedulers.io())
+                .flatMap(new Func1<JsonArray, Observable<JsonElement>>() {
                     @Override
-                    public void call(JsonObject jsonObject) {
-                        setUpInfo(jsonObject);
+                    public Observable<JsonElement> call(JsonArray jsonElements) {
+                        return Observable.from(jsonElements);
+                    }
+                })
+                .map(new Func1<JsonElement, Status>() {
+                    @Override
+                    public Status call(JsonElement jsonElement) {
+                        return Status.toObject(jsonElement);
+                    }
+                })
+                .doOnCompleted(new Action0() {
+                    @Override
+                    public void call() {
+                        dataList.remove(0);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Status>() {
+                    @Override
+                    public void onCompleted() {
+                        mAdapter.notifyDataSetChanged();
+                        adjustRecycler();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        MyToast.showToast(getContext(), "显示上下文失败");
+                    }
+
+                    @Override
+                    public void onNext(Status item) {
+                        dataList.add(item);
                     }
                 });
-    }
-
-    private void setUpInfo(JsonObject json) {
-        JsonObject userJson = json.get("user").getAsJsonObject();
 
     }
+
+    private void adjustRecycler() {
+        int currentId = 0;
+        for (int i = 0; i < dataList.size(); i++) {
+            if (dataList.get(i).getId().equals(status.getId())) {
+                currentId = i;
+            }
+        }
+        layoutManager.scrollToPositionWithOffset(currentId, 10);
+    }
+
 
     @OnClick(R.id.action_favorite)
     void createFavorite() {

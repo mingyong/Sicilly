@@ -109,9 +109,9 @@ public class UserInfoActivity extends AppCompatActivity {
     private void initViewPager() {
         mAdapter = new UserInfoViewPagerAdapter(this, getSupportFragmentManager(), user);
         viewPager.setAdapter(mAdapter);
-        viewPager.setCurrentItem(0);
+        viewPager.setCurrentItem(1);
         tabBar.setupWithViewPager(viewPager);
-        tabBar.setTabsFromPagerAdapter(mAdapter);
+//        tabBar.setTabsFromPagerAdapter(mAdapter);
     }
 
     private void initDialog() {

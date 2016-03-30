@@ -1,5 +1,8 @@
 package xyz.shaohui.sicilly.data.models;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 /**
  * Created by kpt on 16/2/22.
  */
@@ -173,5 +176,31 @@ public class Status {
 
     public String getImageLargeUrl() {
         return imageLargeUrl;
+    }
+
+    public static Status toObject(JsonElement element) {
+        JsonObject json = element.getAsJsonObject();
+
+        Status status = new Status();
+        status.setCreatedAt(json.get("created_at").getAsString());
+        status.setId(json.get("id").getAsString());
+        status.setRawid(json.get("rawid").getAsInt());
+        status.setText(json.get("text").getAsString());
+        status.setSource(json.get("source").getAsString());
+        status.setFavorited(json.get("favorited").getAsBoolean());
+
+        JsonObject jsonUser = json.get("user").getAsJsonObject();
+        User user = User.toObject(jsonUser);
+
+        if (json.get("photo")!=null) {
+            JsonObject jsonPhoto = json.get("photo").getAsJsonObject();
+            status.setImageUrl(jsonPhoto.get("imageurl").getAsString());
+            status.setImageLargeUrl(jsonPhoto.get("largeurl").getAsString());
+        }
+
+        status.setUser(user);
+        status.setUserId(user.getId());
+
+        return status;
     }
 }

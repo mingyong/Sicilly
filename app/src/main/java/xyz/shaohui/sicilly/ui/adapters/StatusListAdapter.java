@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.squareup.picasso.Picasso;
 
@@ -115,7 +116,7 @@ public class StatusListAdapter extends RecyclerView.Adapter {
                 switch (v.getId()) {
                     case R.id.status_text:
                     case R.id.status_item:
-                        context.startActivity(StatusDetailActivity.newIntent(context, status.getId()));
+                        context.startActivity(StatusDetailActivity.newIntent(context, new Gson().toJson(status)));
                         break;
                     case R.id.status_user_name:
                     case R.id.status_user_id:
