@@ -106,8 +106,8 @@ public class UserInfoActivity extends AppCompatActivity {
         });
     }
 
-    private void initViewPager() {
-        mAdapter = new UserInfoViewPagerAdapter(this, getSupportFragmentManager(), user);
+    private void initViewPager(boolean isSecret) {
+        mAdapter = new UserInfoViewPagerAdapter(this, getSupportFragmentManager(), user, isSecret);
         viewPager.setAdapter(mAdapter);
         viewPager.setCurrentItem(1);
         tabBar.setupWithViewPager(viewPager);
@@ -137,7 +137,11 @@ public class UserInfoActivity extends AppCompatActivity {
         this.user = user;
 
         // 成功返回后 加载viewpager
-        initViewPager();
+        if (!user.isFollowing() && user.isSecreted()) {
+            initViewPager(true);
+        } else {
+            initViewPager(false);
+        }
 
         userName.setText(user.getNickName());
         userBrief.setText(user.getDescription());

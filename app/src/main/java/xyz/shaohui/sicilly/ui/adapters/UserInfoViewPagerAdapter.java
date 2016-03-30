@@ -10,6 +10,7 @@ import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.ui.fragments.StatusListFragment;
 import xyz.shaohui.sicilly.ui.fragments.UserInfoFragment;
 import xyz.shaohui.sicilly.ui.fragments.UserPhotoFragment;
+import xyz.shaohui.sicilly.ui.fragments.UserSecretFragment;
 
 /**
  * Created by kpt on 16/3/16.
@@ -18,11 +19,13 @@ public class UserInfoViewPagerAdapter extends FragmentPagerAdapter {
 
     private Context context;
     private User user;
+    private boolean isSecret;
 
-    public UserInfoViewPagerAdapter(Context context, FragmentManager fm, User user) {
+    public UserInfoViewPagerAdapter(Context context, FragmentManager fm, User user, boolean isSecret) {
         super(fm);
         this.context = context;
         this.user = user;
+        this.isSecret = isSecret;
     }
 
     @Override
@@ -31,8 +34,14 @@ public class UserInfoViewPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return UserInfoFragment.newInstance(user);
             case 1:
+                if (isSecret) {
+                    return UserSecretFragment.newInstance();
+                }
                 return StatusListFragment.newInstanceForUser(user.getId());
             case 2:
+                if (isSecret) {
+                    return UserSecretFragment.newInstance();
+                }
                 return UserPhotoFragment.newInstance(user.getId());
         }
         return null;
