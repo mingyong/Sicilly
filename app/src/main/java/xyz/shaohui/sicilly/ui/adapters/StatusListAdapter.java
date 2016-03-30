@@ -81,8 +81,13 @@ public class StatusListAdapter extends RecyclerView.Adapter {
         viewHolder.time.setText(TimeFormat.format(status.getCreatedAt()));
         viewHolder.source.setText(context.getString(R.string.status_from) + HtmlParse.cleanAllTag(status.getSource()));
 
-        int followVisi = status.getUser().isFollowing() ? View.INVISIBLE : View.VISIBLE;
-        viewHolder.follow.setVisibility(followVisi);
+        if (status.getUser().isFollowing()) {
+            viewHolder.follow.setVisibility(View.INVISIBLE);
+            viewHolder.more.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.follow.setVisibility(View.VISIBLE);
+            viewHolder.more.setVisibility(View.INVISIBLE);
+        }
 
         if (status.isFavorited()) {
             viewHolder.favorite.setText(context.getString(R.string.status_favorited));

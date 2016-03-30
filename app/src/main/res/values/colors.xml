@@ -31,6 +31,7 @@
     <color name="gray">#AAAAAA</color>
     <color name="gray_D8">#D8D8D8</color>
     <color name="gray_tranparent">#AAAAAAAA</color>
+    <color name="tran_black">#80000000</color>
 
 
     <color name="transparent">#00000000</color>
