@@ -52,6 +52,13 @@ public class PhotoActivity extends AppCompatActivity {
         return intent;
     }
 
+    public static Intent newIntent(Context context, String url, String statusId) {
+        Intent intent = new Intent(context, PhotoActivity.class);
+        intent.putExtra("url", url);
+        intent.putExtra("status_id", statusId);
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

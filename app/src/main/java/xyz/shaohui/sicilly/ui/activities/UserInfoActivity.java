@@ -89,8 +89,8 @@ public class UserInfoActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
         presenter.fetchBaseInfo();
     }
 
