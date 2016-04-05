@@ -45,9 +45,9 @@
             android:label="@string/title_activity_status_detail" >
         </activity>
         <activity
-            android:theme="@style/AppTheme.PhotoActivity"
             android:name=".ui.activities.PhotoActivity"
-            android:label="@string/title_activity_photo" >
+            android:label="@string/title_activity_photo"
+            android:theme="@style/AppTheme.PhotoActivity" >
         </activity>
         <activity
             android:name=".ui.activities.WebViewActivity"
@@ -93,6 +93,10 @@
         <activity
             android:name=".ui.activities.LightUserActivity"
             android:label="@string/title_activity_light_user" >
+        </activity>
+        <activity
+            android:name=".ui.activities.SettingActivity"
+            android:label="@string/title_activity_setting" >
         </activity>
     </application>
 

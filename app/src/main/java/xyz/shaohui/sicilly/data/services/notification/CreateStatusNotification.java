@@ -32,4 +32,8 @@ public class CreateStatusNotification {
         manager.notify(1, notification);
     }
 
+    public static void update() {
+
+    }
+
 }

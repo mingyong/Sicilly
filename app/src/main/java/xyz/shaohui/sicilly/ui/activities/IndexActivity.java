@@ -96,6 +96,7 @@ public class IndexActivity extends AppCompatActivity{
         int id = item.getItemId();
         switch (id) {
             case R.id.action_settings:
+                startActivity(SettingActivity.newIntent(this));
                 return true;
             case R.id.message:
                 CreateStatusNotification.show(this);
