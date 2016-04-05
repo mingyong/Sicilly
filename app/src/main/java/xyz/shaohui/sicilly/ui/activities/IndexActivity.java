@@ -99,6 +99,7 @@ public class IndexActivity extends AppCompatActivity{
                 startActivity(SettingActivity.newIntent(this));
                 return true;
             case R.id.message:
+                MyToast.iconFailure(this, "关注成功");
                 CreateStatusNotification.show(this);
                 startActivity(new Intent(this, MessageActivity.class));
                 return true;

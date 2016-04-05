@@ -176,7 +176,7 @@ public class UserInfoActivity extends AppCompatActivity {
             UserService.createFollow(user.getId(), new UserService.CallBack() {
                 @Override
                 public void success() {
-                    MyToast.showToast(getApplicationContext(), "关注成功");
+                    MyToast.iconSuccess(getApplicationContext(), "关注成功");
                     follow.setImageResource(R.drawable.ic_followed_white);
                     user.setFollowing(true);
                 }

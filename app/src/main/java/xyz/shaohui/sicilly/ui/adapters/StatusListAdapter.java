@@ -238,7 +238,7 @@ public class StatusListAdapter extends RecyclerView.Adapter {
         UserService.createFollow(status.getUserId(), new UserService.CallBack() {
             @Override
             public void success() {
-                MyToast.showToast(context, "已关注");
+                MyToast.iconSuccess(context, "关注成功");
                 viewHolder.follow.setVisibility(View.INVISIBLE);
             }
 
