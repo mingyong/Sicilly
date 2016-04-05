@@ -55,7 +55,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="8dp"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/ic_follow" />
+                app:srcCompat="@drawable/ic_follow" />
             <ImageView
                 android:id="@+id/status_ic_more"
                 android:layout_width="wrap_content"

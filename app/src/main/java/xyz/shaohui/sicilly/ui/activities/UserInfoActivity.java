@@ -53,7 +53,7 @@ public class UserInfoActivity extends AppCompatActivity {
     @Bind(R.id.user_follower)TextView userFollower;
     @Bind(R.id.user_status)TextView userStatus;
     @Bind(R.id.user_bg_image)ImageView bgImage;
-    @Bind(R.id.action_follow)TextView follow;
+    @Bind(R.id.action_follow)ImageView follow;
 
     private UserInfoPresenter presenter;
     private UserInfoViewPagerAdapter mAdapter;
@@ -154,8 +154,8 @@ public class UserInfoActivity extends AppCompatActivity {
         Picasso.with(this)
                 .load(Uri.parse(user.getBgImg()))
                 .into(bgImage);
-        String followText = user.isFollowing()? "取消关注" : "关注";
-        follow.setText(followText);
+        int followText = user.isFollowing()? R.drawable.ic_followed_white : R.drawable.ic_follow_white;
+        follow.setImageResource(followText);
 
         userStatus.setText(user.getStatusesCount() + "");
         userFollower.setText(user.getFollowersCount() + "");
@@ -177,7 +177,7 @@ public class UserInfoActivity extends AppCompatActivity {
                 @Override
                 public void success() {
                     MyToast.showToast(getApplicationContext(), "关注成功");
-                    follow.setText("取消关注");
+                    follow.setImageResource(R.drawable.ic_followed_white);
                     user.setFollowing(true);
                 }
 
@@ -215,7 +215,7 @@ public class UserInfoActivity extends AppCompatActivity {
                             @Override
                             public void success() {
                                 MyToast.showToast(getApplicationContext(), "已取消关注");
-                                follow.setText("关注");
+                                follow.setImageResource(R.drawable.ic_follow_white);
                                 user.setFollowing(false);
                             }
 
