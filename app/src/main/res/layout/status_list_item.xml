@@ -56,15 +56,13 @@
                 android:layout_marginRight="8dp"
                 android:layout_centerVertical="true"
                 android:src="@mipmap/ic_follow" />
-            <TextView
+            <ImageView
                 android:id="@+id/status_ic_more"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
-                android:text="更多"
-                android:textColor="@color/font_hint"
-                android:textSize="10sp"
+                app:srcCompat="@drawable/ic_more"
                 android:padding="5dp"/>
         </RelativeLayout>
         <TextView
@@ -88,6 +86,7 @@
                 android:id="@+id/status_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="4dp"
                 android:text=""
                 android:textColor="@color/gray"
@@ -97,6 +96,7 @@
                 android:id="@+id/status_resource"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
                 android:layout_toRightOf="@id/status_time"
                 android:layout_marginLeft="8dp"
                 android:text="@string/status_source"
@@ -108,24 +108,27 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_alignParentRight="true">
-                <TextView
+                <ImageView
                     android:id="@+id/status_ic_star"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="5dp"
                     android:layout_marginRight="8dp"
-                    android:text="@string/status_favorite"/>
-                <TextView
+                    app:srcCompat="@drawable/ic_star"/>
+                <ImageView
                     android:id="@+id/status_ic_repost"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="5dp"
                     android:layout_marginRight="8dp"
-                    android:text="@string/status_repost"/>
-                <TextView
+                    app:srcCompat="@drawable/ic_repost"/>
+                <ImageView
                     android:id="@+id/status_ic_reply"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:padding="5dp"
                     android:layout_marginRight="8dp"
-                    android:text="@string/status_reply"/>
+                    app:srcCompat="@drawable/ic_reply"/>
             </LinearLayout>
         </RelativeLayout>
 

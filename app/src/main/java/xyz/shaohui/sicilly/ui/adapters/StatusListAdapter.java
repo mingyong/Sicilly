@@ -91,9 +91,9 @@ public class StatusListAdapter extends RecyclerView.Adapter {
         }
 
         if (status.isFavorited()) {
-            viewHolder.favorite.setText(context.getString(R.string.status_favorited));
+            viewHolder.favorite.setImageResource(R.drawable.ic_stared);
         } else {
-            viewHolder.favorite.setText(context.getString(R.string.status_favorite));
+            viewHolder.favorite.setImageResource(R.drawable.ic_star);
         }
 
         int imgVisi = TextUtils.isEmpty(status.getImageUrl()) ? View.GONE: View.VISIBLE;
@@ -188,11 +188,11 @@ public class StatusListAdapter extends RecyclerView.Adapter {
         builder.create().show();
     }
 
-    private void createFavorite(final Status status,final Context context, final TextView textView) {
+    private void createFavorite(final Status status,final Context context, final ImageView imageView) {
         UserService.createFavorite(status.getId(), new UserService.CallBack() {
             @Override
             public void success() {
-                textView.setText(context.getString(R.string.status_favorited));
+                imageView.setImageResource(R.drawable.ic_stared);
                 status.setFavorited(true);
             }
 
@@ -203,11 +203,11 @@ public class StatusListAdapter extends RecyclerView.Adapter {
         });
     }
 
-    private void destroyFavorite(final Status status, final Context context, final TextView textView) {
+    private void destroyFavorite(final Status status, final Context context, final ImageView imageView) {
         UserService.destroyFavorite(status.getId(), new UserService.CallBack() {
             @Override
             public void success() {
-                textView.setText(context.getString(R.string.status_favorite));
+                imageView.setImageResource(R.drawable.ic_star);
                 status.setFavorited(false);
             }
 
@@ -266,10 +266,10 @@ public class StatusListAdapter extends RecyclerView.Adapter {
         @Bind(R.id.status_text)TextView text;
 //
         @Bind(R.id.status_ic_follow)ImageView follow;
-        @Bind(R.id.status_ic_reply)TextView reply;
-        @Bind(R.id.status_ic_star)TextView favorite;
-        @Bind(R.id.status_ic_repost)TextView repost;
-        @Bind(R.id.status_ic_more)TextView more;
+        @Bind(R.id.status_ic_reply)ImageView reply;
+        @Bind(R.id.status_ic_star)ImageView favorite;
+        @Bind(R.id.status_ic_repost)ImageView repost;
+        @Bind(R.id.status_ic_more)ImageView more;
 
         public MyViewHolder(View itemView) {
             super(itemView);
