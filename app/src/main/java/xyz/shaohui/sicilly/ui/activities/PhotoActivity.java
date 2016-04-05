@@ -18,6 +18,8 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -44,6 +46,7 @@ public class PhotoActivity extends AppCompatActivity {
     @Bind(R.id.main_img)ImageView mainImg;
 
     private String url;
+    private String originUrl;
     private PhotoViewAttacher mAttacher;
 
     public static Intent newIntent(Context context, String url) {
@@ -66,12 +69,18 @@ public class PhotoActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         url = getIntent().getStringExtra("url");
+        originUrl = getIntent().getStringExtra("status_url");
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        showImg();
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+
+        if (url.endsWith(".gif")) {
+            showGif();
+        } else {
+            showImg();
+        }
     }
 
     private void showImg() {
@@ -99,6 +108,14 @@ public class PhotoActivity extends AppCompatActivity {
                     }
                 });
 
+    }
+
+    private void showGif() {
+        Glide.with(this)
+                .load(Uri.parse(url))
+                .asGif()
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .into(mainImg);
     }
 
     @OnClick(R.id.main)
