@@ -73,20 +73,19 @@
                 android:hint="今天发生了什么?"
                 android:textColor="@color/black"
                 android:textSize="@dimen/font_larger"/>
-            <TextView
+            <ImageView
                 android:id="@+id/open"
-                android:layout_width="40dp"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="展开"
-                android:textColor="@color/basic_black" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:srcCompat="@drawable/ic_expand"/>
             <ImageView
                 android:id="@+id/status_commit"
                 android:layout_gravity="center"
                 android:layout_width="35dp"
                 android:layout_height="35dp"
                 android:padding="5dp"
-                android:src="@mipmap/ic_commit"/>
+                app:srcCompat="@drawable/ic_submit"/>
         </LinearLayout>
     </LinearLayout>
 
