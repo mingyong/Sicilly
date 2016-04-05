@@ -5,17 +5,20 @@
     <item
         android:id="@+id/message"
         android:title="@string/message"
-        android:orderInCategory="100"
+        android:orderInCategory="80"
+        android:icon="@drawable/ic_message"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/search"
         android:title="@string/search"
-        android:orderInCategory="100"
+        android:orderInCategory="80"
+        android:icon="@drawable/ic_search"
         app:showAsAction="ifRoom"/>
     <item
         android:id="@+id/user_info"
         android:title="@string/user_index"
-        android:orderInCategory="100"
+        android:orderInCategory="80"
+        android:icon="@drawable/ic_user"
         app:showAsAction="always"/>
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
