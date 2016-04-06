@@ -45,7 +45,22 @@ public class Text {
         }
     }
 
-    public static void add(String s, int index) {
+    public static void add(String s) {
+        String result = "";
+        Stack stack = new Stack();
+        String[] str = s.split(" ");
+        for (int i = 0; i<str.length; i++) {
+            if (!str[i].equals(")")) {
+                stack.push(str[i]);
+            } else {
+                String x = "";
+                for (int j=0;j<3;j++) {
+                    x = x + stack.pop();
+                }
+                x = '(' + x + ')';
+                stack.push(x);
+            }
+        }
 
     }
 

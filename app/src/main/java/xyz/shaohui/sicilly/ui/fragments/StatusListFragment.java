@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -34,6 +35,7 @@ import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyFactory;
+import xyz.shaohui.sicilly.data.cache.DiskCache;
 import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.data.services.RetrofitService;
@@ -160,6 +162,8 @@ public class StatusListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        fetchCache();
     }
 
     /**
@@ -256,6 +260,7 @@ public class StatusListFragment extends Fragment {
                 .flatMap(new Func1<JsonArray, Observable<JsonElement>>() {
                     @Override
                     public Observable<JsonElement> call(JsonArray jsonElements) {
+                        saveCache(jsonElements.toString());
                         return Observable.from(jsonElements);
                     }
                 })
@@ -293,6 +298,77 @@ public class StatusListFragment extends Fragment {
                         dataList.add(status);
                     }
                 });
+    }
+
+    private void fetchCache() {
+        Observable.create(new Observable.OnSubscribe<JsonArray>() {
+            @Override
+            public void call(Subscriber<? super JsonArray> subscriber) {
+                String json = "";
+                switch (dataCode) {
+                    case DATA_HOME:
+                        json = DiskCache.readCache("home_status_list");
+                        break;
+                    case DATA_PUBLIC:
+                        json = DiskCache.readCache("public_status_list");
+                        break;
+                    case DATA_ABOUT_ME:
+                        json = DiskCache.readCache("me_status_list");
+                        break;
+                }
+                Log.i("TAG", json);
+                if (!TextUtils.isEmpty(json)) {
+                    JsonArray jsonElements = new Gson().fromJson(json, JsonArray.class);
+                    subscriber.onNext(jsonElements);
+                }
+                subscriber.onCompleted();
+            }
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .flatMap(new Func1<JsonArray, Observable<JsonElement>>() {
+                    @Override
+                    public Observable<JsonElement> call(JsonArray jsonElements) {
+                        return Observable.from(jsonElements);
+                    }
+                })
+                .map(new Func1<JsonElement, Status>() {
+                    @Override
+                    public Status call(JsonElement jsonElement) {
+                        return Status.toObject(jsonElement);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Status>() {
+                    @Override
+                    public void onCompleted() {
+                        mAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onNext(Status status) {
+                        dataList.add(status);
+                    }
+                });
+
+    }
+
+    private void saveCache(String json) {
+        switch(dataCode) {
+            case DATA_PUBLIC:
+                DiskCache.saveCache(json, "public_status_list");
+                break;
+            case DATA_HOME:
+                DiskCache.saveCache(json, "home_status_list");
+                break;
+            case DATA_ABOUT_ME:
+                DiskCache.saveCache(json, "me_status_list");
+        }
     }
 
     public void loadMore(LinearLayoutManager layoutManager) {
