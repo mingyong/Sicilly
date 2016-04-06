@@ -27,7 +27,10 @@ import rx.schedulers.Schedulers;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyFactory;
 import xyz.shaohui.sicilly.data.models.Status;
+import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.data.services.RetrofitService;
+import xyz.shaohui.sicilly.data.services.user.UserService;
+import xyz.shaohui.sicilly.ui.activities.CreateStatusActivity;
 import xyz.shaohui.sicilly.ui.adapters.StatusDetailAdapter;
 import xyz.shaohui.sicilly.utils.MyToast;
 
@@ -150,17 +153,43 @@ public class StatusDetailFragment extends Fragment {
 
     @OnClick(R.id.action_favorite)
     void createFavorite() {
-        MyToast.showToast(getContext(), "收藏");
+        if (status.isFavorited()) {
+            UserService.destroyFavorite(status.getId(), new UserService.CallBack() {
+                @Override
+                public void success() {
+                    MyToast.showToast(getContext(), "取消收藏成功");
+                }
+
+                @Override
+                public void failure() {
+                    MyToast.showToast(getContext(), "取消收藏失败");
+                }
+            });
+        } else {
+            UserService.createFavorite(status.getId(), new UserService.CallBack() {
+                @Override
+                public void success() {
+                    MyToast.showToast(getContext(), "收藏成功");
+                }
+
+                @Override
+                public void failure() {
+                    MyToast.showToast(getContext(), "收藏失败");
+                }
+            });
+        }
     }
 
     @OnClick(R.id.action_repost)
     void repostStatus() {
-        MyToast.showToast(getContext(), "转发");
+        CreateStatusActivity.newIntent(getContext(),
+                CreateStatusActivity.TYPE_REPOST, status.getId(), status.getText());
     }
 
     @OnClick(R.id.action_reply)
     void replyStatus() {
-        MyToast.showToast(getContext(), "回复");
+        CreateStatusActivity.newIntent(getContext(),
+                CreateStatusActivity.TYPE_REPLY, status.getId(), status.getText());
     }
 
 
