@@ -2,6 +2,7 @@ package xyz.shaohui.sicilly.utils;
 
 import android.util.Log;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -32,7 +33,11 @@ public class TimeFormat {
                 int c = m/60/24 == 0?1:m/60/24;
                 return c+"天前";
             } else {
-                return isYear(date);
+                if (isYear(date)) {
+                    return dateToString(date);
+                } else {
+                    return dateToStringNoYear(date);
+                }
             }
 
         } catch (Exception e){
@@ -53,27 +58,48 @@ public class TimeFormat {
         return 0;
     }
 
-    public  static String isYear(Date date){
+    public static Date stringToDate(String str) {
+        SimpleDateFormat format = new SimpleDateFormat("EEE MMM d hh:mm:ss Z yyyy", Locale.US);
+        format.setTimeZone(TimeZone.getTimeZone("UTC"));
+        try {
+            Date date = format.parse(str);
+            return date;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String detailTime(String str) {
+        Date date = stringToDate(str);
+        if (isYear(date)) {
+            return dateToString(date);
+        } else {
+            return dateToStringNoYear(date);
+        }
+    }
+
+    public  static boolean isYear(Date date){
         final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
         Calendar dateCalendar = Calendar.getInstance();
         dateCalendar.setTime(date);
         dateCalendar.get(Calendar.YEAR);
         if (year == dateCalendar.get(Calendar.YEAR)){
-            return dateToStringNoYear(date);
+            return false;
         } else {
-            return dateToString(date);
+            return true;
         }
 
     }
 
     public static String dateToString(Date date){
-        SimpleDateFormat format = new SimpleDateFormat("yyyy年M月d日 HH:mm");
-        return  format.format(date);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy年M月d日 HH:mm", Locale.US);
+        return format.format(date);
     }
 
     public static String dateToStringNoYear(Date date){
-        SimpleDateFormat format = new SimpleDateFormat("M月d日 HH:mm");
+        SimpleDateFormat format = new SimpleDateFormat("M月d日 HH:mm", Locale.US);
         return format.format(date);
     }
 

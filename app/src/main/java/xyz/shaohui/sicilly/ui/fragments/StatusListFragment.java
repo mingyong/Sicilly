@@ -119,9 +119,6 @@ public class StatusListFragment extends Fragment {
         initRecycler();
         initSwipeRefresh();
 
-
-        fetchData(true);
-
         return v;
     }
 
@@ -164,6 +161,7 @@ public class StatusListFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         fetchCache();
+        fetchData(true);
     }
 
     /**

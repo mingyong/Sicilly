@@ -52,7 +52,7 @@
     <string name="search_tab_title_status">消息</string>
     <string name="search_tab_title_user">用户</string>
 
-<!-- TODO: Remove or change this placeholder text -->
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_splash">SplashActivity</string>
