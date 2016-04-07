@@ -2,6 +2,7 @@ package xyz.shaohui.sicilly.ui.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,8 @@ import com.daimajia.numberprogressbar.NumberProgressBar;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.utils.MyToast;
+import xyz.shaohui.sicilly.utils.NiceUtil;
 
 public class WebViewActivity extends AppCompatActivity {
 
@@ -99,21 +102,25 @@ public class WebViewActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_web_view, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch(item.getItemId()) {
+            case R.id.open_in_browser:
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(webView.getUrl()));
+                if (intent.resolveActivity(getPackageManager()) !=null) {
+                    startActivity(intent);
+                } else {
+                    MyToast.showToast(this, "你手机上竟然一个浏览器都么有装!");
+                }
+                return true;
+            case R.id.copy_url:
+                NiceUtil.copyText(webView.getUrl());
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

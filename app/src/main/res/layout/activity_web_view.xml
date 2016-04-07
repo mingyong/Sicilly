@@ -21,8 +21,8 @@
         android:layout_height="3dp"
         app:progress_reached_color="@color/main_300"
         app:progress_unreached_color="@color/white"
-        app:progress_unreached_bar_height="2dp"
-        app:progress_reached_bar_height="2dp"
+        app:progress_unreached_bar_height="3dp"
+        app:progress_reached_bar_height="3dp"
         app:progress_text_visibility="invisible"/>
     <WebView
         android:id="@+id/web_view"
