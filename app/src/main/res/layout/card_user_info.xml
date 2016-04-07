@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:maxLines="1"
                 android:padding="@dimen/spacing_normal"
-                android:text="dfafwefwefwefwe,dfafwefwefwefwe,dfafwefwefwefwe,dfafwefwefwefwe,dfafwefwefwefwe"
+                android:text="dfafwefwefwefwe,dfafwefwefwefwe,dfafwefwefwefwe,dfafwef"
                 android:textColor="@color/dark_black"
                 android:textSize="15sp"/>
         </TableRow>
@@ -58,11 +58,11 @@
             android:gravity="center_vertical">
             <TextView
                 android:padding="@dimen/spacing_normal"
-                android:text="@string/user_info_location"
+                android:text="@string/user_info_fan_age"
                 android:textColor="@color/gray"
                 android:textSize="15sp" />
             <TextView
-                android:id="@+id/user_info_location"
+                android:id="@+id/user_info_fan_age"
                 android:padding="@dimen/spacing_normal"
                 android:text="dfafwefwefwefwe"
                 android:textColor="@color/dark_black"

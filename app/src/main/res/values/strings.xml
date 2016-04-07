@@ -38,7 +38,7 @@
 
     <string name="create_status">写消息</string>
 
-    <string name="user_info_location">地址</string>
+    <string name="user_info_fan_age">饭龄</string>
     <string name="user_info_birthday">生日</string>
     <string name="user_info_description">自述</string>
     <string name="user_info_site">网站</string>

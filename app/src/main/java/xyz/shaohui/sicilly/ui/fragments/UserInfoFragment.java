@@ -22,7 +22,7 @@ public class UserInfoFragment extends Fragment {
 
     @Bind(R.id.user_info_birthday)TextView birthday;
     @Bind(R.id.user_info_description)TextView description;
-    @Bind(R.id.user_info_location)TextView location;
+    @Bind(R.id.user_info_fan_age)TextView fanAge;
     @Bind(R.id.user_info_site)TextView site;
     @Bind(R.id.user_info_modify)TextView modify;
 
@@ -64,7 +64,7 @@ public class UserInfoFragment extends Fragment {
         if (!getArguments().getBoolean("flag", false)) {
             modify.setVisibility(View.GONE);
         }
-        location.setText(data.get(0).toString());
+        fanAge.setText(data.get(0).toString());
         birthday.setText(data.get(1).toString());
         description.setText(data.get(2).toString());
         site.setText(data.get(3).toString());
