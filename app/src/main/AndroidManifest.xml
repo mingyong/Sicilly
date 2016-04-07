@@ -43,7 +43,7 @@
         </activity>
         <activity
             android:name=".ui.activities.StatusDetailActivity"
-            android:label="@string/title_activity_status_detail" >
+            android:label="@string/title_activity_status_detail">
         </activity>
         <activity
             android:name=".ui.activities.PhotoActivity"
