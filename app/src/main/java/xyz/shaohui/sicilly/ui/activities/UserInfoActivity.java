@@ -12,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -47,6 +48,7 @@ public class UserInfoActivity extends AppCompatActivity {
     @Bind(R.id.tab_bar)TabLayout tabBar;
 
     @Bind(R.id.user_name)TextView userName;
+    @Bind(R.id.user_gender)ImageView userGender;
     @Bind(R.id.user_brief)TextView userBrief;
     @Bind(R.id.user_img)ImageView userImg;
     @Bind(R.id.user_followed)TextView userFollowed;
@@ -156,6 +158,13 @@ public class UserInfoActivity extends AppCompatActivity {
                 .into(bgImage);
         int followText = user.isFollowing()? R.drawable.ic_followed_white : R.drawable.ic_follow_white;
         follow.setImageResource(followText);
+
+        // 设置性别信息
+        if (user.getGender().equals("男")) {
+            userGender.setImageResource(R.drawable.ic_gender_male);
+        } else if (user.getGender().equals("女")) {
+            userGender.setImageResource(R.drawable.ic_gender_female);
+        }
 
         userStatus.setText(user.getStatusesCount() + "");
         userFollower.setText(user.getFollowersCount() + "");
