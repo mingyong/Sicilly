@@ -10,6 +10,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,9 +45,11 @@ import xyz.shaohui.sicilly.utils.imageUtils.ImageUtils;
 public class PhotoActivity extends AppCompatActivity {
 
     @Bind(R.id.main_img)ImageView mainImg;
+    @Bind(R.id.status_text)TextView textView;
 
     private String url;
     private String originUrl;
+    private String text;
     private PhotoViewAttacher mAttacher;
 
     public static Intent newIntent(Context context, String url) {
@@ -55,10 +58,10 @@ public class PhotoActivity extends AppCompatActivity {
         return intent;
     }
 
-    public static Intent newIntent(Context context, String url, String statusId) {
+    public static Intent newIntent(Context context, String url, String text) {
         Intent intent = new Intent(context, PhotoActivity.class);
         intent.putExtra("url", url);
-        intent.putExtra("status_id", statusId);
+        intent.putExtra("text", text);
         return intent;
     }
 
@@ -70,6 +73,7 @@ public class PhotoActivity extends AppCompatActivity {
 
         url = getIntent().getStringExtra("url");
         originUrl = getIntent().getStringExtra("status_url");
+        text = getIntent().getStringExtra("text");
     }
 
     @Override
@@ -81,6 +85,7 @@ public class PhotoActivity extends AppCompatActivity {
         } else {
             showImg();
         }
+        displayText();
     }
 
     private void showImg() {
@@ -116,6 +121,14 @@ public class PhotoActivity extends AppCompatActivity {
                 .asGif()
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(mainImg);
+    }
+
+    private void displayText() {
+        if (TextUtils.isEmpty(text)) {
+            textView.setVisibility(View.GONE);
+        } else {
+            textView.setText(text);
+        }
     }
 
     @OnClick(R.id.main)

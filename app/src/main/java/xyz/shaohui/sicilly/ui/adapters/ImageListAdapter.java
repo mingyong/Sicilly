@@ -54,7 +54,7 @@ public class ImageListAdapter extends RecyclerView.Adapter<ImageListAdapter.MyVi
             @Override
             public void onClick(View v) {
                 context.startActivity(PhotoActivity.newIntent(context,
-                        status.getImageLargeUrl(), status.getId()));
+                        status.getImageLargeUrl(), status.getText()));
             }
         });
     }
