@@ -82,7 +82,8 @@ public class StatusListAdapter extends RecyclerView.Adapter {
         viewHolder.time.setText(TimeFormat.format(status.getCreatedAt()));
         viewHolder.source.setText(context.getString(R.string.status_from) + HtmlParse.cleanAllTag(status.getSource()));
 
-        if (status.getUser().isFollowing()) {
+        if (status.getUser().isFollowing()
+                || status.getUserId().equals(SicillyFactory.getCurrentUser().getId())) {
             viewHolder.follow.setVisibility(View.INVISIBLE);
             viewHolder.more.setVisibility(View.VISIBLE);
         } else {

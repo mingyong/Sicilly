@@ -107,7 +107,8 @@ public class IndexActivity extends AppCompatActivity{
                 startActivity(new Intent(this, SearchActivity.class));
                 return true;
             case R.id.user_info:
-                startActivity(UserInfoActivity.newIntent(this, SicillyFactory.getCurrentUser().getId()));
+                startActivity(UserInfoActivity.newIntent(this,
+                        SicillyFactory.getCurrentUser().getId()));
         }
 
         return super.onOptionsItemSelected(item);
