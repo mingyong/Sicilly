@@ -62,8 +62,9 @@ public interface StatusAPI {
     @POST("statuses/update.json")
     Observable<JsonObject> repostStatus(@Part("status")RequestBody body);
 
+    @Multipart
     @POST("statuses/destroy.json")
-    Observable<JsonObject> destroyStatus(@Query("id")String id);
+    Observable<JsonObject> destroyStatus(@Part("id")RequestBody id);
 
 
 }

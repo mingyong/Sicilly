@@ -165,28 +165,40 @@ public class StatusListAdapter extends RecyclerView.Adapter {
 
     }
 
-    private void showDialogMore(final Context context, Status status) {
+    private void showDialogMore(final Context context, final Status status) {
         AlertDialog.Builder  builder = new AlertDialog.Builder(context);
-        builder.setItems(new String[]{"关闭", "删除", "分享", "共享"}, new DialogInterface.OnClickListener() {
+        String[] list = new String[]{"分享"};
+        if (status.getUserId().equals(SicillyFactory.getCurrentUser().getId())) {
+            list = new String[] {"分享", "删除"};
+        }
+        builder.setItems(list, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 switch (which) {
                     case 0:
-                        MyToast.showToast(context, "关闭");
+                        MyToast.showToast(context, "开发中, 请稍候");
                         break;
                     case 1:
-                        MyToast.showToast(context, "删除");
-                        break;
-                    case 2:
-                        MyToast.showToast(context, "分享");
-                        break;
-                    case 3:
-                        MyToast.showToast(context, "共享");
+                        deleteStatus(context, status.getId());
                         break;
                 }
             }
         });
         builder.create().show();
+    }
+
+    private void deleteStatus(final Context context, String statusId) {
+        UserService.deleteStatus(statusId, new UserService.CallBack() {
+            @Override
+            public void success() {
+                MyToast.showToast(context, "已删除");
+            }
+
+            @Override
+            public void failure() {
+                MyToast.showToast(context, "删除失败, 请重试");
+            }
+        });
     }
 
     private void createFavorite(final Status status,final Context context, final ImageView imageView) {

@@ -256,6 +256,30 @@ public class UserService {
                 });
     }
 
+    public static void deleteStatus(String statusId, final UserService.CallBack callBack) {
+        RetrofitService service = SicillyFactory.getRetrofitService();
+        service.getStatusService().destroyStatus(toRequestBody(statusId))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<JsonObject>() {
+                    @Override
+                    public void onCompleted() {
+                        callBack.success();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        callBack.failure();
+                    }
+
+                    @Override
+                    public void onNext(JsonObject jsonObject) {
+
+                    }
+                });
+    }
+
     public static RequestBody toRequestBody(String str) {
         RequestBody body = RequestBody.create(MediaType.parse("text/plain"), str);
         return body;
