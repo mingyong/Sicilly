@@ -150,7 +150,7 @@ public class CreateStatusActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppTheme_AlertDialog);
         builder.setTitle("保存草稿")
                 .setMessage("是否保存草稿?")
-                .setNegativeButton("删除", new DialogInterface.OnClickListener() {
+                .setNegativeButton("不保存", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         finish();
@@ -366,7 +366,7 @@ public class CreateStatusActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && !TextUtils.isEmpty(mainEdit.getText().toString())) {
             showNoticeDialog();
         }
         return super.onKeyDown(keyCode, event);

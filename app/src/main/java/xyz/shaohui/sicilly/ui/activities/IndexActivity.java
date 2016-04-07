@@ -14,6 +14,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.SicillyFactory;
 import xyz.shaohui.sicilly.data.services.notification.CreateStatusNotification;
 import xyz.shaohui.sicilly.data.services.user.UserService;
 import xyz.shaohui.sicilly.ui.adapters.IndexPagerAdapter;
@@ -99,12 +100,14 @@ public class IndexActivity extends AppCompatActivity{
                 startActivity(SettingActivity.newIntent(this));
                 return true;
             case R.id.message:
-                MyToast.iconFailure(this, "关注成功");
                 CreateStatusNotification.show(this);
                 startActivity(new Intent(this, MessageActivity.class));
                 return true;
             case R.id.search:
                 startActivity(new Intent(this, SearchActivity.class));
+                return true;
+            case R.id.user_info:
+                startActivity(UserInfoActivity.newIntent(this, SicillyFactory.getCurrentUser().getId()));
         }
 
         return super.onOptionsItemSelected(item);

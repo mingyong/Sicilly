@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/background"
     tools:context="xyz.shaohui.sicilly.ui.activities.LoginActivity">
 
     <TextView
@@ -11,16 +11,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"/>
+        android:layout_marginTop="30dp"
+        android:textColor="@color/gray_light"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:paddingRight="32dp"
-        android:paddingLeft="32dp"
-        android:orientation="vertical"
-        android:background="@color/white">
+        android:layout_marginRight="32dp"
+        android:layout_marginLeft="32dp"
+        android:orientation="vertical">
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -35,6 +35,7 @@
                     android:paddingLeft="@dimen/spacing_normal"
                     android:paddingRight="10dp"
                     android:textSize="14sp"
+                    android:textColor="@color/basic_black"
                     android:hint="饭否账号"
                     android:layout_height="60dp" />
                 <View
@@ -49,6 +50,7 @@
                     android:paddingRight="10dp"
                     android:inputType="textPassword"
                     android:textSize="14sp"
+                    android:textColor="@color/basic_black"
                     android:hint="饭否密码"
                     android:layout_height="60dp" />
             </LinearLayout>

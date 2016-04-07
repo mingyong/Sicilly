@@ -30,6 +30,8 @@ public class SicillyFactory {
     public static final String PREFIX_FAN_TREND = "/q/";
     public static final String PREFIX_FAN_WEB = "http://";
 
+    public static final String UMENG_KEY = "5704d7bfe0f55ae576000573";
+
     public static void setToken(OAuthToken token) {
         SicillyFactory.token = token;
     }
