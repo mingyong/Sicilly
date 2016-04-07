@@ -146,6 +146,7 @@ public class StatusListFragment extends Fragment {
     }
 
     private void initSwipeRefresh() {
+        swipeRefreshLayout.setNestedScrollingEnabled(true);
         swipeRefreshLayout.setColorSchemeResources(R.color.main);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
