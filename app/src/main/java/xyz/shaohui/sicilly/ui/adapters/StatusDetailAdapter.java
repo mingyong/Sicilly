@@ -93,7 +93,8 @@ public class StatusDetailAdapter extends RecyclerView.Adapter<StatusDetailAdapte
         holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(PhotoActivity.newIntent(context, status.getImageLargeUrl()));
+                context.startActivity(PhotoActivity
+                        .newIntent(context, status.getImageUrl(), status.getImageLargeUrl()));
             }
         });
     }

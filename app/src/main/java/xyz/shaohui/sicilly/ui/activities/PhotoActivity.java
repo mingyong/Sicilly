@@ -58,9 +58,17 @@ public class PhotoActivity extends AppCompatActivity {
         return intent;
     }
 
-    public static Intent newIntent(Context context, String url, String text) {
+    public static Intent newIntent(Context context, String originUrl, String targetUrl) {
         Intent intent = new Intent(context, PhotoActivity.class);
-        intent.putExtra("url", url);
+        intent.putExtra("original_url", originUrl);
+        intent.putExtra("url", targetUrl);
+        return intent;
+    }
+
+    public static Intent newIntent(Context context,String originalUrl, String targetUrl, String text) {
+        Intent intent = new Intent(context, PhotoActivity.class);
+        intent.putExtra("original_url", originalUrl);
+        intent.putExtra("url", targetUrl);
         intent.putExtra("text", text);
         return intent;
     }
@@ -72,7 +80,7 @@ public class PhotoActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         url = getIntent().getStringExtra("url");
-        originUrl = getIntent().getStringExtra("status_url");
+        originUrl = getIntent().getStringExtra("original_url");
         text = getIntent().getStringExtra("text");
     }
 
@@ -80,12 +88,21 @@ public class PhotoActivity extends AppCompatActivity {
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
+        // 先预先加载小图
+        showOriginalImg();
+
         if (url.endsWith(".gif")) {
             showGif();
         } else {
             showImg();
         }
         displayText();
+    }
+
+    private void showOriginalImg() {
+        Picasso.with(this)
+                .load(originUrl)
+                .into(mainImg);
     }
 
     private void showImg() {

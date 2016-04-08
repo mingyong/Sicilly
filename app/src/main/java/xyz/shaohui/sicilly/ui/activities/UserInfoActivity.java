@@ -203,6 +203,12 @@ public class UserInfoActivity extends AppCompatActivity {
         expandBrief();
     }
 
+    @OnClick(R.id.user_img)
+    void showAvatar() {
+        startActivity(PhotoActivity.newIntent(this,
+                user.getProfileImageUrl(), user.getProfileImageLargeUrl()));
+    }
+
     private void expandBrief() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppTheme_MessageDialog);
         TextView textView = new TextView(this);
