@@ -7,13 +7,7 @@
         android:title="@string/message"
         android:orderInCategory="80"
         android:icon="@drawable/ic_message"
-        app:showAsAction="ifRoom"/>
-    <item
-        android:id="@+id/search"
-        android:title="@string/search"
-        android:orderInCategory="80"
-        android:icon="@drawable/ic_search"
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="always"/>
     <item
         android:id="@+id/user_info"
         android:title="@string/user_index"
@@ -21,8 +15,14 @@
         android:icon="@drawable/ic_user"
         app:showAsAction="always"/>
     <item
+        android:id="@+id/search"
+        android:title="@string/search"
+        android:orderInCategory="80"
+        android:icon="@drawable/ic_search"
+        app:showAsAction="always"/>
+    <item
         android:id="@+id/logout"
-        android:title="@string/user_info_fan_age"
+        android:title="@string/logout"
         android:orderInCategory="80"
         app:showAsAction="never"/>
     <item
