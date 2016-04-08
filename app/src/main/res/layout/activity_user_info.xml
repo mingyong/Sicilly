@@ -130,6 +130,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="8dp">
                         <LinearLayout
+                            android:id="@+id/friend_view"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -150,6 +151,7 @@
                                 android:textSize="@dimen/font_smaller"/>
                         </LinearLayout>
                         <LinearLayout
+                            android:id="@+id/follower_view"
                             android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"

@@ -209,6 +209,18 @@ public class UserInfoActivity extends AppCompatActivity {
                 user.getProfileImageUrl(), user.getProfileImageLargeUrl()));
     }
 
+    @OnClick(R.id.follower_view)
+    void showFollower() {
+        startActivity(LightUserActivity.newIntent(this,
+                user.getId(), LightUserActivity.CODE_FOLLOWER));
+    }
+
+    @OnClick(R.id.friend_view)
+    void showFriend() {
+        startActivity(LightUserActivity.newIntent(this,
+                user.getId(), LightUserActivity.CODE_FRIEND));
+    }
+
     private void expandBrief() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppTheme_MessageDialog);
         TextView textView = new TextView(this);

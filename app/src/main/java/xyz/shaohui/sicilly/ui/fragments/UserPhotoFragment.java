@@ -136,8 +136,8 @@ public class UserPhotoFragment extends Fragment {
                         new int[2])[1] >= mAdapter.getItemCount() - PRELOAD_SIZE;
                 if (isBottom && canLoad) {
                     canLoad = false;
-                    fetchInfo();
                     mPage = mPage + 1;
+                    fetchInfo();
                 }
             }
         };

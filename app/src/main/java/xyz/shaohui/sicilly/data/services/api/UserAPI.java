@@ -45,4 +45,10 @@ public interface UserAPI {
     @Multipart
     @POST("")
     Observable<JsonObject> createStatus(@PartMap Map<String, RequestBody> map);
+
+    @GET("users/followers.json?format=html&count=40")
+    Observable<JsonArray> showFollowers(@Query("id")String id, @Query("page")int page);
+
+    @GET("users/friends.json?format=html&count=40")
+    Observable<JsonArray> showFriends(@Query("id")String id, @Query("page")int page);
 }
