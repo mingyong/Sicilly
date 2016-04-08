@@ -104,10 +104,10 @@ public class LightUserActivity extends AppCompatActivity {
 
         switch(code) {
             case CODE_FOLLOWER:
-                toolbar.setTitle("关注者");
+                getSupportActionBar().setTitle("关注者");
                 break;
             case CODE_FRIEND:
-                toolbar.setTitle("好友");
+                getSupportActionBar().setTitle("好友");
                 break;
         }
     }
