@@ -109,6 +109,15 @@ public class IndexActivity extends AppCompatActivity{
             case R.id.user_info:
                 startActivity(UserInfoActivity.newIntent(this,
                         SicillyFactory.getCurrentUser().getId()));
+                return true;
+            case R.id.feedback:
+                MyToast.showToast(this, "feedback");
+                return true;
+            case R.id.logout:
+                UserService.logout(this);
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);

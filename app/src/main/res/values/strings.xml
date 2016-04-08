@@ -15,6 +15,8 @@
     <string name="user_index">个人主页</string>
     <string name="message">私信</string>
     <string name="search">搜索</string>
+    <string name="feedback">反馈</string>
+    <string name="logout">切换用户</string>
 
     <string name="user_name">邵辉Vista</string>
     <string name="user_id">ideaPlus</string>

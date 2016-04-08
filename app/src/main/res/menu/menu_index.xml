@@ -20,6 +20,16 @@
         android:orderInCategory="80"
         android:icon="@drawable/ic_user"
         app:showAsAction="always"/>
+    <item
+        android:id="@+id/logout"
+        android:title="@string/user_info_fan_age"
+        android:orderInCategory="80"
+        app:showAsAction="never"/>
+    <item
+        android:id="@+id/feedback"
+        android:title="@string/feedback"
+        android:orderInCategory="80"
+        app:showAsAction="never"/>
     <item android:id="@+id/action_settings"
         android:title="@string/action_settings"
         android:orderInCategory="100"

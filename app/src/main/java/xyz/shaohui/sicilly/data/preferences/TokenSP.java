@@ -18,6 +18,13 @@ public class TokenSP {
                 .apply();
     }
 
+    public static void clearToken(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        sp.edit().putString("token", "")
+                .putString("token_secret", "")
+                .apply();
+    }
+
     public static OAuthToken accessToken(Context context) {
         OAuthToken token = new OAuthToken();
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);

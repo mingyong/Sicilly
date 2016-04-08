@@ -1,5 +1,6 @@
 package xyz.shaohui.sicilly.data.services.user;
 
+import android.content.Context;
 import android.net.Uri;
 
 import com.google.gson.JsonObject;
@@ -16,6 +17,7 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import xyz.shaohui.sicilly.SicillyFactory;
+import xyz.shaohui.sicilly.data.preferences.TokenSP;
 import xyz.shaohui.sicilly.data.services.RetrofitService;
 import xyz.shaohui.sicilly.utils.MyToast;
 
@@ -283,6 +285,10 @@ public class UserService {
     public static RequestBody toRequestBody(String str) {
         RequestBody body = RequestBody.create(MediaType.parse("text/plain"), str);
         return body;
+    }
+
+    public static void logout(Context context) {
+        TokenSP.clearToken(context);
     }
 
     public interface CallBack {
