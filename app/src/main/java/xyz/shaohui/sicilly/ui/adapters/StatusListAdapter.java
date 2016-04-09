@@ -170,7 +170,7 @@ public class StatusListAdapter extends RecyclerView.Adapter {
         AlertDialog.Builder  builder = new AlertDialog.Builder(context);
         String[] list = new String[]{"分享"};
         if (status.getUserId().equals(SicillyFactory.getCurrentUser().getId())) {
-            list = new String[] {"分享", "删除"};
+            list = new String[] {"分享", "取消关注", "删除"};
         }
         builder.setItems(list, new DialogInterface.OnClickListener() {
             @Override
@@ -180,6 +180,19 @@ public class StatusListAdapter extends RecyclerView.Adapter {
                         MyToast.showToast(context, "开发中, 请稍候");
                         break;
                     case 1:
+                        UserService.destroyFollow(status.getUserId(), new UserService.CallBack() {
+                            @Override
+                            public void success() {
+                                MyToast.showToast(context, "已取消");
+                            }
+
+                            @Override
+                            public void failure() {
+                                MyToast.showToast(context, "取消关注失败,请重试");
+                            }
+                        });
+                        break;
+                    case 2:
                         deleteStatus(context, status.getId());
                         break;
                 }
