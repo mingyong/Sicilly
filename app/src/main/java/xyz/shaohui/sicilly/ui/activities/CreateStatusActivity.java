@@ -63,7 +63,6 @@ public class CreateStatusActivity extends AppCompatActivity {
 
     public static final int CODE_REQUEST_PICK = 1;
     public static final int CODE_REQUEST_TAKE = 2;
-    public static final int CODE_RESULT_SUCCESS = 3;
 
     public static Intent newIntent(Context context,int type, String repostId, String repostText) {
         Intent intent = new Intent(context, CreateStatusActivity.class);
@@ -214,7 +213,7 @@ public class CreateStatusActivity extends AppCompatActivity {
                 MyToast.showToast(getApplicationContext(), "发送失败, 请重试");
             }
         };
-        if (TextUtils.isEmpty(mCurrentPhotoPath)) {
+        if (image.getTag() == null) {
             UserService.createStatus(mainEdit.getText().toString(), callBack);
         } else {
             MyToast.showToast(this, "fa");
@@ -354,13 +353,16 @@ public class CreateStatusActivity extends AppCompatActivity {
         }
 
         if (requestCode == CODE_REQUEST_PICK && resultCode == RESULT_OK) {
-            mCurrentPhotoPath = getPath(data.getData());
-            MyToast.showToast(this, mCurrentPhotoPath);
-            Picasso.with(this)
-                    .load(mCurrentPhotoPath)
-                    .resize(500, 500)
-                    .centerCrop()
-                    .into(image);
+            if (data == null || data.getData() == null) {
+                MyToast.showToast(this, "图片格式不对, 请重新选择");
+                return;
+            }
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
+                image.setImageBitmap(bitmap);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

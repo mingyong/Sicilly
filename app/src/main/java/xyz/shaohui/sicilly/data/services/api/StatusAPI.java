@@ -46,7 +46,9 @@ public interface StatusAPI {
 
     @Multipart
     @POST("photos/upload.json")
-    Observable<JsonObject> createStatusWithPhoto(@Part("photo")RequestBody photo, @Part("status")RequestBody status);
+    Observable<JsonObject> createStatusWithPhoto(
+            @Part("photo\"; filename=\"image.jpg\" ")RequestBody photo,
+            @Part("status")RequestBody status);
 
     @Multipart
     @POST("statuses/update.json")

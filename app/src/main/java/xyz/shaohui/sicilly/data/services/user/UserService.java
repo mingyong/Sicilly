@@ -1,6 +1,7 @@
 package xyz.shaohui.sicilly.data.services.user;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 
 import com.google.gson.JsonObject;
@@ -134,6 +135,14 @@ public class UserService {
 
                     }
                 });
+
+    }
+
+    public static void createStatusBitmap(Bitmap bitmap, String text, UserService.CallBack callBack) {
+
+        RetrofitService service = SicillyFactory.getRetrofitService();
+
+//        RequestBody photo = RequestBody.create(MediaType.parse("image/*"), new File(bitmap));
 
     }
 

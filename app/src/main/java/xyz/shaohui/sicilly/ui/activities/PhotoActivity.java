@@ -162,5 +162,6 @@ public class PhotoActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         ButterKnife.unbind(this);
+        mAttacher.cleanup();
     }
 }
