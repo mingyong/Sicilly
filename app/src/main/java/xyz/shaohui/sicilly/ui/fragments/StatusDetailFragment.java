@@ -129,7 +129,7 @@ public class StatusDetailFragment extends Fragment {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        MyToast.showToast(getContext(), "显示上下文失败");
+                        MyToast.showToast(getActivity(), "显示上下文失败");
                     }
 
                     @Override
