@@ -1,6 +1,5 @@
 package xyz.shaohui.sicilly.ui.activities;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,13 +7,13 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -39,10 +38,16 @@ import java.util.Date;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import rx.Observable;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.data.preferences.DraftSP;
 import xyz.shaohui.sicilly.data.services.user.UserService;
 import xyz.shaohui.sicilly.utils.MyToast;
+import xyz.shaohui.sicilly.utils.imageUtils.ImageUtils;
 
 public class CreateStatusActivity extends AppCompatActivity {
 
@@ -213,10 +218,9 @@ public class CreateStatusActivity extends AppCompatActivity {
                 MyToast.showToast(getApplicationContext(), "发送失败, 请重试");
             }
         };
-        if (image.getTag() == null) {
+        if (TextUtils.isEmpty(mCurrentPhotoPath)) {
             UserService.createStatus(mainEdit.getText().toString(), callBack);
         } else {
-            MyToast.showToast(this, "fa");
             UserService.createStatusImg(Uri.parse(mCurrentPhotoPath), mainEdit.getText().toString(), callBack);
         }
 
@@ -277,19 +281,17 @@ public class CreateStatusActivity extends AppCompatActivity {
                 ".jpg",
                 storgeDir
         );
-        mCurrentPhotoPath = "file:" + image.getAbsolutePath();
+        mCurrentPhotoPath = image.getAbsolutePath();
         return image;
     }
 
     // 通知gallery更新图库
     private void galleryAddPic() {
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        File f = new File(mCurrentPhotoPath);
-        Uri contentUri = Uri.fromFile(f);
-        mediaScanIntent.setData(contentUri);
-        this.sendBroadcast(mediaScanIntent);
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse(mCurrentPhotoPath));
+        this.sendBroadcast(intent);
     }
 
+    // The path of Pick photo
     private String getPath(Uri uri) {
         if (uri == null) {
             return null;
@@ -298,7 +300,7 @@ public class CreateStatusActivity extends AppCompatActivity {
         String[] projection = { MediaStore.Images.Media.DATA };
 
         Cursor cursor;
-        if (Build.VERSION.SDK_INT > 19) {
+        if (Build.VERSION.SDK_INT > 19 && uri.toString().split("\\.").length > 2) {
 
             String wholeID = DocumentsContract.getDocumentId(uri);
 
@@ -319,37 +321,16 @@ public class CreateStatusActivity extends AppCompatActivity {
             path = cursor.getString(column_index);
             cursor.close();
         } catch (NullPointerException e){
-
+            e.printStackTrace();
         }
         return path;
-    }
-
-    private String getRealPath(Uri uri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = getContentResolver().query(uri,  proj, null, null, null);
-            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CODE_REQUEST_TAKE && resultCode == RESULT_OK) {
-//            Bundle extras = data.getExtras();
-//            Bitmap imageBitmap = (Bitmap) extras.get("data");
-//            image.setImageBitmap(imageBitmap);
-            Log.i("TAG_imageUri", mCurrentPhotoPath);
-            Picasso.with(this)
-                    .load(mCurrentPhotoPath)
-                    .resize(500,500)
-                    .into(image);
+            galleryAddPic();
+            displayImg();
         }
 
         if (requestCode == CODE_REQUEST_PICK && resultCode == RESULT_OK) {
@@ -357,13 +338,32 @@ public class CreateStatusActivity extends AppCompatActivity {
                 MyToast.showToast(this, "图片格式不对, 请重新选择");
                 return;
             }
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
-                image.setImageBitmap(bitmap);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+
+            mCurrentPhotoPath = getPath(data.getData());
+            displayImg();
         }
+    }
+
+    private void displayImg() {
+        if (TextUtils.isEmpty(mCurrentPhotoPath)) {
+           return;
+        }
+
+        Observable.create(new Observable.OnSubscribe<Bitmap>() {
+            @Override
+            public void call(Subscriber<? super Bitmap> subscriber) {
+                subscriber.onNext(ImageUtils.compSize(mCurrentPhotoPath));
+                subscriber.onCompleted();
+            }
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Bitmap>() {
+                    @Override
+                    public void call(Bitmap bitmap) {
+                        image.setImageBitmap(bitmap);
+                    }
+                });
     }
 
     @Override

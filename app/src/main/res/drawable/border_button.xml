@@ -4,5 +4,5 @@
     <solid android:color="@color/tran_black_30"/>
     <stroke
         android:color="@color/tran_white_30"
-        android:width="1px"/>
+        android:width="3px"/>
 </shape>

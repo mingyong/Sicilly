@@ -3,12 +3,16 @@ package xyz.shaohui.sicilly.utils.imageUtils;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Log;
 
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -89,6 +93,67 @@ public class ImageUtils {
                         throwable.printStackTrace();
                     }
                 });
+    }
+
+    public static Bitmap comp(Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+
+        double fold = baos.toByteArray().length / 1024 / 1024;
+
+        if (fold < 1 ) {
+            return bitmap;
+        }
+
+        baos.reset();
+        Log.i("TAG_fold", fold + "" );
+        bitmap.compress(Bitmap.CompressFormat.JPEG, (int) (100/fold), baos);
+
+        BitmapFactory.Options newOpts = new BitmapFactory.Options();
+
+        newOpts.inJustDecodeBounds = false;
+        newOpts.inPreferredConfig = Bitmap.Config.RGB_565;
+
+        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());
+        Bitmap newBitmap = BitmapFactory.decodeStream(isBm, null, newOpts);
+        return newBitmap;
+    }
+
+    public static Bitmap compSize(String path) {
+        final int SIZE = 512;
+        BitmapFactory.Options newOpts = new BitmapFactory.Options();
+        newOpts.inJustDecodeBounds = true;
+
+        Bitmap bitmap = BitmapFactory.decodeFile(path, newOpts);
+        newOpts.inJustDecodeBounds = false;
+
+        // 将高度 宽度限制在一定范围之内
+        int w = newOpts.outWidth;
+        int h = newOpts.outHeight;
+
+        if ( w < SIZE && h < SIZE) {
+            return BitmapFactory.decodeFile(path, newOpts);
+        }
+
+        if (w > h) {
+            int fold = w / SIZE;
+
+            newOpts.outHeight = h / fold;
+            newOpts.outWidth = SIZE;
+        } else {
+            int fold = h / SIZE;
+
+            newOpts.outHeight = SIZE;
+            newOpts.outWidth = w / fold;
+        }
+
+        newOpts.inJustDecodeBounds = false;
+        newOpts.inPreferredConfig = Bitmap.Config.RGB_565;
+
+        bitmap = BitmapFactory.decodeFile(path, newOpts);
+        Log.i("TAG_bitmap_size", bitmap.getByteCount() /1024/1024.0 + "");
+        return bitmap;
     }
 
 }
