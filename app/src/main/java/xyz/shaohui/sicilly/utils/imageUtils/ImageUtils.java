@@ -95,29 +95,17 @@ public class ImageUtils {
                 });
     }
 
-    public static Bitmap comp(Bitmap bitmap) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    public static byte[] comp(Uri uri) {
+        Bitmap bitmap = BitmapFactory.decodeFile(uri.getPath());
 
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
-
-        double fold = baos.toByteArray().length / 1024 / 1024;
-
-        if (fold < 1 ) {
-            return bitmap;
+        double size = bitmap.getByteCount() / 1024/1024.0;
+        double fold = 1;
+        if (size > 2) {
+            fold = size / 2;
         }
-
-        baos.reset();
-        Log.i("TAG_fold", fold + "" );
-        bitmap.compress(Bitmap.CompressFormat.JPEG, (int) (100/fold), baos);
-
-        BitmapFactory.Options newOpts = new BitmapFactory.Options();
-
-        newOpts.inJustDecodeBounds = false;
-        newOpts.inPreferredConfig = Bitmap.Config.RGB_565;
-
-        ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());
-        Bitmap newBitmap = BitmapFactory.decodeStream(isBm, null, newOpts);
-        return newBitmap;
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, (int) Math.floor(100/fold), outputStream);
+        return outputStream.toByteArray();
     }
 
     public static Bitmap compSize(String path) {
@@ -155,5 +143,9 @@ public class ImageUtils {
         Log.i("TAG_bitmap_size", bitmap.getByteCount() /1024/1024.0 + "");
         return bitmap;
     }
+
+
+
+
 
 }

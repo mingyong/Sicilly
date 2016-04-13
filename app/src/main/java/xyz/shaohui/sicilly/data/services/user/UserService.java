@@ -2,6 +2,8 @@ package xyz.shaohui.sicilly.data.services.user;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
 
 import com.google.gson.JsonObject;
@@ -21,6 +23,7 @@ import xyz.shaohui.sicilly.SicillyFactory;
 import xyz.shaohui.sicilly.data.preferences.TokenSP;
 import xyz.shaohui.sicilly.data.services.RetrofitService;
 import xyz.shaohui.sicilly.utils.MyToast;
+import xyz.shaohui.sicilly.utils.imageUtils.ImageUtils;
 
 /**
  * Created by kpt on 16/2/24.
@@ -113,7 +116,8 @@ public class UserService {
         RetrofitService service = SicillyFactory.getRetrofitService();
 
         File file = new File(imgUri.getPath());
-        RequestBody photo = RequestBody.create(MediaType.parse("image/*"), file);
+        Bitmap bitmap = BitmapFactory.decodeFile(imgUri.getPath());
+        RequestBody photo = RequestBody.create(MediaType.parse("image/*"), ImageUtils.comp(imgUri));
 
         service.getStatusService().createStatusWithPhoto(photo, toRequestBody(text))
                 .observeOn(AndroidSchedulers.mainThread())
