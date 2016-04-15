@@ -4,10 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.format.Formatter;
 import android.util.Log;
+import android.util.Size;
 
 import com.squareup.picasso.Picasso;
 
@@ -109,7 +112,7 @@ public class ImageUtils {
     }
 
     public static Bitmap compSize(String path) {
-        final int SIZE = 512;
+        final double SIZE = 512.0;
         BitmapFactory.Options newOpts = new BitmapFactory.Options();
         newOpts.inJustDecodeBounds = true;
 
@@ -124,25 +127,21 @@ public class ImageUtils {
             return BitmapFactory.decodeFile(path, newOpts);
         }
 
+        double fold = 1;
         if (w > h) {
-            int fold = w / SIZE;
-
-            newOpts.outHeight = h / fold;
-            newOpts.outWidth = SIZE;
+            fold = w / SIZE;
         } else {
-            int fold = h / SIZE;
-
-            newOpts.outHeight = SIZE;
-            newOpts.outWidth = w / fold;
+            fold = h / SIZE;
         }
 
-        newOpts.inJustDecodeBounds = false;
+        newOpts.inSampleSize = (int) Math.ceil(fold);
         newOpts.inPreferredConfig = Bitmap.Config.RGB_565;
 
         bitmap = BitmapFactory.decodeFile(path, newOpts);
         Log.i("TAG_bitmap_size", bitmap.getByteCount() /1024/1024.0 + "");
         return bitmap;
     }
+
 
 
 

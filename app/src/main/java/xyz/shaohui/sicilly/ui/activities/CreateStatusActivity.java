@@ -367,11 +367,12 @@ public class CreateStatusActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && !TextUtils.isEmpty(mainEdit.getText().toString())) {
+    public void onBackPressed() {
+        if (TextUtils.isEmpty(mainEdit.getText().toString())) {
             showNoticeDialog();
         }
-        return super.onKeyDown(keyCode, event);
+
+        super.onBackPressed();
     }
 
     @Override
