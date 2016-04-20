@@ -57,8 +57,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void initEditText() {
-        username.setText("shaohui10086@163.com");
-        password.setText("hui10086");
     }
 
     private void initProgressBar() {

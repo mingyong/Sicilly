@@ -1,5 +1,10 @@
 package xyz.shaohui.sicilly.data.services.auth;
 
+import android.content.Context;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
+
 import java.util.Stack;
 
 /**
@@ -61,6 +66,12 @@ public class Text {
                 stack.push(x);
             }
         }
+
+    }
+
+    public static void loadImg(Context context, String imgUrl, ImageView imageView) {
+
+        Picasso.with(context).load(imgUrl).into(imageView);
 
     }
 
