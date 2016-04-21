@@ -124,8 +124,8 @@
     <orderEntry type="library" exported="" name="support-vector-drawable-23.3.0" level="project" />
     <orderEntry type="library" exported="" name="animated-vector-drawable-23.3.0" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-23.3.0" level="project" />
-    <orderEntry type="library" exported="" name="adapter-rxjava-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="retrofit-2.0.1" level="project" />
+    <orderEntry type="library" exported="" name="adapter-rxjava-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="rxandroid-1.1.0" level="project" />
     <orderEntry type="library" exported="" name="converter-gson-2.0.1" level="project" />
     <orderEntry type="library" exported="" name="greendao-2.1.0" level="project" />

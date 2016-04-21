@@ -24,7 +24,7 @@ public class CreateStatusNotification {
                 .setWhen(System.currentTimeMillis())
                 .setDefaults(Notification.DEFAULT_VIBRATE);
 
-        mBuilder.setSmallIcon(R.mipmap.ic_comment);
+        mBuilder.setSmallIcon(R.drawable.ic_alert_error);
 
         Notification notification = mBuilder.build();
         notification.flags = Notification.FLAG_AUTO_CANCEL;

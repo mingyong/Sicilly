@@ -18,6 +18,7 @@
                 android:id="@+id/tool_bar"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/action_bar"
+                android:paddingLeft="20dp"
                 android:background="@color/main_300"
                 style="@style/AppTheme.ActionBar">
             </android.support.v7.widget.Toolbar>

@@ -44,8 +44,8 @@ public class IndexActivity extends AppCompatActivity{
 
     private void initToolbar() {
         setSupportActionBar(toolBar);
-        getSupportActionBar().setLogo(R.mipmap.ic_launcher);
-        getSupportActionBar().setTitle("尚饭");
+        getSupportActionBar().setLogo(R.mipmap.ic_launch);
+//        getSupportActionBar().setTitle("");
     }
 
     private void initViewPager() {
