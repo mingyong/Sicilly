@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="xyz.shaohui.sicilly" >
+    package="xyz.shaohui.sicilly">
 
     <uses-feature
         android:name="android.hardware.camera2"
@@ -8,29 +8,26 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
+        android:name=".SicillyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
-        android:name=".SicillyApplication"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".ui.activities.IndexActivity"
             android:label="@string/title_activity_index"
-            android:theme="@style/AppTheme.Index" >
-        </activity>
+            android:theme="@style/AppTheme.Index"></activity>
         <activity
             android:name=".ui.activities.LoginActivity"
-            android:label="@string/title_activity_login" >
-        </activity>
+            android:label="@string/title_activity_login"></activity>
         <activity
             android:name=".ui.activities.SplashActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -39,28 +36,23 @@
         </activity>
         <activity
             android:name=".ui.activities.UserInfoActivity"
-            android:label="@string/title_activity_user_info" >
-        </activity>
+            android:label="@string/title_activity_user_info"></activity>
         <activity
             android:name=".ui.activities.StatusDetailActivity"
-            android:label="@string/title_activity_status_detail">
-        </activity>
+            android:label="@string/title_activity_status_detail"></activity>
         <activity
             android:name=".ui.activities.PhotoActivity"
             android:label="@string/title_activity_photo"
-            android:theme="@style/AppTheme.PhotoActivity" >
-        </activity>
+            android:theme="@style/AppTheme.PhotoActivity"></activity>
         <activity
             android:name=".ui.activities.WebViewActivity"
-            android:label="@string/title_activity_web_view" >
-        </activity>
+            android:label="@string/title_activity_web_view"></activity>
         <activity
             android:name=".ui.activities.CreateStatusActivity"
-            android:label="@string/title_activity_create_status" >
-        </activity>
+            android:label="@string/title_activity_create_status"></activity>
         <activity
             android:name=".ui.activities.TransferActivity"
-            android:label="@string/title_activity_transfer" >
+            android:label="@string/title_activity_transfer">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -73,36 +65,31 @@
         </activity>
         <activity
             android:name=".ui.activities.EditInfoActivity"
-            android:label="@string/title_activity_edit_info" >
-        </activity>
+            android:label="@string/title_activity_edit_info"></activity>
         <activity
             android:name=".ui.activities.MessageActivity"
-            android:label="@string/title_activity_message" >
-        </activity>
+            android:label="@string/title_activity_message"></activity>
         <activity
             android:name=".ui.activities.ChatActivity"
-            android:label="@string/title_activity_chat" >
-        </activity>
+            android:label="@string/title_activity_chat"></activity>
         <activity
             android:name=".ui.activities.SearchActivity"
-            android:label="@string/title_activity_search" >
-        </activity>
+            android:label="@string/title_activity_search"></activity>
         <activity
             android:name=".ui.activities.SearchResultActivity"
-            android:label="@string/title_activity_search_result" >
-        </activity>
+            android:label="@string/title_activity_search_result"></activity>
         <activity
             android:name=".ui.activities.LightUserActivity"
-            android:label="@string/title_activity_light_user" >
-        </activity>
+            android:label="@string/title_activity_light_user"></activity>
         <activity
             android:name=".ui.activities.SettingActivity"
-            android:label="@string/title_activity_setting" >
-        </activity>
+            android:label="@string/title_activity_setting"></activity>
 
-        <meta-data android:value="5704d7bfe0f55ae576000573" android:name="UMENG_APPKEY">
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="5704d7bfe0f55ae576000573"></meta-data>
 
-        </meta-data>
+        <activity android:name=".ui.activities.TextActivity"></activity>
     </application>
 
 </manifest>

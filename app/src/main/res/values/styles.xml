@@ -7,7 +7,7 @@
     </style>
 
     <style name="AppTheme.Index" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimaryDark">@color/main</item>
+        <item name="colorPrimaryDark">@color/main_300</item>
         <item name="android:textColorPrimary">@color/white</item>
     </style>
 

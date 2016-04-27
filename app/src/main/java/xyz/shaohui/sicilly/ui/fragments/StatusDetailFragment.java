@@ -47,6 +47,8 @@ public class StatusDetailFragment extends Fragment {
 
     private RetrofitService service;
 
+    private StatusDetailInterface activity;
+
     public static StatusDetailFragment newInstance(String statusJson) {
         StatusDetailFragment fragment = new StatusDetailFragment();
         Bundle args = new Bundle();
@@ -66,6 +68,8 @@ public class StatusDetailFragment extends Fragment {
 
         dataList = new ArrayList<>();
         mAdapter = new StatusDetailAdapter(dataList);
+
+        activity = (StatusDetailInterface) getActivity();
     }
 
     @Override
@@ -124,12 +128,14 @@ public class StatusDetailFragment extends Fragment {
                     public void onCompleted() {
                         mAdapter.notifyDataSetChanged();
                         adjustRecycler();
+                        activity.update();
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
                         MyToast.showToast(getActivity(), "显示上下文失败");
+                        activity.update();
                     }
 
                     @Override
@@ -192,6 +198,8 @@ public class StatusDetailFragment extends Fragment {
                 CreateStatusActivity.TYPE_REPLY, status.getId(), status.getText());
     }
 
-
+    public interface StatusDetailInterface {
+        void update();
+    }
 
 }
