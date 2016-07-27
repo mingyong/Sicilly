@@ -18,78 +18,14 @@
         android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".ui.activities.IndexActivity"
-            android:label="@string/title_activity_index"
-            android:theme="@style/AppTheme.Index"></activity>
-        <activity
-            android:name=".ui.activities.LoginActivity"
-            android:label="@string/title_activity_login"></activity>
-        <activity
-            android:name=".ui.activities.SplashActivity"
-            android:label="@string/app_name">
+        <activity android:name=".views.activities.IndexActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.activities.UserInfoActivity"
-            android:label="@string/title_activity_user_info"></activity>
-        <activity
-            android:name=".ui.activities.StatusDetailActivity"
-            android:label="@string/title_activity_status_detail"></activity>
-        <activity
-            android:name=".ui.activities.PhotoActivity"
-            android:label="@string/title_activity_photo"
-            android:theme="@style/AppTheme.PhotoActivity"></activity>
-        <activity
-            android:name=".ui.activities.WebViewActivity"
-            android:label="@string/title_activity_web_view"></activity>
-        <activity
-            android:name=".ui.activities.CreateStatusActivity"
-            android:label="@string/title_activity_create_status"></activity>
-        <activity
-            android:name=".ui.activities.TransferActivity"
-            android:label="@string/title_activity_transfer">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:scheme="user" />
-                <data android:scheme="trend" />
-                <data android:scheme="web" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.activities.EditInfoActivity"
-            android:label="@string/title_activity_edit_info"></activity>
-        <activity
-            android:name=".ui.activities.MessageActivity"
-            android:label="@string/title_activity_message"></activity>
-        <activity
-            android:name=".ui.activities.ChatActivity"
-            android:label="@string/title_activity_chat"></activity>
-        <activity
-            android:name=".ui.activities.SearchActivity"
-            android:label="@string/title_activity_search"></activity>
-        <activity
-            android:name=".ui.activities.SearchResultActivity"
-            android:label="@string/title_activity_search_result"></activity>
-        <activity
-            android:name=".ui.activities.LightUserActivity"
-            android:label="@string/title_activity_light_user"></activity>
-        <activity
-            android:name=".ui.activities.SettingActivity"
-            android:label="@string/title_activity_setting"></activity>
-
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="5704d7bfe0f55ae576000573"></meta-data>
-
-        <activity android:name=".ui.activities.TextActivity"></activity>
+        <activity android:name=".views.activities.SplashActivity"></activity>
     </application>
 
 </manifest>
