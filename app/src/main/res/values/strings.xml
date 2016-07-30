@@ -4,4 +4,12 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">设置</string>
     <string name="title_activity_index">IndexActivity</string>
+
+    // index
+    <string name="bottom_tab_home">主页</string>
+    <string name="bottom_tab_message">消息</string>
+    <string name="bottom_tab_user">我的</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

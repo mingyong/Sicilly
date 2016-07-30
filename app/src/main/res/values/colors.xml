@@ -8,6 +8,14 @@
     <color name="window_background">#E9EDF1</color>
     <color name="accent">#5EC1F9</color>
 
+    <color name="bottom_1">#6DA8E3</color>
+    <color name="bottom_2">#F9C166</color>
+    <color name="bottom_3">#938788</color>
+
     //basic
     <color name="white">#FFFFFF</color>
+
+    <color name="positive">#484b50</color>
+    <color name="negative">#D8D8D8</color>
+
 </resources>

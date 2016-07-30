@@ -23,6 +23,8 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':sicillylib')
+    apt 'com.jakewharton:butterknife-compiler:8.2.1'
+
     compile 'com.android.support:appcompat-v7:24.1.0'
     compile 'com.android.support:support-v4:24.1.0'
     compile 'com.android.support:design:24.1.0'
@@ -38,10 +40,10 @@ dependencies {
     compile 'io.reactivex:rxjava:1.1.8'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'com.jakewharton:butterknife:8.2.1'
-    apt 'com.jakewharton:butterknife-compiler:8.2.1'
     compile 'org.jsoup:jsoup:1.8.3'
     compile 'com.commit451:PhotoView:1.2.4'
     compile 'com.daimajia.numberprogressbar:library:1.2@aar'
     compile 'com.jakewharton:disklrucache:2.0.2'
     compile 'com.umeng.analytics:analytics:5.6.7'
+    compile 'com.github.devlight.navigationtabbar:navigationtabbar:1.2.3'
 }
