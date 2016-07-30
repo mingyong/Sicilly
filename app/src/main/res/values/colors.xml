@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    // theme
+    <color name="primary_dark">#3A4349</color>
+    <color name="primary">@color/white</color>
+    <color name="primary_text">#272727</color>
+    <color name="window_background">#E9EDF1</color>
+    <color name="accent">#5EC1F9</color>
+
+    //basic
+    <color name="white">#FFFFFF</color>
 </resources>
