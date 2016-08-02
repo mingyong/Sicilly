@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import butterknife.ButterKnife;
 import xyz.shaohui.sicilly.R;
 
 
@@ -36,7 +37,9 @@ public class TimelineFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_timeline, container, false);
+        View v = inflater.inflate(R.layout.fragment_timeline, container, false);
+        ButterKnife.bind(this, v);
+        return v;
     }
 
 

@@ -9,4 +9,10 @@
         <item name="colorAccent">@color/accent</item>
     </style>
 
+    <style name="AppTheme.StatusText">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/text_main</item>
+        <item name="android:lineSpacingMultiplier">1.5</item>
+    </style>
+
 </resources>
