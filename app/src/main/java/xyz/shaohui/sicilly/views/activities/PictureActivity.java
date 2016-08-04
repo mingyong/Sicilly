@@ -5,11 +5,11 @@ import android.os.Bundle;
 
 import xyz.shaohui.sicilly.R;
 
-public class SplashActivity extends BaseActivity {
+public class PictureActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_splash);
+        setContentView(R.layout.activity_picture);
     }
 }
