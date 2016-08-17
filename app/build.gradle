@@ -23,8 +23,8 @@ android {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     compile project(':sicillylib')
+    compile project(':scrollablelayout')
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
-
     compile 'com.android.support:appcompat-v7:24.1.0'
     compile 'com.android.support:support-v4:24.1.0'
     compile 'com.android.support:design:24.1.0'

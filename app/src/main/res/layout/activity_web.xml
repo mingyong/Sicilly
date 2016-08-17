@@ -5,18 +5,17 @@
     android:layout_height="match_parent"
     tools:context="xyz.shaohui.sicilly.views.activities.WebActivity">
 
-    <xyz.shaohui.sicilly.views.widgets.DragView
+    <me.shaohui.scrollablelayout.ScrollableLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <FrameLayout
+        android:layout_height="match_parent">
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="200dp"
             android:background="@android:color/holo_blue_bright"/>
-        <FrameLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@android:color/holo_green_light"/>
-    </xyz.shaohui.sicilly.views.widgets.DragView>
+            android:background="@android:color/background_dark"/>
+    </me.shaohui.scrollablelayout.ScrollableLayout>
 
 </RelativeLayout>

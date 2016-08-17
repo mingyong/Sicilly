@@ -2,7 +2,9 @@ package me.shaohui.scrollablelayout;
 
 import android.content.Context;
 import android.support.v4.view.NestedScrollingParent;
+import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
@@ -44,17 +46,27 @@ public class ScrollableLayout extends LinearLayout implements NestedScrollingPar
 
     @Override
     public boolean onStartNestedScroll(View child, View target, int nestedScrollAxes) {
-        return super.onStartNestedScroll(child, target, nestedScrollAxes);
+        return (nestedScrollAxes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
     }
 
     @Override
     public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
-        super.onNestedPreScroll(target, dx, dy, consumed);
+        boolean hiddenTop = dy > 0 && getScrollY() < mTopHeight;
+        boolean showTop = dy < 0 && getScrollY() > 0 && !ViewCompat.canScrollVertically(target, -1);
+
+        if (hiddenTop || showTop) {
+            scrollBy(0, dy);
+            consumed[1] = dy;
+        }
     }
 
     @Override
     public boolean onNestedPreFling(View target, float velocityX, float velocityY) {
-        return super.onNestedPreFling(target, velocityX, velocityY);
+        if (getScrollY() >= mTopHeight) {
+            return false;
+        }
+        fling((int) velocityY);
+        return true;
     }
 
     @Override
@@ -79,6 +91,7 @@ public class ScrollableLayout extends LinearLayout implements NestedScrollingPar
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         mTopHeight = mTop.getMeasuredHeight();
+        Log.i(TAG, "mTopHeight:" + mTopHeight);
     }
 
     public void fling(int velocityY) {
