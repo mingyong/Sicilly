@@ -7,9 +7,17 @@
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/btn_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:text="@string/bottom_tab_home" />
+
+    <Button
+        android:id="@+id/btn_ceshi"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_main"
+        android:text="测试按钮"/>
 
 </RelativeLayout>

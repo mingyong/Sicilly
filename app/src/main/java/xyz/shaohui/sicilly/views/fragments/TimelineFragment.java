@@ -4,11 +4,13 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import xyz.shaohui.sicilly.R;
 
 
@@ -40,6 +42,20 @@ public class TimelineFragment extends BaseFragment {
         View v = inflater.inflate(R.layout.fragment_timeline, container, false);
         ButterKnife.bind(this, v);
         return v;
+    }
+
+    @OnClick(R.id.btn_main)
+    void mainBtn() {
+        Log.i("TAG", "cesh");
+        LoginDialogFragment dialogFragment = new LoginDialogFragment();
+        dialogFragment.show(getChildFragmentManager(), "login");
+    }
+
+    @OnClick(R.id.btn_ceshi)
+    void mainCe() {
+        Log.i("TAG", "cesh");
+        LoginDialogFragment dialogFragment = new LoginDialogFragment();
+        dialogFragment.show(getChildFragmentManager(), "login");
     }
 
 

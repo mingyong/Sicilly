@@ -5,7 +5,7 @@ import android.os.Bundle;
 
 import xyz.shaohui.sicilly.R;
 
-public class LoginActivty extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
