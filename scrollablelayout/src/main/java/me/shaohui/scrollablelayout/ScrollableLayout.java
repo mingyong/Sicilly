@@ -45,6 +45,21 @@ public class ScrollableLayout extends LinearLayout implements NestedScrollingPar
     }
 
     @Override
+    public void onStopNestedScroll(View child) {
+        Log.i(TAG, "stop nested scroll");
+    }
+
+    @Override
+    public void onNestedScroll(View target, int dxConsumed, int dyConsumed, int dxUnconsumed, int dyUnconsumed) {
+//        Log.i(TAG, "on nested scroll");
+    }
+
+    @Override
+    public void onNestedScrollAccepted(View child, View target, int axes) {
+        Log.i(TAG, "accepted");
+    }
+
+    @Override
     public boolean onStartNestedScroll(View child, View target, int nestedScrollAxes) {
         return (nestedScrollAxes & ViewCompat.SCROLL_AXIS_VERTICAL) != 0;
     }
@@ -70,6 +85,11 @@ public class ScrollableLayout extends LinearLayout implements NestedScrollingPar
     }
 
     @Override
+    public boolean onNestedFling(View target, float velocityX, float velocityY, boolean consumed) {
+        return false;
+    }
+
+    @Override
     protected void onFinishInflate() {
         super.onFinishInflate();
         mTop = getChildAt(0);
@@ -79,8 +99,9 @@ public class ScrollableLayout extends LinearLayout implements NestedScrollingPar
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        getChildAt(0).measure(widthMeasureSpec,
-                MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+
+//        getChildAt(0).measure(widthMeasureSpec,
+//                MeasureSpec.makeMeasureSpec(200, MeasureSpec.UNSPECIFIED));
         ViewGroup.LayoutParams layoutParams = mBody.getLayoutParams();
         layoutParams.height = getMeasuredHeight();
         setMeasuredDimension(getMeasuredWidth(),

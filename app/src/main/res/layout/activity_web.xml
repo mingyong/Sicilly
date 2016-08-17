@@ -8,14 +8,34 @@
     <me.shaohui.scrollablelayout.ScrollableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:background="@android:color/holo_blue_bright"/>
-        <LinearLayout
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/background_dark"/>
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp" />
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
     </me.shaohui.scrollablelayout.ScrollableLayout>
 
 </RelativeLayout>
