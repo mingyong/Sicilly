@@ -2,6 +2,7 @@ package me.shaohui.scrollablelayout;
 
 import android.content.Context;
 import android.support.v4.view.NestedScrollingParent;
+import android.support.v4.view.NestedScrollingParentHelper;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -73,6 +74,7 @@ public class ScrollableLayout extends LinearLayout implements NestedScrollingPar
             scrollBy(0, dy);
             consumed[1] = dy;
         }
+
     }
 
     @Override
@@ -86,7 +88,7 @@ public class ScrollableLayout extends LinearLayout implements NestedScrollingPar
 
     @Override
     public boolean onNestedFling(View target, float velocityX, float velocityY, boolean consumed) {
-        return false;
+        return super.onNestedFling(target, velocityX, velocityY, consumed);
     }
 
     @Override
@@ -102,6 +104,7 @@ public class ScrollableLayout extends LinearLayout implements NestedScrollingPar
 
 //        getChildAt(0).measure(widthMeasureSpec,
 //                MeasureSpec.makeMeasureSpec(200, MeasureSpec.UNSPECIFIED));
+        measureChildWithMargins(getChildAt(0), widthMeasureSpec, 0, MeasureSpec.UNSPECIFIED, 0);
         ViewGroup.LayoutParams layoutParams = mBody.getLayoutParams();
         layoutParams.height = getMeasuredHeight();
         setMeasuredDimension(getMeasuredWidth(),
