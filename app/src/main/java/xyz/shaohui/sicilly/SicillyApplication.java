@@ -5,14 +5,24 @@ import android.content.Context;
 
 public class SicillyApplication extends Application {
 
-    private static Context context;
+    public static Context context;
+    public static String token;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        context = getApplicationContext();
     }
 
     public static Context getContext() {
         return context;
+    }
+
+    public static String getToken() {
+        return token;
+    }
+
+    public static void setToken(String token) {
+        SicillyApplication.token = token;
     }
 }
