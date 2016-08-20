@@ -28,6 +28,10 @@
     // message
     <string name="friend_request">好友请求</string>
 
+    // userActivity
+    <string name="tab_status">消息</string>
+    <string name="tab_photo">照片</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

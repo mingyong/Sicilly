@@ -5,19 +5,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import me.shaohui.scrollablelayout.ScrollableHelper;
 import me.shaohui.vistarecyclerview.OnMoreListener;
 import me.shaohui.vistarecyclerview.VistaRecyclerView;
@@ -27,28 +23,21 @@ import rx.schedulers.Schedulers;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.data.models.Status;
-import xyz.shaohui.sicilly.data.network.RetrofitService;
 import xyz.shaohui.sicilly.utils.ErrorUtils;
-import xyz.shaohui.sicilly.views.adapters.IndexStatusAdapter;
+import xyz.shaohui.sicilly.views.adapters.UserPhotoAdapter;
 
-
-public class TimelineFragment extends BaseFragment implements ScrollableHelper.ScrollableContainer {
+public class PhotoListFragment extends Fragment implements ScrollableHelper.ScrollableContainer {
+    public static final String TAG = "PhotoListFragment";
 
     @BindView(R.id.recycler)VistaRecyclerView recyclerView;
 
-    public static final String TAG = "TimelineFragment";
-    private int action;
+    private String userId;
+    private List<Status> statusList;
 
-    public static final int ACTION_INDEX = 1;
-    public static final int ACTION_ABOUT_ME = 2;
-    public static final int ACTION_USER = 3;
-
-    private List<Status> dataList;
-
-    public static TimelineFragment newInstance(int action) {
-        TimelineFragment fragment = new TimelineFragment();
+    public static PhotoListFragment newInstance(String userId) {
+        PhotoListFragment fragment = new PhotoListFragment();
         Bundle args = new Bundle();
-        args.putInt("action", action);
+        args.putString("user_id", userId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,14 +45,14 @@ public class TimelineFragment extends BaseFragment implements ScrollableHelper.S
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        action = getArguments().getInt("action");
-        dataList = new ArrayList<>();
+        userId = getArguments().getString("user_id");
+        statusList = new ArrayList<>();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_timeline, container, false);
+        View v = inflater.inflate(R.layout.fragment_photo_list, container, false);
         ButterKnife.bind(this, v);
         initRecycler();
         return v;
@@ -72,58 +61,49 @@ public class TimelineFragment extends BaseFragment implements ScrollableHelper.S
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        recyclerView.setRefreshing(true);
-        fetchStatus();
+        fetchPhotoList();
     }
 
     private void initRecycler() {
-        IndexStatusAdapter adpter = new IndexStatusAdapter(dataList);
+        UserPhotoAdapter adapter = new UserPhotoAdapter(statusList);
+        recyclerView.setAdapter(adapter);
         recyclerView.setOnMoreListener(new OnMoreListener() {
             @Override
             public void noMoreAsked(int total, int left, int current) {
-                fetchNextPage();
+                fetchNextPhotoList();
             }
-        });
-        recyclerView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                fetchStatus();
-            }
-        });
+        }, 6);
     }
 
-    private void fetchStatus() {
+    private void fetchPhotoList() {
         SicillyApplication.getRetrofitService()
-                .getStatusService().homeStatus()
-                .observeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .getUserService().userPhotoOther(userId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<List<Status>>() {
                     @Override
                     public void call(List<Status> statuses) {
-                        dataList.addAll(statuses);
+                        statusList.addAll(statuses);
                         recyclerView.notifyDataSetChanged();
                     }
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
                         ErrorUtils.catchException();
-                        recyclerView.showErrorView();
                     }
                 });
     }
 
-    private void fetchNextPage() {
-        String lastStatusId = dataList.get(dataList.size() - 1).getId();
-
+    private void fetchNextPhotoList() {
         SicillyApplication.getRetrofitService()
-                .getStatusService().homeStatusNext(lastStatusId)
+                .getUserService().userPhotoOtherNext(userId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<List<Status>>() {
                     @Override
                     public void call(List<Status> statuses) {
                         if (statuses.size() > 0) {
-                            dataList.addAll(statuses);
+                            statusList.addAll(statuses);
                             recyclerView.notifyDataSetChanged();
                         } else {
                             recyclerView.loadNoMore();
@@ -137,22 +117,6 @@ public class TimelineFragment extends BaseFragment implements ScrollableHelper.S
                     }
                 });
     }
-
-    @OnClick(R.id.btn_add)
-    void createStatus() {
-
-    }
-
-    @OnClick(R.id.btn_search)
-    void actionSearch() {
-
-    }
-
-    @OnClick(R.id.img_icon)
-    void scrollTop() {
-
-    }
-
 
     @Override
     public View getScrollableView() {
