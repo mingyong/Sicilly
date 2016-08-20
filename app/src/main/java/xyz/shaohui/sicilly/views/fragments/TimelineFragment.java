@@ -39,6 +39,8 @@ public class TimelineFragment extends BaseFragment {
     private int action;
 
     public static final int ACTION_INDEX = 1;
+    public static final int ACTION_ABOUT_ME = 2;
+    public static final int ACTION_USER = 3;
 
     private List<Status> dataList;
 
