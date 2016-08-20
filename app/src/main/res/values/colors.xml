@@ -14,6 +14,7 @@
 
     //basic
     <color name="white">#FFFFFF</color>
+    <color name="yellow">#FED202</color>
     <color name="transparent">#00000000</color>
 
     <color name="text_main">#4A4E52</color>
@@ -21,8 +22,12 @@
     <color name="blue_title">#4F9BBE</color>
     <color name="status_line">#809EA4AB</color>
     <color name="place_bg">#90A4AE</color>
+    <color name="divider">#F2F3F4</color>
 
     <color name="positive">#484b50</color>
     <color name="negative">#D8D8D8</color>
+
+    <color name="transparent_20">#33000000</color>
+    <color name="transparent_50">#80000000</color>
 
 </resources>

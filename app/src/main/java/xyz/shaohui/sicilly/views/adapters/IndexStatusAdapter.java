@@ -16,6 +16,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.data.DataManager;
 import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
@@ -27,6 +28,10 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
 
     private List<Status> dataList;
 
+    public IndexStatusAdapter(List<Status> dataList) {
+        this.dataList = dataList;
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
@@ -36,10 +41,10 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Status status = dataList.get(position);
+        final Status status = dataList.get(position);
         User user = status.getUser();
         StatusViewHolder viewHolder = (StatusViewHolder) holder;
-        Context context = viewHolder.avatar.getContext();
+        final Context context = viewHolder.avatar.getContext();
 
         viewHolder.name.setText(user.getScreen_name());
         viewHolder.createdTime.setText("3分钟前");
@@ -57,9 +62,28 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                switch (v.getId()) {
+                    case R.id.action_comment:
+                        DataManager.actionComment(context, status.getId());
+                        break;
+                    case R.id.action_repost:
+                        DataManager.actionRepost(context, status.getId());
+                        break;
+                    case R.id.action_star:
+                        DataManager.actionRepost(context, status.getId());
+                        break;
+                }
             }
         };
+        viewHolder.actionComment.setOnClickListener(listener);
+        viewHolder.actionRepost.setOnClickListener(listener);
+        viewHolder.actionStar.setOnClickListener(listener);
+
+        if (status.getFavorited()) {
+            viewHolder.actionStar.setImageResource(R.drawable.ic_star_fill);
+        } else {
+            viewHolder.actionStar.setImageResource(R.drawable.ic_star);
+        }
 
 
     }
