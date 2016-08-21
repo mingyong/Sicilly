@@ -1,14 +1,14 @@
 package xyz.shaohui.sicilly.views.activities;
 
-import android.support.v4.app.Fragment;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
-import com.gigamole.navigationtabbar.ntb.NavigationTabBar;
+import com.flyco.tablayout.CommonTabLayout;
+import com.flyco.tablayout.listener.CustomTabEntity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,7 +19,7 @@ import xyz.shaohui.sicilly.views.fragments.UserFragment;
 
 public class IndexActivity extends BaseActivity {
 
-    @BindView(R.id.bottom_tab)NavigationTabBar bottomTab;
+    @BindView(R.id.bottom_tab)CommonTabLayout bottomTab;
 
     public static final int INDEX_HOME = 0;
     public static final int INDEX_MESSAGE = 1;
@@ -39,38 +39,18 @@ public class IndexActivity extends BaseActivity {
     }
 
     private void initBottomTab() {
-        final ArrayList<NavigationTabBar.Model> models = new ArrayList<>();
-        models.add(new NavigationTabBar.Model.Builder(
-                getResources().getDrawable(R.drawable.ic_home),
-                getResources().getColor(R.color.bottom_1)
-        ).title(getString(R.string.bottom_tab_home))
-        .build());
-
-        models.add(new NavigationTabBar.Model.Builder(
-                getResources().getDrawable(R.drawable.ic_message),
-                getResources().getColor(R.color.bottom_2)
-        ).title(getString(R.string.bottom_tab_message))
-                .build());
-
-        models.add(new NavigationTabBar.Model.Builder(
-                getResources().getDrawable(R.drawable.ic_user),
-                getResources().getColor(R.color.bottom_3)
-        ).title(getString(R.string.bottom_tab_user))
-                .build());
-
-        bottomTab.setModels(models);
-        bottomTab.setOnTabBarSelectedIndexListener(new NavigationTabBar.OnTabBarSelectedIndexListener() {
-            @Override
-            public void onStartTabSelected(NavigationTabBar.Model model, int index) {
-                switchFragment(index);
-            }
-
-            @Override
-            public void onEndTabSelected(NavigationTabBar.Model model, int index) {
-
-            }
-        });
-        bottomTab.onPageSelected(0);
+        ArrayList<CustomTabEntity> tabData = new ArrayList<>();
+        tabData.add(new TabEntity(
+                getString(R.string.bottom_tab_home),
+                R.drawable.ic_home_selected,
+                R.drawable.ic_home));
+        tabData.add(new TabEntity(getString(R.string.bottom_tab_message),
+                R.drawable.ic_message_selected,
+                R.drawable.ic_message));
+        tabData.add(new TabEntity(getString(R.string.bottom_tab_user),
+                R.drawable.ic_user_selected,
+                R.drawable.ic_user));
+        bottomTab.setTabData(tabData);
     }
 
     // 切换Fragment
@@ -128,6 +108,34 @@ public class IndexActivity extends BaseActivity {
                 break;
         }
         transaction.commit();
+    }
+
+    class TabEntity implements CustomTabEntity {
+
+        private String title;
+        private int selected;
+        private int unSelected;
+
+        public TabEntity(String title, int selected, int unSelected) {
+            this.title = title;
+            this.selected = selected;
+            this.unSelected = unSelected;
+        }
+
+        @Override
+        public String getTabTitle() {
+            return title;
+        }
+
+        @Override
+        public int getTabSelectedIcon() {
+            return selected;
+        }
+
+        @Override
+        public int getTabUnselectedIcon() {
+            return unSelected;
+        }
     }
 
 

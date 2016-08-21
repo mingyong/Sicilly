@@ -12,11 +12,17 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/bottom_size"/>
 
-    <com.gigamole.navigationtabbar.ntb.NavigationTabBar
+    <com.flyco.tablayout.CommonTabLayout
         android:id="@+id/bottom_tab"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/bottom_size"
+        android:layout_height="48dp"
+        android:background="@color/white"
         android:layout_alignParentBottom="true"
-        app:ntb_title_size="10sp"
-        app:ntb_active_color="@color/positive"/>
+        app:tl_iconGravity="TOP"
+        app:tl_iconHeight="20dp"
+        app:tl_iconWidth="20dp"
+        app:tl_iconVisible="true"
+        app:tl_textsize="12sp"
+        app:tl_textSelectColor="@color/positive"
+        app:tl_textUnselectColor="@color/negative"/>
 </RelativeLayout>

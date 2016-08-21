@@ -6,7 +6,7 @@
 
     <uses-feature
         android:name="android.hardware.camera2"
-        android:required="true" />
+        android:required="false" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -23,24 +23,24 @@
         android:theme="@style/AppTheme">
         <activity android:name=".views.activities.IndexActivity">
         </activity>
-        <activity android:name=".views.activities.SplashActivity" />
-        <activity android:name=".views.activities.BaseActivity" />
-        <activity android:name=".views.activities.StatusActivity" />
-        <activity android:name=".views.activities.UserActivity" />
-        <activity android:name=".views.activities.CreateActivity" />
-        <activity android:name=".views.activities.SearchActivity" />
-        <activity android:name=".views.activities.WebActivity" >
+        <activity android:name=".views.activities.SplashActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".views.activities.BaseActivity" />
+        <activity android:name=".views.activities.StatusActivity" />
+        <activity android:name=".views.activities.UserActivity" />
+        <activity android:name=".views.activities.CreateActivity" />
+        <activity android:name=".views.activities.SearchActivity" />
+        <activity android:name=".views.activities.WebActivity" />
         <activity android:name=".views.activities.UserListActivity" />
         <activity android:name=".views.activities.PictureActivity" />
         <activity android:name=".views.activities.ChatActivity" />
         <activity android:name=".views.activities.SettingActivity" />
-        <activity android:name=".views.activities.LoginActivity"></activity>
+        <activity android:name=".views.activities.LoginActivity"/>
     </application>
 
 </manifest>
