@@ -1,12 +1,19 @@
 package xyz.shaohui.sicilly.views.adapters;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import uk.co.senab.photoview.PhotoView;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.data.models.Status;
@@ -30,7 +37,13 @@ public class UserPhotoAdapter extends RecyclerView.Adapter<UserPhotoAdapter.Phot
 
     @Override
     public void onBindViewHolder(PhotoViewHolder holder, int position) {
+        Status status = statusList.get(position);
+        Context context = holder.parent.getContext();
 
+        holder.text.setText(status.getText());
+        Glide.with(context)
+                .load(status.getPhoto().getImageurl())
+                .into(holder.image);
     }
 
     @Override
@@ -39,8 +52,15 @@ public class UserPhotoAdapter extends RecyclerView.Adapter<UserPhotoAdapter.Phot
     }
 
     class PhotoViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.photo_image)ImageView image;
+        @BindView(R.id.photo_text)TextView text;
+        private View parent;
+
         public PhotoViewHolder(View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
+            parent = itemView;
         }
     }
 
