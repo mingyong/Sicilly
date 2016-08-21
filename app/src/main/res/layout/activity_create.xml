@@ -1,12 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    android:background="@color/white"
     tools:context="xyz.shaohui.sicilly.views.activities.CreateActivity">
-
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:gravity="center_vertical">
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:paddingRight="@dimen/spacing_normal"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/spacing_normal"
+            android:background="@null"
+            app:srcCompat="@drawable/ic_close"/>
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/user_avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/spacing_normal"
+            app:riv_corner_radius="3dp"/>
+    </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <EditText
+                android:id="@+id/status_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minLines="3"
+                android:minHeight="60dp"/>
+            <ImageView
+                android:id="@+id/status_image"
+                android:layout_width="80dp"
+                android:layout_height="80dp" />
+        </LinearLayout>
+    </ScrollView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_vertical">
+        <ImageButton
+            android:id="@+id/action_location"
+            android:layout_width="wrap_content"
+            android:paddingLeft="@dimen/spacing_normal"
+            android:paddingRight="6dp"
+            android:layout_height="match_parent"
+            android:background="@null"
+            app:srcCompat="@drawable/ic_location"/>
+        <ImageButton
+            android:id="@+id/action_camera"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:layout_toRightOf="@id/action_location"
+            android:background="@null"
+            app:srcCompat="@drawable/ic_camera"/>
+        <TextView
+            android:id="@+id/action_commit"
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/spacing_normal"
+            android:textSize="14sp"
+            android:textColor="@color/white"
+            android:background="@drawable/drawable_text_accent"
+            android:text="@string/commit"/>
+    </RelativeLayout>
 </RelativeLayout>
