@@ -1,13 +1,17 @@
 package xyz.shaohui.sicilly.views.activities;
 
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -35,6 +39,7 @@ public class IndexActivity extends BaseActivity {
         setContentView(R.layout.activity_index);
         ButterKnife.bind(this);
 
+        text();
         initBottomTab();
     }
 
@@ -50,7 +55,24 @@ public class IndexActivity extends BaseActivity {
         tabData.add(new TabEntity(getString(R.string.bottom_tab_user),
                 R.drawable.ic_user_selected,
                 R.drawable.ic_user));
-        bottomTab.setTabData(tabData);
+
+        ArrayList<Fragment> fragments = new ArrayList<>();
+        fragments.add(TimelineFragment.newInstance(TimelineFragment.ACTION_INDEX));
+        fragments.add(TimelineFragment.newInstance(TimelineFragment.ACTION_INDEX));
+        fragments.add(TimelineFragment.newInstance(TimelineFragment.ACTION_INDEX));
+//        fragments.add(new MessageFragment());
+//        fragments.add(new UserFragment());
+
+        bottomTab.setTabData(tabData, this, R.id.main_frame, fragments);
+    }
+
+    private void text() {
+        String time = "Sun Aug 21 13:09:03 +0000 2016";
+        try {
+            Date date = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy").parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 
     // 切换Fragment

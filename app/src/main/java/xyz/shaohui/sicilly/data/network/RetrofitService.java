@@ -48,7 +48,9 @@ public class RetrofitService {
                 .retryOnConnectionFailure(true)
                 .build();
 
-        Gson gson = new GsonBuilder().create();
+        Gson gson = new GsonBuilder()
+                .setDateFormat("EEE MMM dd HH:mm:ss Z yyyy")
+                .create();
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://api.fanfou.com/")

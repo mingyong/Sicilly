@@ -21,6 +21,7 @@ import butterknife.OnClick;
 import me.shaohui.scrollablelayout.ScrollableHelper;
 import me.shaohui.vistarecyclerview.OnMoreListener;
 import me.shaohui.vistarecyclerview.VistaRecyclerView;
+import me.shaohui.vistarecyclerview.decoration.SpacingDecoration;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -77,7 +78,9 @@ public class TimelineFragment extends BaseFragment implements ScrollableHelper.S
     }
 
     private void initRecycler() {
-        IndexStatusAdapter adpter = new IndexStatusAdapter(dataList);
+        IndexStatusAdapter adapter = new IndexStatusAdapter(dataList);
+        recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new SpacingDecoration(8));
         recyclerView.setOnMoreListener(new OnMoreListener() {
             @Override
             public void noMoreAsked(int total, int left, int current) {
@@ -95,8 +98,8 @@ public class TimelineFragment extends BaseFragment implements ScrollableHelper.S
     private void fetchStatus() {
         SicillyApplication.getRetrofitService()
                 .getStatusService().homeStatus()
-                .observeOn(Schedulers.io())
-                .subscribeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<List<Status>>() {
                     @Override
                     public void call(List<Status> statuses) {
@@ -106,7 +109,7 @@ public class TimelineFragment extends BaseFragment implements ScrollableHelper.S
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        ErrorUtils.catchException();
+                        ErrorUtils.catchException(throwable);
                         recyclerView.showErrorView();
                     }
                 });
@@ -132,7 +135,7 @@ public class TimelineFragment extends BaseFragment implements ScrollableHelper.S
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        ErrorUtils.catchException();
+                        ErrorUtils.catchException(throwable);
                         recyclerView.loadMoreFailure();
                     }
                 });

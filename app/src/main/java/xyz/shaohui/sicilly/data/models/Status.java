@@ -1,9 +1,11 @@
 package xyz.shaohui.sicilly.data.models;
 
+import java.util.Date;
+
 public class Status {
     private String repost_user_id;
     private String in_reply_to_status_id;
-    private String repost_status;
+    private Status repost_status;
     private String created_at;
     private boolean truncated;
     private String source;
@@ -50,11 +52,11 @@ public class Status {
         this.in_reply_to_status_id = in_reply_to_status_id;
     }
 
-    public String getRepost_status() {
+    public Status getRepost_status() {
         return this.repost_status;
     }
 
-    public void setRepost_status(String repost_status) {
+    public void setRepost_status(Status repost_status) {
         this.repost_status = repost_status;
     }
 

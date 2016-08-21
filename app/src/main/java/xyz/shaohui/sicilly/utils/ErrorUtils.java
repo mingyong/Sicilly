@@ -5,8 +5,8 @@ package xyz.shaohui.sicilly.utils;
  */
 public class ErrorUtils {
 
-    public static void catchException() {
-
+    public static void catchException(Throwable throwable) {
+        throwable.printStackTrace();
     }
 
 }

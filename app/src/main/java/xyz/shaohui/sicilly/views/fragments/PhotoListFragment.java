@@ -89,7 +89,7 @@ public class PhotoListFragment extends Fragment implements ScrollableHelper.Scro
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        ErrorUtils.catchException();
+                        ErrorUtils.catchException(throwable);
                     }
                 });
     }
@@ -112,7 +112,7 @@ public class PhotoListFragment extends Fragment implements ScrollableHelper.Scro
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        ErrorUtils.catchException();
+                        ErrorUtils.catchException(throwable);
                         recyclerView.loadMoreFailure();
                     }
                 });

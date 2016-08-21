@@ -49,7 +49,7 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
         viewHolder.name.setText(user.getScreen_name());
         viewHolder.createdTime.setText("3分钟前");
         viewHolder.source.setText(HtmlUtils.cleanAllTag(status.getSource()));
-        viewHolder.text.setText(HtmlUtils.cleanAllTag(status.getSource()));
+        viewHolder.text.setText(HtmlUtils.cleanAllTag(status.getText()));
         Glide.with(context)
                 .load(user.getProfile_image_url_large())
                 .into(viewHolder.avatar);
@@ -57,6 +57,8 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
             Glide.with(context)
                     .load(status.getPhoto().getImageurl())
                     .into(viewHolder.image);
+        } else {
+            viewHolder.image.setVisibility(View.GONE);
         }
 
         View.OnClickListener listener = new View.OnClickListener() {

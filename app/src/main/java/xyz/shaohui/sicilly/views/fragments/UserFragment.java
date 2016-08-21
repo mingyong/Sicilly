@@ -73,7 +73,7 @@ public class UserFragment extends BaseFragment {
                 }, new Action1<Throwable>() {
                     @Override
                     public void call(Throwable throwable) {
-                        ErrorUtils.catchException();
+                        ErrorUtils.catchException(throwable);
                     }
                 });
     }
