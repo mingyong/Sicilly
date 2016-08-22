@@ -57,7 +57,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
     public int getItemViewType(int position) {
         if (position == 0) {
             return TYPE_HEADER;
-        } else if (dataList.get(position) instanceof FriendRequest) {
+        } else if (dataList.get(position - 1) instanceof FriendRequest) {
             return TYPE_REQUEST;
         } else {
             return TYPE_MESSAGE;
@@ -67,7 +67,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof MessageViewHolder) {
-            Conversation conversation = (Conversation) dataList.get(position + 1);
+            Conversation conversation = (Conversation) dataList.get(position - 1);
             MessageViewHolder viewHolder = (MessageViewHolder) holder;
             Context context = viewHolder.parent.getContext();
 
@@ -110,6 +110,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
         public MessageViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            parent = itemView;
         }
     }
 
@@ -119,6 +120,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
         public MessageHeaderViewHolder(View itemView) {
             super(itemView);
+            parent = itemView;
         }
     }
 
@@ -132,6 +134,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
         public FriendRequestViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            parent = itemView;
         }
     }
 

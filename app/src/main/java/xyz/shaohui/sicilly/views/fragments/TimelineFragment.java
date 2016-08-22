@@ -86,7 +86,7 @@ public class TimelineFragment extends BaseFragment implements ScrollableHelper.S
             public void noMoreAsked(int total, int left, int current) {
                 fetchNextPage();
             }
-        });
+        }, 6);
         recyclerView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
