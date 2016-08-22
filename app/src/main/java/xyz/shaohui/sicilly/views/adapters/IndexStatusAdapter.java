@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -20,6 +21,7 @@ import xyz.shaohui.sicilly.data.DataManager;
 import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
+import xyz.shaohui.sicilly.views.activities.UserActivity;
 
 /**
  * Created by shaohui on 16/8/19.
@@ -42,7 +44,7 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final Status status = dataList.get(position);
-        User user = status.getUser();
+        final User user = status.getUser();
         StatusViewHolder viewHolder = (StatusViewHolder) holder;
         final Context context = viewHolder.avatar.getContext();
 
@@ -87,6 +89,13 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
             viewHolder.actionStar.setImageResource(R.drawable.ic_star);
         }
 
+        viewHolder.header.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(UserActivity.newIntent(context, user.getId()));
+            }
+        });
+
 
     }
 
@@ -106,6 +115,7 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
         @BindView(R.id.action_comment)ImageButton actionComment;
         @BindView(R.id.action_repost)ImageButton actionRepost;
         @BindView(R.id.action_star)ImageButton actionStar;
+        @BindView(R.id.status_header)RelativeLayout header;
 
         public StatusViewHolder(View itemView) {
             super(itemView);

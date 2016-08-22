@@ -147,7 +147,7 @@ public class UserActivity extends BaseActivity {
                 .load(user.getProfile_image_url_large())
                 .into(avatar);
         Glide.with(this)
-                .load(user.getProfile_image_url())
+                .load(user.getProfile_background_image_url())
                 .into(userBackground);
 
     }

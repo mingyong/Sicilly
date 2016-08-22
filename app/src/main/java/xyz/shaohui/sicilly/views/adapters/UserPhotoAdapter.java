@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
 import uk.co.senab.photoview.PhotoView;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.data.models.Status;
+import xyz.shaohui.sicilly.utils.HtmlUtils;
 
 /**
  * Created by shaohui on 16/8/21.
@@ -40,7 +41,7 @@ public class UserPhotoAdapter extends RecyclerView.Adapter<UserPhotoAdapter.Phot
         Status status = statusList.get(position);
         Context context = holder.parent.getContext();
 
-        holder.text.setText(status.getText());
+        holder.text.setText(HtmlUtils.cleanAllTag(status.getText()));
         Glide.with(context)
                 .load(status.getPhoto().getImageurl())
                 .into(holder.image);

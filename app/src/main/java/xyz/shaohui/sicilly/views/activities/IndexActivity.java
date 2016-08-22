@@ -43,7 +43,6 @@ public class IndexActivity extends BaseActivity {
         setContentView(R.layout.activity_index);
         ButterKnife.bind(this);
 
-        text();
         initBottomTab();
     }
 
@@ -62,22 +61,10 @@ public class IndexActivity extends BaseActivity {
 
         ArrayList<Fragment> fragments = new ArrayList<>();
         fragments.add(new IndexFragment());
-//        fragments.add(new IndexFragment());
-//        fragments.add(new IndexFragment());
         fragments.add(new MessageFragment());
         fragments.add(new UserFragment());
 
         bottomTab.setTabData(tabData, this, R.id.main_frame, fragments);
-    }
-
-    private void text() {
-        String time = "Sun Aug 21 13:09:03 +0000 2016";
-        try {
-            Date date = new SimpleDateFormat("EE MMM dd HH:mm:ss Z yyyy", Locale.ENGLISH).parse(time);
-            ToastUtils.showToast(this, date.toString());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
     }
 
     // 切换Fragment

@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/white">
     <ImageView
         android:id="@+id/photo_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
+        android:scaleType="fitXY"
         android:minHeight="80dp"
         android:adjustViewBounds="true"
         android:background="@color/place_bg"/>
