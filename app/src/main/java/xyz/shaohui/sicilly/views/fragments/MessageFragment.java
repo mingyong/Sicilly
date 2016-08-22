@@ -4,6 +4,8 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
@@ -37,34 +39,28 @@ public class MessageFragment extends BaseFragment {
     }
 
     private void initViewPager() {
-        mAdapter = new MessageAdapter();
+        mAdapter = new MessageAdapter(getChildFragmentManager());
         viewPager.setAdapter(mAdapter);
     }
 
-    class MessageAdapter extends PagerAdapter {
+    class MessageAdapter extends FragmentPagerAdapter {
 
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            if (position == 0) {
-                return new  MessageListFragment();
-            } else {
-                return TimelineFragment.newInstance(TimelineFragment.ACTION_ABOUT_ME);
-            }
+        public MessageAdapter(FragmentManager fm) {
+            super(fm);
         }
 
         @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            super.destroyItem(container, position, object);
+        public Fragment getItem(int position) {
+            if (position == 0) {
+                return new MessageListFragment();
+            } else {
+                return TimelineFragment.newInstance(TimelineFragment.ACTION_USER);
+            }
         }
 
         @Override
         public int getCount() {
             return 2;
-        }
-
-        @Override
-        public boolean isViewFromObject(View view, Object object) {
-            return view == object;
         }
     }
 

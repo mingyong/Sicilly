@@ -6,23 +6,6 @@
     android:layout_height="match_parent"
     tools:context="xyz.shaohui.sicilly.views.fragments.UserFragment">
 
-    <ImageButton
-        android:id="@+id/btn_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_normal"
-        android:layout_marginLeft="@dimen/spacing_normal"
-        android:background="@null"
-        app:srcCompat="@drawable/ic_switch"/>
-    <ImageButton
-        android:id="@+id/btn_setting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="@dimen/spacing_normal"
-        android:layout_marginRight="@dimen/spacing_normal"
-        android:background="@null"
-        app:srcCompat="@drawable/ic_setting"/>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -113,5 +96,23 @@
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
+
+    <ImageButton
+        android:id="@+id/btn_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/spacing_normal"
+        android:paddingLeft="@dimen/spacing_normal"
+        android:background="@null"
+        app:srcCompat="@drawable/ic_switch"/>
+    <ImageButton
+        android:id="@+id/btn_setting"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:paddingTop="@dimen/spacing_normal"
+        android:paddingRight="@dimen/spacing_normal"
+        android:background="@null"
+        app:srcCompat="@drawable/ic_setting"/>
 
 </RelativeLayout>

@@ -27,6 +27,7 @@
     <string name="user_feedback">意见反馈</string>
 
     // message
+    <string name="message_title">消息盒子</string>
     <string name="friend_request">好友请求</string>
 
     // userActivity

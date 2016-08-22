@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
@@ -13,9 +14,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import me.shaohui.sicillylib.utils.ToastUtils;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.views.fragments.IndexFragment;
 import xyz.shaohui.sicilly.views.fragments.MessageFragment;
@@ -59,10 +62,10 @@ public class IndexActivity extends BaseActivity {
 
         ArrayList<Fragment> fragments = new ArrayList<>();
         fragments.add(new IndexFragment());
-        fragments.add(new IndexFragment());
-        fragments.add(new IndexFragment());
-//        fragments.add(new MessageFragment());
-//        fragments.add(new UserFragment());
+//        fragments.add(new IndexFragment());
+//        fragments.add(new IndexFragment());
+        fragments.add(new MessageFragment());
+        fragments.add(new UserFragment());
 
         bottomTab.setTabData(tabData, this, R.id.main_frame, fragments);
     }
@@ -70,7 +73,8 @@ public class IndexActivity extends BaseActivity {
     private void text() {
         String time = "Sun Aug 21 13:09:03 +0000 2016";
         try {
-            Date date = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy").parse(time);
+            Date date = new SimpleDateFormat("EE MMM dd HH:mm:ss Z yyyy", Locale.ENGLISH).parse(time);
+            ToastUtils.showToast(this, date.toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }

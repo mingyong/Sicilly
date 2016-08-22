@@ -31,7 +31,8 @@
                 android:id="@+id/img_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"/>
+                android:layout_centerHorizontal="true"
+                android:src="@mipmap/img_logo"/>
             <ImageButton
                 android:id="@+id/btn_search"
                 android:layout_width="wrap_content"
