@@ -17,6 +17,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.views.fragments.IndexFragment;
 import xyz.shaohui.sicilly.views.fragments.MessageFragment;
 import xyz.shaohui.sicilly.views.fragments.TimelineFragment;
 import xyz.shaohui.sicilly.views.fragments.UserFragment;
@@ -57,9 +58,9 @@ public class IndexActivity extends BaseActivity {
                 R.drawable.ic_user));
 
         ArrayList<Fragment> fragments = new ArrayList<>();
-        fragments.add(TimelineFragment.newInstance(TimelineFragment.ACTION_INDEX));
-        fragments.add(TimelineFragment.newInstance(TimelineFragment.ACTION_INDEX));
-        fragments.add(TimelineFragment.newInstance(TimelineFragment.ACTION_INDEX));
+        fragments.add(new IndexFragment());
+        fragments.add(new IndexFragment());
+        fragments.add(new IndexFragment());
 //        fragments.add(new MessageFragment());
 //        fragments.add(new UserFragment());
 

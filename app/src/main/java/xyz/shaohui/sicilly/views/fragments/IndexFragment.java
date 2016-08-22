@@ -3,11 +3,14 @@ package xyz.shaohui.sicilly.views.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import xyz.shaohui.sicilly.R;
 
 public class IndexFragment extends Fragment {
@@ -21,10 +24,31 @@ public class IndexFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_index, container, false);
+        View v = inflater.inflate(R.layout.fragment_index, container, false);
+        ButterKnife.bind(this, v);
+        showMainFrame();
+        return v;
     }
 
     private void showMainFrame() {
+        getChildFragmentManager().beginTransaction()
+                .replace(R.id.main_frame, TimelineFragment.newInstance(TimelineFragment.ACTION_INDEX))
+                .commit();
+    }
+
+    @OnClick(R.id.btn_add)
+    void createStatus() {
 
     }
+
+    @OnClick(R.id.btn_search)
+    void actionSearch() {
+
+    }
+
+    @OnClick(R.id.img_icon)
+    void scrollTop() {
+
+    }
+
 }

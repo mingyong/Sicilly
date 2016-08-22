@@ -12,17 +12,26 @@
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/bottom_size"/>
 
-    <com.flyco.tablayout.CommonTabLayout
-        android:id="@+id/bottom_tab"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@color/white"
-        android:layout_alignParentBottom="true"
-        app:tl_iconGravity="TOP"
-        app:tl_iconHeight="20dp"
-        app:tl_iconWidth="20dp"
-        app:tl_iconVisible="true"
-        app:tl_textsize="12sp"
-        app:tl_textSelectColor="@color/positive"
-        app:tl_textUnselectColor="@color/negative"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_alignParentBottom="true">
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/text_main"/>
+        <com.flyco.tablayout.CommonTabLayout
+            android:id="@+id/bottom_tab"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/white"
+            app:tl_iconGravity="TOP"
+            app:tl_iconHeight="20dp"
+            app:tl_iconWidth="20dp"
+            app:tl_iconVisible="true"
+            app:tl_textsize="12sp"
+            app:tl_textSelectColor="@color/positive"
+            app:tl_textUnselectColor="@color/negative"/>
+    </LinearLayout>
 </RelativeLayout>

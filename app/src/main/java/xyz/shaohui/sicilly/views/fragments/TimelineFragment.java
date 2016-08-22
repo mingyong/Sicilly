@@ -141,22 +141,6 @@ public class TimelineFragment extends BaseFragment implements ScrollableHelper.S
                 });
     }
 
-    @OnClick(R.id.btn_add)
-    void createStatus() {
-
-    }
-
-    @OnClick(R.id.btn_search)
-    void actionSearch() {
-
-    }
-
-    @OnClick(R.id.img_icon)
-    void scrollTop() {
-
-    }
-
-
     @Override
     public View getScrollableView() {
         return recyclerView.getRecycler();
