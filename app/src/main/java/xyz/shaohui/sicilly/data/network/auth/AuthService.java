@@ -82,7 +82,7 @@ public class AuthService {
 
                     @Override
                     public void onNext(ResponseBody response) {
-
+                        response.close();
                     }
                 });
 
