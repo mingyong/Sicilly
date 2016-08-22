@@ -13,14 +13,15 @@
     android:background="@color/white">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="32dp"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical">
-        <ImageView
+        <com.makeramen.roundedimageview.RoundedImageView
             android:id="@+id/user_avatar"
-            android:layout_width="28dp"
-            android:layout_height="28dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_marginRight="6dp"
             android:scaleType="centerCrop"
+            app:riv_corner_radius="3dp"
             tools:src="@mipmap/ic_icon"/>
         <TextView
             android:id="@+id/user_name"
@@ -55,20 +56,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_normal"
-        android:layout_marginBottom="@dimen/spacing_normal"
         style="@style/AppTheme.StatusText"
         tools:text="滴滴出行宣布与Uber全球达成战略协议，滴滴出行将收购优步中国的品牌、业务、数据等全部资产在中国大陆运营。双方达成战略协议后， 滴滴出行和优步的母公司Uber全球将相互持股，成为对方的少数股权股东"/>
     <ImageView
         android:id="@+id/status_image"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:layout_marginTop="@dimen/spacing_normal"
         android:scaleType="centerCrop"
         tools:background="@color/place_bg"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_marginTop="@dimen/spacing_normal"
-        android:background="@color/status_line"/>
+        android:background="@color/divider"/>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -78,23 +79,23 @@
         android:paddingBottom="@dimen/spacing_small">
         <ImageButton
             android:id="@+id/action_comment"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:background="@color/transparent"
             app:srcCompat="@drawable/ic_comment"/>
         <ImageButton
             android:id="@+id/action_repost"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/action_comment"
             android:layout_marginRight="64dp"
             android:background="@color/transparent"
             app:srcCompat="@drawable/ic_repost"/>
         <ImageButton
             android:id="@+id/action_star"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_toLeftOf="@id/action_repost"
             android:layout_marginRight="64dp"
             android:background="@color/transparent"
