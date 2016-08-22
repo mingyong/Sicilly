@@ -49,7 +49,7 @@ public class RetrofitService {
                 .build();
 
         Gson gson = new GsonBuilder()
-                .setDateFormat("EEE MMM dd HH:mm:ss Z yyyy")
+                .setDateFormat("EE MMM dd HH:mm:ss Z yyyy")
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()

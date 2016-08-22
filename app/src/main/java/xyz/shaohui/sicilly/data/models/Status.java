@@ -6,7 +6,7 @@ public class Status {
     private String repost_user_id;
     private String in_reply_to_status_id;
     private Status repost_status;
-    private String created_at;
+    private Date created_at;
     private boolean truncated;
     private String source;
     private String in_reply_to_screen_name;
@@ -60,11 +60,11 @@ public class Status {
         this.repost_status = repost_status;
     }
 
-    public String getCreated_at() {
+    public Date getCreated_at() {
         return this.created_at;
     }
 
-    public void setCreated_at(String created_at) {
+    public void setCreated_at(Date created_at) {
         this.created_at = created_at;
     }
 
