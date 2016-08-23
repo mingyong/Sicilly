@@ -41,7 +41,7 @@ public class TimelineFragment extends BaseFragment implements ScrollableHelper.S
     @BindView(R.id.recycler)VistaRecyclerView recyclerView;
 
     private int action;
-    private int page;
+    private int page = 1;
 
     public static final int ACTION_INDEX = 1;
     public static final int ACTION_ABOUT_ME = 2;
@@ -123,7 +123,7 @@ public class TimelineFragment extends BaseFragment implements ScrollableHelper.S
         String lastStatusId = dataList.get(dataList.size() - 1).getId();
 
         SicillyApplication.getRetrofitService()
-                .getStatusService().homeStatusNext(lastStatusId, page)
+                .getStatusService().homeStatusNext(page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<List<Status>>() {

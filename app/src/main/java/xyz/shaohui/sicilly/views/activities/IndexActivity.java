@@ -44,7 +44,6 @@ public class IndexActivity extends BaseActivity {
         ButterKnife.bind(this);
         bottomTab = (CommonTabLayout) findViewById(R.id.bottom_tab);
 
-        text();
         initBottomTab();
     }
 
@@ -69,16 +68,6 @@ public class IndexActivity extends BaseActivity {
         fragments.add(new UserFragment());
 
         bottomTab.setTabData(tabData, this, R.id.main_frame, fragments);
-    }
-
-    private void text() {
-        String time = "Sun Aug 21 13:09:03 +0000 2016";
-        try {
-            Date date = new SimpleDateFormat("EE MMM dd HH:mm:ss Z yyyy", Locale.ENGLISH).parse(time);
-            ToastUtils.showToast(this, date.toString());
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
     }
 
     // 切换Fragment

@@ -10,9 +10,9 @@
     </style>
 
     <style name="AppTheme.StatusText">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/text_main</item>
-        <item name="android:lineSpacingMultiplier">1.5</item>
+        <item name="android:lineSpacingMultiplier">1.35</item>
     </style>
 
 </resources>

@@ -20,6 +20,7 @@ import xyz.shaohui.sicilly.data.DataManager;
 import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
+import xyz.shaohui.sicilly.utils.TimeUtils;
 
 /**
  * Created by shaohui on 16/8/19.
@@ -47,15 +48,16 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
         final Context context = viewHolder.avatar.getContext();
 
         viewHolder.name.setText(user.getScreen_name());
-        viewHolder.createdTime.setText("3分钟前");
+        viewHolder.createdTime.setText(TimeUtils.simpleFormat(status.getCreated_at()));
         viewHolder.source.setText(HtmlUtils.cleanAllTag(status.getSource()));
         viewHolder.text.setText(HtmlUtils.cleanAllTag(status.getText()));
         Glide.with(context)
                 .load(user.getProfile_image_url_large())
                 .into(viewHolder.avatar);
         if (status.getPhoto() != null) {
+            viewHolder.image.setVisibility(View.VISIBLE);
             Glide.with(context)
-                    .load(status.getPhoto().getImageurl())
+                    .load(status.getPhoto().getLargeurl())
                     .into(viewHolder.image);
         } else {
             viewHolder.image.setVisibility(View.GONE);

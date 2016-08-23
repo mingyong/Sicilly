@@ -1,6 +1,8 @@
 package xyz.shaohui.sicilly.utils;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 /**
  * Created by shaohui on 16/8/19.
@@ -8,7 +10,8 @@ import java.util.Date;
 public class TimeUtils {
 
     public static String simpleFormat(Date date) {
-        return "3分钟前";
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm dd/MM", Locale.CHINA);
+        return format.format(date);
     }
 
 }
