@@ -12,7 +12,6 @@
     android:foreground="?attr/selectableItemBackground"
     android:background="@color/white">
     <RelativeLayout
-        android:id="@+id/status_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical">

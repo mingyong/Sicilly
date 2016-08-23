@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import butterknife.ButterKnife;
 import me.shaohui.scrollablelayout.ScrollableHelper;
 import me.shaohui.vistarecyclerview.OnMoreListener;
 import me.shaohui.vistarecyclerview.VistaRecyclerView;
-import me.shaohui.vistarecyclerview.decoration.SpacingDecoration;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -68,11 +66,7 @@ public class PhotoListFragment extends Fragment implements ScrollableHelper.Scro
 
     private void initRecycler() {
         UserPhotoAdapter adapter = new UserPhotoAdapter(statusList);
-        StaggeredGridLayoutManager layoutManager =
-                new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL );
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addItemDecoration(new SpacingDecoration(20, 24));
         recyclerView.setOnMoreListener(new OnMoreListener() {
             @Override
             public void noMoreAsked(int total, int left, int current) {
