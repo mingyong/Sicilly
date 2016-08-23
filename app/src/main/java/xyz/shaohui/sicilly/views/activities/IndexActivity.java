@@ -42,6 +42,7 @@ public class IndexActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
         ButterKnife.bind(this);
+        bottomTab = (CommonTabLayout) findViewById(R.id.bottom_tab);
 
         initBottomTab();
     }

@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 
+import com.hannesdorfmann.fragmentargs.annotation.Arg;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,11 +36,12 @@ import xyz.shaohui.sicilly.views.adapters.IndexStatusAdapter;
 
 
 public class TimelineFragment extends BaseFragment implements ScrollableHelper.ScrollableContainer {
+    public static final String TAG = "TimelineFragment";
 
     @BindView(R.id.recycler)VistaRecyclerView recyclerView;
 
-    public static final String TAG = "TimelineFragment";
     private int action;
+    private int page;
 
     public static final int ACTION_INDEX = 1;
     public static final int ACTION_ABOUT_ME = 2;
@@ -103,6 +106,7 @@ public class TimelineFragment extends BaseFragment implements ScrollableHelper.S
                 .subscribe(new Action1<List<Status>>() {
                     @Override
                     public void call(List<Status> statuses) {
+                        page++;
                         dataList.addAll(statuses);
                         recyclerView.notifyDataSetChanged();
                     }
@@ -119,13 +123,14 @@ public class TimelineFragment extends BaseFragment implements ScrollableHelper.S
         String lastStatusId = dataList.get(dataList.size() - 1).getId();
 
         SicillyApplication.getRetrofitService()
-                .getStatusService().homeStatusNext(lastStatusId)
+                .getStatusService().homeStatusNext(lastStatusId, page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<List<Status>>() {
                     @Override
                     public void call(List<Status> statuses) {
                         if (statuses.size() > 0) {
+                            page++;
                             dataList.addAll(statuses);
                             recyclerView.notifyDataSetChanged();
                         } else {
