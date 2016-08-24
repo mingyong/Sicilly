@@ -1,6 +1,9 @@
 package xyz.shaohui.sicilly.views.adapters;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Context;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,6 +31,7 @@ import xyz.shaohui.sicilly.utils.TimeUtils;
 public class IndexStatusAdapter extends RecyclerView.Adapter {
 
     private List<Status> dataList;
+    private int mLastPosition = 0;
 
     public IndexStatusAdapter(List<Status> dataList) {
         this.dataList = dataList;
@@ -89,7 +93,27 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
             viewHolder.actionStar.setImageResource(R.drawable.ic_star);
         }
 
+        // 动画效果
+        if (position > mLastPosition) {
+            startAnimator(viewHolder.itemView);
+            mLastPosition = position;
+        } else {
+            clearAnimator(viewHolder.itemView);
+        }
 
+    }
+
+    private void startAnimator(View view) {
+        ObjectAnimator scaleX = ObjectAnimator.ofFloat(view, "scaleX", 0.9f, 1f);
+        ObjectAnimator scaleY = ObjectAnimator.ofFloat(view, "scaleY", 0.9f, 1f);
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(scaleX, scaleY);
+        animatorSet.setDuration(100).start();
+    }
+
+    private void clearAnimator(View view) {
+        ViewCompat.setScaleX(view, 1);
+        ViewCompat.setScaleY(view, 1);
     }
 
     @Override

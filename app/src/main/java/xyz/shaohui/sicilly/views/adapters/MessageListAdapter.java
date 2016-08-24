@@ -69,7 +69,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
         if (holder instanceof MessageViewHolder) {
             Conversation conversation = (Conversation) dataList.get(position - 1);
             MessageViewHolder viewHolder = (MessageViewHolder) holder;
-            Context context = viewHolder.parent.getContext();
+            Context context = viewHolder.itemView.getContext();
 
             User otherUser;
             if (conversation.getOtherid().equals(conversation.getDm().getRecipient().getId())) {
@@ -105,12 +105,10 @@ public class MessageListAdapter extends RecyclerView.Adapter {
         @BindView(R.id.message_text)TextView text;
         @BindView(R.id.message_count)TextView count;
         @BindView(R.id.message_time)TextView time;
-        private View parent;
 
         public MessageViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            parent = itemView;
         }
     }
 
@@ -129,12 +127,10 @@ public class MessageListAdapter extends RecyclerView.Adapter {
         @BindView(R.id.message_count)TextView count;
         @BindView(R.id.message_text)TextView text;
         @BindView(R.id.message_time)TextView time;
-        private View parent;
 
         public FriendRequestViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            parent = itemView;
         }
     }
 
