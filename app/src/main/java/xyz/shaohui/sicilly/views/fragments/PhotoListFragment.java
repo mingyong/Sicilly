@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,6 +68,7 @@ public class PhotoListFragment extends Fragment implements ScrollableHelper.Scro
     private void initRecycler() {
         UserPhotoAdapter adapter = new UserPhotoAdapter(statusList);
         recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         recyclerView.setOnMoreListener(new OnMoreListener() {
             @Override
             public void noMoreAsked(int total, int left, int current) {
