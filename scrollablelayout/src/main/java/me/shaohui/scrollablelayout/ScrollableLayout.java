@@ -1,6 +1,7 @@
 package me.shaohui.scrollablelayout;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -23,6 +24,7 @@ public class ScrollableLayout extends LinearLayout{
     private Scroller mScroller;
     private VelocityTracker mVelocityTracker;
     private OnScrollListener mOnScrollListener;
+    private int mMinHeight = 0;
 
     private int maxY;
     private int minY = 0;
@@ -58,6 +60,13 @@ public class ScrollableLayout extends LinearLayout{
     public ScrollableLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
+        TypedArray array = getContext().obtainStyledAttributes(attrs, R.styleable.ScrollableLayout);
+        try {
+          mMinHeight = (int) array.getDimension(R.styleable.ScrollableLayout_min_top_height, 0);
+        } finally {
+            array.recycle();
+        }
+
         final ViewConfiguration configuration = ViewConfiguration.get(context);
         mTouchSlop = configuration.getScaledTouchSlop();
         mMaximumVelocity = configuration.getScaledMaximumFlingVelocity();
@@ -76,7 +85,7 @@ public class ScrollableLayout extends LinearLayout{
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (mHeaderView != null) {
             measureChildWithMargins(mHeaderView, widthMeasureSpec, 0, MeasureSpec.UNSPECIFIED, 0);
-            maxY = mHeaderView.getMeasuredHeight();
+            maxY = mHeaderView.getMeasuredHeight() - mMinHeight;
             mHeaderHeight = mHeaderView.getMeasuredHeight();
         }
         super.onMeasure(widthMeasureSpec,
