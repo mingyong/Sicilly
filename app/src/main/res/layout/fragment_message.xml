@@ -12,6 +12,7 @@
         android:layout_marginTop="?attr/actionBarSize"/>
 
     <LinearLayout
+        android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -20,24 +21,15 @@
             android:layout_height="?attr/actionBarSize"
             android:gravity="center_vertical"
             android:background="@color/white">
-            <TextView
-                android:id="@+id/message_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <com.flyco.tablayout.SegmentTabLayout
+                android:id="@+id/tab_layout"
+                android:layout_width="200dp"
                 android:layout_centerInParent="true"
-                android:textSize="16sp"
-                android:text="@string/message_title"
-                android:textColor="@color/text_main"/>
+                android:layout_height="32dp"
+                app:tl_bar_color="@color/white"
+                app:tl_indicator_color="@color/positive"
+                app:tl_indicator_corner_radius="8dp"/>
         </RelativeLayout>
-        <com.flyco.tablayout.SegmentTabLayout
-            android:id="@+id/tab_layout"
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:paddingRight="32dp"
-            android:paddingLeft="32dp"
-            app:tl_bar_color="@color/white"
-            app:tl_indicator_color="@color/accent"
-            app:tl_indicator_corner_radius="8dp"/>
         <View
             android:layout_width="match_parent"
             android:layout_height="3dp"
