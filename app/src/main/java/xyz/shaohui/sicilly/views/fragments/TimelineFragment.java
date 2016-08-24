@@ -89,16 +89,18 @@ public class TimelineFragment extends BaseFragment implements ScrollableHelper.S
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        recyclerView.setRefreshing(true);
         switch (action) {
             case ACTION_INDEX:
                 fetchStatus();
+                recyclerView.setRefreshing(true);
                 break;
             case ACTION_USER:
                 fetchUserStatus(false);
+                recyclerView.showProgressView();
                 break;
             case ACTION_ABOUT_ME:
                 fetchAboutMeStatus(false);
+                recyclerView.setRefreshing(true);
                 break;
         }
     }
@@ -123,22 +125,22 @@ public class TimelineFragment extends BaseFragment implements ScrollableHelper.S
                 }
             }
         }, 6);
-        recyclerView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                switch (action) {
-                    case ACTION_INDEX:
-                        fetchStatus();
-                        break;
-                    case ACTION_USER:
-                        fetchUserStatus(false);
-                        break;
-                    case ACTION_ABOUT_ME:
-                        fetchAboutMeStatus(false);
-                        break;
+
+        if (action ==  ACTION_INDEX || action == ACTION_ABOUT_ME) {
+            recyclerView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+                @Override
+                public void onRefresh() {
+                    switch (action) {
+                        case ACTION_INDEX:
+                            fetchStatus();
+                            break;
+                        case ACTION_ABOUT_ME:
+                            fetchAboutMeStatus(false);
+                            break;
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     private void fetchStatus() {
