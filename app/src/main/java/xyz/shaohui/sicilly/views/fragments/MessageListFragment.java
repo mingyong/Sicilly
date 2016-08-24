@@ -15,6 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.shaohui.vistarecyclerview.OnMoreListener;
 import me.shaohui.vistarecyclerview.VistaRecyclerView;
+import me.shaohui.vistarecyclerview.decoration.DividerDecoration;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -55,6 +56,7 @@ public class MessageListFragment extends Fragment {
     private void initRecyclerView() {
         MessageListAdapter adapter = new MessageListAdapter(dataList);
         recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new DividerDecoration(getResources().getColor(R.color.divider), 2));
         recyclerView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -64,7 +66,7 @@ public class MessageListFragment extends Fragment {
         recyclerView.setOnMoreListener(new OnMoreListener() {
             @Override
             public void noMoreAsked(int total, int left, int current) {
-
+                recyclerView.loadNoMore();
             }
         }, 4);
     }

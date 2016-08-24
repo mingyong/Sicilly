@@ -13,6 +13,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.flyco.tablayout.SegmentTabLayout;
+import com.flyco.tablayout.listener.OnTabSelectListener;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import xyz.shaohui.sicilly.R;
@@ -21,8 +24,7 @@ import xyz.shaohui.sicilly.R;
 public class MessageFragment extends BaseFragment {
 
     @BindView(R.id.view_pager)ViewPager viewPager;
-
-    private MessageAdapter mAdapter;
+    @BindView(R.id.tab_layout)SegmentTabLayout tabLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,8 +41,22 @@ public class MessageFragment extends BaseFragment {
     }
 
     private void initViewPager() {
-        mAdapter = new MessageAdapter(getChildFragmentManager());
+        MessageAdapter mAdapter = new MessageAdapter(getChildFragmentManager());
         viewPager.setAdapter(mAdapter);
+
+        tabLayout.setTabData(new String[]{getString(R.string.message_tab_1),
+                getString(R.string.message_tab_2)});
+        tabLayout.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+                viewPager.setCurrentItem(position);
+            }
+
+            @Override
+            public void onTabReselect(int position) {
+
+            }
+        });
     }
 
     class MessageAdapter extends FragmentPagerAdapter {
@@ -54,7 +70,7 @@ public class MessageFragment extends BaseFragment {
             if (position == 0) {
                 return new MessageListFragment();
             } else {
-                return TimelineFragment.newInstance(TimelineFragment.ACTION_USER);
+                return TimelineFragment.newInstance(TimelineFragment.ACTION_ABOUT_ME);
             }
         }
 
@@ -62,6 +78,8 @@ public class MessageFragment extends BaseFragment {
         public int getCount() {
             return 2;
         }
+
+
     }
 
 }

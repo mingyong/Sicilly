@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="60dp"
+    android:background="@color/white"
     android:paddingRight="@dimen/spacing_normal">
     <com.makeramen.roundedimageview.RoundedImageView
         android:id="@+id/user_avatar"

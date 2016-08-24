@@ -30,6 +30,8 @@
     // message
     <string name="message_title">消息盒子</string>
     <string name="friend_request">好友请求</string>
+    <string name="message_tab_1">私信</string>
+    <string name="message_tab_2">\@我</string>
 
     // userActivity
     <string name="tab_status">消息</string>

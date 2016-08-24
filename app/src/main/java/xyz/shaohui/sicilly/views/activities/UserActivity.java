@@ -81,7 +81,7 @@ public class UserActivity extends BaseActivity {
 
     private void initViewPager() {
         fragmentList = new ArrayList<>();
-        fragmentList.add(TimelineFragment.newInstance(TimelineFragment.ACTION_USER));
+        fragmentList.add(TimelineFragment.newInstance(TimelineFragment.ACTION_USER, userId));
         fragmentList.add(PhotoListFragment.newInstance(userId));
 
         UserPagerAdapter adapter = new UserPagerAdapter(getSupportFragmentManager(), fragmentList);

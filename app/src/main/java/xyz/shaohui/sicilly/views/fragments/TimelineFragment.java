@@ -41,6 +41,7 @@ public class TimelineFragment extends BaseFragment implements ScrollableHelper.S
     @BindView(R.id.recycler)VistaRecyclerView recyclerView;
 
     private int action;
+    private String userId;
     private int page = 1;
 
     public static final int ACTION_INDEX = 1;
@@ -57,10 +58,22 @@ public class TimelineFragment extends BaseFragment implements ScrollableHelper.S
         return fragment;
     }
 
+    public static TimelineFragment newInstance(int action, String userId) {
+        TimelineFragment fragment = new TimelineFragment();
+        Bundle args = new Bundle();
+        args.putInt("action", action);
+        args.putString("user_id", userId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         action = getArguments().getInt("action");
+        if (action == ACTION_USER) {
+            userId = getArguments().getString("user_id");
+        }
         dataList = new ArrayList<>();
     }
 
@@ -77,7 +90,17 @@ public class TimelineFragment extends BaseFragment implements ScrollableHelper.S
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView.setRefreshing(true);
-        fetchStatus();
+        switch (action) {
+            case ACTION_INDEX:
+                fetchStatus();
+                break;
+            case ACTION_USER:
+                fetchUserStatus(false);
+                break;
+            case ACTION_ABOUT_ME:
+                fetchAboutMeStatus(false);
+                break;
+        }
     }
 
     private void initRecycler() {
@@ -87,13 +110,33 @@ public class TimelineFragment extends BaseFragment implements ScrollableHelper.S
         recyclerView.setOnMoreListener(new OnMoreListener() {
             @Override
             public void noMoreAsked(int total, int left, int current) {
-                fetchNextPage();
+                switch (action) {
+                    case ACTION_INDEX:
+                        fetchNextPage();
+                        break;
+                    case ACTION_USER:
+                        fetchUserStatus(true);
+                        break;
+                    case ACTION_ABOUT_ME:
+                        fetchAboutMeStatus(true);
+                        break;
+                }
             }
         }, 6);
         recyclerView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                fetchStatus();
+                switch (action) {
+                    case ACTION_INDEX:
+                        fetchStatus();
+                        break;
+                    case ACTION_USER:
+                        fetchUserStatus(false);
+                        break;
+                    case ACTION_ABOUT_ME:
+                        fetchAboutMeStatus(false);
+                        break;
+                }
             }
         });
     }
@@ -143,6 +186,80 @@ public class TimelineFragment extends BaseFragment implements ScrollableHelper.S
                     public void call(Throwable throwable) {
                         ErrorUtils.catchException(throwable);
                         recyclerView.loadMoreFailure();
+                    }
+                });
+    }
+
+    private void fetchAboutMeStatus(final boolean isMore) {
+        if (!isMore) {
+            page = 1;
+        }
+        SicillyApplication.getRetrofitService()
+                .getStatusService().mentionsStatus(page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<List<Status>>() {
+                    @Override
+                    public void call(List<Status> statuses) {
+                        if (isMore) {
+                            if (statuses.size() == 0) {
+                                recyclerView.loadNoMore();
+                                return;
+                            }
+                            page++;
+                        } else {
+                            page = 2;
+                            dataList.clear();
+                        }
+                        dataList.addAll(statuses);
+                        recyclerView.notifyDataSetChanged();
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ErrorUtils.catchException(throwable);
+                        if (isMore) {
+                            recyclerView.loadMoreFailure();
+                        } else {
+                            recyclerView.showErrorView();
+                        }
+                    }
+                });
+    }
+
+    private void fetchUserStatus(final boolean isMore) {
+        if (!isMore) {
+            page = 1;
+        }
+        SicillyApplication.getRetrofitService()
+                .getStatusService().userTimeline(userId, page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<List<Status>>() {
+                    @Override
+                    public void call(List<Status> statuses) {
+                        if (isMore) {
+                            if (statuses.size() == 0) {
+                                recyclerView.loadNoMore();
+                                return;
+                            }
+                            page++;
+                        } else {
+                            page = 2;
+                            dataList.clear();
+                        }
+                        dataList.addAll(statuses);
+                        recyclerView.notifyDataSetChanged();
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        ErrorUtils.catchException(throwable);
+                        if (isMore) {
+                            recyclerView.loadMoreFailure();
+                        } else {
+                            recyclerView.showErrorView();
+                        }
                     }
                 });
     }
