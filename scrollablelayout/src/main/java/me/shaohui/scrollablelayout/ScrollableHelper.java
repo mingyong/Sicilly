@@ -2,8 +2,10 @@ package me.shaohui.scrollablelayout;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
@@ -50,8 +52,40 @@ public class ScrollableHelper {
     private static boolean isRecyclerViewTop(RecyclerView recyclerView) {
         if (recyclerView != null) {
             RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-            if (layoutManager instanceof LinearLayoutManager) {
+            if (layoutManager instanceof GridLayoutManager) {
+                int firstVisibleItemPosition = ((GridLayoutManager) layoutManager).findFirstVisibleItemPosition();
+                View childAt = recyclerView.getChildAt(0);
+                if (childAt == null) {
+                    return true;
+                }
+                if (firstVisibleItemPosition == 0) {
+                    ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) childAt.getLayoutParams();
+                    int topMargin = lp.topMargin;
+                    int top = childAt.getTop();
+                    if (top >= topMargin) {
+                        return true;
+                    }
+                }
+            } else if (layoutManager instanceof LinearLayoutManager ) {
                 int firstVisibleItemPosition = ((LinearLayoutManager) layoutManager).findFirstVisibleItemPosition();
+                View childAt = recyclerView.getChildAt(0);
+                if (childAt == null) {
+                    return true;
+                }
+                if (firstVisibleItemPosition == 0) {
+                    ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) childAt.getLayoutParams();
+                    int topMargin = lp.topMargin;
+                    int top = childAt.getTop();
+                    if (top >= topMargin) {
+                        return true;
+                    }
+                }
+            } else if (layoutManager instanceof StaggeredGridLayoutManager) {
+                StaggeredGridLayoutManager staggeredGridLayoutManager =
+                        (StaggeredGridLayoutManager) layoutManager;
+                int[] positions = new int[staggeredGridLayoutManager.getSpanCount()];
+                staggeredGridLayoutManager.findFirstVisibleItemPositions(positions);
+                int firstVisibleItemPosition = getMin(positions);
                 View childAt = recyclerView.getChildAt(0);
                 if (childAt == null) {
                     return true;
@@ -67,6 +101,16 @@ public class ScrollableHelper {
             }
         }
         return false;
+    }
+
+    private static int getMin(int[] positions) {
+        int min = Integer.MAX_VALUE;
+        for (int value:positions) {
+            if (value < min) {
+                min = value;
+            }
+        }
+        return min;
     }
 
     @SuppressLint("NewApi")
