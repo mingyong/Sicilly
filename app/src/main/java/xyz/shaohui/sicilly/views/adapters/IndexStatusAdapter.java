@@ -63,6 +63,12 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
             Glide.with(context)
                     .load(status.getPhoto().getLargeurl())
                     .into(viewHolder.image);
+            // gif
+            if (status.getPhoto().getLargeurl().toLowerCase().endsWith(".gif")) {
+                viewHolder.gif.setVisibility(View.VISIBLE);
+            } else {
+                viewHolder.gif.setVisibility(View.GONE);
+            }
         } else {
             viewHolder.image.setVisibility(View.GONE);
         }
@@ -94,9 +100,9 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
         }
 
         // 动画效果
-        if (position > mLastPosition) {
+        if (holder.getAdapterPosition() > mLastPosition) {
             startAnimator(viewHolder.itemView);
-            mLastPosition = position;
+            mLastPosition = holder.getAdapterPosition();
         } else {
             clearAnimator(viewHolder.itemView);
         }
@@ -132,6 +138,7 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
         @BindView(R.id.action_comment)ImageButton actionComment;
         @BindView(R.id.action_repost)ImageButton actionRepost;
         @BindView(R.id.action_star)ImageButton actionStar;
+        @BindView(R.id.flag_gif)TextView gif;
 
         public StatusViewHolder(View itemView) {
             super(itemView);

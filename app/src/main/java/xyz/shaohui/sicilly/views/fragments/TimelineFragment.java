@@ -106,7 +106,8 @@ public class TimelineFragment extends BaseFragment implements ScrollableHelper.S
                 .subscribe(new Action1<List<Status>>() {
                     @Override
                     public void call(List<Status> statuses) {
-                        page++;
+                        page = 2;
+                        dataList.clear();
                         dataList.addAll(statuses);
                         recyclerView.notifyDataSetChanged();
                     }

@@ -9,6 +9,7 @@
     <string name="bottom_tab_home">主页</string>
     <string name="bottom_tab_message">消息</string>
     <string name="bottom_tab_user">我的</string>
+    <string name="gif">GIF</string>
 
     // login
     <string name="login_username">饭否账号</string>
