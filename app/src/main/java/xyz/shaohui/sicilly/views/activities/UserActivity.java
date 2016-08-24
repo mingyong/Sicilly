@@ -14,9 +14,12 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.flyco.tablayout.SegmentTabLayout;
+import com.flyco.tablayout.listener.OnTabSelectListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +51,10 @@ public class UserActivity extends BaseActivity {
     @BindView(R.id.user_brief)TextView brief;
     @BindView(R.id.user_bg)ImageView userBackground;
 
+    @BindView(R.id.title_bar)RelativeLayout titleBar;
+    @BindView(R.id.title)TextView title;
     @BindView(R.id.btn_follow)TextView actionFollow;
-    @BindView(R.id.tab_layout)TabLayout tabLayout;
+    @BindView(R.id.tab_layout)SegmentTabLayout tabLayout;
     @BindView(R.id.view_pager)ViewPager viewPager;
     @BindView(R.id.scrollableLayout)ScrollableLayout scrollableLayout;
 
@@ -86,7 +91,6 @@ public class UserActivity extends BaseActivity {
 
         UserPagerAdapter adapter = new UserPagerAdapter(getSupportFragmentManager(), fragmentList);
         viewPager.setAdapter(adapter);
-        tabLayout.setupWithViewPager(viewPager);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -95,10 +99,24 @@ public class UserActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 scrollableLayout.getHelper().setScrollableContainer((ScrollableHelper.ScrollableContainer) fragmentList.get(position));
+                tabLayout.setCurrentTab(position);
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        tabLayout.setTabData(new String[]{getString(R.string.user_tab_1),
+                getString(R.string.user_tab_2)});
+        tabLayout.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+                viewPager.setCurrentItem(position);
+            }
+
+            @Override
+            public void onTabReselect(int position) {
 
             }
         });
@@ -109,7 +127,11 @@ public class UserActivity extends BaseActivity {
         scrollableLayout.setOnScrollListener(new ScrollableLayout.OnScrollListener() {
             @Override
             public void onScroll(int currentY, int maxY) {
-
+                if (currentY >= maxY) {
+                    titleBar.setBackgroundColor(getResources().getColor(R.color.positive));
+                } else {
+                    titleBar.setBackgroundColor(getResources().getColor(R.color.transparent));
+                }
             }
         });
     }
@@ -154,7 +176,7 @@ public class UserActivity extends BaseActivity {
 
     @OnClick(R.id.btn_back)
     void btnBack() {
-
+        finish();
     }
 
     @OnClick(R.id.btn_follow)
@@ -186,14 +208,6 @@ public class UserActivity extends BaseActivity {
             return 2;
         }
 
-        @Override
-        public CharSequence getPageTitle(int position) {
-            if (position == 0) {
-                return getString(R.string.tab_status);
-            } else {
-                return getString(R.string.tab_photo);
-            }
-        }
     }
 
 }

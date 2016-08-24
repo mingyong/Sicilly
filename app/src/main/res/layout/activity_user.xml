@@ -17,15 +17,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tab_layout"
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                app:tabBackground="@color/white"
-                app:tabIndicatorColor="@color/accent"
-                app:tabIndicatorHeight="3dp"
-                app:tabTextColor="@color/gray_tag"
-                app:tabSelectedTextColor="@color/text_main" />
+                android:layout_height="wrap_content"
+                android:background="@color/white">
+                <com.flyco.tablayout.SegmentTabLayout
+                    android:id="@+id/tab_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:paddingLeft="32dp"
+                    android:paddingRight="32dp"
+                    app:tl_indicator_color="@color/positive"
+                    app:tl_bar_color="@color/white"
+                    app:tl_indicator_corner_radius="8dp"/>
+            </FrameLayout>
             <android.support.v4.view.ViewPager
                 android:id="@+id/view_pager"
                 android:layout_width="match_parent"
@@ -33,38 +40,46 @@
         </LinearLayout>
     </me.shaohui.scrollablelayout.ScrollableLayout>
     <RelativeLayout
+        android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:gravity="center_vertical">
         <ImageButton
             android:id="@+id/btn_back"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:paddingLeft="@dimen/spacing_normal"
+            android:paddingRight="@dimen/spacing_normal"
             android:background="@null"
             app:srcCompat="@drawable/ic_back_white"/>
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_toRightOf="@id/btn_back"
+            android:layout_centerVertical="true"
             android:textColor="@color/white"
-            android:textSize="16sp"/>
+            android:textSize="16sp"
+            tools:text="邵辉Vista"/>
         <TextView
             android:id="@+id/btn_follow"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:paddingRight="@dimen/spacing_normal"
-            android:textSize="14sp"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            android:textSize="12sp"
             android:textColor="@color/white"
-            tools:text="关注"/>
+            android:text="@string/user_follow"/>
         <ImageButton
             android:id="@+id/btn_chat"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_toLeftOf="@id/btn_follow"
             android:paddingRight="@dimen/spacing_normal"
+            android:paddingLeft="@dimen/spacing_normal"
+            android:layout_centerVertical="true"
             android:background="@null"
             app:srcCompat="@drawable/ic_message_white"/>
     </RelativeLayout>
