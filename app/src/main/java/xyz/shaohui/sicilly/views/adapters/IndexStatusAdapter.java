@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -24,6 +25,7 @@ import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
 import xyz.shaohui.sicilly.utils.TimeUtils;
+import xyz.shaohui.sicilly.views.activities.UserActivity;
 
 /**
  * Created by shaohui on 16/8/19.
@@ -47,7 +49,7 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final Status status = dataList.get(position);
-        User user = status.getUser();
+        final User user = status.getUser();
         StatusViewHolder viewHolder = (StatusViewHolder) holder;
         final Context context = viewHolder.avatar.getContext();
 
@@ -77,6 +79,9 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
             @Override
             public void onClick(View v) {
                 switch (v.getId()) {
+                    case R.id.status_header:
+                        context.startActivity(UserActivity.newIntent(context, user.getId()));
+                        break;
                     case R.id.action_comment:
                         DataManager.actionComment(context, status.getId());
                         break;
@@ -92,12 +97,14 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
         viewHolder.actionComment.setOnClickListener(listener);
         viewHolder.actionRepost.setOnClickListener(listener);
         viewHolder.actionStar.setOnClickListener(listener);
+        viewHolder.header.setOnClickListener(listener);
 
         if (status.getFavorited()) {
             viewHolder.actionStar.setImageResource(R.drawable.ic_star_fill);
         } else {
             viewHolder.actionStar.setImageResource(R.drawable.ic_star);
         }
+
 
         // 动画效果
         if (holder.getAdapterPosition() > mLastPosition) {
@@ -139,6 +146,7 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
         @BindView(R.id.action_repost)ImageButton actionRepost;
         @BindView(R.id.action_star)ImageButton actionStar;
         @BindView(R.id.flag_gif)TextView gif;
+        @BindView(R.id.status_header)RelativeLayout header;
 
         public StatusViewHolder(View itemView) {
             super(itemView);
