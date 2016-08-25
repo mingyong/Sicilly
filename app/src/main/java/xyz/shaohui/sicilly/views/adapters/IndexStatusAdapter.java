@@ -5,6 +5,11 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +29,7 @@ import xyz.shaohui.sicilly.data.DataManager;
 import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
+import xyz.shaohui.sicilly.utils.NoUnderlineSpan;
 import xyz.shaohui.sicilly.utils.TimeUtils;
 import xyz.shaohui.sicilly.views.activities.UserActivity;
 
@@ -56,7 +62,14 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
         viewHolder.name.setText(user.getScreen_name());
         viewHolder.createdTime.setText(TimeUtils.simpleFormat(status.getCreated_at()));
         viewHolder.source.setText(HtmlUtils.cleanAllTag(status.getSource()));
-        viewHolder.text.setText(HtmlUtils.cleanAllTag(status.getText()));
+
+        // text
+        viewHolder.text.setText(Html.fromHtml(HtmlUtils.switchTag(status.getText())));
+        Spannable s = new SpannableString(viewHolder.text.getText());
+        s.setSpan(new NoUnderlineSpan(), 0, s.length(), Spanned.SPAN_MARK_MARK);
+        viewHolder.text.setText(s);
+        viewHolder.text.setMovementMethod(LinkMovementMethod.getInstance());
+
         Glide.with(context)
                 .load(user.getProfile_image_url_large())
                 .into(viewHolder.avatar);
