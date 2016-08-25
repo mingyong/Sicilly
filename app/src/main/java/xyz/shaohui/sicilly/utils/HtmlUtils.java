@@ -22,10 +22,12 @@ public class HtmlUtils {
         Elements links = doc.getElementsByTag("a");
         for (Element link:links) {
             String href = link.attr("href");
-            if (href.contains("http://")) {
+            if (href.contains("http://fanfou.com")) {
                 link.attr("href", href.replace("http://", "me.shaohui.sicilly.user://"));
-            } else {
-                link.attr("href", "me.shaohui.sicilly.catalog://" + href);
+            } else if (href.contains("http://")){
+                link.attr("href", href.replace("http://", "me.shaohui.sicilly.http://"));
+            } else if (href.startsWith("/")) {
+                link.attr("href", "me.shaohui.sicilly.catalog:/" + href);
             }
         }
         return doc.html();
@@ -34,6 +36,11 @@ public class HtmlUtils {
     public static String cleanUserScheme(Uri uri) {
         String uriString = uri.toString();
         return uriString.replace("me.shaohui.sicilly.user://fanfou.com/", "");
+    }
+
+    public static String revertHttpScheme(Uri uri) {
+        String uriString = uri.toString();
+        return uriString.replace("me.shaohui.sicilly.http://", "http://");
     }
 
 }
