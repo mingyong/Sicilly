@@ -1,5 +1,7 @@
 package xyz.shaohui.sicilly.utils;
 
+import android.net.Uri;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -27,6 +29,11 @@ public class HtmlUtils {
             }
         }
         return doc.html();
+    }
+
+    public static String cleanUserScheme(Uri uri) {
+        String uriString = uri.toString();
+        return uriString.replace("me.shaohui.sicilly.user://fanfou.com/", "");
     }
 
 }
