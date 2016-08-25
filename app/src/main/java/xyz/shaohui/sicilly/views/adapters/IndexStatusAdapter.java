@@ -2,7 +2,10 @@ package xyz.shaohui.sicilly.views.adapters;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -31,6 +34,7 @@ import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
 import xyz.shaohui.sicilly.utils.NoUnderlineSpan;
 import xyz.shaohui.sicilly.utils.TimeUtils;
+import xyz.shaohui.sicilly.views.activities.PictureActivity;
 import xyz.shaohui.sicilly.views.activities.UserActivity;
 
 /**
@@ -56,7 +60,7 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final Status status = dataList.get(position);
         final User user = status.getUser();
-        StatusViewHolder viewHolder = (StatusViewHolder) holder;
+        final StatusViewHolder viewHolder = (StatusViewHolder) holder;
         final Context context = viewHolder.avatar.getContext();
 
         viewHolder.name.setText(user.getScreen_name());
@@ -78,6 +82,21 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
             Glide.with(context)
                     .load(status.getPhoto().getLargeurl())
                     .into(viewHolder.image);
+            viewHolder.image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = PictureActivity
+                            .newIntent(context, status.getPhoto().getLargeurl());
+                    if (android.os.Build.VERSION.SDK_INT
+                            >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
+                                (Activity) context, viewHolder.image, "image");
+                        context.startActivity(intent, options.toBundle());
+                    } else {
+                        context.startActivity(intent);
+                    }
+                }
+            });
             // gif
             if (status.getPhoto().getLargeurl().toLowerCase().endsWith(".gif")) {
                 viewHolder.gif.setVisibility(View.VISIBLE);

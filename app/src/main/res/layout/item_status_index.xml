@@ -68,6 +68,7 @@
             android:id="@+id/status_image"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:transitionName="image"
             android:scaleType="centerCrop"
             tools:background="@color/place_bg"/>
         <TextView
