@@ -32,6 +32,8 @@
     <string name="friend_request">好友请求</string>
     <string name="message_tab_1">私信</string>
     <string name="message_tab_2">\@我</string>
+    <string name="message_submit">发送</string>
+
 
     // userActivity
     <string name="user_follow">Follow</string>
