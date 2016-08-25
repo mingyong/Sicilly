@@ -14,6 +14,7 @@
 
     //basic
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
     <color name="yellow">#FED202</color>
     <color name="red">#FF6562</color>
     <color name="transparent">#00000000</color>

@@ -54,4 +54,10 @@ public class PictureActivity extends BaseActivity {
             finish();
         }
     }
+
+    @Override
+    protected void onDestroy() {
+        mAttacher.cleanup();
+        super.onDestroy();
+    }
 }
