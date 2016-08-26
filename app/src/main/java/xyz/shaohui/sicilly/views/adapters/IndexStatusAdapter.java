@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.List;
 
@@ -81,6 +82,10 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
             viewHolder.image.setVisibility(View.VISIBLE);
             Glide.with(context)
                     .load(status.getPhoto().getLargeurl())
+                    .asBitmap()
+                    .placeholder(context.getResources()
+                            .getDrawable(R.drawable.drawable_plcae_holder))
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(viewHolder.image);
             viewHolder.image.setOnClickListener(new View.OnClickListener() {
                 @Override

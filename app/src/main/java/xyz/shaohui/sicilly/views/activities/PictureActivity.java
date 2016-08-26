@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +41,7 @@ public class PictureActivity extends BaseActivity {
     private void loadImage() {
         Glide.with(this)
                 .load(url)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(imageView);
         if (!url.toLowerCase().endsWith(".gif")) {
             mAttacher = new PhotoViewAttacher(imageView);
