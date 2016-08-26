@@ -9,6 +9,7 @@ public class Message {
 
     private String id;
     private String text;
+    private String sender_id;
     private String recipient_id;
     private String recipient_screen_name;
     private String sender_screen_name;
@@ -16,6 +17,23 @@ public class Message {
     private User sender;
     private User recipient;
     private Message in_reply_to;
+    private boolean is_success = true;
+
+    public boolean is_success() {
+        return is_success;
+    }
+
+    public void setIs_success(boolean is_success) {
+        this.is_success = is_success;
+    }
+
+    public String getSender_id() {
+        return sender_id;
+    }
+
+    public void setSender_id(String sender_id) {
+        this.sender_id = sender_id;
+    }
 
     public String getId() {
         return id;

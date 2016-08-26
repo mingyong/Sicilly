@@ -21,6 +21,7 @@ import xyz.shaohui.sicilly.data.models.FriendRequest;
 import xyz.shaohui.sicilly.data.models.Message;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.TimeUtils;
+import xyz.shaohui.sicilly.views.activities.ChatActivity;
 
 /**
  * Created by shaohui on 16/8/20.
@@ -69,10 +70,10 @@ public class MessageListAdapter extends RecyclerView.Adapter {
         if (holder instanceof MessageViewHolder) {
             Conversation conversation = (Conversation) dataList.get(position - 1);
             MessageViewHolder viewHolder = (MessageViewHolder) holder;
-            Context context = viewHolder.itemView.getContext();
+            final Context context = viewHolder.itemView.getContext();
 
-            User otherUser;
-            if (conversation.getOtherid().equals(conversation.getDm().getRecipient().getId())) {
+            final User otherUser;
+            if (conversation.getOtherid().equals(conversation.getDm().getRecipient_id())) {
                 otherUser = conversation.getDm().getRecipient();
                 viewHolder.name.setText(conversation.getDm().getRecipient_screen_name());
             } else {
@@ -90,6 +91,13 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             } else {
                 viewHolder.count.setVisibility(View.GONE);
             }
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    context.startActivity(ChatActivity.newIntent(context, otherUser));
+                }
+            });
         }
     }
 

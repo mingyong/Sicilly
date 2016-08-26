@@ -1,8 +1,11 @@
 package xyz.shaohui.sicilly.data.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 
-public class Status {
+public class Status implements Parcelable {
     private String repost_user_id;
     private String in_reply_to_status_id;
     private Status repost_status;
@@ -147,4 +150,64 @@ public class Status {
     public void setFavorited(boolean favorited) {
         this.favorited = favorited;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.repost_user_id);
+        dest.writeString(this.in_reply_to_status_id);
+        dest.writeParcelable(this.repost_status, flags);
+        dest.writeLong(this.created_at != null ? this.created_at.getTime() : -1);
+        dest.writeByte(this.truncated ? (byte) 1 : (byte) 0);
+        dest.writeString(this.source);
+        dest.writeString(this.in_reply_to_screen_name);
+        dest.writeString(this.repost_status_id);
+        dest.writeInt(this.rawid);
+        dest.writeString(this.in_reply_to_user_id);
+        dest.writeString(this.repost_screen_name);
+        dest.writeString(this.id);
+        dest.writeString(this.text);
+        dest.writeByte(this.favorited ? (byte) 1 : (byte) 0);
+        dest.writeParcelable(this.photo, flags);
+        dest.writeParcelable(this.user, flags);
+    }
+
+    public Status() {
+    }
+
+    protected Status(Parcel in) {
+        this.repost_user_id = in.readString();
+        this.in_reply_to_status_id = in.readString();
+        this.repost_status = in.readParcelable(Status.class.getClassLoader());
+        long tmpCreated_at = in.readLong();
+        this.created_at = tmpCreated_at == -1 ? null : new Date(tmpCreated_at);
+        this.truncated = in.readByte() != 0;
+        this.source = in.readString();
+        this.in_reply_to_screen_name = in.readString();
+        this.repost_status_id = in.readString();
+        this.rawid = in.readInt();
+        this.in_reply_to_user_id = in.readString();
+        this.repost_screen_name = in.readString();
+        this.id = in.readString();
+        this.text = in.readString();
+        this.favorited = in.readByte() != 0;
+        this.photo = in.readParcelable(StatusPhoto.class.getClassLoader());
+        this.user = in.readParcelable(User.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<Status> CREATOR = new Parcelable.Creator<Status>() {
+        @Override
+        public Status createFromParcel(Parcel source) {
+            return new Status(source);
+        }
+
+        @Override
+        public Status[] newArray(int size) {
+            return new Status[size];
+        }
+    };
 }
