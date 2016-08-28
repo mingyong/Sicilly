@@ -10,10 +10,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import me.shaohui.vistarecyclerview.OnMoreListener;
 import me.shaohui.vistarecyclerview.VistaRecyclerView;
 import rx.android.schedulers.AndroidSchedulers;
@@ -36,7 +39,7 @@ public class ChatActivity extends BaseActivity {
 
     private List<Message> dataList;
     private User otherUser;
-    private int page ;
+    private int page = 1;
 
     public static Intent newIntent(Context context, User user) {
         Intent intent = new Intent(context, ChatActivity.class);
@@ -48,9 +51,11 @@ public class ChatActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+        ButterKnife.bind(this);
         otherUser = getIntent().getParcelableExtra("user");
         dataList = new ArrayList<>();
         initRecycler();
+        initUserInfo();
     }
 
     @Override
@@ -75,8 +80,16 @@ public class ChatActivity extends BaseActivity {
         });
     }
 
+    private void initUserInfo() {
+        title.setText(otherUser.getScreen_name());
+        Glide.with(this)
+                .load(otherUser.getProfile_image_url_large())
+                .into(customerAvatar);
+
+    }
+
     private void fetchChatList(final boolean isMore) {
-        if (isMore) {
+        if (!isMore) {
             page = 1;
         }
         SicillyApplication.getRetrofitService()
@@ -94,9 +107,9 @@ public class ChatActivity extends BaseActivity {
                             }
                             return;
                         }
+                        page++;
                         dataList.addAll(messages);
                         recyclerView.notifyDataSetChanged();
-                        page++;
                     }
                 }, new Action1<Throwable>() {
                     @Override

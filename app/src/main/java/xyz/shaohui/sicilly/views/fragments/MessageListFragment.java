@@ -30,6 +30,7 @@ public class MessageListFragment extends Fragment {
     @BindView(R.id.recycler)VistaRecyclerView recyclerView;
 
     private List dataList;
+    private int page = 1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,7 @@ public class MessageListFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         recyclerView.setRefreshing(true);
-        fetchMessageList();
+        fetchMessageList(false);
     }
 
     private void initRecyclerView() {
@@ -60,7 +61,7 @@ public class MessageListFragment extends Fragment {
         recyclerView.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                fetchMessageList();
+                fetchMessageList(false);
             }
         });
         recyclerView.setOnMoreListener(new OnMoreListener() {
@@ -71,9 +72,12 @@ public class MessageListFragment extends Fragment {
         }, 4);
     }
 
-    private void fetchMessageList() {
+    private void fetchMessageList(final boolean isMore) {
+        if (!isMore) {
+            page = 1;
+        }
         SicillyApplication.getRetrofitService()
-                .getMessageService().conversationList(1)
+                .getMessageService().conversationList(page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<List<Conversation>>() {
@@ -84,6 +88,9 @@ public class MessageListFragment extends Fragment {
                         } else if (conversations.size() == 0) {
                             recyclerView.loadNoMore();
                         } else {
+                            if (!isMore) {
+                                dataList.clear();
+                            }
                             dataList.addAll(conversations);
                             recyclerView.notifyDataSetChanged();
                         }

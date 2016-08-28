@@ -89,6 +89,7 @@ public class MessageFragment extends BaseFragment {
 
         public MessageAdapter(FragmentManager fm, List<Fragment> fragmentList) {
             super(fm);
+            this.fragmentList = fragmentList;
         }
 
         @Override
