@@ -1,10 +1,13 @@
 package xyz.shaohui.sicilly.data.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-public class User {
+public class User implements Parcelable {
     private String birthday;
     private int utc_offset;
     private int friends_count;
@@ -248,4 +251,86 @@ public class User {
     public void setNotifications(boolean notifications) {
         this.notifications = notifications;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.birthday);
+        dest.writeInt(this.utc_offset);
+        dest.writeInt(this.friends_count);
+        dest.writeString(this.gender);
+        dest.writeString(this.profile_background_image_url);
+        dest.writeInt(this.favourites_count);
+        dest.writeString(this.description);
+        dest.writeLong(this.created_at != null ? this.created_at.getTime() : -1);
+        dest.writeByte(this.is_protected ? (byte) 1 : (byte) 0);
+        dest.writeString(this.screen_name);
+        dest.writeString(this.profile_link_color);
+        dest.writeString(this.id);
+        dest.writeString(this.profile_background_color);
+        dest.writeString(this.profile_image_url_large);
+        dest.writeString(this.profile_sidebar_border_color);
+        dest.writeString(this.profile_text_color);
+        dest.writeString(this.profile_image_url);
+        dest.writeString(this.url);
+        dest.writeByte(this.profile_background_tile ? (byte) 1 : (byte) 0);
+        dest.writeInt(this.statuses_count);
+        dest.writeInt(this.followers_count);
+        dest.writeByte(this.following ? (byte) 1 : (byte) 0);
+        dest.writeString(this.name);
+        dest.writeString(this.location);
+        dest.writeString(this.profile_sidebar_fill_color);
+        dest.writeByte(this.notifications ? (byte) 1 : (byte) 0);
+        dest.writeParcelable(this.status, flags);
+    }
+
+    public User() {
+    }
+
+    protected User(Parcel in) {
+        this.birthday = in.readString();
+        this.utc_offset = in.readInt();
+        this.friends_count = in.readInt();
+        this.gender = in.readString();
+        this.profile_background_image_url = in.readString();
+        this.favourites_count = in.readInt();
+        this.description = in.readString();
+        long tmpCreated_at = in.readLong();
+        this.created_at = tmpCreated_at == -1 ? null : new Date(tmpCreated_at);
+        this.is_protected = in.readByte() != 0;
+        this.screen_name = in.readString();
+        this.profile_link_color = in.readString();
+        this.id = in.readString();
+        this.profile_background_color = in.readString();
+        this.profile_image_url_large = in.readString();
+        this.profile_sidebar_border_color = in.readString();
+        this.profile_text_color = in.readString();
+        this.profile_image_url = in.readString();
+        this.url = in.readString();
+        this.profile_background_tile = in.readByte() != 0;
+        this.statuses_count = in.readInt();
+        this.followers_count = in.readInt();
+        this.following = in.readByte() != 0;
+        this.name = in.readString();
+        this.location = in.readString();
+        this.profile_sidebar_fill_color = in.readString();
+        this.notifications = in.readByte() != 0;
+        this.status = in.readParcelable(Status.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<User> CREATOR = new Parcelable.Creator<User>() {
+        @Override
+        public User createFromParcel(Parcel source) {
+            return new User(source);
+        }
+
+        @Override
+        public User[] newArray(int size) {
+            return new User[size];
+        }
+    };
 }

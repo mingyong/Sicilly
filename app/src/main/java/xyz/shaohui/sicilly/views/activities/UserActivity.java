@@ -2,6 +2,7 @@ package xyz.shaohui.sicilly.views.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -37,6 +38,7 @@ import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.ErrorUtils;
+import xyz.shaohui.sicilly.utils.HtmlUtils;
 import xyz.shaohui.sicilly.views.fragments.PhotoListFragment;
 import xyz.shaohui.sicilly.views.fragments.TimelineFragment;
 
@@ -72,7 +74,11 @@ public class UserActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-        userId = getIntent().getStringExtra("user_id");
+        if (getIntent().getData() != null) {
+            userId = HtmlUtils.cleanUserScheme(getIntent().getData());
+        } else {
+            userId = getIntent().getStringExtra("user_id");
+        }
         ButterKnife.bind(this);
         initViewPager();
         initScrollableLayout();

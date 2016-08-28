@@ -2,9 +2,17 @@ package xyz.shaohui.sicilly.views.adapters;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.List;
 
@@ -24,7 +33,9 @@ import xyz.shaohui.sicilly.data.DataManager;
 import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
+import xyz.shaohui.sicilly.utils.NoUnderlineSpan;
 import xyz.shaohui.sicilly.utils.TimeUtils;
+import xyz.shaohui.sicilly.views.activities.PictureActivity;
 import xyz.shaohui.sicilly.views.activities.UserActivity;
 
 /**
@@ -50,13 +61,20 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final Status status = dataList.get(position);
         final User user = status.getUser();
-        StatusViewHolder viewHolder = (StatusViewHolder) holder;
+        final StatusViewHolder viewHolder = (StatusViewHolder) holder;
         final Context context = viewHolder.avatar.getContext();
 
         viewHolder.name.setText(user.getScreen_name());
         viewHolder.createdTime.setText(TimeUtils.simpleFormat(status.getCreated_at()));
         viewHolder.source.setText(HtmlUtils.cleanAllTag(status.getSource()));
-        viewHolder.text.setText(HtmlUtils.cleanAllTag(status.getText()));
+
+        // text
+        viewHolder.text.setText(Html.fromHtml(HtmlUtils.switchTag(status.getText())));
+        Spannable s = new SpannableString(viewHolder.text.getText());
+        s.setSpan(new NoUnderlineSpan(), 0, s.length(), Spanned.SPAN_MARK_MARK);
+        viewHolder.text.setText(s);
+        viewHolder.text.setMovementMethod(LinkMovementMethod.getInstance());
+
         Glide.with(context)
                 .load(user.getProfile_image_url_large())
                 .into(viewHolder.avatar);
@@ -64,7 +82,26 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
             viewHolder.image.setVisibility(View.VISIBLE);
             Glide.with(context)
                     .load(status.getPhoto().getLargeurl())
+                    .asBitmap()
+                    .placeholder(context.getResources()
+                            .getDrawable(R.drawable.drawable_plcae_holder))
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(viewHolder.image);
+            viewHolder.image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = PictureActivity
+                            .newIntent(context, status.getPhoto().getLargeurl());
+                    if (android.os.Build.VERSION.SDK_INT
+                            >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
+                                (Activity) context, viewHolder.image, "image");
+                        context.startActivity(intent, options.toBundle());
+                    } else {
+                        context.startActivity(intent);
+                    }
+                }
+            });
             // gif
             if (status.getPhoto().getLargeurl().toLowerCase().endsWith(".gif")) {
                 viewHolder.gif.setVisibility(View.VISIBLE);

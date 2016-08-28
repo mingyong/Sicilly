@@ -23,7 +23,7 @@ public class OkHttpInterceptor implements Interceptor {
     public Response intercept(Chain chain) throws IOException {
         Request request = chain.request();
 
-        if (SicillyApplication.getToken() != null) {
+        if (SicillyApplication.getToken() == null) {
             OAuthToken token = SPDataManager.getToken(SicillyApplication.getContext());
             if (token != null) {
                 SicillyApplication.setToken(token);

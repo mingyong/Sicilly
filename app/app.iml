@@ -94,9 +94,9 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/24.1.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-v4/24.1.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/24.1.1/jars" />
-      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.commit451/PhotoView/1.2.4/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.daimajia.numberprogressbar/library/1.2/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.flyco.tablayout/FlycoTabLayout_Lib/2.0.8/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.github.chrisbanes/PhotoView/1.3.0/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.github.devlight.navigationtabbar/navigationtabbar/1.2.3/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.jakewharton/butterknife/8.2.1/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/com.makeramen/roundedimageview/2.2.1/jars" />
@@ -126,7 +126,7 @@
     <orderEntry type="library" exported="" name="okio-1.9.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-24.1.1" level="project" />
     <orderEntry type="library" exported="" name="jsoup-1.8.3" level="project" />
-    <orderEntry type="library" exported="" name="PhotoView-1.2.4" level="project" />
+    <orderEntry type="library" exported="" name="PhotoView-1.3.0" level="project" />
     <orderEntry type="library" exported="" name="animated-vector-drawable-24.1.1" level="project" />
     <orderEntry type="library" exported="" name="design-24.1.1" level="project" />
     <orderEntry type="library" exported="" name="disklrucache-2.0.2" level="project" />
@@ -139,9 +139,9 @@
     <orderEntry type="library" exported="" name="rxjava-1.1.8" level="project" />
     <orderEntry type="library" exported="" name="roundedimageview-2.2.1" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-24.1.1" level="project" />
+    <orderEntry type="library" exported="" name="adapter-rxjava-2.1.0" level="project" />
     <orderEntry type="library" exported="" name="retrofit-2.1.0" level="project" />
     <orderEntry type="library" exported="" name="gson-2.7" level="project" />
-    <orderEntry type="library" exported="" name="adapter-rxjava-2.1.0" level="project" />
     <orderEntry type="library" exported="" name="converter-gson-2.1.0" level="project" />
     <orderEntry type="library" exported="" name="rxandroid-1.2.1" level="project" />
     <orderEntry type="library" exported="" name="circleimageview-2.1.0" level="project" />
