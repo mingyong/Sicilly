@@ -56,8 +56,12 @@ public class HomeTimelineFragment extends BaseFragment<HomeTimelineView, HomeTim
         mAdapter = new IndexStatusAdapter(mDataList, this);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addItemDecoration(new SpacingDecoration(8));
-        //mRecyclerView.setOnMoreListener((total, left, current) -> presenter.loadMoreMessage(++mPage,
-        //        mDataList.get(mDataList.size() - 1)), PRE_LOAD);
+        mRecyclerView.setOnMoreListener((total, left, current) -> {
+            if (mDataList.size() > 0) {
+                presenter.loadMoreMessage(++mPage,
+                        mDataList.get(mDataList.size() - 1));
+            }
+        }, PRE_LOAD);
         mRecyclerView.setRefreshListener(() -> presenter.loadMessage());
 
         // 加载数据
@@ -68,7 +72,9 @@ public class HomeTimelineFragment extends BaseFragment<HomeTimelineView, HomeTim
     @Override
     public void showMessage(List<Status> statuses) {
         mPage = 1;
+        mRecyclerView.setRefreshing(false);
         if (statuses.size() > 0) {
+            mDataList.clear();
             mDataList.addAll(statuses);
             mRecyclerView.notifyDataSetChanged();
         } else {
@@ -78,7 +84,6 @@ public class HomeTimelineFragment extends BaseFragment<HomeTimelineView, HomeTim
 
     @Override
     public void showMoreMessage(List<Status> statuses) {
-        mPage++;
         if (statuses.size() > 0) {
             mDataList.addAll(statuses);
             mRecyclerView.notifyDataSetChanged();

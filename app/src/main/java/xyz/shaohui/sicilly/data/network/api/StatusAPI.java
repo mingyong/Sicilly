@@ -15,8 +15,8 @@ public interface StatusAPI {
     @GET("statuses/home_timeline.json?format=html")
     Observable<List<Status>> homeStatus();
 
-    @GET("statuses/home_timeline.json?format=html")
-    Observable<List<Status>> homeStatusNext(@Query("page")int page);
+    @GET("statuses/home_timeline.json?format=html&count=30")
+    Observable<List<Status>> homeStatusNext(@Query("page")int page, @Query("since_id")int id);
 
     @GET("statuses/user_timeline.json?format=html")
     Observable<List<Status>> userTimeline(@Query("id")String userId,

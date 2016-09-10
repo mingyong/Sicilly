@@ -169,7 +169,7 @@ public class TimelineFragment extends BaseFragment implements ScrollableHelper.S
         String lastStatusId = dataList.get(dataList.size() - 1).id();
 
         SicillyApplication.getRetrofitService()
-                .getStatusService().homeStatusNext(page)
+                .getStatusService().homeStatusNext(page , 0)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<List<Status>>() {

@@ -44,7 +44,7 @@ public class HomeTimelinePresenterImpl extends HomeTimelinePresenter {
 
     @Override
     public void loadMoreMessage(int page, Status status) {
-        statusService.homeStatusNext(page)
+        statusService.homeStatusNext(page, status.rawid())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(statuses -> {
