@@ -79,20 +79,20 @@ public class UserFragment extends BaseFragment {
     }
 
     private void placeUserInfo(User user) {
-        countFollow.setText(String.valueOf(user.getFriends_count()));
-        countFollower.setText(String.valueOf(user.getFollowers_count()));
-        countStatus.setText(String.valueOf(user.getStatuses_count()));
+        countFollow.setText(String.valueOf(user.friends_count()));
+        countFollower.setText(String.valueOf(user.followers_count()));
+        countStatus.setText(String.valueOf(user.statuses_count()));
 
-        name.setText(user.getScreen_name());
-        if (!TextUtils.isEmpty(user.getLocation())) {
-            location.setText(user.getLocation());
+        name.setText(user.screen_name());
+        if (!TextUtils.isEmpty(user.location())) {
+            location.setText(user.location());
         }
-        brief.setText(user.getDescription());
+        brief.setText(user.description());
         Glide.with(getActivity())
-                .load(user.getProfile_image_url_large())
+                .load(user.profile_image_url_large())
                 .into(avatar);
         Glide.with(getActivity())
-                .load(user.getProfile_background_image_url())
+                .load(user.profile_background_image_url())
                 .into(userBackground);
 
     }

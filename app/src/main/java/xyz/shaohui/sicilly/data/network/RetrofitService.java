@@ -50,6 +50,7 @@ public class RetrofitService {
 
         Gson gson = new GsonBuilder()
                 .setDateFormat("EE MMM dd HH:mm:ss Z yyyy")
+                .registerTypeAdapterFactory(MyAdapterFactory.create())
                 .create();
 
         Retrofit retrofit = new Retrofit.Builder()

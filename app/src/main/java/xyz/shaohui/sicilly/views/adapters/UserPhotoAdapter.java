@@ -40,9 +40,9 @@ public class UserPhotoAdapter extends RecyclerView.Adapter<UserPhotoAdapter.Phot
         Status status = statusList.get(position);
         Context context = holder.parent.getContext();
 
-        holder.text.setText(status.getText());
+        holder.text.setText(status.text());
         Glide.with(context)
-                .load(status.getPhoto().getImageurl())
+                .load(status.photo().getImageurl())
                 .into(holder.image);
     }
 

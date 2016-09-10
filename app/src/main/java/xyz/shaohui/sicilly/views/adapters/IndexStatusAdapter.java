@@ -60,28 +60,28 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final Status status = dataList.get(position);
-        final User user = status.getUser();
+        final User user = status.user();
         final StatusViewHolder viewHolder = (StatusViewHolder) holder;
         final Context context = viewHolder.avatar.getContext();
 
-        viewHolder.name.setText(user.getScreen_name());
-        viewHolder.createdTime.setText(TimeUtils.simpleFormat(status.getCreated_at()));
-        viewHolder.source.setText(HtmlUtils.cleanAllTag(status.getSource()));
+        viewHolder.name.setText(user.screen_name());
+        viewHolder.createdTime.setText(TimeUtils.simpleFormat(status.created_at()));
+        viewHolder.source.setText(HtmlUtils.cleanAllTag(status.source()));
 
         // text
-        viewHolder.text.setText(Html.fromHtml(HtmlUtils.switchTag(status.getText())));
+        viewHolder.text.setText(Html.fromHtml(HtmlUtils.switchTag(status.text())));
         Spannable s = new SpannableString(viewHolder.text.getText());
         s.setSpan(new NoUnderlineSpan(), 0, s.length(), Spanned.SPAN_MARK_MARK);
         viewHolder.text.setText(s);
         viewHolder.text.setMovementMethod(LinkMovementMethod.getInstance());
 
         Glide.with(context)
-                .load(user.getProfile_image_url_large())
+                .load(user.profile_image_url_large())
                 .into(viewHolder.avatar);
-        if (status.getPhoto() != null) {
+        if (status.photo() != null) {
             viewHolder.image.setVisibility(View.VISIBLE);
             Glide.with(context)
-                    .load(status.getPhoto().getLargeurl())
+                    .load(status.photo().getLargeurl())
                     .asBitmap()
                     .placeholder(context.getResources()
                             .getDrawable(R.drawable.drawable_plcae_holder))
@@ -91,7 +91,7 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
                 @Override
                 public void onClick(View v) {
                     Intent intent = PictureActivity
-                            .newIntent(context, status.getPhoto().getLargeurl());
+                            .newIntent(context, status.photo().getLargeurl());
                     if (android.os.Build.VERSION.SDK_INT
                             >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                         ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
@@ -103,7 +103,7 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
                 }
             });
             // gif
-            if (status.getPhoto().getLargeurl().toLowerCase().endsWith(".gif")) {
+            if (status.photo().getLargeurl().toLowerCase().endsWith(".gif")) {
                 viewHolder.gif.setVisibility(View.VISIBLE);
             } else {
                 viewHolder.gif.setVisibility(View.GONE);
@@ -117,16 +117,16 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
             public void onClick(View v) {
                 switch (v.getId()) {
                     case R.id.status_header:
-                        context.startActivity(UserActivity.newIntent(context, user.getId()));
+                        context.startActivity(UserActivity.newIntent(context, user.id()));
                         break;
                     case R.id.action_comment:
-                        DataManager.actionComment(context, status.getId());
+                        DataManager.actionComment(context, status.id());
                         break;
                     case R.id.action_repost:
-                        DataManager.actionRepost(context, status.getId());
+                        DataManager.actionRepost(context, status.id());
                         break;
                     case R.id.action_star:
-                        DataManager.actionRepost(context, status.getId());
+                        DataManager.actionRepost(context, status.id());
                         break;
                 }
             }
@@ -136,7 +136,7 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
         viewHolder.actionStar.setOnClickListener(listener);
         viewHolder.header.setOnClickListener(listener);
 
-        if (status.getFavorited()) {
+        if (status.favorited()) {
             viewHolder.actionStar.setImageResource(R.drawable.ic_star_fill);
         } else {
             viewHolder.actionStar.setImageResource(R.drawable.ic_star);

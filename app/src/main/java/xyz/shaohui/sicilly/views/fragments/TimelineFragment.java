@@ -166,7 +166,7 @@ public class TimelineFragment extends BaseFragment implements ScrollableHelper.S
     }
 
     private void fetchNextPage() {
-        String lastStatusId = dataList.get(dataList.size() - 1).getId();
+        String lastStatusId = dataList.get(dataList.size() - 1).id();
 
         SicillyApplication.getRetrofitService()
                 .getStatusService().homeStatusNext(page)

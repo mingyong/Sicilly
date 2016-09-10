@@ -81,7 +81,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
                 viewHolder.name.setText(conversation.getDm().getSender_screen_name());
             }
             Glide.with(context)
-                    .load(otherUser.getProfile_image_url_large())
+                    .load(otherUser.profile_image_url_large())
                     .into(viewHolder.avatar);
             viewHolder.text.setText(conversation.getDm().getText());
             viewHolder.time.setText(TimeUtils.simpleFormat(conversation.getDm().getCreated_at()));

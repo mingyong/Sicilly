@@ -62,7 +62,7 @@ public class ChatActivity extends BaseActivity {
     private void initRecycler() {
         LinearLayoutManager layoutManager =
                 new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        ChatAdapter adapter = new ChatAdapter(otherUser.getId(), dataList);
+        ChatAdapter adapter = new ChatAdapter(otherUser.id(), dataList);
         layoutManager.setStackFromEnd(true);
         layoutManager.setReverseLayout(true);
         recyclerView.setLayoutManager(layoutManager);
@@ -80,7 +80,7 @@ public class ChatActivity extends BaseActivity {
             page = 1;
         }
         SicillyApplication.getRetrofitService()
-                .getMessageService().messageList(otherUser.getId(), page)
+                .getMessageService().messageList(otherUser.id(), page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<List<Message>>() {
