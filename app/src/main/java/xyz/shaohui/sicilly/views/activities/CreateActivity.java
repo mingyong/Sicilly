@@ -9,6 +9,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.base.BaseActivity;
 
 public class CreateActivity extends BaseActivity {
 
@@ -21,6 +22,11 @@ public class CreateActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create);
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public void initializeInjector() {
+
     }
 
     @OnClick(R.id.btn_back)

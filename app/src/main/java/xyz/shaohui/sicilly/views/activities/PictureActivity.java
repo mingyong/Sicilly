@@ -17,6 +17,7 @@ import butterknife.OnClick;
 import me.shaohui.sicillylib.utils.ToastUtils;
 import uk.co.senab.photoview.PhotoViewAttacher;
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.base.BaseActivity;
 
 public class PictureActivity extends BaseActivity {
 
@@ -38,6 +39,11 @@ public class PictureActivity extends BaseActivity {
         url = getIntent().getStringExtra("url");
         ButterKnife.bind(this);
         loadImage();
+    }
+
+    @Override
+    public void initializeInjector() {
+
     }
 
     private void loadImage() {

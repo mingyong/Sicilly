@@ -7,6 +7,7 @@ import android.text.TextUtils;
 
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyApplication;
+import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.data.SPDataManager;
 import xyz.shaohui.sicilly.data.network.auth.OAuthToken;
 
@@ -17,6 +18,11 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         checkToken();
+    }
+
+    @Override
+    public void initializeInjector() {
+
     }
 
     private void checkToken() {

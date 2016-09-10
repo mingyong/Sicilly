@@ -12,6 +12,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.shaohui.scrollablelayout.ScrollableLayout;
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
 
 public class WebActivity extends BaseActivity {
@@ -27,5 +28,10 @@ public class WebActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         title.setText(url);
+    }
+
+    @Override
+    public void initializeInjector() {
+
     }
 }

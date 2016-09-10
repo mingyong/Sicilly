@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.base.BaseActivity;
 
 public class SearchActivity extends BaseActivity {
 
@@ -11,5 +12,10 @@ public class SearchActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+    }
+
+    @Override
+    public void initializeInjector() {
+
     }
 }

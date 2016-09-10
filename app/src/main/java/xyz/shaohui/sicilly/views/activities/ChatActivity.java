@@ -24,6 +24,7 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyApplication;
+import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.data.models.Message;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.ErrorUtils;
@@ -59,6 +60,11 @@ public class ChatActivity extends BaseActivity {
     }
 
     @Override
+    public void initializeInjector() {
+
+    }
+
+    @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
         fetchChatList(false);
@@ -81,9 +87,9 @@ public class ChatActivity extends BaseActivity {
     }
 
     private void initUserInfo() {
-        title.setText(otherUser.getScreen_name());
+        title.setText(otherUser.screen_name());
         Glide.with(this)
-                .load(otherUser.getProfile_image_url_large())
+                .load(otherUser.profile_image_url_large())
                 .into(customerAvatar);
 
     }

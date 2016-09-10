@@ -3,6 +3,8 @@ package xyz.shaohui.sicilly;
 import android.app.Application;
 import android.content.Context;
 
+import xyz.shaohui.sicilly.app.di.AppComponent;
+import xyz.shaohui.sicilly.app.di.DaggerAppComponent;
 import xyz.shaohui.sicilly.data.network.RetrofitService;
 import xyz.shaohui.sicilly.data.network.auth.OAuthToken;
 
@@ -11,11 +13,13 @@ public class SicillyApplication extends Application {
     public static Context context;
     public static OAuthToken oAuthToken;
     public static RetrofitService retrofitService;
+    public static AppComponent mAppComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
         context = getApplicationContext();
+        mAppComponent = DaggerAppComponent.builder().build();
     }
 
     public static Context getContext() {
@@ -35,5 +39,9 @@ public class SicillyApplication extends Application {
             retrofitService = new RetrofitService();
         }
         return retrofitService;
+    }
+
+    public static AppComponent getAppComponent() {
+        return mAppComponent;
     }
 }

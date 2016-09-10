@@ -36,6 +36,7 @@ import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyApplication;
+import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.ErrorUtils;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
@@ -82,6 +83,11 @@ public class UserActivity extends BaseActivity {
         ButterKnife.bind(this);
         initViewPager();
         initScrollableLayout();
+    }
+
+    @Override
+    public void initializeInjector() {
+
     }
 
     @Override
