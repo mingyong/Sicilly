@@ -5,6 +5,15 @@
     <string name="action_settings">设置</string>
     <string name="title_activity_index">IndexActivity</string>
 
+    <string-array name="select_photo">
+        <item>拍照</item>
+        <item>从相册选择</item>
+    </string-array>
+    <string name="select_photo_gallery">从相册选择</string>
+    <string name="select_photo_take">拍照</string>
+    <string name="save_photo_fail">不能写入相册</string>
+    <string name="no_intent_to_take_photo">没有相机应用</string>
+
     // index
     <string name="bottom_tab_home">主页</string>
     <string name="bottom_tab_message">消息</string>
@@ -43,6 +52,7 @@
 
     // new
     <string name="commit">发饭</string>
+
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
