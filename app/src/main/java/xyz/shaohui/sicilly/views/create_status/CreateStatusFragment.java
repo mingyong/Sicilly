@@ -9,7 +9,9 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import butterknife.BindView;
+import butterknife.OnClick;
 import com.afollestad.materialdialogs.MaterialDialog;
 import javax.inject.Inject;
 import me.shaohui.sicillylib.utils.ToastUtils;
@@ -33,6 +35,7 @@ public class CreateStatusFragment extends BaseFragment<CreateStatusView, CreateS
 
     @BindView(R.id.status_image)ImageView statusImage;
     @BindView(R.id.status_text)EditText statusText;
+    @BindView(R.id.text_count)TextView textCount;
 
     @Inject
     EventBus mBus;
@@ -58,7 +61,8 @@ public class CreateStatusFragment extends BaseFragment<CreateStatusView, CreateS
         return R.layout.activity_create_status;
     }
 
-    private void showSelectPhotoDialog() {
+    @OnClick(R.id.action_photo)
+    void showSelectPhotoDialog() {
         new MaterialDialog.Builder(getActivity()).items(R.array.select_photo)
                 .itemsCallback((dialog, itemView, position, text) -> {
                     selectPicture(text);
@@ -132,6 +136,21 @@ public class CreateStatusFragment extends BaseFragment<CreateStatusView, CreateS
 
     @Override
     public void sendFailure() {
+
+    }
+
+    @OnClick(R.id.btn_back)
+    void btnBack() {
+        getActivity().finish();
+    }
+
+    @OnClick(R.id.action_at)
+    void actionAt() {
+
+    }
+
+    @OnClick(R.id.action_submit)
+    void actionSubmit() {
 
     }
 }
