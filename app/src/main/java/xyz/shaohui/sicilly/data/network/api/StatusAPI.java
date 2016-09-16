@@ -2,6 +2,8 @@ package xyz.shaohui.sicilly.data.network.api;
 
 import java.util.List;
 import okhttp3.RequestBody;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -37,4 +39,8 @@ public interface StatusAPI {
     @POST("photos/upload.json?format=html")
     Observable<Status> createStatusWithPhoto(@Part("status") RequestBody status,
             @Part("photo\"; filename=\"image.jpg\" ") RequestBody photo);
+
+    @Multipart
+    @POST("statuses/destroy.json")
+    Observable<Status> destroyStatus(@Part("id")RequestBody id);
 }

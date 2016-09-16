@@ -20,13 +20,17 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.hannesdorfmann.fragmentargs.annotation.Arg;
+import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs;
 import javax.inject.Inject;
 import me.shaohui.sicillylib.utils.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyFactory;
 import xyz.shaohui.sicilly.base.BaseFragment;
+import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.utils.FileUtils;
+import xyz.shaohui.sicilly.utils.HtmlUtils;
 import xyz.shaohui.sicilly.views.create_status.di.CreateStatusComponent;
 import xyz.shaohui.sicilly.views.create_status.mvp.CreateStatusPresenter;
 import xyz.shaohui.sicilly.views.create_status.mvp.CreateStatusView;
@@ -35,6 +39,7 @@ import xyz.shaohui.sicilly.views.create_status.mvp.CreateStatusView;
  * Created by shaohui on 16/9/11.
  */
 
+@FragmentWithArgs
 public class CreateStatusFragment extends BaseFragment<CreateStatusView, CreateStatusPresenter>
         implements CreateStatusView {
 
@@ -51,6 +56,12 @@ public class CreateStatusFragment extends BaseFragment<CreateStatusView, CreateS
 
     @Inject
     EventBus mBus;
+
+    @Arg(required = false)
+    int type;
+
+    @Arg(required = false)
+    Status mStatus;
 
     private Uri imageFileUri;
     private String mLocalImagePath;
@@ -103,6 +114,19 @@ public class CreateStatusFragment extends BaseFragment<CreateStatusView, CreateS
                 }
             }
         });
+        if (mStatus != null) {
+            switch (type) {
+                case CreateStatusActivity.TYPE_REPLY:
+                    statusText.setText(String.format("@%s ", mStatus.user().screen_name()));
+                    statusText.setSelection(statusText.length());
+                    break;
+                case CreateStatusActivity.TYPE_REPOST:
+                    statusText.setText(String.format("转@%s %s", mStatus.user().screen_name(),
+                            HtmlUtils.cleanAllTag(mStatus.text())));
+                    statusText.setSelection(0);
+                    break;
+            }
+        }
     }
 
     @OnClick(R.id.action_photo)
@@ -114,7 +138,7 @@ public class CreateStatusFragment extends BaseFragment<CreateStatusView, CreateS
                 ToastUtils.showToast(getActivity(), R.string.no_permission_to_photo);
             } else {
                 ActivityCompat.requestPermissions(getActivity(),
-                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },
                         REQUEST_PERMISSION);
             }
         } else {
@@ -216,6 +240,6 @@ public class CreateStatusFragment extends BaseFragment<CreateStatusView, CreateS
 
     @OnClick(R.id.action_submit)
     void actionSubmit() {
-        presenter.sendStatus(statusText.getText().toString(), mLocalImagePath);
+        presenter.sendStatus(statusText.getText().toString(), mLocalImagePath, mStatus, type);
     }
 }

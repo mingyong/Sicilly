@@ -5,6 +5,9 @@
     <string name="action_settings">设置</string>
     <string name="title_activity_index">IndexActivity</string>
 
+    <string name="yes">确定</string>
+    <string name="no">取消</string>
+
     <string-array name="select_photo">
         <item>拍照</item>
         <item>从相册选择</item>
@@ -19,6 +22,9 @@
     <string name="bottom_tab_message">消息</string>
     <string name="bottom_tab_user">我的</string>
     <string name="gif">GIF</string>
+    <string name="op_star_failure">操作失败,请重试</string>
+    <string name="confirm_delete_status">确认要删除这条消息?</string>
+    <string name="delete_status_failure">删除失败, 请重试</string>
 
     // login
     <string name="login_username">饭否账号</string>

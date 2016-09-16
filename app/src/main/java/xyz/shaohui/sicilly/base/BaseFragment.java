@@ -7,10 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import butterknife.ButterKnife;
+import com.hannesdorfmann.fragmentargs.FragmentArgs;
 import com.hannesdorfmann.mosby.mvp.MvpFragment;
 import com.hannesdorfmann.mosby.mvp.MvpPresenter;
 import com.hannesdorfmann.mosby.mvp.MvpView;
-import com.yatatsu.autobundle.AutoBundle;
 import org.greenrobot.eventbus.EventBus;
 
 /**
@@ -23,7 +23,7 @@ public abstract class BaseFragment<V extends MvpView, T extends MvpPresenter<V>>
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //AutoBundle.bind(this);
+        FragmentArgs.inject(this);
         injectDependencies();
     }
 

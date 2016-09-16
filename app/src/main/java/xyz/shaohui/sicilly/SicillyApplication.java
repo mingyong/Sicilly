@@ -3,8 +3,10 @@ package xyz.shaohui.sicilly;
 import android.app.Application;
 import android.content.Context;
 
+import android.text.TextUtils;
 import xyz.shaohui.sicilly.app.di.AppComponent;
 import xyz.shaohui.sicilly.app.di.DaggerAppComponent;
+import xyz.shaohui.sicilly.data.SPDataManager;
 import xyz.shaohui.sicilly.data.network.RetrofitService;
 import xyz.shaohui.sicilly.data.network.auth.OAuthToken;
 
@@ -14,6 +16,7 @@ public class SicillyApplication extends Application {
     public static OAuthToken oAuthToken;
     public static RetrofitService retrofitService;
     public static AppComponent mAppComponent;
+    public static String currentUId;
 
     @Override
     public void onCreate() {
@@ -39,6 +42,17 @@ public class SicillyApplication extends Application {
             retrofitService = new RetrofitService();
         }
         return retrofitService;
+    }
+
+    public static String currentUId() {
+        if (currentUId == null) {
+            currentUId = SPDataManager.getUserId(getContext());
+        }
+        return currentUId;
+    }
+
+    public static boolean isSelf(String id) {
+        return TextUtils.equals(currentUId(), id);
     }
 
     public static AppComponent getAppComponent() {

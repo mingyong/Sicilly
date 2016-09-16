@@ -32,4 +32,16 @@ public class SPDataManager {
         }
     }
 
+    public static void saveUserId(Context context, String uid) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        sp.edit()
+                .putString("uid", "huivista")
+                .apply();
+    }
+
+    public static String getUserId(Context context) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
+        return sp.getString("uid", null);
+    }
+
 }

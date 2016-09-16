@@ -1,11 +1,14 @@
 package xyz.shaohui.sicilly.views.home.timeline;
 
 import javax.inject.Inject;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import org.greenrobot.eventbus.EventBus;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.data.models.Status;
+import xyz.shaohui.sicilly.data.network.api.FavoriteAPI;
 import xyz.shaohui.sicilly.data.network.api.StatusAPI;
 import xyz.shaohui.sicilly.views.home.timeline.mvp.HomeTimelinePresenter;
 
@@ -18,10 +21,12 @@ public class HomeTimelinePresenterImpl extends HomeTimelinePresenter {
     private EventBus mBus;
 
     private StatusAPI statusService;
+    private FavoriteAPI favoriteService;
 
     @Inject
-    HomeTimelinePresenterImpl(StatusAPI statusService, EventBus enentBus) {
+    HomeTimelinePresenterImpl(StatusAPI statusService, FavoriteAPI favoriteService,  EventBus enentBus) {
         this.statusService = statusService;
+        this.favoriteService = favoriteService;
         mBus = enentBus;
     }
 
@@ -60,13 +65,48 @@ public class HomeTimelinePresenterImpl extends HomeTimelinePresenter {
     }
 
     @Override
-    public void starMessage(String messageId) {
+    public void opStar(Status status, int position) {
+        if (status.favorited()) {
+            unStarMessage(status.id(), position);
+        } else {
+            starMessage(status.id(), position);
+        }
+    }
 
+    private void starMessage(String messageId, int position) {
+        favoriteService.createFavorite(messageId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(status -> {}, throwable -> {
+                    if (isViewAttached()) {
+                        getView().opStarFailure(position);
+                    }
+                });
+    }
+
+    private void unStarMessage(String messageId, int position) {
+        favoriteService.destroyFavorite(messageId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(status -> {}, throwable -> {
+                    if (isViewAttached()) {
+                        getView().opStarFailure(position);
+                    }
+                });
     }
 
     @Override
-    public void deleteMessage(String messageId) {
-
+    public void deleteMessage(Status status, int position) {
+        statusService.destroyStatus(RequestBody.create(MediaType.parse("text/plain"), status.id()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(status1 -> {
+                }, throwable -> {
+                    if (isViewAttached()) {
+                        getView().deleteStatusFailure(status, position);
+                    }
+                    throwable.printStackTrace();
+                });
     }
 
     @Override

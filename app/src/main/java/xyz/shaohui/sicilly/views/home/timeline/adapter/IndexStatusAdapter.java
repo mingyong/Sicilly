@@ -26,6 +26,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.List;
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.data.DataManager;
 import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.models.User;
@@ -85,20 +86,17 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
                             context.getResources().getDrawable(R.drawable.drawable_plcae_holder))
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(viewHolder.image);
-            viewHolder.image.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent =
-                            PictureActivity.newIntent(context, status.photo().getLargeurl());
-                    if (android.os.Build.VERSION.SDK_INT
-                            >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                        ActivityOptions options =
-                                ActivityOptions.makeSceneTransitionAnimation((Activity) context,
-                                        viewHolder.image, "image");
-                        context.startActivity(intent, options.toBundle());
-                    } else {
-                        context.startActivity(intent);
-                    }
+            viewHolder.image.setOnClickListener(v -> {
+                Intent intent =
+                        PictureActivity.newIntent(context, status.photo().getLargeurl());
+                if (android.os.Build.VERSION.SDK_INT
+                        >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    ActivityOptions options =
+                            ActivityOptions.makeSceneTransitionAnimation((Activity) context,
+                                    viewHolder.image, "image");
+                    context.startActivity(intent, options.toBundle());
+                } else {
+                    context.startActivity(intent);
                 }
             });
             // gif
@@ -111,28 +109,37 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
             viewHolder.image.setVisibility(View.GONE);
         }
 
-        View.OnClickListener listener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()) {
-                    case R.id.status_header:
-                        context.startActivity(UserActivity.newIntent(context, user.id()));
-                        break;
-                    case R.id.action_comment:
-                        DataManager.actionComment(context, status.id());
-                        break;
-                    case R.id.action_repost:
-                        DataManager.actionRepost(context, status.id());
-                        break;
-                    case R.id.action_star:
-                        DataManager.actionRepost(context, status.id());
-                        break;
-                }
+        // action
+
+        if (SicillyApplication.isSelf(status.user().id())) {
+            viewHolder.actionDelete.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.actionDelete.setVisibility(View.GONE);
+        }
+
+        View.OnClickListener listener = v -> {
+            switch (v.getId()) {
+                case R.id.status_header:
+                    context.startActivity(UserActivity.newIntent(context, user.id()));
+                    break;
+                case R.id.action_comment:
+                    mListener.opComment(status);
+                    break;
+                case R.id.action_repost:
+                    mListener.opRepost(status);
+                    break;
+                case R.id.action_star:
+                    mListener.opStar(status, position);
+                    break;
+                case R.id.action_delete:
+                    mListener.opDelete(status, position);
+                    break;
             }
         };
         viewHolder.actionComment.setOnClickListener(listener);
         viewHolder.actionRepost.setOnClickListener(listener);
         viewHolder.actionStar.setOnClickListener(listener);
+        viewHolder.actionDelete.setOnClickListener(listener);
         viewHolder.header.setOnClickListener(listener);
 
         if (status.favorited()) {
@@ -182,6 +189,8 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
         ImageView image;
         @BindView(R.id.status_time)
         TextView createdTime;
+        @BindView(R.id.action_delete)
+        ImageButton actionDelete;
         @BindView(R.id.action_comment)
         ImageButton actionComment;
         @BindView(R.id.action_repost)

@@ -24,6 +24,15 @@ public abstract class Status implements Parcelable {
         return new AutoValue_Status.GsonTypeAdapter(gson);
     }
 
+    public static Status updateStatusStar(Status originStatus) {
+        return new AutoValue_Status(originStatus.repost_user_id(),
+                originStatus.in_reply_to_status_id(), originStatus.repost_status(),
+                originStatus.created_at(), originStatus.truncated(), originStatus.source(),
+                originStatus.in_reply_to_screen_name(), originStatus.id(), originStatus.rawid(),
+                originStatus.repost_screen_name(), originStatus.id(), originStatus.text(),
+                !originStatus.favorited(), originStatus.photo(), originStatus.user());
+    }
+
     @Nullable
     public abstract String repost_user_id();
 

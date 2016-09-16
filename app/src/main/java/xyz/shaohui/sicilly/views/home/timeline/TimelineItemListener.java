@@ -1,5 +1,7 @@
 package xyz.shaohui.sicilly.views.home.timeline;
 
+import xyz.shaohui.sicilly.data.models.Status;
+
 /**
  * Created by shaohui on 16/9/10.
  */
@@ -10,12 +12,12 @@ public interface TimelineItemListener {
 
     void opContent();
 
-    void opStar();
+    void opStar(Status status, int position);
 
-    void opComment();
+    void opComment(Status status);
 
-    void opRepost();
+    void opRepost(Status status);
 
-    void opDelete();
+    void opDelete(Status status, int position);
 
 }

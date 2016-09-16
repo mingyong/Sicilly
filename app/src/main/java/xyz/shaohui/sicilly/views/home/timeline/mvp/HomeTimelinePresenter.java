@@ -15,9 +15,9 @@ public abstract class HomeTimelinePresenter extends MvpBasePresenter<HomeTimelin
 
     public abstract void listenerNewMessage();
 
-    public abstract void starMessage(String messageId);
+    public abstract void opStar(Status status, int position);
 
-    public abstract void deleteMessage(String messageId);
+    public abstract void deleteMessage(Status status, int position);
 
     public abstract void commmentMessage(String messageId);
 

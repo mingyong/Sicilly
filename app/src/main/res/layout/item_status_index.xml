@@ -97,6 +97,14 @@
         android:paddingTop="@dimen/spacing_small"
         android:paddingBottom="@dimen/spacing_small">
         <ImageButton
+                android:id="@+id/action_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:background="@null"
+                app:srcCompat="@drawable/ic_delete"
+                />
+        <ImageButton
             android:id="@+id/action_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

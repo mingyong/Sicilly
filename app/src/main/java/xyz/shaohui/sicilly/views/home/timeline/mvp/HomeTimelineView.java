@@ -22,4 +22,8 @@ public interface HomeTimelineView extends MvpView {
 
     void networkError();
 
+    void opStarFailure(int position);
+
+    void deleteStatusFailure(Status status, int position);
+
 }

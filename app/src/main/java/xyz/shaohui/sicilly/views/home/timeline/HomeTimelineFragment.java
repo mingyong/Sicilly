@@ -2,12 +2,16 @@ package xyz.shaohui.sicilly.views.home.timeline;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import butterknife.BindView;
 import butterknife.OnClick;
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
+import me.shaohui.sicillylib.utils.ToastUtils;
 import me.shaohui.vistarecyclerview.VistaRecyclerView;
 import me.shaohui.vistarecyclerview.decoration.SpacingDecoration;
 import org.greenrobot.eventbus.EventBus;
@@ -121,6 +125,20 @@ public class HomeTimelineFragment extends BaseFragment<HomeTimelineView, HomeTim
     }
 
     @Override
+    public void opStarFailure(int position) {
+        mDataList.set(position, Status.updateStatusStar(mDataList.get(position)));
+        mRecyclerView.notifyDataSetChanged();
+        ToastUtils.showToast(getActivity(), R.string.op_star_failure);
+    }
+
+    @Override
+    public void deleteStatusFailure(Status status, int position) {
+        mDataList.set(position, status);
+        mRecyclerView.notifyDataSetChanged();
+        ToastUtils.showToast(getActivity(), R.string.delete_status_failure);
+    }
+
+    @Override
     public void opAvatar() {
 
     }
@@ -131,22 +149,33 @@ public class HomeTimelineFragment extends BaseFragment<HomeTimelineView, HomeTim
     }
 
     @Override
-    public void opStar() {
-
+    public void opStar(Status status, int position) {
+        mDataList.set(position, Status.updateStatusStar(status));
+        mRecyclerView.notifyDataSetChanged();
+        presenter.opStar(status, position);
     }
 
     @Override
-    public void opComment() {
-
+    public void opComment(Status status) {
+        startActivity(CreateStatusActivity.newIntent(getActivity(), status, CreateStatusActivity.TYPE_REPLY));
     }
 
     @Override
-    public void opRepost() {
-
+    public void opRepost(Status status) {
+        startActivity(CreateStatusActivity.newIntent(getActivity(), status, CreateStatusActivity.TYPE_REPOST));
     }
 
     @Override
-    public void opDelete() {
-
+    public void opDelete(Status status, int position) {
+        new MaterialDialog.Builder(getActivity())
+                .content(R.string.confirm_delete_status)
+                .positiveText(R.string.yes)
+                .negativeText(R.string.no)
+                .onPositive((dialog, which) -> {
+                    mDataList.remove(position);
+                    mRecyclerView.notifyDataSetChanged();
+                    presenter.deleteMessage(status, position);
+                })
+                .show();
     }
 }
