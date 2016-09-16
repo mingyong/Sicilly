@@ -1,12 +1,19 @@
 package xyz.shaohui.sicilly.views.create_status;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,6 +24,7 @@ import javax.inject.Inject;
 import me.shaohui.sicillylib.utils.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.SicillyFactory;
 import xyz.shaohui.sicilly.base.BaseFragment;
 import xyz.shaohui.sicilly.utils.FileUtils;
 import xyz.shaohui.sicilly.views.create_status.di.CreateStatusComponent;
@@ -32,10 +40,14 @@ public class CreateStatusFragment extends BaseFragment<CreateStatusView, CreateS
 
     private static final int TAKE_PHOTO = 1;
     private static final int SELECT_PHOTO = 2;
+    private static final int REQUEST_PERMISSION = 3;
 
-    @BindView(R.id.status_image)ImageView statusImage;
-    @BindView(R.id.status_text)EditText statusText;
-    @BindView(R.id.text_count)TextView textCount;
+    @BindView(R.id.status_image)
+    ImageView statusImage;
+    @BindView(R.id.status_text)
+    EditText statusText;
+    @BindView(R.id.text_count)
+    TextView textCount;
 
     @Inject
     EventBus mBus;
@@ -61,13 +73,53 @@ public class CreateStatusFragment extends BaseFragment<CreateStatusView, CreateS
         return R.layout.activity_create_status;
     }
 
-    @OnClick(R.id.action_photo)
     void showSelectPhotoDialog() {
         new MaterialDialog.Builder(getActivity()).items(R.array.select_photo)
-                .itemsCallback((dialog, itemView, position, text) -> {
-                    selectPicture(text);
-                })
+                .itemsCallback((dialog, itemView, position, text) -> selectPicture(text))
                 .show();
+    }
+
+    @Override
+    public void bindViews(View view) {
+        super.bindViews(view);
+        statusText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() <= SicillyFactory.TEXT_COUNT) {
+                    textCount.setTextColor(getResources().getColor(R.color.gray_tag));
+                    textCount.setText(String.valueOf(SicillyFactory.TEXT_COUNT - s.length()));
+                } else {
+                    textCount.setText(String.valueOf(s.length() - SicillyFactory.TEXT_COUNT));
+                    textCount.setTextColor(getResources().getColor(R.color.red));
+                }
+            }
+        });
+    }
+
+    @OnClick(R.id.action_photo)
+    void requestPermission() {
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                ToastUtils.showToast(getActivity(), R.string.no_permission_to_photo);
+            } else {
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                        REQUEST_PERMISSION);
+            }
+        } else {
+            showSelectPhotoDialog();
+        }
     }
 
     private void selectPicture(CharSequence text) {
@@ -108,12 +160,14 @@ public class CreateStatusFragment extends BaseFragment<CreateStatusView, CreateS
                         imageFileUri = data.getData();
                         realPath = FileUtils.getPath(getActivity(), imageFileUri);
                         statusImage.setImageURI(FileUtils.path2Uri(realPath));
+                        statusImage.setVisibility(View.VISIBLE);
                         mLocalImagePath = realPath;
                     }
                     break;
                 case TAKE_PHOTO:
                     realPath = FileUtils.getPath(getActivity(), imageFileUri);
                     statusImage.setImageURI(FileUtils.path2Uri(realPath));
+                    statusImage.setVisibility(View.VISIBLE);
                     mLocalImagePath = realPath;
                     break;
                 default:
@@ -125,13 +179,24 @@ public class CreateStatusFragment extends BaseFragment<CreateStatusView, CreateS
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+            @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                showSelectPhotoDialog();
+            }
+        }
+        //super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    @Override
     public void showPicture() {
 
     }
 
     @Override
     public void sendSuccess() {
-
+        ToastUtils.showToast(getActivity(), "发送成功");
     }
 
     @Override
@@ -151,6 +216,6 @@ public class CreateStatusFragment extends BaseFragment<CreateStatusView, CreateS
 
     @OnClick(R.id.action_submit)
     void actionSubmit() {
-
+        presenter.sendStatus(statusText.getText().toString(), mLocalImagePath);
     }
 }

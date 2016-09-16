@@ -31,7 +31,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".views.activities.BaseActivity"/>
         <activity android:name=".views.activities.StatusActivity"/>
         <activity android:name=".views.activities.UserActivity">
             <intent-filter>

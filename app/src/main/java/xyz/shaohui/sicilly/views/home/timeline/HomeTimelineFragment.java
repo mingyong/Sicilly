@@ -1,8 +1,10 @@
 package xyz.shaohui.sicilly.views.home.timeline;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.View;
 import butterknife.BindView;
+import butterknife.OnClick;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -12,6 +14,7 @@ import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseFragment;
 import xyz.shaohui.sicilly.data.models.Status;
+import xyz.shaohui.sicilly.views.create_status.CreateStatusActivity;
 import xyz.shaohui.sicilly.views.home.di.HomeComponent;
 import xyz.shaohui.sicilly.views.home.timeline.adapter.IndexStatusAdapter;
 import xyz.shaohui.sicilly.views.home.timeline.mvp.HomeTimelinePresenter;
@@ -67,6 +70,11 @@ public class HomeTimelineFragment extends BaseFragment<HomeTimelineView, HomeTim
         // 加载数据
         presenter.loadMessage();
         mRecyclerView.setRefreshing(true);
+    }
+
+    @OnClick(R.id.btn_add)
+    void btnAdd() {
+        startActivity(new Intent(getActivity(), CreateStatusActivity.class));
     }
 
     @Override

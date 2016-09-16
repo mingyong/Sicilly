@@ -53,6 +53,7 @@
     // new
     <string name="commit">发饭</string>
     <string name="edit_text_hint">分享点新鲜事...</string>
+    <string name="no_permission_to_photo">没有读取照片的权限</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

@@ -9,6 +9,6 @@ import com.hannesdorfmann.mosby.mvp.MvpPresenter;
 
 public abstract class CreateStatusPresenter extends MvpBasePresenter<CreateStatusView> {
 
-    public abstract void sendStatus(String text, String uri);
+    public abstract void sendStatus(String text, String path);
 
 }
