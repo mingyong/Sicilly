@@ -20,7 +20,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1px"
-            android:background="@color/text_main"/>
+            android:background="@color/gray_tag"/>
         <com.flyco.tablayout.CommonTabLayout
             android:id="@+id/bottom_tab"
             android:layout_width="match_parent"

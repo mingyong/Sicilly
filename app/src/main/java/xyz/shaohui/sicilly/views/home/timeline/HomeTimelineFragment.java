@@ -104,6 +104,11 @@ public class HomeTimelineFragment extends BaseFragment<HomeTimelineView, HomeTim
         }
     }
 
+    @OnClick(R.id.img_icon)
+    void imgIconClick() {
+        mRecyclerView.getRecycler().smoothScrollToPosition(0);
+    }
+
     @Override
     public void showNewNotice() {
 
