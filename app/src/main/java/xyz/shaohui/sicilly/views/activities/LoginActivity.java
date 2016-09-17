@@ -12,7 +12,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.data.network.auth.AuthService;
-import xyz.shaohui.sicilly.data.network.auth.OAuthHelper;
+import xyz.shaohui.sicilly.views.home.IndexActivity;
 
 public class LoginActivity extends AppCompatActivity {
     private final String TAG = "loginActivity";

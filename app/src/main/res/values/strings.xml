@@ -60,6 +60,9 @@
     <string name="commit">发饭</string>
     <string name="edit_text_hint">分享点新鲜事...</string>
     <string name="no_permission_to_photo">没有读取照片的权限</string>
+    <string name="send_noti_title">发送中...</string>
+    <string name="send_status_success">发送成功!</string>
+    <string name="send_status_failure">发送失败, 点击重试</string>
 
     // web
     <string name="open_by_browser">外部浏览器打开</string>

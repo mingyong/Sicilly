@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseActivity;
 
@@ -27,6 +28,11 @@ public class CreateActivity extends BaseActivity {
     @Override
     public void initializeInjector() {
 
+    }
+
+    @Override
+    public EventBus getBus() {
+        return null;
     }
 
     @OnClick(R.id.btn_back)

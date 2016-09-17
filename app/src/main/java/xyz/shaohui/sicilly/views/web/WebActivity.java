@@ -2,7 +2,6 @@ package xyz.shaohui.sicilly.views.web;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -15,6 +14,7 @@ import android.webkit.WebViewClient;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.daimajia.numberprogressbar.NumberProgressBar;
+import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
@@ -23,9 +23,12 @@ public class WebActivity extends BaseActivity {
 
     private String mUrl;
 
-    @BindView(R.id.web_view)WebView mWebView;
-    @BindView(R.id.tool_bar)Toolbar mToolbar;
-    @BindView(R.id.progress_bar)NumberProgressBar mProgressBar;
+    @BindView(R.id.web_view)
+    WebView mWebView;
+    @BindView(R.id.tool_bar)
+    Toolbar mToolbar;
+    @BindView(R.id.progress_bar)
+    NumberProgressBar mProgressBar;
 
     public static Intent newIntent(Context context, String url) {
         Intent intent = new Intent(context, WebActivity.class);
@@ -45,7 +48,6 @@ public class WebActivity extends BaseActivity {
         }
 
         setSupportActionBar(mToolbar);
-        //getSupportActionBar().setDisplayShowHomeEnabled(true);
         mToolbar.setNavigationIcon(R.drawable.ic_back_black);
         mToolbar.setNavigationOnClickListener(v -> finish());
 
@@ -57,9 +59,14 @@ public class WebActivity extends BaseActivity {
 
     }
 
+    @Override
+    public EventBus getBus() {
+        return null;
+    }
+
     private void initView() {
         mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.setWebChromeClient(new WebChromeClient(){
+        mWebView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
                 if (newProgress == 100) {

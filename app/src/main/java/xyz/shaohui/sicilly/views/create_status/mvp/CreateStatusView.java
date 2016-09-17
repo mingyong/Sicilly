@@ -10,8 +10,6 @@ public interface CreateStatusView extends MvpView {
 
     void showPicture();
 
-    void sendSuccess();
-
-    void sendFailure();
+    void finish();
 
 }

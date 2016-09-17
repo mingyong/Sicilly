@@ -10,6 +10,6 @@ public class TimeUtils {
 
     public static String simpleFormat(Date date) {
         return DateUtils.getRelativeTimeSpanString(date.getTime(), System.currentTimeMillis(),
-                DateUtils.MINUTE_IN_MILLIS).toString();
+                DateUtils.SECOND_IN_MILLIS).toString();
     }
 }

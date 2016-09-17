@@ -13,6 +13,7 @@ import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -22,6 +23,7 @@ import butterknife.OnClick;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.hannesdorfmann.fragmentargs.annotation.Arg;
 import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs;
+import java.io.File;
 import javax.inject.Inject;
 import me.shaohui.sicillylib.utils.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
@@ -29,6 +31,7 @@ import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyFactory;
 import xyz.shaohui.sicilly.base.BaseFragment;
 import xyz.shaohui.sicilly.data.models.Status;
+import xyz.shaohui.sicilly.notification.SendStatusNoti;
 import xyz.shaohui.sicilly.utils.FileUtils;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
 import xyz.shaohui.sicilly.views.create_status.di.CreateStatusComponent;
@@ -62,6 +65,12 @@ public class CreateStatusFragment extends BaseFragment<CreateStatusView, CreateS
 
     @Arg(required = false)
     Status mStatus;
+
+    @Arg(required = false)
+    String restoreText;
+
+    @Arg(required = false)
+    String restorePath;
 
     private Uri imageFileUri;
     private String mLocalImagePath;
@@ -125,6 +134,15 @@ public class CreateStatusFragment extends BaseFragment<CreateStatusView, CreateS
                             HtmlUtils.cleanAllTag(mStatus.text())));
                     statusText.setSelection(0);
                     break;
+            }
+        }
+        if (type == CreateStatusActivity.TYPE_RESTORE) {
+            statusText.setText(restoreText);
+            statusText.setSelection(statusText.length());
+            if (!TextUtils.isEmpty(restorePath)) {
+                statusImage.setImageURI(Uri.parse(restorePath));
+                statusImage.setVisibility(View.VISIBLE);
+                mLocalImagePath = restorePath;
             }
         }
     }
@@ -219,13 +237,8 @@ public class CreateStatusFragment extends BaseFragment<CreateStatusView, CreateS
     }
 
     @Override
-    public void sendSuccess() {
-        ToastUtils.showToast(getActivity(), "发送成功");
-    }
-
-    @Override
-    public void sendFailure() {
-
+    public void finish() {
+        getActivity().finish();
     }
 
     @OnClick(R.id.btn_back)
@@ -240,6 +253,7 @@ public class CreateStatusFragment extends BaseFragment<CreateStatusView, CreateS
 
     @OnClick(R.id.action_submit)
     void actionSubmit() {
+        SendStatusNoti.sendNoti(getActivity());
         presenter.sendStatus(statusText.getText().toString(), mLocalImagePath, mStatus, type);
     }
 }

@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="xyz.shaohui.sicilly.views.activities.IndexActivity">
+    tools:context="xyz.shaohui.sicilly.views.home.IndexActivity">
 
     <FrameLayout
         android:id="@+id/main_frame"

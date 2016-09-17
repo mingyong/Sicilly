@@ -1,4 +1,4 @@
-package xyz.shaohui.sicilly.views.activities;
+package xyz.shaohui.sicilly.views.home;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,6 +7,7 @@ import butterknife.ButterKnife;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
 import java.util.ArrayList;
+import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.base.HasComponent;
@@ -40,7 +41,12 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
     @Override
     public void initializeInjector() {
         mComponent = DaggerHomeComponent.builder().appComponent(getAppComponent()).build();
-        //mComponent.inject(this);
+        mComponent.inject(this);
+    }
+
+    @Override
+    public EventBus getBus() {
+        return null;
     }
 
     private void initBottomTab(Bundle savedInstance) {

@@ -16,6 +16,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.shaohui.sicillylib.utils.ToastUtils;
+import org.greenrobot.eventbus.EventBus;
 import uk.co.senab.photoview.PhotoViewAttacher;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseActivity;
@@ -45,6 +46,11 @@ public class PictureActivity extends BaseActivity {
     @Override
     public void initializeInjector() {
 
+    }
+
+    @Override
+    public EventBus getBus() {
+        return null;
     }
 
     private void loadImage() {

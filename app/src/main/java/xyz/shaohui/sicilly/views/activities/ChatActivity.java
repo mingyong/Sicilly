@@ -19,6 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import me.shaohui.vistarecyclerview.OnMoreListener;
 import me.shaohui.vistarecyclerview.VistaRecyclerView;
+import org.greenrobot.eventbus.EventBus;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -62,6 +63,11 @@ public class ChatActivity extends BaseActivity {
     @Override
     public void initializeInjector() {
 
+    }
+
+    @Override
+    public EventBus getBus() {
+        return null;
     }
 
     @Override

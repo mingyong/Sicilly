@@ -3,6 +3,7 @@ package xyz.shaohui.sicilly.base;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,6 @@ public abstract class BaseFragment<V extends MvpView, T extends MvpPresenter<V>>
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         try {
             if (!getBus().isRegistered(this)) {
                 getBus().register(this);
@@ -45,6 +45,7 @@ public abstract class BaseFragment<V extends MvpView, T extends MvpPresenter<V>>
         } catch (Exception e) {
         }
         bindViews(view);
+        super.onViewCreated(view, savedInstanceState);
     }
 
     @Override

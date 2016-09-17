@@ -60,6 +60,11 @@ public class HomeTimelinePresenterImpl extends HomeTimelinePresenter {
     }
 
     @Override
+    public void loadNewMessage(Status firstStatus) {
+
+    }
+
+    @Override
     public void listenerNewMessage() {
 
     }

@@ -31,6 +31,7 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 import me.shaohui.scrollablelayout.ScrollableHelper;
 import me.shaohui.scrollablelayout.ScrollableLayout;
+import org.greenrobot.eventbus.EventBus;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
@@ -88,6 +89,11 @@ public class UserActivity extends BaseActivity {
     @Override
     public void initializeInjector() {
 
+    }
+
+    @Override
+    public EventBus getBus() {
+        return null;
     }
 
     @Override

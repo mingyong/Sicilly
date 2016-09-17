@@ -116,13 +116,13 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
                         context.startActivity(UserActivity.newIntent(context, user.id()));
                         break;
                     case R.id.action_comment:
-                        DataManager.actionComment(context, status.id());
+                        //DataManager.actionComment(context, status.id());
                         break;
                     case R.id.action_repost:
-                        DataManager.actionRepost(context, status.id());
+                        //DataManager.actionRepost(context, status.id());
                         break;
                     case R.id.action_star:
-                        DataManager.actionRepost(context, status.id());
+                        //DataManager.actionRepost(context, status.id());
                         break;
                 }
             }

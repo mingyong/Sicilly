@@ -1,13 +1,14 @@
 package xyz.shaohui.sicilly.views.create_status;
 
+import android.content.Intent;
 import android.text.TextUtils;
 import java.io.File;
 import javax.inject.Inject;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import xyz.shaohui.sicilly.SicillyApplication;
+import xyz.shaohui.sicilly.data.DataManager;
 import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.network.api.StatusAPI;
 import xyz.shaohui.sicilly.utils.ImageUtils;
@@ -37,18 +38,16 @@ public class CreateStatusPresenterImpl extends CreateStatusPresenter {
         } else {
             sendTextWithPhoto(text, path);
         }
+        if (isViewAttached()) {
+            getView().finish();
+        }
     }
 
     private void sendTextStatus(String text) {
         RequestBody status = RequestBody.create(MediaType.parse("text/plain"), text);
-        statusService.createStatus(status, null, null)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(result -> {
-                    if (isViewAttached()) {
-                        getView().sendSuccess();
-                    }
-                }, throwable -> getView().sendFailure());
+        Intent failureIntent =
+                CreateStatusActivity.newIntent(SicillyApplication.getContext(), text, null);
+        DataManager.sendStatus(statusService.createStatus(status, null, null), failureIntent);
     }
 
     private void replyOrRepostStatus(String text, Status originStatus, int type) {
@@ -64,13 +63,9 @@ public class CreateStatusPresenterImpl extends CreateStatusPresenter {
             default:
                 observable = statusService.createStatus(status, null, null);
         }
-        observable.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(result -> {
-                    if (isViewAttached()) {
-                        getView().sendSuccess();
-                    }
-                }, throwable -> getView().sendFailure());
+        Intent failureIntent =
+                CreateStatusActivity.newIntent(SicillyApplication.getContext(), originStatus, type);
+        DataManager.sendStatus(observable, failureIntent);
     }
 
     private void sendTextWithPhoto(String text, String path) {
@@ -86,18 +81,8 @@ public class CreateStatusPresenterImpl extends CreateStatusPresenter {
 
         pic = (compressedFile != null && compressedFile.length() > 0) ? compressedFile : pic;
         RequestBody photo = RequestBody.create(MediaType.parse("multipart/form-data"), pic);
-        statusService.createStatusWithPhoto(status, photo)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(result -> {
-                    if (isViewAttached()) {
-                        getView().sendSuccess();
-                    }
-                }, throwable -> {
-                    if (isViewAttached()) {
-                        throwable.printStackTrace();
-                        getView().sendFailure();
-                    }
-                });
+        Intent failureIntent =
+                CreateStatusActivity.newIntent(SicillyApplication.getContext(), text, path);
+        DataManager.sendStatus(statusService.createStatusWithPhoto(status, photo), failureIntent);
     }
 }

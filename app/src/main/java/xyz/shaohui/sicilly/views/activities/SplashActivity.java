@@ -1,15 +1,15 @@
 package xyz.shaohui.sicilly.views.activities;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.TextUtils;
 
+import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.data.SPDataManager;
 import xyz.shaohui.sicilly.data.network.auth.OAuthToken;
+import xyz.shaohui.sicilly.views.home.IndexActivity;
 
 public class SplashActivity extends BaseActivity {
 
@@ -23,6 +23,11 @@ public class SplashActivity extends BaseActivity {
     @Override
     public void initializeInjector() {
 
+    }
+
+    @Override
+    public EventBus getBus() {
+        return null;
     }
 
     private void checkToken() {

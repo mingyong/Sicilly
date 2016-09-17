@@ -13,6 +13,8 @@ public abstract class HomeTimelinePresenter extends MvpBasePresenter<HomeTimelin
 
     public abstract void loadMoreMessage(int page, Status lastStatus);
 
+    public abstract void loadNewMessage(Status firstStatus);
+
     public abstract void listenerNewMessage();
 
     public abstract void opStar(Status status, int position);

@@ -15,9 +15,14 @@ import me.shaohui.sicillylib.utils.ToastUtils;
 import me.shaohui.vistarecyclerview.VistaRecyclerView;
 import me.shaohui.vistarecyclerview.decoration.SpacingDecoration;
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseFragment;
+import xyz.shaohui.sicilly.data.SPDataManager;
 import xyz.shaohui.sicilly.data.models.Status;
+import xyz.shaohui.sicilly.event.NewStatusEvent;
+import xyz.shaohui.sicilly.notification.SendStatusNoti;
 import xyz.shaohui.sicilly.views.create_status.CreateStatusActivity;
 import xyz.shaohui.sicilly.views.home.di.HomeComponent;
 import xyz.shaohui.sicilly.views.home.timeline.adapter.IndexStatusAdapter;
@@ -182,5 +187,11 @@ public class HomeTimelineFragment extends BaseFragment<HomeTimelineView, HomeTim
                     presenter.deleteMessage(status, position);
                 })
                 .show();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateStatus(Status status) {
+        mDataList.add(0, status);
+        mRecyclerView.notifyDataSetChanged();
     }
 }
