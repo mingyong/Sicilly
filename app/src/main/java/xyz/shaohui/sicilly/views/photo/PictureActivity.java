@@ -57,7 +57,7 @@ public class PictureActivity extends BaseActivity {
         Glide.with(this)
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .fitCenter()
+                //.fitCenter()
                 .into(imageView);
         if (!url.toLowerCase().endsWith(".gif")) {
             mAttacher = new PhotoViewAttacher(imageView);

@@ -1,19 +1,14 @@
-package xyz.shaohui.sicilly.views.activities;
+package xyz.shaohui.sicilly.views.user_info;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -29,8 +24,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
+import javax.inject.Inject;
 import me.shaohui.scrollablelayout.ScrollableHelper;
 import me.shaohui.scrollablelayout.ScrollableLayout;
+import me.shaohui.sicillylib.utils.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
@@ -38,13 +35,19 @@ import rx.schedulers.Schedulers;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.base.BaseActivity;
+import xyz.shaohui.sicilly.base.BaseMvpActivity;
+import xyz.shaohui.sicilly.base.HasComponent;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.ErrorUtils;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
 import xyz.shaohui.sicilly.views.fragments.PhotoListFragment;
 import xyz.shaohui.sicilly.views.fragments.TimelineFragment;
+import xyz.shaohui.sicilly.views.user_info.di.DaggerUserInfoComponent;
+import xyz.shaohui.sicilly.views.user_info.di.UserInfoComponent;
+import xyz.shaohui.sicilly.views.user_info.mvp.UserInfoPresenter;
+import xyz.shaohui.sicilly.views.user_info.mvp.UserInfoView;
 
-public class UserActivity extends BaseActivity {
+public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresenter> implements UserInfoView, HasComponent<UserInfoComponent>{
 
     @BindView(R.id.count_follow)TextView countFollow;
     @BindView(R.id.count_follower)TextView countFollower;
@@ -62,9 +65,13 @@ public class UserActivity extends BaseActivity {
     @BindView(R.id.view_pager)ViewPager viewPager;
     @BindView(R.id.scrollableLayout)ScrollableLayout scrollableLayout;
 
-    private User user;
+    private User mUser;
     private String userId;
     private List<Fragment> fragmentList;
+    private UserInfoComponent mComponent;
+
+    @Inject
+    EventBus mBus;
 
     public static Intent newIntent(Context context, String userId) {
         Intent intent = new Intent(context, UserActivity.class);
@@ -87,19 +94,21 @@ public class UserActivity extends BaseActivity {
     }
 
     @Override
-    public void initializeInjector() {
-
+    public EventBus getBus() {
+        return mBus;
     }
 
     @Override
-    public EventBus getBus() {
-        return null;
+    public void injectDependencies() {
+        mComponent = DaggerUserInfoComponent.builder().appComponent(getAppComponent()).build();
+        mComponent.inject(this);
+        presenter = mComponent.presenter();
     }
 
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        fetchUserInfo();
+        presenter.fetchUserInfo(userId);
     }
 
     private void initViewPager() {
@@ -142,38 +151,18 @@ public class UserActivity extends BaseActivity {
 
     private void initScrollableLayout() {
         scrollableLayout.getHelper().setScrollableContainer((ScrollableHelper.ScrollableContainer) fragmentList.get(0));
-        scrollableLayout.setOnScrollListener(new ScrollableLayout.OnScrollListener() {
-            @Override
-            public void onScroll(int currentY, int maxY) {
-                if (currentY >= maxY) {
-                    titleBar.setBackgroundColor(getResources().getColor(R.color.positive));
-                } else {
-                    titleBar.setBackgroundColor(getResources().getColor(R.color.transparent));
-                }
+        scrollableLayout.setOnScrollListener((currentY, maxY) -> {
+            if (currentY >= maxY) {
+                titleBar.setBackgroundColor(getResources().getColor(R.color.positive));
+            } else {
+                titleBar.setBackgroundColor(getResources().getColor(R.color.transparent));
             }
         });
     }
 
-    private void fetchUserInfo() {
-        SicillyApplication.getRetrofitService()
-                .getUserService().userInfoOther(userId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<User>() {
-                    @Override
-                    public void call(User resultUser) {
-                        user = resultUser;
-                        placeUserInfo(user);
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        ErrorUtils.catchException(throwable);
-                    }
-                });
-    }
-
-    private void placeUserInfo(User user) {
+    @Override
+    public void placeUserInfo(User user) {
+        mUser = user;
         countFollow.setText(String.valueOf(user.friends_count()));
         countFollower.setText(String.valueOf(user.followers_count()));
         countStatus.setText(String.valueOf(user.statuses_count()));
@@ -192,6 +181,12 @@ public class UserActivity extends BaseActivity {
 
     }
 
+    @Override
+    public void loadUserInfoFailure() {
+        ToastUtils.showToast(this, R.string.load_user_failure);
+        finish();
+    }
+
     @OnClick(R.id.btn_back)
     void btnBack() {
         finish();
@@ -205,6 +200,11 @@ public class UserActivity extends BaseActivity {
     @OnClick(R.id.btn_chat)
     void newChat() {
 
+    }
+
+    @Override
+    public UserInfoComponent getComponent() {
+        return mComponent;
     }
 
     class UserPagerAdapter extends FragmentPagerAdapter {

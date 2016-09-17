@@ -27,13 +27,12 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.List;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyApplication;
-import xyz.shaohui.sicilly.data.DataManager;
 import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
 import xyz.shaohui.sicilly.utils.NoUnderlineSpan;
 import xyz.shaohui.sicilly.utils.TimeUtils;
-import xyz.shaohui.sicilly.views.activities.UserActivity;
+import xyz.shaohui.sicilly.views.user_info.UserActivity;
 import xyz.shaohui.sicilly.views.home.timeline.TimelineItemListener;
 import xyz.shaohui.sicilly.views.photo.PictureActivity;
 

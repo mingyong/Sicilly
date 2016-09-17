@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".views.activities.StatusActivity"/>
-        <activity android:name=".views.activities.UserActivity">
+        <activity android:name=".views.user_info.UserActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
 
