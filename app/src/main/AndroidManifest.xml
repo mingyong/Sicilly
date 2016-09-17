@@ -43,20 +43,7 @@
         </activity>
         <activity android:name=".views.activities.CreateActivity"/>
         <activity android:name=".views.activities.SearchActivity"/>
-        <activity android:name=".views.activities.WebActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-
-                <category android:name="android.intent.category.DEFAULT"/>
-
-                <data android:scheme="me.shaohui.sicilly.http"/>
-            </intent-filter>
-        </activity>
         <activity android:name=".views.activities.UserListActivity"/>
-        <activity
-                android:name=".views.activities.PictureActivity"
-                android:theme="@style/AppTheme.PictureActivity"
-                />
         <activity android:name=".views.activities.ChatActivity"/>
         <activity android:name=".views.activities.SettingActivity"/>
         <activity android:name=".views.activities.LoginActivity"/>
@@ -70,6 +57,20 @@
             </intent-filter>
         </activity>
         <activity android:name=".views.create_status.CreateStatusActivity">
+        </activity>
+        <activity android:name=".views.status_detail.StatusDetailActivity">
+        </activity>
+        <activity android:name=".views.web.WebActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+
+                <data android:scheme="me.shaohui.sicilly.http"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".views.photo.PictureActivity"
+                android:theme="@style/AppTheme.PictureActivity">
         </activity>
     </application>
 

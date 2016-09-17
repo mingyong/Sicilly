@@ -1,8 +1,7 @@
 package xyz.shaohui.sicilly.utils;
 
-import java.text.SimpleDateFormat;
+import android.text.format.DateUtils;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  * Created by shaohui on 16/8/19.
@@ -10,8 +9,7 @@ import java.util.Locale;
 public class TimeUtils {
 
     public static String simpleFormat(Date date) {
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm dd/MM", Locale.CHINA);
-        return format.format(date);
+        return DateUtils.getRelativeTimeSpanString(date.getTime(), System.currentTimeMillis(),
+                DateUtils.MINUTE_IN_MILLIS).toString();
     }
-
 }

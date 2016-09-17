@@ -1,10 +1,11 @@
-package xyz.shaohui.sicilly.views.activities;
+package xyz.shaohui.sicilly.views.photo;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -50,6 +51,7 @@ public class PictureActivity extends BaseActivity {
         Glide.with(this)
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .fitCenter()
                 .into(imageView);
         if (!url.toLowerCase().endsWith(".gif")) {
             mAttacher = new PhotoViewAttacher(imageView);
@@ -64,12 +66,9 @@ public class PictureActivity extends BaseActivity {
                     clickImageView();
                 }
             });
-            mAttacher.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    ToastUtils.showToast(getApplicationContext(), "保存图片");
-                    return true;
-                }
+            mAttacher.setOnLongClickListener(v -> {
+                ToastUtils.showToast(getApplicationContext(), "保存图片");
+                return true;
             });
         }
     }

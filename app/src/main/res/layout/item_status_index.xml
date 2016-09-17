@@ -62,12 +62,12 @@
         tools:text="滴滴出行宣布与Uber全球达成战略协议，滴滴出行将收购优步中国的品牌、业务、数据等全部资产在中国大陆运营。双方达成战略协议后， 滴滴出行和优步的母公司Uber全球将相互持股，成为对方的少数股权股东"/>
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp">
+        android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/status_image"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:layout_marginTop="8dp"
             android:transitionName="image"
             android:scaleType="centerCrop"
             tools:background="@color/place_bg"/>

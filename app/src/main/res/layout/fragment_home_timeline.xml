@@ -24,10 +24,10 @@
             <ImageButton
                     android:id="@+id/btn_add"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
+                    android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/spacing_normal"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingRight="@dimen/spacing_normal"
                     app:srcCompat="@drawable/ic_add"
                     android:background="@null" />
             <ImageView

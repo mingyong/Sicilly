@@ -33,9 +33,9 @@ import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
 import xyz.shaohui.sicilly.utils.NoUnderlineSpan;
 import xyz.shaohui.sicilly.utils.TimeUtils;
-import xyz.shaohui.sicilly.views.activities.PictureActivity;
 import xyz.shaohui.sicilly.views.activities.UserActivity;
 import xyz.shaohui.sicilly.views.home.timeline.TimelineItemListener;
+import xyz.shaohui.sicilly.views.photo.PictureActivity;
 
 /**
  * Created by shaohui on 16/8/19.
@@ -107,6 +107,7 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
             }
         } else {
             viewHolder.image.setVisibility(View.GONE);
+            viewHolder.gif.setVisibility(View.GONE);
         }
 
         // action

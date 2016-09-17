@@ -20,14 +20,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import java.util.List;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.data.DataManager;
 import xyz.shaohui.sicilly.data.models.Status;
@@ -35,8 +32,8 @@ import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
 import xyz.shaohui.sicilly.utils.NoUnderlineSpan;
 import xyz.shaohui.sicilly.utils.TimeUtils;
-import xyz.shaohui.sicilly.views.activities.PictureActivity;
 import xyz.shaohui.sicilly.views.activities.UserActivity;
+import xyz.shaohui.sicilly.views.photo.PictureActivity;
 
 /**
  * Created by shaohui on 16/8/19.
@@ -75,27 +72,26 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
         viewHolder.text.setText(s);
         viewHolder.text.setMovementMethod(LinkMovementMethod.getInstance());
 
-        Glide.with(context)
-                .load(user.profile_image_url_large())
-                .into(viewHolder.avatar);
+        Glide.with(context).load(user.profile_image_url_large()).into(viewHolder.avatar);
         if (status.photo() != null) {
             viewHolder.image.setVisibility(View.VISIBLE);
             Glide.with(context)
                     .load(status.photo().getLargeurl())
                     .asBitmap()
-                    .placeholder(context.getResources()
-                            .getDrawable(R.drawable.drawable_plcae_holder))
+                    .placeholder(
+                            context.getResources().getDrawable(R.drawable.drawable_plcae_holder))
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(viewHolder.image);
             viewHolder.image.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = PictureActivity
-                            .newIntent(context, status.photo().getLargeurl());
+                    Intent intent =
+                            PictureActivity.newIntent(context, status.photo().getLargeurl());
                     if (android.os.Build.VERSION.SDK_INT
                             >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                        ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(
-                                (Activity) context, viewHolder.image, "image");
+                        ActivityOptions options =
+                                ActivityOptions.makeSceneTransitionAnimation((Activity) context,
+                                        viewHolder.image, "image");
                         context.startActivity(intent, options.toBundle());
                     } else {
                         context.startActivity(intent);
@@ -142,7 +138,6 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
             viewHolder.actionStar.setImageResource(R.drawable.ic_star);
         }
 
-
         // 动画效果
         if (holder.getAdapterPosition() > mLastPosition) {
             startAnimator(viewHolder.itemView);
@@ -150,7 +145,6 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
         } else {
             clearAnimator(viewHolder.itemView);
         }
-
     }
 
     private void startAnimator(View view) {
@@ -173,17 +167,28 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
 
     class StatusViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.user_avatar)ImageView avatar;
-        @BindView(R.id.user_name)TextView name;
-        @BindView(R.id.status_text)TextView text;
-        @BindView(R.id.status_source)TextView source;
-        @BindView(R.id.status_image)ImageView image;
-        @BindView(R.id.status_time)TextView createdTime;
-        @BindView(R.id.action_comment)ImageButton actionComment;
-        @BindView(R.id.action_repost)ImageButton actionRepost;
-        @BindView(R.id.action_star)ImageButton actionStar;
-        @BindView(R.id.flag_gif)TextView gif;
-        @BindView(R.id.status_header)RelativeLayout header;
+        @BindView(R.id.user_avatar)
+        ImageView avatar;
+        @BindView(R.id.user_name)
+        TextView name;
+        @BindView(R.id.status_text)
+        TextView text;
+        @BindView(R.id.status_source)
+        TextView source;
+        @BindView(R.id.status_image)
+        ImageView image;
+        @BindView(R.id.status_time)
+        TextView createdTime;
+        @BindView(R.id.action_comment)
+        ImageButton actionComment;
+        @BindView(R.id.action_repost)
+        ImageButton actionRepost;
+        @BindView(R.id.action_star)
+        ImageButton actionStar;
+        @BindView(R.id.flag_gif)
+        TextView gif;
+        @BindView(R.id.status_header)
+        RelativeLayout header;
 
         public StatusViewHolder(View itemView) {
             super(itemView);

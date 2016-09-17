@@ -3,13 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black"
-    tools:context="xyz.shaohui.sicilly.views.activities.PictureActivity">
+    android:background="@color/black">
     <ImageView
         android:id="@+id/image_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="fitCenter"
+        android:layout_height="wrap_content"
+        android:scaleType="center"
         android:transitionName="image"
         android:layout_centerInParent="true"/>
 </RelativeLayout>
