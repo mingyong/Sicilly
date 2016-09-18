@@ -2,8 +2,6 @@ package xyz.shaohui.sicilly.data.network.api;
 
 import java.util.List;
 import okhttp3.RequestBody;
-import retrofit2.http.Field;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -24,7 +22,11 @@ public interface StatusAPI {
     Observable<List<Status>> homeStatusNext(@Query("page") int page, @Query("since_id") int id);
 
     @GET("statuses/user_timeline.json?format=html")
-    Observable<List<Status>> userTimeline(@Query("id") String userId, @Query("page") int page);
+    Observable<List<Status>> userTimeline(@Query("id") String userId);
+
+    @GET("statuses/user_timeline.json?format=html")
+    Observable<List<Status>> userTimelineNext(@Query("id") String userId, @Query("page") int page,
+            @Query("since_id") int id);
 
     @GET("statuses/mentions.json?format=html")
     Observable<List<Status>> mentionsStatus(@Query("page") int page);
@@ -42,5 +44,5 @@ public interface StatusAPI {
 
     @Multipart
     @POST("statuses/destroy.json")
-    Observable<Status> destroyStatus(@Part("id")RequestBody id);
+    Observable<Status> destroyStatus(@Part("id") RequestBody id);
 }

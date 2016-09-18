@@ -2,6 +2,7 @@ package xyz.shaohui.sicilly.views.user_info;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -29,23 +30,19 @@ import me.shaohui.scrollablelayout.ScrollableHelper;
 import me.shaohui.scrollablelayout.ScrollableLayout;
 import me.shaohui.sicillylib.utils.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 import xyz.shaohui.sicilly.R;
-import xyz.shaohui.sicilly.SicillyApplication;
-import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.base.BaseMvpActivity;
 import xyz.shaohui.sicilly.base.HasComponent;
 import xyz.shaohui.sicilly.data.models.User;
-import xyz.shaohui.sicilly.utils.ErrorUtils;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
-import xyz.shaohui.sicilly.views.fragments.PhotoListFragment;
+import xyz.shaohui.sicilly.views.user_info.photo.UserPhotoFragment;
 import xyz.shaohui.sicilly.views.fragments.TimelineFragment;
 import xyz.shaohui.sicilly.views.user_info.di.DaggerUserInfoComponent;
 import xyz.shaohui.sicilly.views.user_info.di.UserInfoComponent;
 import xyz.shaohui.sicilly.views.user_info.mvp.UserInfoPresenter;
 import xyz.shaohui.sicilly.views.user_info.mvp.UserInfoView;
+import xyz.shaohui.sicilly.views.user_info.photo.UserPhotoFragmentBuilder;
+import xyz.shaohui.sicilly.views.user_info.timeline.UserTimelineFragmentBuilder;
 
 public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresenter> implements UserInfoView, HasComponent<UserInfoComponent>{
 
@@ -83,14 +80,24 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-        if (getIntent().getData() != null) {
-            userId = HtmlUtils.cleanUserScheme(getIntent().getData());
+        if (savedInstanceState == null) {
+            if (getIntent().getData() != null) {
+                userId = HtmlUtils.cleanUserScheme(getIntent().getData());
+            } else {
+                userId = getIntent().getStringExtra("user_id");
+            }
         } else {
-            userId = getIntent().getStringExtra("user_id");
+            userId = savedInstanceState.getString("user_id");
         }
         ButterKnife.bind(this);
         initViewPager();
         initScrollableLayout();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        outState.putString("user_id", userId);
+        super.onSaveInstanceState(outState, outPersistentState);
     }
 
     @Override
@@ -102,7 +109,7 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
     public void injectDependencies() {
         mComponent = DaggerUserInfoComponent.builder().appComponent(getAppComponent()).build();
         mComponent.inject(this);
-        presenter = mComponent.presenter();
+        presenter = mComponent.userInfoPresenter();
     }
 
     @Override
@@ -113,8 +120,8 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
 
     private void initViewPager() {
         fragmentList = new ArrayList<>();
-        fragmentList.add(TimelineFragment.newInstance(TimelineFragment.ACTION_USER, userId));
-        fragmentList.add(PhotoListFragment.newInstance(userId));
+        fragmentList.add(UserTimelineFragmentBuilder.newUserTimelineFragment(userId));
+        fragmentList.add(UserPhotoFragmentBuilder.newUserPhotoFragment(userId));
 
         UserPagerAdapter adapter = new UserPagerAdapter(getSupportFragmentManager(), fragmentList);
         viewPager.setAdapter(adapter);
