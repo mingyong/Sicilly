@@ -56,21 +56,9 @@ public class AuthService {
                     }
                 })
                 .subscribeOn(AndroidSchedulers.mainThread())
-                .doOnNext(new Action1<ResponseBody>() {
-                    @Override
-                    public void call(ResponseBody responseBody) {
-                        try {
-                            SPDataManager.saveToken(context, OAuthToken.parse(responseBody.string()));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                })
-                .subscribeOn(Schedulers.io())
                 .subscribe(new Observer<ResponseBody>() {
                     @Override
                     public void onCompleted() {
-                        listener.end();
                     }
 
                     @Override
@@ -82,6 +70,11 @@ public class AuthService {
 
                     @Override
                     public void onNext(ResponseBody response) {
+                        try {
+                            listener.end(OAuthToken.parse(response.string()));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         response.close();
                     }
                 });
@@ -92,7 +85,7 @@ public class AuthService {
 
         void begin();
 
-        void end();
+        void end(OAuthToken token);
 
         void failure();
     }

@@ -3,15 +3,23 @@ package xyz.shaohui.sicilly.views.activities;
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.util.Log;
+import javax.inject.Inject;
 import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyApplication;
+import xyz.shaohui.sicilly.app.di.AppComponent;
+import xyz.shaohui.sicilly.app.di.DaggerAppComponent;
 import xyz.shaohui.sicilly.base.BaseActivity;
-import xyz.shaohui.sicilly.data.SPDataManager;
-import xyz.shaohui.sicilly.data.network.auth.OAuthToken;
+import xyz.shaohui.sicilly.data.database.AppUserDbAccessor;
+import xyz.shaohui.sicilly.data.models.AppUser;
 import xyz.shaohui.sicilly.views.home.IndexActivity;
+import xyz.shaohui.sicilly.views.login.LoginActivity;
 
 public class SplashActivity extends BaseActivity {
+
+    @Inject
+    AppUserDbAccessor mAppUserDbAccessor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,7 +30,8 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     public void initializeInjector() {
-
+        AppComponent component = DaggerAppComponent.builder().build();
+        component.inject(this);
     }
 
     @Override
@@ -31,13 +40,24 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void checkToken() {
-        OAuthToken token = SPDataManager.getToken(this);
-        if (token == null) {
-            startActivity(new Intent(this, LoginActivity.class));
-        } else {
-            SicillyApplication.setToken(token);
-            startActivity(new Intent(this, IndexActivity.class));
-        }
-        finish();
+        //OAuthToken token = SPDataManager.getToken(this);
+        //if (token == null) {
+        //    startActivity(new Intent(this, LoginActivity.class));
+        //} else {
+        //    SicillyApplication.setToken(token);
+        //    startActivity(new Intent(this, IndexActivity.class));
+        //}
+        mAppUserDbAccessor.selectCurrentUser()
+                .subscribe(cursor -> {
+                    Log.i("TAG", cursor.getCount() + "");
+                   if (cursor.getCount() > 0) {
+                       cursor.moveToFirst();
+                       SicillyApplication.setCUrrentAppUser(AppUser.MAPPER.map(cursor));
+                       startActivity(new Intent(getApplicationContext(), IndexActivity.class));
+                   } else {
+                       startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                   }
+                    finish();
+                });
     }
 }

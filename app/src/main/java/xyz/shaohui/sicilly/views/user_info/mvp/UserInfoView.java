@@ -13,4 +13,13 @@ public interface UserInfoView extends MvpView {
 
     void loadUserInfoFailure();
 
+    void opFollow();
+
+    void showUnFollowConfirmDialog();
+
+    void followError();
+
+    void unFollowError();
+
+
 }

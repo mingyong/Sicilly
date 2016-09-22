@@ -1,0 +1,20 @@
+CREATE TABLE appuser (
+    id TEXT PRIMARY KEY NOT NULl,
+    token TEXT NOT NULl,
+    token_secret TEXT NOT NULL,
+    name TEXT NOT NUll,
+    avatar TEXT NOT NUll,
+    current INTEGER as boolean DEFAULT 0
+);
+
+select_all:
+SELECT * FROM appuser;
+
+select_current:
+SELECT * FROM appuser WHERE current = '1';
+
+select_by_id:
+SELECT * FROM appuser WHERE appuser.id = ? ;
+
+delete_by_id:
+DELETE FROM appuser WHERE appuser.id = ?;

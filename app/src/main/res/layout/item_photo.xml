@@ -9,8 +9,7 @@
         android:id="@+id/photo_image"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
-        android:minHeight="80dp"
+        android:scaleType="fitCenter"
         android:adjustViewBounds="true"
         android:background="@color/place_bg"/>
     <TextView

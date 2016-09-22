@@ -12,7 +12,7 @@ import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.base.HasComponent;
 import xyz.shaohui.sicilly.views.fragments.MessageFragment;
-import xyz.shaohui.sicilly.views.fragments.UserFragment;
+import xyz.shaohui.sicilly.views.home.profile.ProfileFragment;
 import xyz.shaohui.sicilly.views.home.di.DaggerHomeComponent;
 import xyz.shaohui.sicilly.views.home.di.HomeComponent;
 import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragment;
@@ -24,7 +24,7 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
 
     private Fragment indexFragment = new HomeTimelineFragment();
     private Fragment messageFragment = new MessageFragment();
-    private Fragment userFragment = new UserFragment();
+    private Fragment userFragment = new ProfileFragment();
 
     private HomeComponent mComponent;
 

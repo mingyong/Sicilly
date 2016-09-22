@@ -2,29 +2,29 @@ package xyz.shaohui.sicilly.views.user_info;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.os.Bundle;
 import android.text.TextUtils;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-import com.flyco.tablayout.SegmentTabLayout;
-import com.flyco.tablayout.listener.OnTabSelectListener;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.bumptech.glide.Glide;
+import com.flyco.tablayout.SegmentTabLayout;
+import com.flyco.tablayout.listener.OnTabSelectListener;
 import de.hdodenhof.circleimageview.CircleImageView;
+import java.util.ArrayList;
+import java.util.List;
 import javax.inject.Inject;
 import me.shaohui.scrollablelayout.ScrollableHelper;
 import me.shaohui.scrollablelayout.ScrollableLayout;
@@ -35,8 +35,6 @@ import xyz.shaohui.sicilly.base.BaseMvpActivity;
 import xyz.shaohui.sicilly.base.HasComponent;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
-import xyz.shaohui.sicilly.views.user_info.photo.UserPhotoFragment;
-import xyz.shaohui.sicilly.views.fragments.TimelineFragment;
 import xyz.shaohui.sicilly.views.user_info.di.DaggerUserInfoComponent;
 import xyz.shaohui.sicilly.views.user_info.di.UserInfoComponent;
 import xyz.shaohui.sicilly.views.user_info.mvp.UserInfoPresenter;
@@ -44,23 +42,38 @@ import xyz.shaohui.sicilly.views.user_info.mvp.UserInfoView;
 import xyz.shaohui.sicilly.views.user_info.photo.UserPhotoFragmentBuilder;
 import xyz.shaohui.sicilly.views.user_info.timeline.UserTimelineFragmentBuilder;
 
-public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresenter> implements UserInfoView, HasComponent<UserInfoComponent>{
+public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresenter>
+        implements UserInfoView, HasComponent<UserInfoComponent> {
 
-    @BindView(R.id.count_follow)TextView countFollow;
-    @BindView(R.id.count_follower)TextView countFollower;
-    @BindView(R.id.count_status)TextView countStatus;
-    @BindView(R.id.user_name)TextView name;
-    @BindView(R.id.user_avatar)CircleImageView avatar;
-    @BindView(R.id.user_location)TextView location;
-    @BindView(R.id.user_brief)TextView brief;
-    @BindView(R.id.user_bg)ImageView userBackground;
+    @BindView(R.id.count_follow)
+    TextView countFollow;
+    @BindView(R.id.count_follower)
+    TextView countFollower;
+    @BindView(R.id.count_status)
+    TextView countStatus;
+    @BindView(R.id.user_name)
+    TextView name;
+    @BindView(R.id.user_avatar)
+    CircleImageView avatar;
+    @BindView(R.id.user_location)
+    TextView location;
+    @BindView(R.id.user_brief)
+    TextView brief;
+    @BindView(R.id.user_bg)
+    ImageView userBackground;
 
-    @BindView(R.id.title_bar)RelativeLayout titleBar;
-    @BindView(R.id.title)TextView title;
-    @BindView(R.id.btn_follow)TextView actionFollow;
-    @BindView(R.id.tab_layout)SegmentTabLayout tabLayout;
-    @BindView(R.id.view_pager)ViewPager viewPager;
-    @BindView(R.id.scrollableLayout)ScrollableLayout scrollableLayout;
+    @BindView(R.id.title_bar)
+    RelativeLayout titleBar;
+    @BindView(R.id.title)
+    TextView title;
+    @BindView(R.id.btn_follow)
+    ImageButton actionFollow;
+    @BindView(R.id.tab_layout)
+    SegmentTabLayout tabLayout;
+    @BindView(R.id.view_pager)
+    ViewPager viewPager;
+    @BindView(R.id.scrollableLayout)
+    ScrollableLayout scrollableLayout;
 
     private User mUser;
     private String userId;
@@ -100,6 +113,7 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
         super.onSaveInstanceState(outState, outPersistentState);
     }
 
+    @NonNull
     @Override
     public EventBus getBus() {
         return mBus;
@@ -127,12 +141,15 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onPageScrolled(int position, float positionOffset,
+                    int positionOffsetPixels) {
             }
 
             @Override
             public void onPageSelected(int position) {
-                scrollableLayout.getHelper().setScrollableContainer((ScrollableHelper.ScrollableContainer) fragmentList.get(position));
+                scrollableLayout.getHelper()
+                        .setScrollableContainer(
+                                (ScrollableHelper.ScrollableContainer) fragmentList.get(position));
                 tabLayout.setCurrentTab(position);
             }
 
@@ -141,8 +158,9 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
 
             }
         });
-        tabLayout.setTabData(new String[]{getString(R.string.user_tab_1),
-                getString(R.string.user_tab_2)});
+        tabLayout.setTabData(new String[] {
+                getString(R.string.user_tab_1), getString(R.string.user_tab_2)
+        });
         tabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
@@ -157,7 +175,8 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
     }
 
     private void initScrollableLayout() {
-        scrollableLayout.getHelper().setScrollableContainer((ScrollableHelper.ScrollableContainer) fragmentList.get(0));
+        scrollableLayout.getHelper()
+                .setScrollableContainer((ScrollableHelper.ScrollableContainer) fragmentList.get(0));
         scrollableLayout.setOnScrollListener((currentY, maxY) -> {
             if (currentY >= maxY) {
                 titleBar.setBackgroundColor(getResources().getColor(R.color.positive));
@@ -179,19 +198,64 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
             location.setText(user.location());
         }
         brief.setText(user.description());
-        Glide.with(this)
-                .load(user.profile_image_url_large())
-                .into(avatar);
-        Glide.with(this)
-                .load(user.profile_background_image_url())
-                .into(userBackground);
+        Glide.with(this).load(user.profile_image_url_large()).into(avatar);
+        Glide.with(this).load(user.profile_background_image_url()).into(userBackground);
 
+        if (mUser.following()) {
+            actionFollow.setImageResource(R.drawable.ic_followed);
+        }
+
+        // 针对设置隐私保护的user
+        if (!mUser.following() && mUser.is_protected()) {
+            showPrivacyFragment();
+        }
+    }
+
+    private void showPrivacyFragment() {
+        fragmentList.clear();
+        fragmentList.add(new PrivacyFragment());
+        fragmentList.add(new PrivacyFragment());
+        viewPager.notifyAll();
     }
 
     @Override
     public void loadUserInfoFailure() {
         ToastUtils.showToast(this, R.string.load_user_failure);
         finish();
+    }
+
+    @Override
+    public void opFollow() {
+        presenter.opFollow(mUser);
+
+        mUser = mUser.updateFollow();
+        actionFollow.setImageResource(R.drawable.ic_followed);
+    }
+
+    @Override
+    public void showUnFollowConfirmDialog() {
+        new MaterialDialog.Builder(this)
+                .content(R.string.confirm_un_follow_message)
+                .positiveText(R.string.yes)
+                .negativeText(R.string.no)
+                .onPositive((dialog, which) -> presenter.opUnFollow(mUser));
+
+        mUser = mUser.updateFollow();
+        actionFollow.setImageResource(R.drawable.ic_follow);
+    }
+
+    @Override
+    public void followError() {
+        ToastUtils.showToast(this, R.string.follow_error);
+        mUser = mUser.updateFollow();
+        actionFollow.setImageResource(R.drawable.ic_follow);
+    }
+
+    @Override
+    public void unFollowError() {
+        ToastUtils.showToast(this, R.string.follow_error);
+        mUser = mUser.updateFollow();
+        actionFollow.setImageResource(R.drawable.ic_followed);
     }
 
     @OnClick(R.id.btn_back)
@@ -201,7 +265,7 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
 
     @OnClick(R.id.btn_follow)
     void actionFollow() {
-
+        presenter.opFollow(mUser);
     }
 
     @OnClick(R.id.btn_chat)
@@ -232,7 +296,5 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
         public int getCount() {
             return 2;
         }
-
     }
-
 }

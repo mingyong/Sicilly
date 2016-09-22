@@ -1,8 +1,11 @@
 package xyz.shaohui.sicilly.app.di;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.squareup.sqlbrite.BriteDatabase;
+import com.squareup.sqlbrite.SqlBrite;
 import dagger.Module;
 import dagger.Provides;
 import java.util.concurrent.TimeUnit;
@@ -12,6 +15,9 @@ import org.greenrobot.eventbus.EventBus;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.schedulers.Schedulers;
+import xyz.shaohui.sicilly.SicillyApplication;
+import xyz.shaohui.sicilly.data.database.DbHelper;
 import xyz.shaohui.sicilly.data.network.MyAdapterFactory;
 import xyz.shaohui.sicilly.data.network.RetrofitService;
 import xyz.shaohui.sicilly.data.network.okHttp.OkHttpInterceptor;
@@ -55,5 +61,21 @@ public class AppModule {
     @Provides
     EventBus providerBus() {
         return BusProvider.getBus();
+    }
+
+    @Provides
+    Context provideContext() {
+        return SicillyApplication.getContext();
+    }
+
+    @Provides
+    DbHelper prodiveDbHelper(Context context) {
+        return new DbHelper(context);
+    }
+
+    @Provides
+    BriteDatabase provideBriteDatabase(DbHelper dbHelper) {
+        SqlBrite sqlBrite = SqlBrite.create();
+        return sqlBrite.wrapDatabaseHelper(dbHelper, Schedulers.io());
     }
 }

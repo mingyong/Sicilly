@@ -61,17 +61,15 @@
             android:textColor="@color/white"
             android:textSize="16sp"
             tools:text="邵辉Vista"/>
-        <TextView
+        <ImageButton
             android:id="@+id/btn_follow"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+                android:background="@null"
+                app:srcCompat="@drawable/ic_follow"
             android:layout_alignParentRight="true"
             android:paddingRight="@dimen/spacing_normal"
-            android:layout_centerVertical="true"
-            android:gravity="center"
-            android:textSize="12sp"
-            android:textColor="@color/white"
-            android:text="@string/user_follow"/>
+            android:layout_centerVertical="true"/>
         <ImageButton
             android:id="@+id/btn_chat"
             android:layout_width="wrap_content"

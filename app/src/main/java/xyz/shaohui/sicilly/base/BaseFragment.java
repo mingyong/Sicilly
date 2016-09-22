@@ -1,6 +1,7 @@
 package xyz.shaohui.sicilly.base;
 
 import android.os.Bundle;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -63,6 +64,7 @@ public abstract class BaseFragment<V extends MvpView, T extends MvpPresenter<V>>
 
     public abstract void injectDependencies();
 
+    @LayoutRes
     public abstract int layoutRes();
 
     public void bindViews(View view) {

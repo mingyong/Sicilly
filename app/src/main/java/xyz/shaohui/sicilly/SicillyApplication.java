@@ -7,16 +7,17 @@ import android.text.TextUtils;
 import xyz.shaohui.sicilly.app.di.AppComponent;
 import xyz.shaohui.sicilly.app.di.DaggerAppComponent;
 import xyz.shaohui.sicilly.data.SPDataManager;
+import xyz.shaohui.sicilly.data.models.AppUser;
 import xyz.shaohui.sicilly.data.network.RetrofitService;
 import xyz.shaohui.sicilly.data.network.auth.OAuthToken;
 
 public class SicillyApplication extends Application {
 
     public static Context context;
-    public static OAuthToken oAuthToken;
     public static RetrofitService retrofitService;
     public static AppComponent mAppComponent;
-    public static String currentUId;
+    public static AppUser mAppUser;
+    public static OAuthToken mToken;
 
     @Override
     public void onCreate() {
@@ -30,13 +31,20 @@ public class SicillyApplication extends Application {
     }
 
     public static OAuthToken getToken() {
-        return oAuthToken;
+        if (mToken != null && mAppUser != null && !TextUtils.equals(mToken.getToken(), mAppUser.token())) {
+            mToken = new OAuthToken(mAppUser.token(), mAppUser.token_secret());
+        } else if (mAppUser != null && mToken == null) {
+            mToken = new OAuthToken(mAppUser.token(), mAppUser.token_secret());
+        }
+        return mToken;
     }
 
+    // 仅在登录成功之后调用一次
     public static void setToken(OAuthToken token) {
-        SicillyApplication.oAuthToken = token;
+        mToken = token;
     }
 
+    // 重构完私信, 删除
     public static RetrofitService getRetrofitService() {
         if (retrofitService == null) {
             retrofitService = new RetrofitService();
@@ -45,10 +53,19 @@ public class SicillyApplication extends Application {
     }
 
     public static String currentUId() {
-        if (currentUId == null) {
-            currentUId = SPDataManager.getUserId(getContext());
-        }
-        return currentUId;
+        return mAppUser.id();
+    }
+
+    public static AppUser currentAppUser() {
+        return mAppUser;
+    }
+
+    public static void setCUrrentAppUser(AppUser appUser) {
+        mAppUser = appUser;
+    }
+
+    public boolean isCurrentUser(String userId) {
+        return TextUtils.equals(userId, currentAppUser().id());
     }
 
     public static boolean isSelf(String id) {
