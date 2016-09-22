@@ -1,33 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-    <TextView
-        android:id="@+id/message_text"
-        android:layout_width="wrap_content"
+<com.github.mmin18.widget.FlexLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxWidth="320dp"
-        android:background="@drawable/message_left"
-        android:textColor="@color/text_main"
-        android:textSize="14sp"
-        tools:text="锤子科技（全稱：锤子科技（北京）股份有限公司／北京锤子数码科技有限公司）"/>
+        android:paddingLeft="8dp"
+        android:paddingBottom="8dp"
+        >
+    <com.daasuu.bl.BubbleLayout
+            android:id="@+id/message_text_wrapper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:bl_arrowDirection="left"
+            app:bl_arrowHeight="10dp"
+            app:bl_arrowWidth="5dp"
+            app:bl_cornersRadius="6dp"
+            app:bl_bubbleColor="#FAFAFC"
+            android:padding="12dp"
+            app:bl_arrowPosition="@dimen/spacing_normal"
+            >
+        <TextView
+                android:id="@+id/message_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="250dp"
+                android:textColor="@color/primary_dark"
+                android:textSize="14sp"
+                tools:text="锤子科技（全稱：锤子科技（北京）股份有限公司／北京锤子数码科技有限公司）"
+                />
+    </com.daasuu.bl.BubbleLayout>
+
     <android.support.v4.widget.ContentLoadingProgressBar
-        android:id="@+id/message_progress"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_toRightOf="@id/message_text"
-        android:layout_centerVertical="true"
-        style="@style/Widget.AppCompat.ProgressBar"/>
+            android:id="@+id/message_progress"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            app:layout_left="message_text_wrapper.right+5dp"
+            style="@style/Widget.AppCompat.ProgressBar"
+            />
+
     <TextView
-        android:id="@+id/message_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/message_text"
-        android:layout_marginLeft="@dimen/spacing_large"
-        android:textColor="@color/gray_tag"
-        android:textSize="10sp"
-        tools:text="02:32 8/23"/>
-</RelativeLayout>
+            android:id="@+id/message_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_left="16dp"
+            app:layout_top="message_text_wrapper.bottom+5dp"
+            android:textColor="@color/gray_tag"
+            android:textSize="10sp"
+            tools:text="02:32 8/23"
+            />
+</com.github.mmin18.widget.FlexLayout>

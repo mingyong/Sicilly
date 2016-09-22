@@ -1,4 +1,4 @@
-package xyz.shaohui.sicilly.views.adapters;
+package xyz.shaohui.sicilly.views.chat.adapter;
 
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.RecyclerView;
@@ -55,7 +55,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     public void onBindViewHolder(ChatViewHolder holder, int position) {
         Message message = dataList.get(position);
         holder.text.setText(message.getText());
-        holder.time.setText(TimeUtils.simpleFormat(message.getCreated_at()));
+        holder.time.setText(TimeUtils.timeFormat(message.getCreated_at()));
 
         if (message.is_success()) {
             holder.progressBar.hide();
