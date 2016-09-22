@@ -197,7 +197,7 @@ public class TimelineFragment extends BaseFragment implements ScrollableHelper.S
             page = 1;
         }
         SicillyApplication.getRetrofitService()
-                .getStatusService().mentionsStatus(page)
+                .getStatusService().mentionsStatus()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<List<Status>>() {

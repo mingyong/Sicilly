@@ -44,7 +44,7 @@
         <activity android:name=".views.activities.CreateActivity"/>
         <activity android:name=".views.activities.SearchActivity"/>
         <activity android:name=".views.activities.UserListActivity"/>
-        <activity android:name=".views.activities.ChatActivity"/>
+        <activity android:name=".views.chat.ChatActivity"/>
         <activity android:name=".views.activities.SettingActivity"/>
         <activity android:name=".views.login.LoginActivity"/>
         <activity android:name=".views.activities.SearchResultActivity">

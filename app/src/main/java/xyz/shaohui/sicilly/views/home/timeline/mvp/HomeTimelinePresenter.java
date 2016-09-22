@@ -9,9 +9,9 @@ import xyz.shaohui.sicilly.data.models.Status;
  */
 
 public abstract class HomeTimelinePresenter extends MvpBasePresenter<HomeTimelineView> {
-    public abstract void loadMessage();
+    public abstract void loadMessage(int type);
 
-    public abstract void loadMoreMessage(int page, Status lastStatus);
+    public abstract void loadMoreMessage(int page, Status lastStatus, int type);
 
     public abstract void loadNewMessage(Status firstStatus);
 

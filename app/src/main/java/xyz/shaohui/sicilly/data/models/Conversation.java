@@ -3,7 +3,7 @@ package xyz.shaohui.sicilly.data.models;
 /**
  * Created by shaohui on 16/8/20.
  */
-public class Conversation {
+public class Conversation extends ConversationBean {
 
     private Message dm;
     private String otherid;

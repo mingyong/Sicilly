@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -18,10 +17,9 @@ import butterknife.ButterKnife;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.data.models.Conversation;
 import xyz.shaohui.sicilly.data.models.FriendRequest;
-import xyz.shaohui.sicilly.data.models.Message;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.TimeUtils;
-import xyz.shaohui.sicilly.views.activities.ChatActivity;
+import xyz.shaohui.sicilly.views.chat.ChatActivity;
 
 /**
  * Created by shaohui on 16/8/20.

@@ -2,12 +2,14 @@ package xyz.shaohui.sicilly.views.home.timeline;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import butterknife.BindView;
 import butterknife.OnClick;
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.hannesdorfmann.fragmentargs.annotation.Arg;
+import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -19,21 +21,25 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseFragment;
-import xyz.shaohui.sicilly.data.SPDataManager;
 import xyz.shaohui.sicilly.data.models.Status;
-import xyz.shaohui.sicilly.event.NewStatusEvent;
-import xyz.shaohui.sicilly.notification.SendStatusNoti;
 import xyz.shaohui.sicilly.views.create_status.CreateStatusActivity;
 import xyz.shaohui.sicilly.views.home.di.HomeComponent;
 import xyz.shaohui.sicilly.views.home.timeline.adapter.IndexStatusAdapter;
 import xyz.shaohui.sicilly.views.home.timeline.mvp.HomeTimelinePresenter;
 import xyz.shaohui.sicilly.views.home.timeline.mvp.HomeTimelineView;
 
+@FragmentWithArgs
 public class HomeTimelineFragment extends BaseFragment<HomeTimelineView, HomeTimelinePresenter>
         implements HomeTimelineView, TimelineItemListener {
 
+    public static final int TYPE_HOME  = 1;
+    public static final int TYPE_ABOUT_ME = 2;
+
     @Inject
     EventBus mBus;
+
+    @Arg
+    int mType;
 
     IndexStatusAdapter mAdapter;
     List<Status> mDataList;
@@ -43,6 +49,8 @@ public class HomeTimelineFragment extends BaseFragment<HomeTimelineView, HomeTim
 
     @BindView(R.id.recycler)
     VistaRecyclerView mRecyclerView;
+    @BindView(R.id.title_bar)
+    LinearLayout titleBar;
 
     @NonNull
     @Override
@@ -70,15 +78,22 @@ public class HomeTimelineFragment extends BaseFragment<HomeTimelineView, HomeTim
         mRecyclerView.addItemDecoration(new SpacingDecoration(8));
         mRecyclerView.setOnMoreListener((total, left, current) -> {
             if (mDataList.size() > 0) {
-                presenter.loadMoreMessage(++mPage,
-                        mDataList.get(mDataList.size() - 1));
+                presenter.loadMoreMessage(++mPage, mDataList.get(mDataList.size() - 1), mType);
             }
         }, PRE_LOAD);
-        mRecyclerView.setRefreshListener(() -> presenter.loadMessage());
+        mRecyclerView.setRefreshListener(() -> presenter.loadMessage(mType));
 
         // 加载数据
-        presenter.loadMessage();
+        presenter.loadMessage(mType);
         mRecyclerView.setRefreshing(true);
+
+        // 除home外 其他隐藏TitleBar
+        if (mType != TYPE_HOME) {
+            titleBar.setVisibility(View.GONE);
+            RelativeLayout.LayoutParams layoutParams =
+                    (RelativeLayout.LayoutParams) mRecyclerView.getLayoutParams();
+            layoutParams.topMargin = 0;
+        }
     }
 
     @OnClick(R.id.btn_add)
@@ -167,18 +182,19 @@ public class HomeTimelineFragment extends BaseFragment<HomeTimelineView, HomeTim
 
     @Override
     public void opComment(Status status) {
-        startActivity(CreateStatusActivity.newIntent(getActivity(), status, CreateStatusActivity.TYPE_REPLY));
+        startActivity(CreateStatusActivity.newIntent(getActivity(), status,
+                CreateStatusActivity.TYPE_REPLY));
     }
 
     @Override
     public void opRepost(Status status) {
-        startActivity(CreateStatusActivity.newIntent(getActivity(), status, CreateStatusActivity.TYPE_REPOST));
+        startActivity(CreateStatusActivity.newIntent(getActivity(), status,
+                CreateStatusActivity.TYPE_REPOST));
     }
 
     @Override
     public void opDelete(Status status, int position) {
-        new MaterialDialog.Builder(getActivity())
-                .content(R.string.confirm_delete_status)
+        new MaterialDialog.Builder(getActivity()).content(R.string.confirm_delete_status)
                 .positiveText(R.string.yes)
                 .negativeText(R.string.no)
                 .onPositive((dialog, which) -> {

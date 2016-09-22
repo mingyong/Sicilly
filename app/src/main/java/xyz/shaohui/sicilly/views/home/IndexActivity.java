@@ -11,18 +11,20 @@ import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.base.HasComponent;
-import xyz.shaohui.sicilly.views.fragments.MessageFragment;
-import xyz.shaohui.sicilly.views.home.profile.ProfileFragment;
+import xyz.shaohui.sicilly.views.home.chat.MessageFragment;
 import xyz.shaohui.sicilly.views.home.di.DaggerHomeComponent;
 import xyz.shaohui.sicilly.views.home.di.HomeComponent;
+import xyz.shaohui.sicilly.views.home.profile.ProfileFragment;
 import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragment;
+import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragmentBuilder;
 
 public class IndexActivity extends BaseActivity implements HasComponent<HomeComponent> {
 
     @BindView(R.id.bottom_tab)
     CommonTabLayout bottomTab;
 
-    private Fragment indexFragment = new HomeTimelineFragment();
+    private Fragment indexFragment =
+            HomeTimelineFragmentBuilder.newHomeTimelineFragment(HomeTimelineFragment.TYPE_HOME);
     private Fragment messageFragment = new MessageFragment();
     private Fragment userFragment = new ProfileFragment();
 

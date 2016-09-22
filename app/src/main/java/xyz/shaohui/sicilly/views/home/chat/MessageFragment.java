@@ -1,47 +1,36 @@
-package xyz.shaohui.sicilly.views.fragments;
+package xyz.shaohui.sicilly.views.home.chat;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.flyco.tablayout.SegmentTabLayout;
-import com.flyco.tablayout.listener.OnTabSelectListener;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.flyco.tablayout.SegmentTabLayout;
+import com.flyco.tablayout.listener.OnTabSelectListener;
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragment;
+import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragmentBuilder;
 
+public class MessageFragment extends Fragment {
 
-public class MessageFragment extends BaseFragment {
-
-    @BindView(R.id.view_pager)ViewPager viewPager;
-    @BindView(R.id.tab_layout)SegmentTabLayout tabLayout;
-
-    private List<Fragment> fragmentList;
+    @BindView(R.id.view_pager)
+    ViewPager viewPager;
+    @BindView(R.id.tab_layout)
+    SegmentTabLayout tabLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        fragmentList = new ArrayList<>();
-        fragmentList.add(new MessageFragment());
-        fragmentList.add(TimelineFragment.newInstance(TimelineFragment.ACTION_ABOUT_ME));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+            Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_message, container, false);
         ButterKnife.bind(this, v);
         initViewPager();
@@ -49,11 +38,12 @@ public class MessageFragment extends BaseFragment {
     }
 
     private void initViewPager() {
-        MessageAdapter mAdapter = new MessageAdapter(getChildFragmentManager(), fragmentList);
+        MessageAdapter mAdapter = new MessageAdapter(getChildFragmentManager());
         viewPager.setAdapter(mAdapter);
 
-        tabLayout.setTabData(new String[]{getString(R.string.message_tab_1),
-                getString(R.string.message_tab_2)});
+        tabLayout.setTabData(new String[] {
+                getString(R.string.message_tab_1), getString(R.string.message_tab_2)
+        });
         tabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {
@@ -67,7 +57,8 @@ public class MessageFragment extends BaseFragment {
         });
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            public void onPageScrolled(int position, float positionOffset,
+                    int positionOffsetPixels) {
 
             }
 
@@ -85,24 +76,23 @@ public class MessageFragment extends BaseFragment {
 
     class MessageAdapter extends FragmentPagerAdapter {
 
-        private List<Fragment> fragmentList;
-
-        public MessageAdapter(FragmentManager fm, List<Fragment> fragmentList) {
+        public MessageAdapter(FragmentManager fm) {
             super(fm);
-            this.fragmentList = fragmentList;
         }
 
         @Override
         public Fragment getItem(int position) {
-            return fragmentList.get(position);
+            if (position == 0) {
+                return new MessageListFragment();
+            } else {
+                return HomeTimelineFragmentBuilder.newHomeTimelineFragment(
+                        HomeTimelineFragment.TYPE_ABOUT_ME);
+            }
         }
 
         @Override
         public int getCount() {
             return 2;
         }
-
-
     }
-
 }

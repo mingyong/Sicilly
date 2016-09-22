@@ -3,9 +3,12 @@ package xyz.shaohui.sicilly.views.home.di;
 import dagger.Component;
 import xyz.shaohui.sicilly.app.di.AppComponent;
 import xyz.shaohui.sicilly.data.network.di.FavoriteModule;
+import xyz.shaohui.sicilly.data.network.di.MessageModule;
 import xyz.shaohui.sicilly.data.network.di.StatusModule;
 import xyz.shaohui.sicilly.data.network.di.UserModule;
 import xyz.shaohui.sicilly.views.home.IndexActivity;
+import xyz.shaohui.sicilly.views.home.chat.MessageListFragment;
+import xyz.shaohui.sicilly.views.home.chat.mvp.MessageListPresenter;
 import xyz.shaohui.sicilly.views.home.profile.ProfileFragment;
 import xyz.shaohui.sicilly.views.home.profile.mvp.ProfilePresenter;
 import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragment;
@@ -19,12 +22,9 @@ import xyz.shaohui.sicilly.views.home.timeline.mvp.HomeTimelinePresenter;
         dependencies = AppComponent.class,
         modules = {
                 StatusModule.class,
-                FavoriteModule.class, UserModule.class,
+                FavoriteModule.class, UserModule.class, MessageModule.class,
 
-                TimelineModule.class,
-                ChatModule.class,
-                AboutMeModule.class,
-                ProfileModule.class
+                HomeModule.class
         }
 )
 public interface HomeComponent {
@@ -35,8 +35,12 @@ public interface HomeComponent {
 
     void inject(ProfileFragment fragment);
 
+    void inject(MessageListFragment fragment);
+
     HomeTimelinePresenter timelinePresenter();
 
     ProfilePresenter profilePresenter();
+
+    MessageListPresenter messageListPresenter();
 
 }

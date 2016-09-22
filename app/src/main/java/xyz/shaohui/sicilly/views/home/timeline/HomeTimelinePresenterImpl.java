@@ -1,9 +1,11 @@
 package xyz.shaohui.sicilly.views.home.timeline;
 
+import java.util.List;
 import javax.inject.Inject;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import org.greenrobot.eventbus.EventBus;
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import xyz.shaohui.sicilly.SicillyApplication;
@@ -31,8 +33,19 @@ public class HomeTimelinePresenterImpl extends HomeTimelinePresenter {
     }
 
     @Override
-    public void loadMessage() {
-        statusService.homeStatus()
+    public void loadMessage(int type) {
+        Observable<List<Status>> observable;
+        switch (type) {
+            case HomeTimelineFragment.TYPE_HOME:
+                observable = statusService.homeStatus();
+                break;
+            case HomeTimelineFragment.TYPE_ABOUT_ME:
+                observable = statusService.mentionsStatus();
+                break;
+            default:
+                observable = statusService.homeStatus();
+        }
+        observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(statuses -> {
@@ -48,8 +61,19 @@ public class HomeTimelinePresenterImpl extends HomeTimelinePresenter {
     }
 
     @Override
-    public void loadMoreMessage(int page, Status status) {
-        statusService.homeStatusNext(page, status.rawid())
+    public void loadMoreMessage(int page, Status status, int type) {
+        Observable<List<Status>> observable;
+        switch (type) {
+            case HomeTimelineFragment.TYPE_HOME:
+                observable = statusService.homeStatusNext(page, status.rawid());
+                break;
+            case HomeTimelineFragment.TYPE_ABOUT_ME:
+                observable = statusService.mentionsStatusNext(page, status.rawid());
+                break;
+            default:
+                observable = statusService.homeStatusNext(page, status.rawid());
+        }
+        observable
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(statuses -> {

@@ -29,7 +29,10 @@ public interface StatusAPI {
             @Query("since_id") int id);
 
     @GET("statuses/mentions.json?format=html")
-    Observable<List<Status>> mentionsStatus(@Query("page") int page);
+    Observable<List<Status>> mentionsStatus();
+
+    @GET("statuses/mentions.json?format=html")
+    Observable<List<Status>> mentionsStatusNext(@Query("page") int page, @Query("since_id")int id);
 
     @Multipart
     @POST("statuses/update.json")
