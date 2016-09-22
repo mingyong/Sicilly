@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 
 import android.text.TextUtils;
+import com.umeng.analytics.MobclickAgent;
 import xyz.shaohui.sicilly.app.di.AppComponent;
 import xyz.shaohui.sicilly.app.di.DaggerAppComponent;
 import xyz.shaohui.sicilly.data.SPDataManager;
@@ -24,6 +25,9 @@ public class SicillyApplication extends Application {
         super.onCreate();
         context = getApplicationContext();
         mAppComponent = DaggerAppComponent.builder().build();
+
+        // umeng Analytics
+        MobclickAgent.setScenarioType(getContext(), MobclickAgent.EScenarioType.E_UM_NORMAL);
     }
 
     public static Context getContext() {
