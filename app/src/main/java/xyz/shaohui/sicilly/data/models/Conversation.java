@@ -7,8 +7,11 @@ public class Conversation extends ConversationBean {
 
     private Message dm;
     private String otherid;
-    private int msg_num;
     private boolean new_conv;
+
+    public Conversation(int count) {
+        super(count);
+    }
 
     public Message getDm() {
         return dm;

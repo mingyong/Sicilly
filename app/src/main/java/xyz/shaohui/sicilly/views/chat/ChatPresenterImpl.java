@@ -2,8 +2,11 @@ package xyz.shaohui.sicilly.views.chat;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import xyz.shaohui.sicilly.data.models.Conversation;
+import xyz.shaohui.sicilly.data.models.ConversationBean;
 import xyz.shaohui.sicilly.data.models.Message;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.data.network.api.MessageAPI;
@@ -21,7 +24,7 @@ public class ChatPresenterImpl extends ChatPresenter {
     User mOtherUser;
 
     @Inject
-    ChatPresenterImpl(MessageAPI messageService, @Named("other_user")User otherUser) {
+    ChatPresenterImpl(MessageAPI messageService, @Named("other_user") User otherUser) {
         mMessageService = messageService;
         mOtherUser = otherUser;
     }

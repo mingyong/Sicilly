@@ -5,4 +5,11 @@ package xyz.shaohui.sicilly.data.models;
  */
 
 public class ConversationBean {
+
+    public int msg_num;
+
+    public ConversationBean(int count) {
+        msg_num = count;
+    }
+
 }

@@ -2,6 +2,7 @@ package xyz.shaohui.sicilly.views.home.di;
 
 import dagger.Component;
 import xyz.shaohui.sicilly.app.di.AppComponent;
+import xyz.shaohui.sicilly.data.network.di.AccountModule;
 import xyz.shaohui.sicilly.data.network.di.FavoriteModule;
 import xyz.shaohui.sicilly.data.network.di.MessageModule;
 import xyz.shaohui.sicilly.data.network.di.StatusModule;
@@ -22,7 +23,7 @@ import xyz.shaohui.sicilly.views.home.timeline.mvp.HomeTimelinePresenter;
         dependencies = AppComponent.class,
         modules = {
                 StatusModule.class,
-                FavoriteModule.class, UserModule.class, MessageModule.class,
+                FavoriteModule.class, UserModule.class, MessageModule.class, AccountModule.class,
 
                 HomeModule.class
         }

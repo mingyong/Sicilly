@@ -69,11 +69,23 @@
                 <data android:scheme="me.shaohui.sicilly.http"/>
             </intent-filter>
         </activity>
-        <activity android:name=".views.photo.PictureActivity"
-                android:theme="@style/AppTheme.PictureActivity">
+        <activity
+                android:name=".views.photo.PictureActivity"
+                android:theme="@style/AppTheme.PictureActivity"
+                >
         </activity>
-        <meta-data android:value="57e42a8ce0f55a92750015e0" android:name="UMENG_APPKEY"/>
-        <meta-data android:value="fir_test" android:name="UMENG_CHANNEL"/>
+
+        <meta-data
+                android:name="UMENG_APPKEY"
+                android:value="57e42a8ce0f55a92750015e0"
+                />
+        <meta-data
+                android:name="UMENG_CHANNEL"
+                android:value="fir_test"
+                />
+
+        <activity android:name=".views.friend_request.FriendRequestActivity">
+        </activity>
     </application>
 
 </manifest>

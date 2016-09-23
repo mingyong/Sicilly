@@ -15,7 +15,7 @@ import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseFragment;
 import xyz.shaohui.sicilly.data.models.Conversation;
 import xyz.shaohui.sicilly.data.models.ConversationBean;
-import xyz.shaohui.sicilly.views.adapters.MessageListAdapter;
+import xyz.shaohui.sicilly.views.home.chat.adapter.MessageListAdapter;
 import xyz.shaohui.sicilly.views.home.chat.mvp.MessageListPresenter;
 import xyz.shaohui.sicilly.views.home.chat.mvp.MessageListView;
 import xyz.shaohui.sicilly.views.home.di.HomeComponent;
@@ -33,16 +33,10 @@ public class MessageListFragment extends BaseFragment<MessageListView, MessageLi
     EventBus mBus;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mDataList = new ArrayList<>();
-    }
-
-    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mRecyclerView.setRefreshing(true);
-        presenter.fetchMessageList(1);
+        presenter.fetchMessageList();
     }
 
     @NonNull
@@ -65,17 +59,18 @@ public class MessageListFragment extends BaseFragment<MessageListView, MessageLi
 
     @Override
     public void bindViews(View view) {
+        mDataList = new ArrayList<>();
         MessageListAdapter adapter = new MessageListAdapter(mDataList);
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.addItemDecoration(
                 new DividerDecoration(getResources().getColor(R.color.divider), 2));
         mRecyclerView.setRefreshListener(() -> {
             mPage = 1;
-            presenter.fetchMessageList(mPage);
+            presenter.fetchMessageList();
         });
-        mRecyclerView.setOnMoreListener((total, left, current) -> {
-            presenter.fetchMessageList(++mPage);
-        }, 4);
+        //mRecyclerView.setOnMoreListener((total, left, current) -> {
+        //    presenter.fetchMessageList();
+        //}, 4);
     }
 
     @Override
@@ -89,8 +84,8 @@ public class MessageListFragment extends BaseFragment<MessageListView, MessageLi
     }
 
     @Override
-    public void showConversation(List<Conversation> conversations) {
-        if (mDataList.isEmpty()) {
+    public void showConversation(List<ConversationBean> conversations) {
+        if (!mDataList.isEmpty()) {
             mDataList.clear();
         }
         mDataList.addAll(conversations);

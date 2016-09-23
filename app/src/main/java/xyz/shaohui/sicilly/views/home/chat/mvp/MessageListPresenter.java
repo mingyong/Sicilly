@@ -8,6 +8,8 @@ import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
 
 public abstract class MessageListPresenter extends MvpBasePresenter<MessageListView> {
 
-    public abstract void fetchMessageList(int page);
+    public abstract void fetchMessageList();
+
+    public abstract void fetchMessageListNext(int page);
 
 }
