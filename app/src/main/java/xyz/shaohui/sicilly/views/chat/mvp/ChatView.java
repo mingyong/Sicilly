@@ -12,4 +12,8 @@ public interface ChatView extends MvpView{
 
     void showMessage(List<Message> messages);
 
+    void sendMessage(Message message);
+
+    void sendMessageFail(String text);
+
 }

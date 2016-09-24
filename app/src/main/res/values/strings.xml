@@ -50,6 +50,10 @@
     <string name="message_submit">发送</string>
 
 
+    // chat
+    <string name="send_message_fail">消息发送失败, 请重试</string>
+
+
     // userActivity
     <string name="user_follow">Follow</string>
     <string name="user_un_follow">UnFollow</string>

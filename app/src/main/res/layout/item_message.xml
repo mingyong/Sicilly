@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
+    android:layout_height="70dp"
     android:background="@color/white"
     android:paddingRight="@dimen/spacing_normal">
     <com.makeramen.roundedimageview.RoundedImageView
@@ -54,7 +54,7 @@
         android:layout_alignParentRight="true"
         android:layout_alignBottom="@id/message_text"
         android:padding="2dp"
-        android:gravity="center"
+            android:gravity="center"
         android:background="@drawable/drawable_notification_red"
         android:textSize="10sp"
         android:textColor="@color/white"

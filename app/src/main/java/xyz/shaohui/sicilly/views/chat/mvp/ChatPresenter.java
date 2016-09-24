@@ -13,4 +13,6 @@ public abstract class ChatPresenter extends MvpBasePresenter<ChatView> {
 
     public abstract void fetchMessageNext(int page, Message lastMessage);
 
+    public abstract void sendMessage(String text);
+
 }

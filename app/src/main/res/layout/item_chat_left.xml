@@ -35,6 +35,7 @@
             android:id="@+id/message_progress"
             android:layout_width="20dp"
             android:layout_height="20dp"
+            app:layout_centerY="message_text_wrapper.centerY"
             app:layout_left="message_text_wrapper.right+5dp"
             style="@style/Widget.AppCompat.ProgressBar"
             />

@@ -2,6 +2,7 @@ package xyz.shaohui.sicilly.views.chat.adapter;
 
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +62,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             holder.progressBar.hide();
         } else {
             holder.progressBar.show();
+            holder.progressBar.setVisibility(View.VISIBLE);
         }
     }
 
