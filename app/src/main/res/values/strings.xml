@@ -80,6 +80,12 @@
     <string name="copy_url">复制网址</string>
     <string name="share_url">分享</string>
 
+    // update
+    <string name="update_version">版本更新</string>
+    <string name="update_confirm">更新</string>
+    <string name="update_cancel">拒绝你</string>
+    <string name="update_permission_request">没有权限, 不能下载更新</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

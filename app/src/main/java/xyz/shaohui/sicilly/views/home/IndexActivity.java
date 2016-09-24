@@ -1,12 +1,24 @@
 package xyz.shaohui.sicilly.views.home;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
+import com.pgyersdk.javabean.AppBean;
+import com.pgyersdk.update.PgyUpdateManager;
+import com.pgyersdk.update.UpdateManagerListener;
 import java.util.ArrayList;
+import me.shaohui.sicillylib.utils.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseActivity;
@@ -30,6 +42,10 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
 
     private HomeComponent mComponent;
 
+    private static final int REQUEST_PERMISSION_CODE = 0;
+
+    private String downloadUrl;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +54,8 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
         bottomTab = (CommonTabLayout) findViewById(R.id.bottom_tab);
 
         initBottomTab(savedInstanceState);
+
+        checkUpdate();
     }
 
     @Override
@@ -66,6 +84,70 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
         fragments.add(userFragment);
 
         bottomTab.setTabData(tabData, this, R.id.main_frame, fragments);
+    }
+
+    public void checkUpdate() {
+        PgyUpdateManager.register(this, new UpdateManagerListener() {
+            @Override
+            public void onNoUpdateAvailable() {
+                Log.i("TAG", "没有新版本");
+            }
+
+            @Override
+            public void onUpdateAvailable(String s) {
+                final AppBean appBean = getAppBeanFromString(s);
+                downloadUrl = appBean.getDownloadURL();
+
+                new MaterialDialog.Builder(IndexActivity.this)
+                        .title(R.string.update_version)
+                        .content(appBean.getReleaseNote())
+                        .positiveText(R.string.update_confirm)
+                        .negativeText(R.string.update_cancel)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog,
+                                    @NonNull DialogAction which) {
+                                if (requestPermission()) {
+                                    startDownloadTask(IndexActivity.this,
+                                            appBean.getDownloadURL());
+                                }
+                            }
+                        })
+                        .show();
+            }
+        });
+    }
+
+    private boolean requestPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                ToastUtils.showToast(this, R.string.update_permission_request);
+
+                ActivityCompat.requestPermissions(this,
+                        new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
+                        REQUEST_PERMISSION_CODE);
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
+                        REQUEST_PERMISSION_CODE);
+            }
+        } else {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+            @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_PERMISSION_CODE
+                && grantResults.length > 0
+                && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            UpdateManagerListener.startDownloadTask(this, downloadUrl);
+        }
     }
 
     @Override
