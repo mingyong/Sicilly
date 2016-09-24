@@ -53,6 +53,10 @@
     // chat
     <string name="send_message_fail">消息发送失败, 请重试</string>
 
+    // feedback
+    <string name="feedback_auto_answer">谢谢你的意见和反馈, 我会及时处理【自动回复】</string>
+    <string name="feedback_tip">如果你对尚饭客户端有任何不满, 或者想吐槽的地方, 欢迎吐槽</string>
+    <string name="confirm_delete_feedback">确认删除所有反馈信息? 此次操作不可恢复</string>
 
     // userActivity
     <string name="user_follow">Follow</string>

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        >
+
+    <me.shaohui.vistarecyclerview.VistaRecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="42dp"
+            android:layout_marginTop="?attr/actionBarSize"
+            />
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/white"
+                >
+
+            <ImageButton
+                    android:id="@+id/btn_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:paddingRight="@dimen/spacing_normal"
+                    app:srcCompat="@drawable/ic_back_black"
+                    />
+
+            <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@id/btn_back"
+                    android:gravity="center"
+                    android:textColor="@color/text_main"
+                    android:textSize="16sp"
+                    android:text="@string/user_feedback"
+                    />
+            <ImageButton
+                    android:id="@+id/btn_delete"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingRight="@dimen/spacing_normal"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:layout_alignParentRight="true"
+                    android:background="@null"
+                    app:srcCompat="@drawable/ic_delete_black"
+                    />
+        </RelativeLayout>
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@drawable/drawable_shadow_top"
+                />
+    </LinearLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical"
+            >
+
+        <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="@drawable/drawable_shadow_bottom"
+                />
+
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:background="@color/white"
+                >
+            <TextView
+                    android:id="@+id/btn_submit"
+                    android:layout_width="48dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/spacing_normal"
+                    android:background="@drawable/drawable_text_accent"
+                    android:gravity="center"
+                    android:text="@string/message_submit"
+                    android:textColor="@color/white"
+                    />
+
+            <EditText
+                    android:id="@+id/main_edit"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_toLeftOf="@id/btn_submit"
+                    android:lines="1"
+                    />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,14 @@
+CREATE TABLE feedback (
+    id INTEGER PRIMARY KEY NOT NULL,
+    text TEXT NOT NULL,
+    uid TEXT NOT NULL,
+    is_right INTEGER AS boolean DEFAULT 1,
+    send_success INTEGER AS boolean DEFAULT 1,
+    is_read INTEGER AS boolean DEFAULT 0
+);
+
+select_by_uid:
+SELECT * FROM feedback WHERE uid = ? ORDER BY id DESC;
+
+select_by_uid_unread:
+SELECT * FROM feedback WHERE uid = ? AND is_read = '0';

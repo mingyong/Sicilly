@@ -1,5 +1,6 @@
 package xyz.shaohui.sicilly.views.home.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,6 +19,7 @@ import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseFragment;
 import xyz.shaohui.sicilly.data.models.User;
+import xyz.shaohui.sicilly.views.feedback.FeedbackActivity;
 import xyz.shaohui.sicilly.views.home.di.HomeComponent;
 import xyz.shaohui.sicilly.views.home.profile.mvp.ProfilePresenter;
 import xyz.shaohui.sicilly.views.home.profile.mvp.ProfileView;
@@ -102,7 +104,7 @@ public class ProfileFragment extends BaseFragment<ProfileView, ProfilePresenter>
 
     @OnClick(R.id.action_feedback)
     void feedback() {
-
+        getContext().startActivity(new Intent(getContext(), FeedbackActivity.class));
     }
 
     @OnClick(R.id.action_toolbox)

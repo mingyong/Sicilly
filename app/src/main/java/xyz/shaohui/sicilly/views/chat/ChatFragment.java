@@ -100,10 +100,9 @@ public class ChatFragment extends BaseFragment<ChatView, ChatPresenter> implemen
     private void initRecycler() {
         mDataList = new ArrayList<>();
         LinearLayoutManager layoutManager =
-                new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+                new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true);
         ChatAdapter adapter = new ChatAdapter(mOtherUser.id(), mDataList);
         layoutManager.setStackFromEnd(true);
-        layoutManager.setReverseLayout(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setOnMoreListener((total, left, current) -> {

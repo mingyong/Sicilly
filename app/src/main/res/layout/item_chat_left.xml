@@ -6,7 +6,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="8dp"
-        android:paddingBottom="8dp"
+        android:paddingBottom="6dp"
+        android:paddingTop="6dp"
         >
     <com.daasuu.bl.BubbleLayout
             android:id="@+id/message_text_wrapper"
@@ -16,7 +17,7 @@
             app:bl_arrowHeight="10dp"
             app:bl_arrowWidth="5dp"
             app:bl_cornersRadius="6dp"
-            app:bl_bubbleColor="#FAFAFC"
+            app:bl_bubbleColor="#F0F0F0"
             android:padding="12dp"
             app:bl_arrowPosition="@dimen/spacing_normal"
             >
@@ -25,7 +26,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxWidth="250dp"
-                android:textColor="@color/primary_dark"
+                android:textColor="@color/black"
                 android:textSize="14sp"
                 tools:text="锤子科技（全稱：锤子科技（北京）股份有限公司／北京锤子数码科技有限公司）"
                 />

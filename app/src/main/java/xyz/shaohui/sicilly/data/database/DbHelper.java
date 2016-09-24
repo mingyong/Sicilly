@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import xyz.shaohui.sicilly.data.models.AppUser;
+import xyz.shaohui.sicilly.data.models.Feedback;
 
 /**
  * Created by shaohui on 16/9/19.
@@ -22,6 +23,7 @@ public class DbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(AppUser.CREATE_TABLE);
+        db.execSQL(Feedback.CREATE_TABLE);
     }
 
     @Override

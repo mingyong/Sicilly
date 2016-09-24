@@ -1,6 +1,7 @@
 package xyz.shaohui.sicilly.app.di;
 
 import android.content.Context;
+import com.squareup.sqlbrite.BriteDatabase;
 import dagger.Component;
 import org.greenrobot.eventbus.EventBus;
 import retrofit2.Retrofit;
@@ -27,6 +28,8 @@ public interface AppComponent {
     Context getContext();
 
     DbHelper getDbHelper();
+
+    BriteDatabase getBriteDatabase();
 
     AppUserDbAccessor getAppUserDbAccessor();
 }
