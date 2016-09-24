@@ -2,12 +2,9 @@ package xyz.shaohui.sicilly;
 
 import android.app.Application;
 import android.content.Context;
-
 import android.text.TextUtils;
-import com.umeng.analytics.MobclickAgent;
 import xyz.shaohui.sicilly.app.di.AppComponent;
 import xyz.shaohui.sicilly.app.di.DaggerAppComponent;
-import xyz.shaohui.sicilly.data.SPDataManager;
 import xyz.shaohui.sicilly.data.models.AppUser;
 import xyz.shaohui.sicilly.data.network.RetrofitService;
 import xyz.shaohui.sicilly.data.network.auth.OAuthToken;
@@ -25,9 +22,6 @@ public class SicillyApplication extends Application {
         super.onCreate();
         context = getApplicationContext();
         mAppComponent = DaggerAppComponent.builder().build();
-
-        // umeng Analytics
-        MobclickAgent.setScenarioType(getContext(), MobclickAgent.EScenarioType.E_UM_NORMAL);
     }
 
     public static Context getContext() {
@@ -35,7 +29,8 @@ public class SicillyApplication extends Application {
     }
 
     public static OAuthToken getToken() {
-        if (mToken != null && mAppUser != null && !TextUtils.equals(mToken.getToken(), mAppUser.token())) {
+        if (mToken != null && mAppUser != null && !TextUtils.equals(mToken.getToken(),
+                mAppUser.token())) {
             mToken = new OAuthToken(mAppUser.token(), mAppUser.token_secret());
         } else if (mAppUser != null && mToken == null) {
             mToken = new OAuthToken(mAppUser.token(), mAppUser.token_secret());

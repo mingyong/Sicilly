@@ -79,4 +79,5 @@ dependencies {
     compile 'com.daasuu:BubbleLayout:1.1.1'
     compile 'com.github.mmin18:flexlayout:1.2.4'
     compile 'com.umeng.analytics:analytics:6.0.1'
+    compile 'com.pgyersdk:sdk:2.4.2'
 }

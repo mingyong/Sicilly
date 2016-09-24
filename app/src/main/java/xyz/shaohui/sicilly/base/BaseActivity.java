@@ -3,6 +3,7 @@ package xyz.shaohui.sicilly.base;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import com.umeng.analytics.MobclickAgent;
 import javax.inject.Inject;
 import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.SicillyApplication;
@@ -33,4 +34,16 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     public abstract EventBus getBus() ;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
 }
