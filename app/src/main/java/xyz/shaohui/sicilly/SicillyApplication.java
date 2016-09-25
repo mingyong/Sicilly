@@ -1,12 +1,15 @@
 package xyz.shaohui.sicilly;
 
+import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
+import android.os.Process;
 import android.text.TextUtils;
+import com.xiaomi.mipush.sdk.MiPushClient;
+import java.util.List;
 import xyz.shaohui.sicilly.app.di.AppComponent;
 import xyz.shaohui.sicilly.app.di.DaggerAppComponent;
 import xyz.shaohui.sicilly.data.models.AppUser;
-import xyz.shaohui.sicilly.data.network.RetrofitService;
 import xyz.shaohui.sicilly.data.network.auth.OAuthToken;
 
 public class SicillyApplication extends Application {
@@ -21,6 +24,9 @@ public class SicillyApplication extends Application {
         super.onCreate();
         context = getApplicationContext();
         mAppComponent = DaggerAppComponent.builder().build();
+
+        // 初始化小米推送
+        initMiPush();
     }
 
     public static Context getContext() {
@@ -64,5 +70,29 @@ public class SicillyApplication extends Application {
 
     public static AppComponent getAppComponent() {
         return mAppComponent;
+    }
+
+    public static String getRegId() {
+        return MiPushClient.getRegId(context);
+    }
+
+    private void initMiPush() {
+        if (shouldInitMiPush()) {
+            MiPushClient.registerPush(this, SicillyFactory.MI_PUSH_APPID,
+                    SicillyFactory.MI_PUSH_APPKEY);
+        }
+    }
+
+    private boolean shouldInitMiPush() {
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> processInfos = manager.getRunningAppProcesses();
+        String mainProcessName = getPackageName();
+        int myPid = Process.myPid();
+        for (ActivityManager.RunningAppProcessInfo info : processInfos) {
+            if (myPid == info.pid && mainProcessName.equals(info.processName)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

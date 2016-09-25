@@ -18,6 +18,7 @@ import com.pgyersdk.javabean.AppBean;
 import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
 import java.util.ArrayList;
+import javax.inject.Inject;
 import me.shaohui.sicillylib.utils.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.R;
@@ -34,6 +35,9 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
 
     @BindView(R.id.bottom_tab)
     CommonTabLayout bottomTab;
+
+    @Inject
+    EventBus mBus;
 
     private Fragment indexFragment =
             HomeTimelineFragmentBuilder.newHomeTimelineFragment(HomeTimelineFragment.TYPE_HOME);
@@ -66,7 +70,7 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
 
     @Override
     public EventBus getBus() {
-        return null;
+        return mBus;
     }
 
     private void initBottomTab(Bundle savedInstance) {

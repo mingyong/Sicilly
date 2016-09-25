@@ -13,4 +13,7 @@ public class SicillyFactory {
     public static final String FEEDBACK_URL =
             "https://hooks.slack.com/services/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";
 
+    public static final String MI_PUSH_APPID = "2882303761517512363";
+    public static final String MI_PUSH_APPKEY = "5851751239363";
+
 }

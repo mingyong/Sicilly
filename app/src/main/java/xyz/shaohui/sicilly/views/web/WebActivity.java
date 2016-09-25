@@ -14,6 +14,7 @@ import android.webkit.WebViewClient;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.daimajia.numberprogressbar.NumberProgressBar;
+import me.shaohui.sicillylib.utils.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseActivity;
@@ -110,7 +111,7 @@ public class WebActivity extends BaseActivity {
             case R.id.open_by_browser:
                 return true;
             case R.id.copy_url:
-
+                ToastUtils.showToast(this, mUrl);
                 return true;
             case R.id.share_url:
 
