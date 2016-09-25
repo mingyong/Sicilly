@@ -52,7 +52,7 @@ public class SplashActivity extends BaseActivity {
                     Log.i("TAG", cursor.getCount() + "");
                    if (cursor.getCount() > 0) {
                        cursor.moveToFirst();
-                       SicillyApplication.setCUrrentAppUser(AppUser.MAPPER.map(cursor));
+                       SicillyApplication.setCurrentAppUser(AppUser.MAPPER.map(cursor));
                        startActivity(new Intent(getApplicationContext(), IndexActivity.class));
                    } else {
                        startActivity(new Intent(getApplicationContext(), LoginActivity.class));

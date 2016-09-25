@@ -98,7 +98,7 @@ public class LoginActivity extends BaseActivity {
                             AppUser.create(user.id(), token.getToken(), token.getTokenSecret(),
                                     user.name(), user.profile_image_url_large(), true);
                     mAppUserDbAccessor.insertUser(appUser);
-                    SicillyApplication.setCUrrentAppUser(appUser);
+                    SicillyApplication.setCurrentAppUser(appUser);
 
                     mDialog.dismiss();
                     startIndex();

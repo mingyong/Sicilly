@@ -12,7 +12,6 @@ import xyz.shaohui.sicilly.data.network.auth.OAuthToken;
 public class SicillyApplication extends Application {
 
     public static Context context;
-    public static RetrofitService retrofitService;
     public static AppComponent mAppComponent;
     public static AppUser mAppUser;
     public static OAuthToken mToken;
@@ -43,14 +42,6 @@ public class SicillyApplication extends Application {
         mToken = token;
     }
 
-    // 重构完私信, 删除
-    public static RetrofitService getRetrofitService() {
-        if (retrofitService == null) {
-            retrofitService = new RetrofitService();
-        }
-        return retrofitService;
-    }
-
     public static String currentUId() {
         return mAppUser.id();
     }
@@ -59,7 +50,7 @@ public class SicillyApplication extends Application {
         return mAppUser;
     }
 
-    public static void setCUrrentAppUser(AppUser appUser) {
+    public static void setCurrentAppUser(AppUser appUser) {
         mAppUser = appUser;
     }
 

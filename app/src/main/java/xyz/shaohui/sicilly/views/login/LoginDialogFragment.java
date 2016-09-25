@@ -1,4 +1,4 @@
-package xyz.shaohui.sicilly.views.fragments;
+package xyz.shaohui.sicilly.views.login;
 
 
 import android.os.Bundle;
