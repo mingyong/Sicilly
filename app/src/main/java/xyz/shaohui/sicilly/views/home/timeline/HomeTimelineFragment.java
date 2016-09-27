@@ -19,9 +19,15 @@ import me.shaohui.vistarecyclerview.decoration.SpacingDecoration;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import retrofit2.Retrofit;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.base.BaseFragment;
 import xyz.shaohui.sicilly.data.models.Status;
+import xyz.shaohui.sicilly.data.network.api.AccountAPI;
+import xyz.shaohui.sicilly.utils.RxUtils;
 import xyz.shaohui.sicilly.views.create_status.CreateStatusActivity;
 import xyz.shaohui.sicilly.views.home.di.HomeComponent;
 import xyz.shaohui.sicilly.views.home.timeline.adapter.IndexStatusAdapter;
@@ -37,6 +43,9 @@ public class HomeTimelineFragment extends BaseFragment<HomeTimelineView, HomeTim
 
     @Inject
     EventBus mBus;
+
+    @Inject
+    Retrofit mRetrofit;
 
     @Arg
     int mType;
@@ -126,6 +135,16 @@ public class HomeTimelineFragment extends BaseFragment<HomeTimelineView, HomeTim
 
     @OnClick(R.id.img_icon)
     void imgIconClick() {
+        AccountAPI accountAPI = mRetrofit.create(AccountAPI.class);
+
+        accountAPI.notification()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(notification -> {
+                    ToastUtils.showToast(SicillyApplication.getContext(), "dsfsf");
+                }, RxUtils.ignoreNetError);
+
+
         mRecyclerView.getRecycler().smoothScrollToPosition(0);
     }
 

@@ -14,7 +14,7 @@ import xyz.shaohui.sicilly.data.network.auth.OAuthToken;
 
 public class SicillyApplication extends Application {
 
-    public static Context context;
+    private static Context context;
     public static AppComponent mAppComponent;
     public static AppUser mAppUser;
     public static OAuthToken mToken;

@@ -13,6 +13,7 @@ import xyz.shaohui.sicilly.app.di.DaggerAppComponent;
 import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.data.database.AppUserDbAccessor;
 import xyz.shaohui.sicilly.data.models.AppUser;
+import xyz.shaohui.sicilly.service.SicillyService;
 import xyz.shaohui.sicilly.views.home.IndexActivity;
 import xyz.shaohui.sicilly.views.login.LoginActivity;
 
@@ -40,13 +41,7 @@ public class SplashActivity extends BaseActivity {
     }
 
     private void checkToken() {
-        //OAuthToken token = SPDataManager.getToken(this);
-        //if (token == null) {
-        //    startActivity(new Intent(this, LoginActivity.class));
-        //} else {
-        //    SicillyApplication.setToken(token);
-        //    startActivity(new Intent(this, IndexActivity.class));
-        //}
+
         mAppUserDbAccessor.selectCurrentUser()
                 .subscribe(cursor -> {
                     Log.i("TAG", cursor.getCount() + "");

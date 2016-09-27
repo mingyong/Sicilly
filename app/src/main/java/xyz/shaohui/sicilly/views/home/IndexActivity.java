@@ -1,6 +1,7 @@
 package xyz.shaohui.sicilly.views.home;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,6 +25,7 @@ import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.base.HasComponent;
+import xyz.shaohui.sicilly.service.SicillyService;
 import xyz.shaohui.sicilly.views.home.chat.MessageFragment;
 import xyz.shaohui.sicilly.views.home.di.DaggerHomeComponent;
 import xyz.shaohui.sicilly.views.home.di.HomeComponent;
@@ -60,6 +62,8 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
         initBottomTab(savedInstanceState);
 
         checkUpdate();
+
+        //startService(new Intent(this, SicillyService.class));
     }
 
     @Override

@@ -21,7 +21,7 @@
             android:name="xyz.shaohui.sicilly.permission.MIPUSH_RECEIVE"
             android:protectionLevel="signature"
             />
-    <!--这里com.xiaomi.mipushdemo改成app的包名-->
+    <!-- 这里com.xiaomi.mipushdemo改成app的包名 -->
     <uses-permission android:name="xyz.shaohui.sicilly.permission.MIPUSH_RECEIVE"/>
 
     <application
@@ -129,6 +129,7 @@
                 >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </receiver>
@@ -141,10 +142,9 @@
                 <action android:name="com.xiaomi.push.PING_TIMER"/>
             </intent-filter>
         </receiver>
-
         // 自定义receiver
         <receiver
-                android:name="xyz.shaohui.sicilly.push.MiBroadcastReceiver"
+                android:name=".push.MiBroadcastReceiver"
                 android:exported="true"
                 >
             <intent-filter>
@@ -157,6 +157,14 @@
                 <action android:name="com.xiaomi.mipush.ERROR"/>
             </intent-filter>
         </receiver>
+
+        <service
+                android:name=".service.SicillyService"
+                android:enabled="true"
+                android:exported="false"
+                android:process=":listener"
+                >
+        </service>
     </application>
 
 </manifest>

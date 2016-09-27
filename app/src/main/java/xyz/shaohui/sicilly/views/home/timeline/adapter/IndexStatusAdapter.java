@@ -80,7 +80,6 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
             viewHolder.image.setVisibility(View.VISIBLE);
             Glide.with(context)
                     .load(status.photo().getLargeurl())
-                    .asBitmap()
                     .placeholder(
                             context.getResources().getDrawable(R.drawable.drawable_plcae_holder))
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)

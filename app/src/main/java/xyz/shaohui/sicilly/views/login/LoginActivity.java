@@ -20,6 +20,7 @@ import xyz.shaohui.sicilly.data.models.AppUser;
 import xyz.shaohui.sicilly.data.network.api.UserAPI;
 import xyz.shaohui.sicilly.data.network.auth.AuthService;
 import xyz.shaohui.sicilly.data.network.auth.OAuthToken;
+import xyz.shaohui.sicilly.service.SicillyService;
 import xyz.shaohui.sicilly.views.home.IndexActivity;
 
 public class LoginActivity extends BaseActivity {
