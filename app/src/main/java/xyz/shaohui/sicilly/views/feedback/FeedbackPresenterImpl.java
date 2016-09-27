@@ -1,6 +1,7 @@
 package xyz.shaohui.sicilly.views.feedback;
 
 import android.util.Log;
+import com.google.gson.Gson;
 import com.squareup.sqlbrite.BriteDatabase;
 import javax.inject.Inject;
 import okhttp3.MediaType;
@@ -12,6 +13,7 @@ import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.SicillyFactory;
 import xyz.shaohui.sicilly.data.database.FeedbackDbAccessor;
+import xyz.shaohui.sicilly.data.models.AppUser;
 import xyz.shaohui.sicilly.data.models.Feedback;
 import xyz.shaohui.sicilly.data.network.api.SimpleAPI;
 import xyz.shaohui.sicilly.utils.ErrorUtils;
@@ -89,9 +91,24 @@ public class FeedbackPresenterImpl extends FeedbackPresenter {
     }
 
     private RequestBody wrapperTextToSend(String text) {
-        RequestBody body = RequestBody.create(MediaType.parse("text/plain"),
-                String.format("{\"text\":\"%s\"}", text));
-        //return String.format("{\"text\":\"%s\"}", text);
-        return body;
+        AppUser user = SicillyApplication.currentAppUser();
+
+        FeedbackSlack slack = new FeedbackSlack(text + "##" + SicillyApplication.getRegId(),
+                String.format("%s(%s)", user.name(), user.id()), user.avatar());
+
+        return RequestBody.create(MediaType.parse("text/plain"),
+                new Gson().toJson(slack));
+    }
+
+    private class FeedbackSlack {
+        String text;
+        String username;
+        String icon_url;
+
+        FeedbackSlack(String text, String username, String icon_url) {
+            this.text = text;
+            this.username = username;
+            this.icon_url = icon_url;
+        }
     }
 }
