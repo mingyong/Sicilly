@@ -15,6 +15,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
+import com.flyco.tablayout.widget.MsgView;
 import com.pgyersdk.javabean.AppBean;
 import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
@@ -22,9 +23,13 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 import me.shaohui.sicillylib.utils.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.base.HasComponent;
+import xyz.shaohui.sicilly.event.FeedbackEvent;
+import xyz.shaohui.sicilly.event.HomeMessageEvent;
 import xyz.shaohui.sicilly.service.SicillyService;
 import xyz.shaohui.sicilly.views.home.chat.MessageFragment;
 import xyz.shaohui.sicilly.views.home.di.DaggerHomeComponent;
@@ -94,6 +99,35 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
         bottomTab.setTabData(tabData, this, R.id.main_frame, fragments);
     }
 
+    /**
+     * 监听更新BottomTab
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void subscirbeMessaegTab(HomeMessageEvent event) {
+        if (event.count > 0) {
+            bottomTab.showDot(1);
+            MsgView msgView = bottomTab.getMsgView(1);
+            msgView.setBackgroundColor(getResources().getColor(R.color.red));
+        } else {
+            bottomTab.hideMsg(1);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void subscribeUserTab(FeedbackEvent event) {
+        if (event.count > 0) {
+            bottomTab.showDot(2);
+            MsgView msgView = bottomTab.getMsgView(2);
+            msgView.setBackgroundColor(getResources().getColor(R.color.red));
+        } else {
+            bottomTab.hideMsg(2);
+        }
+    }
+
+
+    /**
+     * 检查更新
+     */
     public void checkUpdate() {
         PgyUpdateManager.register(this, new UpdateManagerListener() {
             @Override

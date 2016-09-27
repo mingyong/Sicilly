@@ -11,14 +11,19 @@ import javax.inject.Inject;
 import me.shaohui.vistarecyclerview.VistaRecyclerView;
 import me.shaohui.vistarecyclerview.decoration.DividerDecoration;
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseFragment;
 import xyz.shaohui.sicilly.data.models.Conversation;
 import xyz.shaohui.sicilly.data.models.ConversationBean;
+import xyz.shaohui.sicilly.event.HomeMessageEvent;
 import xyz.shaohui.sicilly.views.home.chat.adapter.MessageListAdapter;
 import xyz.shaohui.sicilly.views.home.chat.mvp.MessageListPresenter;
 import xyz.shaohui.sicilly.views.home.chat.mvp.MessageListView;
 import xyz.shaohui.sicilly.views.home.di.HomeComponent;
+import xyz.shaohui.sicilly.views.home.event.NoMentionEvent;
+import xyz.shaohui.sicilly.views.home.event.NoMessageEvent;
 
 public class MessageListFragment extends BaseFragment<MessageListView, MessageListPresenter>
         implements MessageListView {
@@ -71,6 +76,32 @@ public class MessageListFragment extends BaseFragment<MessageListView, MessageLi
         //mRecyclerView.setOnMoreListener((total, left, current) -> {
         //    presenter.fetchMessageList();
         //}, 4);
+    }
+
+    // 更新消息提示
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!checkHaveNewMessage()) {
+            mBus.post(new NoMessageEvent());
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void subscribeMessage(NoMentionEvent event) {
+        if (!checkHaveNewMessage()) {
+            mBus.post(new HomeMessageEvent(-1));
+        }
+    }
+
+    private boolean checkHaveNewMessage() {
+        for (ConversationBean bean : mDataList) {
+            if (bean.msg_num > 0) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

@@ -12,7 +12,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.flyco.tablayout.SegmentTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
+import com.flyco.tablayout.widget.MsgView;
+import javax.inject.Inject;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.event.HomeMessageEvent;
+import xyz.shaohui.sicilly.event.MentionEvent;
+import xyz.shaohui.sicilly.event.MessageSumEvent;
+import xyz.shaohui.sicilly.provider.BusProvider;
+import xyz.shaohui.sicilly.views.home.event.NoMessageEvent;
 import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragment;
 import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragmentBuilder;
 
@@ -23,9 +33,17 @@ public class MessageFragment extends Fragment {
     @BindView(R.id.tab_layout)
     SegmentTabLayout tabLayout;
 
+    @Inject
+    EventBus mBus;
+
+    // 检测Mention用
+    private boolean hasMention ;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mBus = BusProvider.getBus();
+        mBus.register(this);
     }
 
     @Override
@@ -72,6 +90,40 @@ public class MessageFragment extends Fragment {
 
             }
         });
+    }
+
+    /**
+     * 监听消息提示
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void subscribeMessageTab(MessageSumEvent event) {
+        if (event.count > 0) {
+            tabLayout.showDot(0);
+            MsgView view = tabLayout.getMsgView(0);
+            view.setBackgroundColor(getResources().getColor(R.color.red));
+        } else {
+            tabLayout.hideMsg(0);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void subscribeMentionTab(MentionEvent event) {
+        if (event.count > 0) {
+            hasMention = true;
+            tabLayout.showDot(1);
+            MsgView view = tabLayout.getMsgView(1);
+            view.setBackgroundColor(getResources().getColor(R.color.red));
+        } else {
+            hasMention = false;
+            tabLayout.hideMsg(1);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void subscribeNoMention(NoMessageEvent event) {
+        if (!hasMention) {
+            mBus.post(new HomeMessageEvent(-1));
+        }
     }
 
     class MessageAdapter extends FragmentPagerAdapter {

@@ -1,14 +1,14 @@
 package xyz.shaohui.sicilly.event;
 
 /**
- * Created by shaohui on 16/9/23.
+ * Created by shaohui on 16/9/27.
  */
 
-public class MentionEvent {
+public class FeedbackEvent {
 
     public int count;
 
-    public MentionEvent(int count) {
+    public FeedbackEvent(int count) {
         this.count = count;
     }
 
