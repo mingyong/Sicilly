@@ -6,6 +6,7 @@ import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
+import xyz.shaohui.sicilly.data.appModel.AppSetting;
 import xyz.shaohui.sicilly.data.network.auth.OAuthToken;
 
 /**
@@ -13,35 +14,18 @@ import xyz.shaohui.sicilly.data.network.auth.OAuthToken;
  */
 public class SPDataManager {
 
-    public static void saveToken(Context context, OAuthToken token) {
+    public static AppSetting loadSetting(Context context) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        sp.edit()
-                .putString("auth_token", token.getToken())
-                .putString("auth_secret", token.getTokenSecret())
-                .apply();
+        boolean sendMessage = sp.getBoolean(AppSetting.SEND_MESSAGE_KEY, true);
+        boolean sendMention = sp.getBoolean(AppSetting.SEND_MENTION_KEY, true);
+        boolean sendRequest = sp.getBoolean(AppSetting.SEND_REQUEST_KEY, true);
+        return AppSetting.create(sendMessage, sendMention, sendRequest);
     }
 
-    public static OAuthToken getToken(Context context) {
+    public static void modifySetting(Context context, String key, boolean value) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        String authToken = sp.getString("auth_token", "");
-        String authSecret = sp.getString("auth_secret", "");
-        if (TextUtils.isEmpty(authSecret) || TextUtils.isEmpty(authToken)) {
-            return null;
-        } else {
-            return new OAuthToken(authToken, authSecret);
-        }
+        sp.edit().putBoolean(key, value).apply();
     }
 
-    public static void saveUserId(Context context, String uid) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        sp.edit()
-                .putString("uid", "huivista")
-                .apply();
-    }
-
-    public static String getUserId(Context context) {
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(context);
-        return sp.getString("uid", null);
-    }
 
 }

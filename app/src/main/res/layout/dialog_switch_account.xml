@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/drawable_white_round"
+        android:orientation="vertical"
+        >
+
+    <android.support.v7.widget.RecyclerView
+            android:id="@+id/account_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    <ImageButton
+            android:id="@+id/action_add"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_margin="@dimen/spacing_normal"
+            android:background="@drawable/drawable_accent_circle"
+            app:srcCompat="@drawable/ic_add_white"
+            />
+
+</LinearLayout>

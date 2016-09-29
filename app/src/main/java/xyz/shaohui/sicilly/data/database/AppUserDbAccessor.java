@@ -26,16 +26,16 @@ public class AppUserDbAccessor {
         mBriteDatabase = briteDatabase;
     }
 
-    List<AppUser> selectAll() {
-        mBriteDatabase.createQuery(AppUser.TABLE_NAME, AppUser.SELECT_ALL).map(query -> {
-            List<AppUser> users = new ArrayList<>();
-            Cursor cursor = query.run();
-            while (cursor != null && cursor.moveToNext()) {
-                users.add(AppUser.MAPPER.map(cursor));
-            }
-            return users;
-        });
-        return null;
+    public Observable<List<AppUser>> fetchAllUser() {
+        return mBriteDatabase.createQuery(AppUser.TABLE_NAME, AppUser.SELECT_ALL)
+                .map(query -> {
+                    List<AppUser> appUsers = new ArrayList<>();
+                    Cursor cursor = query.run();
+                    while (cursor != null && cursor.moveToNext()) {
+                        appUsers.add(AppUser.MAPPER.map(cursor));
+                    }
+                    return appUsers;
+                });
     }
 
     public Observable<Cursor> selectCurrentUser() {

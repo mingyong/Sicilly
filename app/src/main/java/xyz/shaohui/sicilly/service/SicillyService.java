@@ -4,34 +4,58 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.util.Log;
 import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import org.greenrobot.eventbus.EventBus;
 import rx.Observable;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
+import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyApplication;
+import xyz.shaohui.sicilly.data.SPDataManager;
 import xyz.shaohui.sicilly.data.database.AppUserDbAccessor;
 import xyz.shaohui.sicilly.data.models.AppUser;
 import xyz.shaohui.sicilly.data.models.FanNotification;
+import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.network.api.AccountAPI;
+import xyz.shaohui.sicilly.data.network.api.MessageAPI;
+import xyz.shaohui.sicilly.data.network.api.StatusAPI;
 import xyz.shaohui.sicilly.event.FriendRequestEvent;
 import xyz.shaohui.sicilly.event.HomeMessageEvent;
 import xyz.shaohui.sicilly.event.MentionEvent;
 import xyz.shaohui.sicilly.event.MessageEvent;
 import xyz.shaohui.sicilly.event.MessageSumEvent;
+import xyz.shaohui.sicilly.notification.NotificationUtils;
 import xyz.shaohui.sicilly.service.di.DaggerSicillyServiceComponent;
 import xyz.shaohui.sicilly.service.di.SicillyServiceComponent;
-import xyz.shaohui.sicilly.views.home.IndexActivity;
-import xyz.shaohui.sicilly.views.login.LoginActivity;
+import xyz.shaohui.sicilly.utils.RxUtils;
 
 public class SicillyService extends Service {
 
     public static final int REPEAT_TIME = 10;
 
+    public static final int STATUS_YES = 1;
+    public static final int STATUS_NO = 2;
+    public static final int STATUS_UNCERTAIN = 3;
+
+    private int canMessageNotice;
+
+    private int canMentionNotice;
+
+    private int canRequestNotice;
+
+    private int sendMessageCount = 0;
+    private int sendMentionCount = 0;
+    private int sendRequestCount = 0;
+
     @Inject
     AccountAPI mAccountService;
+
+    @Inject
+    MessageAPI mMessageService;
+
+    @Inject
+    StatusAPI mStatusService;
 
     @Inject
     EventBus mBus;
@@ -57,18 +81,19 @@ public class SicillyService extends Service {
                 .appComponent(SicillyApplication.getAppComponent())
                 .build();
         mComponent.inject(this);
-
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
         if (SicillyApplication.currentAppUser() == null) {
-            AppUser user = intent.getParcelableExtra("user");
-            if (user == null) {
-                setupAppUser();
+            if (intent != null) {
+                AppUser user = intent.getParcelableExtra("user");
+                if (user != null) {
+                    SicillyApplication.setCurrentAppUser(user);
+                }
             } else {
-                SicillyApplication.setCurrentAppUser(user);
+                setupAppUser();
             }
         }
 
@@ -79,13 +104,12 @@ public class SicillyService extends Service {
 
     private void setupAppUser() {
         // 设置Application Token
-        mAppUserDbAccessor.selectCurrentUser()
-                .subscribe(cursor -> {
-                    if (cursor.getCount() > 0) {
-                        cursor.moveToFirst();
-                        SicillyApplication.setCurrentAppUser(AppUser.MAPPER.map(cursor));
-                    }
-                });
+        mAppUserDbAccessor.selectCurrentUser().subscribe(cursor -> {
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                SicillyApplication.setCurrentAppUser(AppUser.MAPPER.map(cursor));
+            }
+        });
     }
 
     @Override
@@ -108,18 +132,18 @@ public class SicillyService extends Service {
 
         @Override
         public void call(FanNotification notification) {
-            
-            if (notification.direct_messages() > 0) {
+
+            if (notification.direct_messages() > sendMessageCount) {
                 mBus.post(new MessageEvent(notification.direct_messages()));
                 sendMessageNotification();
             }
 
-            if (notification.friend_requests() > 0) {
+            if (notification.friend_requests() > sendRequestCount) {
                 mBus.post(new FriendRequestEvent(notification.friend_requests()));
                 sendRequestNotification(notification.friend_requests());
             }
 
-            if (notification.mentions() > 0) {
+            if (notification.mentions() > sendMentionCount) {
                 mBus.post(new MentionEvent(notification.mentions()));
                 sendMentionNotification(notification.mentions());
             }
@@ -143,14 +167,62 @@ public class SicillyService extends Service {
     };
 
     private void sendMessageNotification() {
+        if (canMessageNotice == STATUS_UNCERTAIN) {
+            canMessageNotice =
+                    SPDataManager.loadSetting(this).sendMessageNotice() ? STATUS_YES : STATUS_NO;
+        }
+        if (canMessageNotice == STATUS_YES) {
 
+        }
+    }
+
+    private void loadMessage() {
+        mMessageService.inboxMessage(1).flatMap(messages -> {
+            if (messages.isEmpty()) {
+                return Observable.empty();
+            } else {
+                return Observable.just(messages.get(0));
+            }
+        }).subscribeOn(Schedulers.io()).subscribe(message -> {
+            NotificationUtils.showMessageNotice(this, message);
+        }, RxUtils.ignoreNetError);
     }
 
     private void sendRequestNotification(int count) {
 
     }
 
-    private void sendMentionNotification(int count) {
+    private void loadRequest() {
 
+    }
+
+    private void sendMentionNotification(int count) {
+        if (canMentionNotice == STATUS_UNCERTAIN) {
+            canMentionNotice =
+                    SPDataManager.loadSetting(this).sendMentionNotice() ? STATUS_YES : STATUS_NO;
+        }
+        if (canMentionNotice == STATUS_YES) {
+            loadMention(count);
+        }
+    }
+
+    private void loadMention(int count) {
+        mStatusService.mentionsStatus(count).flatMap(statuses -> {
+            if (statuses.isEmpty()) {
+                return Observable.empty();
+            } else {
+                StringBuffer names = new StringBuffer();
+                for (Status status : statuses) {
+                    names.append(status.user().screen_name());
+                    if (statuses.indexOf(status) != statuses.size() - 1) {
+                        names.append("、");
+                    }
+                }
+                return Observable.just(String.format(
+                        getString(R.string.notification_new_mention), names.toString()));
+            }
+        }).subscribeOn(Schedulers.io()).subscribe(string -> {
+            NotificationUtils.showMentionNotice(this, string);
+        }, RxUtils.ignoreNetError);
     }
 }

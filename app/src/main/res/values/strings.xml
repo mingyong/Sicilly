@@ -86,6 +86,11 @@
     <string name="update_cancel">拒绝你</string>
     <string name="update_permission_request">没有权限, 不能下载更新</string>
 
+    // notification
+    <string name="notification_new_request">你有新的关注请求</string>
+    <string name="notification_mention_title">消息提醒</string>
+    <string name="notification_new_mention">%s 在饭否中提到了你</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="250dp"
+        android:layout_height="45dp"
+        android:paddingLeft="32dp"
+        android:paddingRight="@dimen/spacing_normal"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        >
+    <View
+            android:id="@+id/user_dot"
+            android:layout_width="5dp"
+            android:layout_height="5dp"
+            android:layout_marginRight="10dp"
+        android:background="@color/black"/>
+
+    <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/user_avatar"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:riv_corner_radius="3dp"
+            tools:src="@mipmap/ic_icon"
+            />
+
+    <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/spacing_normal"
+            android:textColor="@color/text_main"
+            android:textSize="16sp"
+            tools:text="邵辉Vista"
+            />
+</LinearLayout>

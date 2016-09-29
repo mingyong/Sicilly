@@ -1,6 +1,7 @@
 package xyz.shaohui.sicilly.views.home;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -41,6 +42,11 @@ import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragmentBuilder;
 
 public class IndexActivity extends BaseActivity implements HasComponent<HomeComponent> {
 
+    public static final int ACTION_CHAT = 1;
+    public static final int ACTION_MENTION = 2;
+    public static final int ACTION_USER = 3;
+    public static final int ACTION_NONE = 0;
+
     @BindView(R.id.bottom_tab)
     CommonTabLayout bottomTab;
 
@@ -57,6 +63,14 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
     private static final int REQUEST_PERMISSION_CODE = 0;
 
     private String downloadUrl;
+
+    private int mAction;
+
+    public static Intent newIntent(Context context, int action) {
+        Intent intent = new Intent(context, IndexActivity.class);
+        intent.putExtra("action", action);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

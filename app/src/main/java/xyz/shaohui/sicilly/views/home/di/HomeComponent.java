@@ -14,6 +14,7 @@ import xyz.shaohui.sicilly.views.home.profile.ProfileFragment;
 import xyz.shaohui.sicilly.views.home.profile.mvp.ProfilePresenter;
 import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragment;
 import xyz.shaohui.sicilly.views.home.timeline.mvp.HomeTimelinePresenter;
+import xyz.shaohui.sicilly.views.login.SwitchAccountDialog;
 
 /**
  * Created by shaohui on 16/9/10.
@@ -37,6 +38,8 @@ public interface HomeComponent {
     void inject(ProfileFragment fragment);
 
     void inject(MessageListFragment fragment);
+
+    void inject(SwitchAccountDialog dialog);
 
     HomeTimelinePresenter timelinePresenter();
 

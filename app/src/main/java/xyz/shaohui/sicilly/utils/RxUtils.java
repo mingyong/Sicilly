@@ -15,4 +15,10 @@ public class RxUtils {
         }
     };
 
+    public static Action1<Throwable> ignoreError = new Action1<Throwable>() {
+        @Override
+        public void call(Throwable throwable) {
+            throwable.printStackTrace();
+        }
+    };
 }

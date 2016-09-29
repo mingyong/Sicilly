@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import de.hdodenhof.circleimageview.CircleImageView;
 import javax.inject.Inject;
@@ -24,7 +23,7 @@ import xyz.shaohui.sicilly.views.home.di.HomeComponent;
 import xyz.shaohui.sicilly.views.home.profile.mvp.ProfilePresenter;
 import xyz.shaohui.sicilly.views.home.profile.mvp.ProfileView;
 import xyz.shaohui.sicilly.views.login.LoginDialogFragment;
-import xyz.shaohui.sicilly.views.switch_account.SwitchAccountDialog;
+import xyz.shaohui.sicilly.views.login.SwitchAccountDialog;
 
 public class ProfileFragment extends BaseFragment<ProfileView, ProfilePresenter>
         implements ProfileView {
@@ -120,7 +119,7 @@ public class ProfileFragment extends BaseFragment<ProfileView, ProfilePresenter>
 
     @OnClick(R.id.btn_switch)
     void switchAccount() {
-        new LoginDialogFragment().show(getFragmentManager(), "login");
-        //new SwitchAccountDialog().show(getFragmentManager(), "dialog");
+        //new LoginDialogFragment().show(getFragmentManager(), "login");
+        new SwitchAccountDialog().show(getFragmentManager(), "dialog");
     }
 }

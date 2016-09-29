@@ -5,6 +5,8 @@ package xyz.shaohui.sicilly;
  */
 public class SicillyFactory {
 
+    public static final int MAX_ACCOUNT_SIZE = 5;
+
     public static final int TEXT_COUNT = 140;
 
     public static final int UPLOAD_IMG_MAX_HEIGHT = 2000;

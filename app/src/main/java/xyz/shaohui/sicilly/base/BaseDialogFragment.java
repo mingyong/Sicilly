@@ -53,6 +53,11 @@ public abstract class BaseDialogFragment extends DialogFragment {
         bindView(view);
     }
 
+    @SuppressWarnings("unchecked")
+    public <C> C getComponent(Class<C> componentType) {
+        return componentType.cast(((HasComponent<C>) getActivity()).getComponent());
+    }
+
     @LayoutRes
     public abstract int layoutRes();
 
