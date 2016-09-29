@@ -87,6 +87,15 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
         startService(SicillyService.newIntent(this, SicillyApplication.currentAppUser()));
     }
 
+    /**
+     *  账号切换
+     * @param intent
+     */
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+    }
+
     @Override
     public void initializeInjector() {
         mComponent = DaggerHomeComponent.builder().appComponent(getAppComponent()).build();
