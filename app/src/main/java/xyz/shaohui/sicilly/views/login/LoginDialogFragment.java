@@ -14,20 +14,23 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import me.shaohui.sicillylib.utils.ToastUtils;
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.base.BaseDialogFragment;
 
 /**
  * Created by shaohui on 16/8/11.
  */
-public class LoginDialogFragment extends DialogFragment {
+public class LoginDialogFragment extends BaseDialogFragment {
 
     @BindView(R.id.edit_username)EditText username;
     @BindView(R.id.edit_password)EditText password;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.login_dialog_layout, container, false);
-        ButterKnife.bind(this, v);
-        return v;
+    public int layoutRes() {
+        return R.layout.login_dialog_layout;
+    }
+
+    @Override
+    public void bindView(View view) {
     }
 
     @OnClick(R.id.btn_login)

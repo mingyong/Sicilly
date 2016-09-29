@@ -1,40 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="200dp"
-    android:layout_height="wrap_content">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/drawable_white_round"
+        android:orientation="vertical"
+        android:padding="@dimen/spacing_large"
+        >
 
     <android.support.design.widget.TextInputLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/edit_username"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:imeOptions="actionNext"
-            android:hint="@string/login_username"/>
+            android:layout_height="45dp"
+            >
+
+        <EditText
+                android:id="@+id/edit_username"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/login_username"
+                android:imeOptions="actionNext"
+                />
     </android.support.design.widget.TextInputLayout>
+
     <android.support.design.widget.TextInputLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <EditText
-            android:id="@+id/edit_password"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:imeOptions="actionDone"
-            android:hint="@string/login_password"
-            android:inputType="textPassword" />
+            android:layout_height="45dp"
+            >
+
+        <EditText
+                android:id="@+id/edit_password"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/login_password"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                style="@style/EditText"
+                />
     </android.support.design.widget.TextInputLayout>
+
     <Button
-        android:id="@+id/btn_login"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginTop="@dimen/spacing_large"
-        android:text="@string/login"
-        android:textSize="16sp"
-        android:textColor="@color/text_main"
-        android:background="@drawable/drawable_login_bg"/>
+            android:id="@+id/btn_login"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_gravity="right"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:background="@color/accent"
+            android:text="@string/login"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            />
 
 
 </LinearLayout>

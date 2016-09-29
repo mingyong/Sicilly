@@ -23,6 +23,7 @@ import xyz.shaohui.sicilly.views.feedback.FeedbackActivity;
 import xyz.shaohui.sicilly.views.home.di.HomeComponent;
 import xyz.shaohui.sicilly.views.home.profile.mvp.ProfilePresenter;
 import xyz.shaohui.sicilly.views.home.profile.mvp.ProfileView;
+import xyz.shaohui.sicilly.views.login.LoginDialogFragment;
 import xyz.shaohui.sicilly.views.switch_account.SwitchAccountDialog;
 
 public class ProfileFragment extends BaseFragment<ProfileView, ProfilePresenter>
@@ -119,6 +120,7 @@ public class ProfileFragment extends BaseFragment<ProfileView, ProfilePresenter>
 
     @OnClick(R.id.btn_switch)
     void switchAccount() {
-        new SwitchAccountDialog().show(getFragmentManager(), "dialog");
+        new LoginDialogFragment().show(getFragmentManager(), "login");
+        //new SwitchAccountDialog().show(getFragmentManager(), "dialog");
     }
 }

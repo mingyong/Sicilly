@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import butterknife.ButterKnife;
 
 /**
  * Created by shaohui on 16/9/22.
@@ -48,6 +49,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
         bindView(view);
     }
 

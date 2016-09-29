@@ -1,6 +1,7 @@
 package xyz.shaohui.sicilly.service;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.util.Log;
@@ -11,6 +12,8 @@ import rx.Observable;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import xyz.shaohui.sicilly.SicillyApplication;
+import xyz.shaohui.sicilly.data.database.AppUserDbAccessor;
+import xyz.shaohui.sicilly.data.models.AppUser;
 import xyz.shaohui.sicilly.data.models.FanNotification;
 import xyz.shaohui.sicilly.data.network.api.AccountAPI;
 import xyz.shaohui.sicilly.event.FriendRequestEvent;
@@ -20,6 +23,8 @@ import xyz.shaohui.sicilly.event.MessageEvent;
 import xyz.shaohui.sicilly.event.MessageSumEvent;
 import xyz.shaohui.sicilly.service.di.DaggerSicillyServiceComponent;
 import xyz.shaohui.sicilly.service.di.SicillyServiceComponent;
+import xyz.shaohui.sicilly.views.home.IndexActivity;
+import xyz.shaohui.sicilly.views.login.LoginActivity;
 
 public class SicillyService extends Service {
 
@@ -31,9 +36,18 @@ public class SicillyService extends Service {
     @Inject
     EventBus mBus;
 
+    @Inject
+    AppUserDbAccessor mAppUserDbAccessor;
+
     SicillyServiceComponent mComponent;
 
     public SicillyService() {
+    }
+
+    public static Intent newIntent(Context context, AppUser user) {
+        Intent intent = new Intent(context, SicillyService.class);
+        intent.putExtra("user", user);
+        return intent;
     }
 
     @Override
@@ -44,7 +58,34 @@ public class SicillyService extends Service {
                 .build();
         mComponent.inject(this);
 
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+        if (SicillyApplication.currentAppUser() == null) {
+            AppUser user = intent.getParcelableExtra("user");
+            if (user == null) {
+                setupAppUser();
+            } else {
+                SicillyApplication.setCurrentAppUser(user);
+            }
+        }
+
         listenerNewMessage();
+
+        return START_STICKY;
+    }
+
+    private void setupAppUser() {
+        // 设置Application Token
+        mAppUserDbAccessor.selectCurrentUser()
+                .subscribe(cursor -> {
+                    if (cursor.getCount() > 0) {
+                        cursor.moveToFirst();
+                        SicillyApplication.setCurrentAppUser(AppUser.MAPPER.map(cursor));
+                    }
+                });
     }
 
     @Override
@@ -67,9 +108,7 @@ public class SicillyService extends Service {
 
         @Override
         public void call(FanNotification notification) {
-
-            Log.i("sicilly", "监听");
-
+            
             if (notification.direct_messages() > 0) {
                 mBus.post(new MessageEvent(notification.direct_messages()));
                 sendMessageNotification();

@@ -26,6 +26,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.base.HasComponent;
 import xyz.shaohui.sicilly.event.FeedbackEvent;
@@ -68,7 +69,8 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
 
         checkUpdate();
 
-        //startService(new Intent(this, SicillyService.class));
+        // 启动Service 监听
+        startService(SicillyService.newIntent(this, SicillyApplication.currentAppUser()));
     }
 
     @Override
