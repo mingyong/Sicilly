@@ -27,7 +27,8 @@ import xyz.shaohui.sicilly.views.home.di.HomeComponent;
  * Created by shaohui on 16/9/29.
  */
 
-public class SwitchAccountDialog extends BaseDialogFragment {
+public class SwitchAccountDialog extends BaseDialogFragment
+        implements SwitchAccountListener {
 
     @BindView(R.id.account_list)
     RecyclerView mRecyclerView;
@@ -54,7 +55,7 @@ public class SwitchAccountDialog extends BaseDialogFragment {
     @Override
     public void bindView(View view) {
         mAppUsers = new ArrayList<>();
-        mAdapter = new AppUserAdapter(mAppUsers);
+        mAdapter = new AppUserAdapter(mAppUsers, this);
 
         mRecyclerView.setLayoutManager(
                 new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -72,13 +73,20 @@ public class SwitchAccountDialog extends BaseDialogFragment {
         dismiss();
     }
 
+    @Override
+    public void switchAccount(AppUser user) {
+        //mAppUserDbAccessor
+    }
 
     class AppUserAdapter extends RecyclerView.Adapter<AppUserViewHolder> {
 
         private List<AppUser> dataList;
 
-        AppUserAdapter(List<AppUser> dataList) {
+        private SwitchAccountListener mListener;
+
+        AppUserAdapter(List<AppUser> dataList, SwitchAccountListener listener) {
             this.dataList = dataList;
+            this.mListener = listener;
         }
 
         @Override
@@ -98,6 +106,11 @@ public class SwitchAccountDialog extends BaseDialogFragment {
             } else {
                 holder.dot.setVisibility(View.INVISIBLE);
             }
+            holder.itemView.setOnClickListener(v -> {
+                if (!SicillyApplication.isSelf(user.id())) {
+                    mListener.switchAccount(user);
+                }
+            });
         }
 
         @Override
