@@ -1,6 +1,7 @@
 package xyz.shaohui.sicilly.views.status_detail;
 
 import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import butterknife.BindView;
@@ -22,7 +23,8 @@ import xyz.shaohui.sicilly.views.status_detail.mvp.StatusDetailView;
  */
 
 @FragmentWithArgs
-public class StatusDetailFragment extends BaseFragment<StatusDetailView, StatusDetailPresenter> implements StatusDetailView {
+public class StatusDetailFragment extends BaseFragment<StatusDetailView, StatusDetailPresenter>
+        implements StatusDetailView {
 
     @Inject
     EventBus mBus;
@@ -60,6 +62,10 @@ public class StatusDetailFragment extends BaseFragment<StatusDetailView, StatusD
         mDataList = new ArrayList<>();
         mAdapter = new StatusDetailAdapter(mDataList);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(
+                new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+
+        presenter.loadStatus(mOriginStatus);
     }
 
     @Override

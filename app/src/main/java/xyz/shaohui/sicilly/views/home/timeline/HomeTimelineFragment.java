@@ -33,6 +33,7 @@ import xyz.shaohui.sicilly.views.home.di.HomeComponent;
 import xyz.shaohui.sicilly.views.home.timeline.adapter.IndexStatusAdapter;
 import xyz.shaohui.sicilly.views.home.timeline.mvp.HomeTimelinePresenter;
 import xyz.shaohui.sicilly.views.home.timeline.mvp.HomeTimelineView;
+import xyz.shaohui.sicilly.views.status_detail.StatusDetailActivity;
 
 @FragmentWithArgs
 public class HomeTimelineFragment extends BaseFragment<HomeTimelineView, HomeTimelinePresenter>
@@ -188,8 +189,8 @@ public class HomeTimelineFragment extends BaseFragment<HomeTimelineView, HomeTim
     }
 
     @Override
-    public void opContent() {
-
+    public void opContent(Status status) {
+        startActivity(StatusDetailActivity.newIntent(getContext(), status));
     }
 
     @Override

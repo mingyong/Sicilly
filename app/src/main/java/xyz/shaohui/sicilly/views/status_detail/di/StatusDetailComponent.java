@@ -2,6 +2,8 @@ package xyz.shaohui.sicilly.views.status_detail.di;
 
 import dagger.Component;
 import xyz.shaohui.sicilly.app.di.AppComponent;
+import xyz.shaohui.sicilly.data.network.api.StatusAPI;
+import xyz.shaohui.sicilly.data.network.di.StatusModule;
 import xyz.shaohui.sicilly.views.status_detail.StatusDetailActivity;
 import xyz.shaohui.sicilly.views.status_detail.StatusDetailFragment;
 import xyz.shaohui.sicilly.views.status_detail.mvp.StatusDetailPresenter;
@@ -12,7 +14,7 @@ import xyz.shaohui.sicilly.views.status_detail.mvp.StatusDetailPresenter;
 
 @Component(dependencies = AppComponent.class,
         modules = {
-                StatusDetailModule.class
+                StatusDetailModule.class, StatusModule.class
         })
 public interface StatusDetailComponent {
 

@@ -22,6 +22,7 @@ import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.views.create_status.CreateStatusActivity;
 import xyz.shaohui.sicilly.views.home.timeline.TimelineItemListener;
 import xyz.shaohui.sicilly.views.home.timeline.adapter.IndexStatusAdapter;
+import xyz.shaohui.sicilly.views.status_detail.StatusDetailActivity;
 import xyz.shaohui.sicilly.views.user_info.di.UserInfoComponent;
 import xyz.shaohui.sicilly.views.user_info.timeline.mvp.UserTimelinePresenter;
 import xyz.shaohui.sicilly.views.user_info.timeline.mvp.UserTimelineView;
@@ -136,8 +137,8 @@ public class UserTimelineFragment extends BaseFragment<UserTimelineView, UserTim
     }
 
     @Override
-    public void opContent() {
-
+    public void opContent(Status status) {
+        startActivity(StatusDetailActivity.newIntent(getContext(), status));
     }
 
     @Override

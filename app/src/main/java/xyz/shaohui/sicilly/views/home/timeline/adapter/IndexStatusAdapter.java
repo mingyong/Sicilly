@@ -12,6 +12,7 @@ import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -116,9 +117,17 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
             viewHolder.actionDelete.setVisibility(View.GONE);
         }
 
+        // 是否显示上下文图标
+        if (TextUtils.isEmpty(status.in_reply_to_status_id())) {
+            viewHolder.actionContxt.setVisibility(View.GONE);
+        } else {
+            viewHolder.actionContxt.setVisibility(View.VISIBLE);
+        }
+
         View.OnClickListener listener = v -> {
             switch (v.getId()) {
-                case R.id.status_header:
+                case R.id.user_avatar:
+                case R.id.user_name:
                     context.startActivity(UserActivity.newIntent(context, user.id()));
                     break;
                 case R.id.action_comment:
@@ -133,13 +142,19 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
                 case R.id.action_delete:
                     mListener.opDelete(status, position);
                     break;
+                case R.id.action_context:
+                    mListener.opContent(status);
+                    break;
             }
         };
         viewHolder.actionComment.setOnClickListener(listener);
         viewHolder.actionRepost.setOnClickListener(listener);
         viewHolder.actionStar.setOnClickListener(listener);
         viewHolder.actionDelete.setOnClickListener(listener);
-        viewHolder.header.setOnClickListener(listener);
+        viewHolder.actionContxt.setOnClickListener(listener);
+        viewHolder.name.setOnClickListener(listener);
+        viewHolder.avatar.setOnClickListener(listener);
+        //viewHolder.header.setOnClickListener(listener);
 
         if (status.favorited()) {
             viewHolder.actionStar.setImageResource(R.drawable.ic_star_fill);
@@ -190,6 +205,8 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
         TextView createdTime;
         @BindView(R.id.action_delete)
         ImageButton actionDelete;
+        @BindView(R.id.action_context)
+        ImageButton actionContxt;
         @BindView(R.id.action_comment)
         ImageButton actionComment;
         @BindView(R.id.action_repost)

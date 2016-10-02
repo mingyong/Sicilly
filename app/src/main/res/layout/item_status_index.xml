@@ -100,9 +100,19 @@
                 android:id="@+id/action_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/spacing_normal"
                 android:visibility="gone"
                 android:background="@null"
                 app:srcCompat="@drawable/ic_delete"
+                />
+        <ImageButton
+                android:id="@+id/action_context"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:background="@null"
+                app:srcCompat="@drawable/ic_context"
+                android:layout_toRightOf="@id/action_delete"
                 />
         <ImageButton
             android:id="@+id/action_comment"

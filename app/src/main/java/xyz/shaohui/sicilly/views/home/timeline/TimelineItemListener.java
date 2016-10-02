@@ -10,7 +10,7 @@ public interface TimelineItemListener {
 
     void opAvatar();
 
-    void opContent();
+    void opContent(Status status);
 
     void opStar(Status status, int position);
 
