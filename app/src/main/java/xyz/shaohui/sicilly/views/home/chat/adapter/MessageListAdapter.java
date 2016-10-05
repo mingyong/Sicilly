@@ -2,6 +2,7 @@ package xyz.shaohui.sicilly.views.home.chat.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import java.util.List;
 import xyz.shaohui.sicilly.R;
@@ -60,6 +61,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             ((ConversationRequestHolder) holder).bind(dataList.get(position - 1), position);
         } else if (holder instanceof ConversationHeaderHolder) {
             // do nothing
+            holder.itemView.setVisibility(View.GONE);
         }
     }
 

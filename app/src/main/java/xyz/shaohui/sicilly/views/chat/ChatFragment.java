@@ -54,7 +54,7 @@ public class ChatFragment extends BaseFragment<ChatView, ChatPresenter> implemen
 
     List<Message> mDataList;
 
-    int mPage;
+    int mPage = 1;
 
     @NonNull
     @Override
@@ -106,7 +106,9 @@ public class ChatFragment extends BaseFragment<ChatView, ChatPresenter> implemen
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         recyclerView.setOnMoreListener((total, left, current) -> {
-            recyclerView.loadNoMore();
+            if (mDataList.size() > 0) {
+                presenter.fetchMessageNext(++mPage, mDataList.get(mDataList.size() - 1));
+            }
         });
     }
 
@@ -120,6 +122,24 @@ public class ChatFragment extends BaseFragment<ChatView, ChatPresenter> implemen
     public void showMessage(List<Message> messages) {
         mDataList.addAll(messages);
         recyclerView.notifyDataSetChanged();
+    }
+
+    @Override
+    public void showMoreMessage(List<Message> messages) {
+        mDataList.addAll(messages);
+        recyclerView.notifyDataSetChanged();
+    }
+
+    @Override
+    public void loadNoMore() {
+        recyclerView.loadMoreFailure();
+        recyclerView.removeOnMoreListtener();
+    }
+
+    @Override
+    public void loadMoreError() {
+        mPage--;
+        recyclerView.loadMoreFailure();
     }
 
     @Override

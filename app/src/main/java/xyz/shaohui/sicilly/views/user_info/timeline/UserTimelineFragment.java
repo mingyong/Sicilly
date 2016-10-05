@@ -109,6 +109,7 @@ public class UserTimelineFragment extends BaseFragment<UserTimelineView, UserTim
 
     @Override
     public void loadMoreFailure() {
+        mPage--;
         mRecyclerView.loadMoreFailure();
     }
 

@@ -107,6 +107,7 @@ public class UserPhotoFragment extends BaseFragment<UserPhotoView, UserPhotoPres
 
     @Override
     public void loadMoreError() {
+        mPage--;
         recyclerView.loadMoreFailure();
     }
 

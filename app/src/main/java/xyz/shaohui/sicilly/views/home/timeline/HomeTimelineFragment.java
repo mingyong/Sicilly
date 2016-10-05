@@ -146,7 +146,8 @@ public class HomeTimelineFragment extends BaseFragment<HomeTimelineView, HomeTim
 
     @Override
     public void loadMoreFail() {
-
+        mPage--;
+        mRecyclerView.loadMoreFailure();
     }
 
     @Override

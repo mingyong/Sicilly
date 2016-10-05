@@ -8,6 +8,7 @@ import butterknife.BindView;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
+import me.shaohui.sicillylib.utils.ToastUtils;
 import me.shaohui.vistarecyclerview.VistaRecyclerView;
 import me.shaohui.vistarecyclerview.decoration.DividerDecoration;
 import org.greenrobot.eventbus.EventBus;
@@ -67,15 +68,17 @@ public class MessageListFragment extends BaseFragment<MessageListView, MessageLi
         mDataList = new ArrayList<>();
         MessageListAdapter adapter = new MessageListAdapter(mDataList);
         mRecyclerView.setAdapter(adapter);
-        mRecyclerView.addItemDecoration(
-                new DividerDecoration(getResources().getColor(R.color.divider), 2));
+        //mRecyclerView.addItemDecoration(
+        //        new DividerDecoration(getResources().getColor(R.color.place_bg), 3, 40, 0));
         mRecyclerView.setRefreshListener(() -> {
             mPage = 1;
             presenter.fetchMessageList();
         });
-        //mRecyclerView.setOnMoreListener((total, left, current) -> {
-        //    presenter.fetchMessageList();
-        //}, 4);
+        mRecyclerView.setOnMoreListener((total, left, current) -> {
+            if (mDataList.size() > 0) {
+                presenter.fetchMessageListNext(mPage++);
+            }
+        }, 4);
     }
 
     // 更新消息提示
@@ -131,7 +134,8 @@ public class MessageListFragment extends BaseFragment<MessageListView, MessageLi
 
     @Override
     public void loadNoMore() {
-        mRecyclerView.loadNoMore();
+        //mRecyclerView.loadNoMore();
+        mRecyclerView.removeOnMoreListtener();
     }
 
     @Override

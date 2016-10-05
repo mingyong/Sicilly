@@ -15,6 +15,7 @@ import xyz.shaohui.sicilly.data.models.Message;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.data.network.api.MessageAPI;
 import xyz.shaohui.sicilly.utils.ErrorUtils;
+import xyz.shaohui.sicilly.utils.RxUtils;
 import xyz.shaohui.sicilly.views.chat.mvp.ChatPresenter;
 
 /**
@@ -49,7 +50,23 @@ public class ChatPresenterImpl extends ChatPresenter {
 
     @Override
     public void fetchMessageNext(int page, Message lastMessage) {
-
+        mMessageService.messageList(mOtherUser.id(), page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(messages -> {
+                    if (isViewAttached()) {
+                        if (messages.isEmpty()) {
+                            getView().loadNoMore();
+                        } else {
+                            getView().showMoreMessage(messages);
+                        }
+                    }
+                }, throwable -> {
+                    ErrorUtils.catchException(throwable);
+                    if (isViewAttached()) {
+                        getView().loadMoreError();
+                    }
+                });
     }
 
     @Override
