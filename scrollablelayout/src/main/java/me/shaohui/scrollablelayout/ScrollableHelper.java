@@ -46,7 +46,7 @@ public class ScrollableHelper {
         if (scrollableView instanceof RecyclerView) {
             return isRecyclerViewTop((RecyclerView) scrollableView);
         }
-        return false;
+        return true;
     }
 
     private static boolean isRecyclerViewTop(RecyclerView recyclerView) {

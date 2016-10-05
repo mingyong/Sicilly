@@ -38,6 +38,7 @@ public class OkHttpInterceptor implements Interceptor {
                 .build();
 
         Log.i("TAG", auth);
+        Log.i("TAG", request.url().toString());
         return chain.proceed(request);
     }
 }

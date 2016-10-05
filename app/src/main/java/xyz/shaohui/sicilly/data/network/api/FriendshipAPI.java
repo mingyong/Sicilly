@@ -5,6 +5,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Query;
 import rx.Observable;
 import xyz.shaohui.sicilly.data.models.User;
 
@@ -21,8 +22,9 @@ public interface FriendshipAPI {
     @POST("friendships/destroy.json")
     Observable<User> destroy(@Part("id") RequestBody id);
 
+
     @GET("friendships/exists.json")
-    Observable<Boolean> exist(@Part("user_a") RequestBody idA, @Part("user_b") RequestBody idB);
+    Observable<Boolean> exist(@Query("user_a")String idA, @Query("user_b")String idB);
 
     @Multipart
     @POST("friendships/deny.json")

@@ -103,8 +103,7 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
             userId = savedInstanceState.getString("user_id");
         }
         ButterKnife.bind(this);
-        initViewPager();
-        initScrollableLayout();
+        fragmentList = new ArrayList<>();
     }
 
     @Override
@@ -133,9 +132,6 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
     }
 
     private void initViewPager() {
-        fragmentList = new ArrayList<>();
-        fragmentList.add(UserTimelineFragmentBuilder.newUserTimelineFragment(userId));
-        fragmentList.add(UserPhotoFragmentBuilder.newUserPhotoFragment(userId));
 
         UserPagerAdapter adapter = new UserPagerAdapter(getSupportFragmentManager(), fragmentList);
         viewPager.setAdapter(adapter);
@@ -187,7 +183,7 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
     }
 
     @Override
-    public void placeUserInfo(User user) {
+    public void placeUserInfo(User user, boolean isProtected) {
         mUser = user;
         countFollow.setText(String.valueOf(user.friends_count()));
         countFollower.setText(String.valueOf(user.followers_count()));
@@ -208,14 +204,21 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
         // 针对设置隐私保护的user
         if (!mUser.following() && mUser.is_protected()) {
             showPrivacyFragment();
+        } else {
+            showSimpleFragment();
         }
+        initViewPager();
+        initScrollableLayout();
     }
 
     private void showPrivacyFragment() {
-        fragmentList.clear();
         fragmentList.add(new PrivacyFragment());
         fragmentList.add(new PrivacyFragment());
-        viewPager.notifyAll();
+    }
+
+    private void showSimpleFragment() {
+        fragmentList.add(UserTimelineFragmentBuilder.newUserTimelineFragment(userId));
+        fragmentList.add(UserPhotoFragmentBuilder.newUserPhotoFragment(userId));
     }
 
     @Override

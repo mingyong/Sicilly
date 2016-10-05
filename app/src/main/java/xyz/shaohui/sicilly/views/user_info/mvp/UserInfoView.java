@@ -9,7 +9,7 @@ import xyz.shaohui.sicilly.data.models.User;
 
 public interface UserInfoView extends MvpView {
 
-    void placeUserInfo(User user);
+    void placeUserInfo(User user, boolean isProtected);
 
     void loadUserInfoFailure();
 

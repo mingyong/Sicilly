@@ -1,14 +1,18 @@
 package xyz.shaohui.sicilly.views.user_info;
 
+import android.util.Pair;
 import javax.inject.Inject;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.data.network.api.FriendshipAPI;
 import xyz.shaohui.sicilly.data.network.api.UserAPI;
 import xyz.shaohui.sicilly.utils.ErrorUtils;
+import xyz.shaohui.sicilly.utils.RxUtils;
 import xyz.shaohui.sicilly.views.user_info.mvp.UserInfoPresenter;
 
 /**
@@ -29,19 +33,23 @@ public class UserInfoPresenterImpl extends UserInfoPresenter {
 
     @Override
     public void fetchUserInfo(String userId) {
-        mUserService.userInfoOther(userId)
+
+        Observable.zip(mUserService.userInfoOther(userId),
+                mFriendshipService.exist(SicillyApplication.currentUId(), userId), (Pair::create))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(user -> {
+                .subscribe(pair -> {
                     if (isViewAttached()) {
-                        getView().placeUserInfo(user);
+                        //if (!SicillyApplication.isSelf(pair.first.id())
+                        //        && pair.first.is_protected()
+                        //        && !pair.second) {
+                        //    getView().placeUserInfo(pair.first, true);
+                        //} else {
+                        //    getView().placeUserInfo(pair.first, false);
+                        //}
+                        getView().placeUserInfo(pair.first, false);
                     }
-                }, throwable -> {
-                    ErrorUtils.catchException(throwable);
-                    if (isViewAttached()) {
-                        getView().loadUserInfoFailure();
-                    }
-                });
+                }, RxUtils.ignoreNetError);
     }
 
     @Override
@@ -76,11 +84,12 @@ public class UserInfoPresenterImpl extends UserInfoPresenter {
         mFriendshipService.destroy(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(result -> {}, throwable -> {
+                .subscribe(result -> {
+                }, throwable -> {
+                    ErrorUtils.catchException(throwable);
                     if (isViewAttached()) {
                         getView().unFollowError();
                     }
                 });
     }
-
 }

@@ -91,6 +91,6 @@
     <string name="notification_mention_title">消息提醒</string>
     <string name="notification_new_mention">%s 在饭否中提到了你</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="user_info_protected">我只向关注我的人公开我的消息(可点击右上角请求关注)</string>
 </resources>

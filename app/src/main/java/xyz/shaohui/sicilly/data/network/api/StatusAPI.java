@@ -52,6 +52,6 @@ public interface StatusAPI {
     @POST("statuses/destroy.json")
     Observable<Status> destroyStatus(@Part("id") RequestBody id);
 
-    @GET("statuses/context_timeline.json")
+    @GET("statuses/context_timeline.json?format=html")
     Observable<List<Status>> context(@Query("id")String id);
 }
