@@ -11,18 +11,20 @@ import java.util.List;
 import javax.inject.Inject;
 import me.shaohui.scrollablelayout.ScrollableHelper;
 import me.shaohui.vistarecyclerview.VistaRecyclerView;
+import me.shaohui.vistarecyclerview.decoration.SpacingDecoration;
 import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseFragment;
 import xyz.shaohui.sicilly.data.models.Status;
-import xyz.shaohui.sicilly.views.adapters.UserPhotoAdapter;
+import xyz.shaohui.sicilly.views.photo.PictureActivity;
 import xyz.shaohui.sicilly.views.user_info.di.UserInfoComponent;
 import xyz.shaohui.sicilly.views.user_info.photo.mvp.UserPhotoPresenter;
 import xyz.shaohui.sicilly.views.user_info.photo.mvp.UserPhotoView;
 
 @FragmentWithArgs
 public class UserPhotoFragment extends BaseFragment<UserPhotoView, UserPhotoPresenter>
-        implements UserPhotoView, ScrollableHelper.ScrollableContainer {
+        implements UserPhotoView, ScrollableHelper.ScrollableContainer,
+        UserPhotoAdapter.PhotoItemListener {
 
     public static final String TAG = "UserPhotoFragment";
 
@@ -61,8 +63,9 @@ public class UserPhotoFragment extends BaseFragment<UserPhotoView, UserPhotoPres
     public void bindViews(View view) {
         super.bindViews(view);
         statusList = new ArrayList<>();
-        UserPhotoAdapter adapter = new UserPhotoAdapter(statusList);
+        UserPhotoAdapter adapter = new UserPhotoAdapter(statusList, this);
         recyclerView.setAdapter(adapter);
+        recyclerView.addItemDecoration(new SpacingDecoration(16, 16));
         recyclerView.setLayoutManager(
                 new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         recyclerView.setOnMoreListener((total, left, current) -> {
@@ -110,5 +113,10 @@ public class UserPhotoFragment extends BaseFragment<UserPhotoView, UserPhotoPres
     @Override
     public void loadNoMore() {
         recyclerView.loadNoMore();
+    }
+
+    @Override
+    public void onItemClick(String url, String text) {
+        startActivity(PictureActivity.newIntent(getContext(), url, text));
     }
 }

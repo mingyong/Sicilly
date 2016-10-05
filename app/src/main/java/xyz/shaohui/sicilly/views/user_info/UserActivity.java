@@ -231,8 +231,16 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
     public void opFollow() {
         presenter.opFollow(mUser);
 
-        mUser = mUser.updateFollow();
-        actionFollow.setImageResource(R.drawable.ic_followed);
+        // 用户没设置隐私, 直接显示关注成功
+        if (!mUser.is_protected()) {
+            mUser = mUser.updateFollow();
+            actionFollow.setImageResource(R.drawable.ic_followed);
+        }
+    }
+
+    @Override
+    public void opRequestFollow() {
+
     }
 
     @Override
@@ -269,11 +277,6 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
     @OnClick(R.id.btn_follow)
     void actionFollow() {
         presenter.opFollow(mUser);
-    }
-
-    @OnClick(R.id.btn_chat)
-    void newChat() {
-
     }
 
     @Override

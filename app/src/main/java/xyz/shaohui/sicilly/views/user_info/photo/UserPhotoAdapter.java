@@ -1,4 +1,4 @@
-package xyz.shaohui.sicilly.views.adapters;
+package xyz.shaohui.sicilly.views.user_info.photo;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,16 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.bumptech.glide.Glide;
-
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import uk.co.senab.photoview.PhotoView;
+import com.bumptech.glide.Glide;
+import java.util.List;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.data.models.Status;
+import xyz.shaohui.sicilly.utils.HtmlUtils;
 
 /**
  * Created by shaohui on 16/8/21.
@@ -25,8 +22,11 @@ public class UserPhotoAdapter extends RecyclerView.Adapter<UserPhotoAdapter.Phot
 
     private List<Status> statusList;
 
-    public UserPhotoAdapter(List<Status> statusList) {
+    private PhotoItemListener mPhotoItemListener;
+
+    public UserPhotoAdapter(List<Status> statusList, PhotoItemListener photoItemListener) {
         this.statusList = statusList;
+        this.mPhotoItemListener = photoItemListener;
     }
 
     @Override
@@ -40,10 +40,14 @@ public class UserPhotoAdapter extends RecyclerView.Adapter<UserPhotoAdapter.Phot
         Status status = statusList.get(position);
         Context context = holder.parent.getContext();
 
-        holder.text.setText(status.text());
+        holder.text.setText(HtmlUtils.cleanAllTag(status.text()));
         Glide.with(context)
                 .load(status.photo().getImageurl())
+                .placeholder(context.getResources().getDrawable(R.drawable.drawable_plcae_holder))
                 .into(holder.image);
+
+        holder.itemView.setOnClickListener(
+                v -> mPhotoItemListener.onItemClick(status.photo().getLargeurl(), status.text()));
     }
 
     @Override
@@ -53,8 +57,10 @@ public class UserPhotoAdapter extends RecyclerView.Adapter<UserPhotoAdapter.Phot
 
     class PhotoViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.photo_image)ImageView image;
-        @BindView(R.id.photo_text)TextView text;
+        @BindView(R.id.photo_image)
+        ImageView image;
+        @BindView(R.id.photo_text)
+        TextView text;
         private View parent;
 
         public PhotoViewHolder(View itemView) {
@@ -64,4 +70,8 @@ public class UserPhotoAdapter extends RecyclerView.Adapter<UserPhotoAdapter.Phot
         }
     }
 
+    interface PhotoItemListener {
+
+        void onItemClick(String url, String text);
+    }
 }

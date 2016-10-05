@@ -34,6 +34,13 @@ public class PictureActivity extends BaseActivity {
         return intent;
     }
 
+    public static Intent newIntent(Context context, String url, String text) {
+        Intent intent = new Intent(context, PictureActivity.class);
+        intent.putExtra("url", url);
+        intent.putExtra("text", text);
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
