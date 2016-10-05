@@ -52,6 +52,7 @@
 
     // chat
     <string name="send_message_fail">消息发送失败, 请重试</string>
+    <string name="no_follow_each_message">您和对方没有互相关注, 暂不支持客户端发送私信, 如有需要, 请使用网页端操作</string>
 
     // feedback
     <string name="feedback_auto_answer">谢谢你的意见和反馈, 我会及时处理【自动回复】</string>

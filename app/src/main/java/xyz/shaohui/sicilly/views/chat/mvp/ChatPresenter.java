@@ -15,4 +15,6 @@ public abstract class ChatPresenter extends MvpBasePresenter<ChatView> {
 
     public abstract void sendMessage(String text);
 
+    public abstract void checkFriendShip();
+
 }

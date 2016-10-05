@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,14 +37,21 @@ public class ChatFragment extends BaseFragment<ChatView, ChatPresenter> implemen
 
     @BindView(R.id.recycler)
     VistaRecyclerView recyclerView;
+
     @BindView(R.id.customer_avatar)
     ImageView customerAvatar;
+
     @BindView(R.id.self_avatar)
     ImageView selfAvatar;
+
     @BindView(R.id.main_edit)
     EditText editText;
+
     @BindView(R.id.chat_title)
     TextView title;
+
+    @BindView(R.id.btn_submit)
+    TextView btnSubmit;
 
     @Inject
     @Named("other_user")
@@ -81,6 +89,8 @@ public class ChatFragment extends BaseFragment<ChatView, ChatPresenter> implemen
         initUserInfo();
 
         presenter.fetchMessage();
+
+        presenter.checkFriendShip();
     }
 
     @OnClick(R.id.btn_back)
@@ -160,5 +170,14 @@ public class ChatFragment extends BaseFragment<ChatView, ChatPresenter> implemen
         editText.setText(text);
         mDataList.remove(0);
         recyclerView.notifyDataSetChanged();
+    }
+
+    @Override
+    public void denySendMessage() {
+        new MaterialDialog.Builder(getContext())
+                .content(R.string.no_follow_each_message)
+                .positiveText(R.string.yes)
+                .show();
+        btnSubmit.setEnabled(false);
     }
 }

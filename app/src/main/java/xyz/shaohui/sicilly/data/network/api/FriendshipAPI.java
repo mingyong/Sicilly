@@ -7,6 +7,7 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Query;
 import rx.Observable;
+import xyz.shaohui.sicilly.data.models.FriendshipDetail;
 import xyz.shaohui.sicilly.data.models.User;
 
 /**
@@ -29,6 +30,10 @@ public interface FriendshipAPI {
     @Multipart
     @POST("friendships/deny.json")
     Observable<User> deny(@Part("id") RequestBody id);
+
+    @GET("friendships/show.json")
+    Observable<FriendshipDetail> showDetail(@Query("source_id") String sourceId,
+            @Query("target_id") String targetId);
 
 
 }

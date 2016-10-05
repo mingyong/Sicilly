@@ -22,4 +22,6 @@ public interface ChatView extends MvpView{
 
     void sendMessageFail(String text);
 
+    void denySendMessage();
+
 }

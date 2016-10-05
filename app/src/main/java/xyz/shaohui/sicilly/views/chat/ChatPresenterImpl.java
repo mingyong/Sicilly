@@ -13,6 +13,7 @@ import xyz.shaohui.sicilly.data.models.Conversation;
 import xyz.shaohui.sicilly.data.models.ConversationBean;
 import xyz.shaohui.sicilly.data.models.Message;
 import xyz.shaohui.sicilly.data.models.User;
+import xyz.shaohui.sicilly.data.network.api.FriendshipAPI;
 import xyz.shaohui.sicilly.data.network.api.MessageAPI;
 import xyz.shaohui.sicilly.utils.ErrorUtils;
 import xyz.shaohui.sicilly.utils.RxUtils;
@@ -24,13 +25,17 @@ import xyz.shaohui.sicilly.views.chat.mvp.ChatPresenter;
 
 public class ChatPresenterImpl extends ChatPresenter {
 
-    MessageAPI mMessageService;
+    private final MessageAPI mMessageService;
 
-    User mOtherUser;
+    private final FriendshipAPI mFriendshipService;
+
+    private final User mOtherUser;
 
     @Inject
-    ChatPresenterImpl(MessageAPI messageService, @Named("other_user") User otherUser) {
+    ChatPresenterImpl(MessageAPI messageService, FriendshipAPI friendshipService,
+            @Named("other_user") User otherUser) {
         mMessageService = messageService;
+        mFriendshipService = friendshipService;
         mOtherUser = otherUser;
     }
 
@@ -91,6 +96,20 @@ public class ChatPresenterImpl extends ChatPresenter {
                         getView().sendMessageFail(text);
                     }
                 });
+    }
+
+    @Override
+    public void checkFriendShip() {
+        mFriendshipService.showDetail(SicillyApplication.currentUId(), mOtherUser.id())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(friendshipDetail -> {
+                    if (isViewAttached()) {
+                        if (!friendshipDetail.isFollowedEach()) {
+                            getView().denySendMessage();
+                        }
+                    }
+                }, RxUtils.ignoreNetError);
     }
 
     private Message createLocalMessage(String text) {
