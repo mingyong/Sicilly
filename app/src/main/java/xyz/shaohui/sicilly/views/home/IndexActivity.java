@@ -32,6 +32,7 @@ import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.base.HasComponent;
 import xyz.shaohui.sicilly.event.FeedbackEvent;
 import xyz.shaohui.sicilly.event.HomeMessageEvent;
+import xyz.shaohui.sicilly.leanCloud.service.ActiveUserService;
 import xyz.shaohui.sicilly.service.SicillyService;
 import xyz.shaohui.sicilly.views.home.chat.MessageFragment;
 import xyz.shaohui.sicilly.views.home.di.DaggerHomeComponent;
@@ -83,13 +84,16 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
 
         checkUpdate();
 
+        // 激活用户
+        ActiveUserService.activeUser(SicillyApplication.currentUId(),
+                SicillyApplication.currentAppUser().name());
+
         // 启动Service 监听
         startService(SicillyService.newIntent(this, SicillyApplication.currentAppUser()));
     }
 
     /**
-     *  账号切换
-     * @param intent
+     * 账号切换
      */
     @Override
     protected void onNewIntent(Intent intent) {
@@ -149,7 +153,6 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
         }
     }
 
-
     /**
      * 检查更新
      */
@@ -165,8 +168,7 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
                 final AppBean appBean = getAppBeanFromString(s);
                 downloadUrl = appBean.getDownloadURL();
 
-                new MaterialDialog.Builder(IndexActivity.this)
-                        .title(R.string.update_version)
+                new MaterialDialog.Builder(IndexActivity.this).title(R.string.update_version)
                         .content(appBean.getReleaseNote())
                         .positiveText(R.string.update_confirm)
                         .negativeText(R.string.update_cancel)
@@ -175,8 +177,7 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
                             public void onClick(@NonNull MaterialDialog dialog,
                                     @NonNull DialogAction which) {
                                 if (requestPermission()) {
-                                    startDownloadTask(IndexActivity.this,
-                                            appBean.getDownloadURL());
+                                    startDownloadTask(IndexActivity.this, appBean.getDownloadURL());
                                 }
                             }
                         })
