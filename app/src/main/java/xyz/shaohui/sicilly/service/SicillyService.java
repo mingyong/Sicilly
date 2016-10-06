@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+import android.util.Log;
 import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import org.greenrobot.eventbus.EventBus;
@@ -36,7 +37,7 @@ public class SicillyService extends Service {
 
     public static final int STATUS_YES = 1;
     public static final int STATUS_NO = 2;
-    public static final int STATUS_UNCERTAIN = 3;
+    public static final int STATUS_UNCERTAIN = 0;
 
     private int canMessageNotice;
 
@@ -136,16 +137,19 @@ public class SicillyService extends Service {
             if (notification.direct_messages() > sendMessageCount) {
                 mBus.post(new MessageEvent(notification.direct_messages()));
                 sendMessageNotification();
+                sendMessageCount = notification.direct_messages();
             }
 
             if (notification.friend_requests() > sendRequestCount) {
                 mBus.post(new FriendRequestEvent(notification.friend_requests()));
                 sendRequestNotification(notification.friend_requests());
+                sendRequestCount = notification.friend_requests();
             }
 
             if (notification.mentions() > sendMentionCount) {
                 mBus.post(new MentionEvent(notification.mentions()));
                 sendMentionNotification(notification.mentions());
+                sendMentionCount = notification.mentions();
             }
 
             int sum = notification.mentions()
@@ -172,7 +176,9 @@ public class SicillyService extends Service {
                     SPDataManager.loadSetting(this).sendMessageNotice() ? STATUS_YES : STATUS_NO;
         }
         if (canMessageNotice == STATUS_YES) {
-
+            loadMessage();
+        } else {
+            sendMessageCount = 0;
         }
     }
 
@@ -184,6 +190,7 @@ public class SicillyService extends Service {
                 return Observable.just(messages.get(0));
             }
         }).subscribeOn(Schedulers.io()).subscribe(message -> {
+            sendMessageCount = 0;
             NotificationUtils.showMessageNotice(this, message);
         }, RxUtils.ignoreNetError);
     }
@@ -203,6 +210,8 @@ public class SicillyService extends Service {
         }
         if (canMentionNotice == STATUS_YES) {
             loadMention(count);
+        } else {
+            sendMentionCount = 0;
         }
     }
 
@@ -211,17 +220,18 @@ public class SicillyService extends Service {
             if (statuses.isEmpty()) {
                 return Observable.empty();
             } else {
-                StringBuffer names = new StringBuffer();
+                StringBuilder names = new StringBuilder();
                 for (Status status : statuses) {
                     names.append(status.user().screen_name());
                     if (statuses.indexOf(status) != statuses.size() - 1) {
                         names.append("、");
                     }
                 }
-                return Observable.just(String.format(
-                        getString(R.string.notification_new_mention), names.toString()));
+                return Observable.just(String.format(getString(R.string.notification_new_mention),
+                        names.toString()));
             }
         }).subscribeOn(Schedulers.io()).subscribe(string -> {
+            sendMentionCount = 0;
             NotificationUtils.showMentionNotice(this, string);
         }, RxUtils.ignoreNetError);
     }

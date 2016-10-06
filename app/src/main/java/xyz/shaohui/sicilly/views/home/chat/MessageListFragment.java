@@ -76,7 +76,7 @@ public class MessageListFragment extends BaseFragment<MessageListView, MessageLi
         });
         mRecyclerView.setOnMoreListener((total, left, current) -> {
             if (mDataList.size() > 0) {
-                presenter.fetchMessageListNext(mPage++);
+                presenter.fetchMessageListNext(++mPage);
             }
         }, 4);
     }

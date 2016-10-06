@@ -7,6 +7,7 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.data.models.Message;
 import xyz.shaohui.sicilly.views.chat.ChatActivity;
@@ -40,7 +41,8 @@ public class NotificationUtils {
                 .setSmallIcon(R.drawable.ic_message)
                 .setLargeIcon(
                         BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_icon))
-                .setContentIntent(pendingIntent);
+                .setContentIntent(pendingIntent)
+                .setSound(Uri.parse("android.resource://xyz.shaohui.sicilly/raw/sound"));
 
         NotificationManager manager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -60,7 +62,8 @@ public class NotificationUtils {
                 .setSmallIcon(R.drawable.ic_at_black)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
                         R.drawable.ic_at_black))
-                .setContentIntent(pendingIntent);
+                .setContentIntent(pendingIntent)
+                .setSound(Uri.parse("android.resource://xyz.shaohui.sicilly/raw/sound"));
 
         NotificationManager manager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -80,7 +83,8 @@ public class NotificationUtils {
                 .setSmallIcon(R.drawable.ic_follow)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
                         R.drawable.ic_follow))
-                .setContentIntent(pendingIntent);
+                .setContentIntent(pendingIntent)
+                .setSound(Uri.parse("android.resource://xyz.shaohui.sicilly/raw/sound"));
 
         NotificationManager manager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
