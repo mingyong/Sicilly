@@ -82,6 +82,7 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
 
         initBottomTab(savedInstanceState);
 
+        // 检查更新
         checkUpdate();
 
         // 激活用户
@@ -134,6 +135,7 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void subscirbeMessaegTab(HomeMessageEvent event) {
         if (event.count > 0) {
+            ToastUtils.showToast(this, event.count + "");
             bottomTab.showDot(1);
             MsgView msgView = bottomTab.getMsgView(1);
             msgView.setBackgroundColor(getResources().getColor(R.color.red));
