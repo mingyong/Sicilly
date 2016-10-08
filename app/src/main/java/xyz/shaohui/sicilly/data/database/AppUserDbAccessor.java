@@ -60,4 +60,15 @@ public class AppUserDbAccessor {
         transaction.markSuccessful();
         transaction.end();
     }
+
+    public void updateActiveUser(AppUser origin, AppUser target) {
+        AppUser originUser = origin.updateActive();
+        BriteDatabase.Transaction transaction = mBriteDatabase.newTransaction();
+        mBriteDatabase.insert(AppUser.TABLE_NAME, AppUser.FACTORY.marshal(target).asContentValues(),
+                SQLiteDatabase.CONFLICT_REPLACE);
+        mBriteDatabase.update(AppUser.TABLE_NAME,
+                AppUser.FACTORY.marshal(originUser).asContentValues(), "id = ?", originUser.id());
+        transaction.markSuccessful();
+        transaction.end();
+    }
 }

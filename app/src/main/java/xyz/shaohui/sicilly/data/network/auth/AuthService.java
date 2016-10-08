@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
+import okhttp3.OkHttpClient;
 import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -42,6 +43,7 @@ public class AuthService {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ACCESS_TOKEN_URL)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .client(new OkHttpClient())
                 .build();
 
         AuthAPI authAPI = retrofit.create(AuthAPI.class);

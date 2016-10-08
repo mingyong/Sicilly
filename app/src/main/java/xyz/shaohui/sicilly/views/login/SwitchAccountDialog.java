@@ -82,16 +82,17 @@ public class SwitchAccountDialog extends BaseDialogFragment
         // 切换用户
         // 1. 切换DB中的Active User
         // 2. 切换Application 的 currentUser
-        // 3. 停止Service
-        // 4. 切换Service 进程中 Application 的 Current User
-        // 5. 清除所有的Notification
-        // 6. 重启Activity
+        // 3. Service 中自动观察数据库变化 更新Application,
+        //      如果不生效, 可以使用AIDL调用, 使Service更新
+        // 4. 清除所有的Notification
+        // 5. 重启Activity
 
-        mAppUserDbAccessor.switchActiveUser(SicillyApplication.currentAppUser(), user);
-        SicillyApplication.setCurrentAppUser(user);
-        NotificationUtils.clearAll(getContext());
+        mAppUserDbAccessor.switchActiveUser(SicillyApplication.currentAppUser(), user);     //1
+        SicillyApplication.setCurrentAppUser(user);         //2
+        NotificationUtils.clearAll(getContext());           //4
 
-        getActivity().recreate();
+        startActivity(new Intent(getContext(), IndexActivity.class));       // 5
+        getActivity().finish();
     }
 
     class AppUserAdapter extends RecyclerView.Adapter<AppUserViewHolder> {
