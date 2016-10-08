@@ -179,8 +179,8 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
         ArrayList<CustomTabEntity> tabData = new ArrayList<>();
         tabData.add(new TabEntity(getString(R.string.bottom_tab_home), R.drawable.ic_home_selected,
                 R.drawable.ic_home));
-        tabData.add(new TabEntity(getString(R.string.bottom_tab_message),
-                R.drawable.ic_message_selected, R.drawable.ic_message));
+        tabData.add(new TabEntity(getString(R.string.bottom_tab_message), R.drawable.ic_message_selected,
+                R.drawable.ic_message));
         tabData.add(new TabEntity(getString(R.string.bottom_tab_user), R.drawable.ic_user_selected,
                 R.drawable.ic_user));
 

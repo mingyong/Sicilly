@@ -97,6 +97,12 @@ public class NotificationUtils {
         manager.cancel(MESSAGE_ID);
     }
 
+    public static void clearMentionNoti(Context context) {
+        NotificationManager manager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.cancel(MENTION_ID);
+    }
+
     public static void clearAll(Context context) {
         NotificationManager manager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

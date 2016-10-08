@@ -21,6 +21,7 @@ import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.event.HomeMessageEvent;
 import xyz.shaohui.sicilly.event.MentionEvent;
 import xyz.shaohui.sicilly.event.MessageSumEvent;
+import xyz.shaohui.sicilly.notification.NotificationUtils;
 import xyz.shaohui.sicilly.provider.BusProvider;
 import xyz.shaohui.sicilly.views.home.event.NoMessageEvent;
 import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragment;
@@ -37,7 +38,9 @@ public class MessageFragment extends Fragment {
     EventBus mBus;
 
     // 检测Mention用
-    private boolean hasMention ;
+    private boolean hasMention;
+
+    private boolean hasMessage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,6 +86,17 @@ public class MessageFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 tabLayout.setCurrentTab(position);
+                if (position == 0) {
+                    hasMessage = false;
+                } else {
+                    hasMention = false;
+                    // 清除MentionNotification
+                    NotificationUtils.clearMentionNoti(getContext());
+                }
+                tabLayout.hideMsg(position);
+                if (!hasMessage && !hasMention) {
+                    mBus.post(new HomeMessageEvent(-1));
+                }
             }
 
             @Override
@@ -101,8 +115,10 @@ public class MessageFragment extends Fragment {
             tabLayout.showDot(0);
             MsgView view = tabLayout.getMsgView(0);
             view.setBackgroundColor(getResources().getColor(R.color.red));
+            hasMessage = true;
         } else {
             tabLayout.hideMsg(0);
+            hasMessage = false;
         }
     }
 
@@ -113,16 +129,10 @@ public class MessageFragment extends Fragment {
             tabLayout.showDot(1);
             MsgView view = tabLayout.getMsgView(1);
             view.setBackgroundColor(getResources().getColor(R.color.red));
+            hasMention = true;
         } else {
             hasMention = false;
             tabLayout.hideMsg(1);
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void subscribeNoMention(NoMessageEvent event) {
-        if (!hasMention) {
-            mBus.post(new HomeMessageEvent(-1));
         }
     }
 
