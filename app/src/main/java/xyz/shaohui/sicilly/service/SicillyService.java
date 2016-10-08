@@ -4,11 +4,11 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
-import android.util.Log;
 import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import org.greenrobot.eventbus.EventBus;
 import rx.Observable;
+import rx.Subscription;
 import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 import xyz.shaohui.sicilly.R;
@@ -66,13 +66,11 @@ public class SicillyService extends Service {
 
     SicillyServiceComponent mComponent;
 
-    public SicillyService() {
-    }
+    private long time;
 
-    public static Intent newIntent(Context context, AppUser user) {
-        Intent intent = new Intent(context, SicillyService.class);
-        intent.putExtra("user", user);
-        return intent;
+    private Subscription mSubscription;
+
+    public SicillyService() {
     }
 
     @Override
@@ -83,18 +81,6 @@ public class SicillyService extends Service {
                 .build();
         mComponent.inject(this);
 
-        setupAppUser();
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-
-        listenerNewMessage();
-
-        return START_STICKY;
-    }
-
-    private void setupAppUser() {
         // 设置Application Token
         mAppUserDbAccessor.selectCurrentUser().subscribe(cursor -> {
             if (cursor.getCount() > 0) {
@@ -102,6 +88,19 @@ public class SicillyService extends Service {
                 SicillyApplication.setCurrentAppUser(AppUser.MAPPER.map(cursor));
             }
         });
+
+        time = REPEAT_TIME;
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+        // 开始监听
+        if (mSubscription == null || !mSubscription.isUnsubscribed()) {
+            listenerNewMessage();
+        }
+
+        return START_STICKY;
     }
 
     @Override
@@ -111,13 +110,18 @@ public class SicillyService extends Service {
     }
 
     private void listenerNewMessage() {
-        Observable.defer(() -> mAccountService.notification())
+
+        mSubscription = Observable.interval(time, TimeUnit.SECONDS)
+                .first()
+                .flatMap(aLong -> mAccountService.notification())
                 .subscribeOn(Schedulers.io())
-                .delay(REPEAT_TIME, TimeUnit.SECONDS)
-                .subscribe(handleNotification, throwable -> {
-                    throwable.printStackTrace();
-                    listenerNewMessage();
-                });
+                .subscribe(handleNotification, Throwable::printStackTrace);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mSubscription.unsubscribe();
     }
 
     private Action1<FanNotification> handleNotification = new Action1<FanNotification>() {
