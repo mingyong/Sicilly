@@ -1,13 +1,11 @@
 package xyz.shaohui.sicilly.service;
 
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
 import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
-import org.greenrobot.eventbus.EventBus;
 import rx.Observable;
 import rx.Subscription;
 import rx.functions.Action1;
@@ -22,11 +20,6 @@ import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.network.api.AccountAPI;
 import xyz.shaohui.sicilly.data.network.api.MessageAPI;
 import xyz.shaohui.sicilly.data.network.api.StatusAPI;
-import xyz.shaohui.sicilly.event.FriendRequestEvent;
-import xyz.shaohui.sicilly.event.HomeMessageEvent;
-import xyz.shaohui.sicilly.event.MentionEvent;
-import xyz.shaohui.sicilly.event.MessageEvent;
-import xyz.shaohui.sicilly.event.MessageSumEvent;
 import xyz.shaohui.sicilly.notification.NotificationUtils;
 import xyz.shaohui.sicilly.service.aidl.IEventListener;
 import xyz.shaohui.sicilly.service.aidl.ISicillyService;
@@ -47,7 +40,6 @@ public class SicillyService extends Service {
     public static final int EVENT_TYPE_MENTION = 3;
     public static final int EVENT_TYPE_HOME = 4;
     public static final int EVENT_TYPE_SUM_MESSAGE = 5;
-
 
     private int canMessageNotice;
 
@@ -90,24 +82,24 @@ public class SicillyService extends Service {
                 .build();
         mComponent.inject(this);
 
-        // 设置Application Token
-        mAppUserDbAccessor.selectCurrentUser().subscribe(cursor -> {
-            if (cursor.getCount() > 0) {
-                cursor.moveToFirst();
-                SicillyApplication.setCurrentAppUser(AppUser.MAPPER.map(cursor));
-            }
-        });
-
         time = REPEAT_TIME;
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        // 开始监听
-        if (mSubscription == null || !mSubscription.isUnsubscribed()) {
-            listenerNewMessage();
-        }
+        // 设置Application Token
+        mAppUserDbAccessor.selectCurrentUser().subscribe(cursor -> {
+            if (cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                SicillyApplication.setCurrentAppUser(AppUser.MAPPER.map(cursor));
+
+                // 开始监听
+                if (mSubscription == null || !mSubscription.isUnsubscribed()) {
+                    listenerNewMessage();
+                }
+            }
+        });
 
         return START_STICKY;
     }
