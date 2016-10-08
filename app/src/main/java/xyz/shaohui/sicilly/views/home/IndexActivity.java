@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -30,10 +31,12 @@ import me.shaohui.sicillylib.utils.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import rx.android.schedulers.AndroidSchedulers;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.base.HasComponent;
+import xyz.shaohui.sicilly.data.database.FeedbackDbAccessor;
 import xyz.shaohui.sicilly.event.FeedbackEvent;
 import xyz.shaohui.sicilly.event.FriendRequestEvent;
 import xyz.shaohui.sicilly.event.HomeMessageEvent;
@@ -63,6 +66,9 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
 
     @Inject
     EventBus mBus;
+
+    @Inject
+    FeedbackDbAccessor mFeedbackDbAccessor;
 
     private Fragment indexFragment =
             HomeTimelineFragmentBuilder.newHomeTimelineFragment(HomeTimelineFragment.TYPE_HOME);
@@ -198,15 +204,23 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
         }
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void subscribeUserTab(FeedbackEvent event) {
-        if (event.count > 0) {
-            bottomTab.showDot(2);
-            MsgView msgView = bottomTab.getMsgView(2);
-            msgView.setBackgroundColor(getResources().getColor(R.color.red));
-        } else {
-            bottomTab.hideMsg(2);
-        }
+    /**
+     * 监听Feedback消息
+     */
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mFeedbackDbAccessor.unreadCount()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(integer -> {
+                    if (integer > 0) {
+                        bottomTab.showDot(2);
+                        MsgView msgView = bottomTab.getMsgView(2);
+                        msgView.setBackgroundColor(getResources().getColor(R.color.red));
+                    } else {
+                        bottomTab.hideMsg(2);
+                    }
+                });
     }
 
     /**

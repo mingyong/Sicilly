@@ -11,12 +11,15 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
 import com.bumptech.glide.Glide;
+import com.flyco.tablayout.widget.MsgView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import javax.inject.Inject;
 import me.shaohui.sicillylib.utils.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
+import rx.android.schedulers.AndroidSchedulers;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseFragment;
+import xyz.shaohui.sicilly.data.database.FeedbackDbAccessor;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.views.feedback.FeedbackActivity;
 import xyz.shaohui.sicilly.views.home.di.HomeComponent;
@@ -45,8 +48,14 @@ public class ProfileFragment extends BaseFragment<ProfileView, ProfilePresenter>
     @BindView(R.id.user_bg)
     ImageView userBackground;
 
+    @BindView(R.id.feedback_count)
+    TextView feedbackCount;
+
     @Inject
     EventBus mBus;
+
+    @Inject
+    FeedbackDbAccessor mFeedbackDbAccessor;
 
     @NonNull
     @Override
@@ -62,9 +71,19 @@ public class ProfileFragment extends BaseFragment<ProfileView, ProfilePresenter>
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void bindViews(View view) {
         presenter.fetchUserInfo();
+
+        mFeedbackDbAccessor.unreadCount()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(integer -> {
+                    if (integer > 0) {
+                        feedbackCount.setText(String.valueOf(integer));
+                        feedbackCount.setVisibility(View.VISIBLE);
+                    } else {
+                        feedbackCount.setVisibility(View.GONE);
+                    }
+                });
     }
 
     @Override

@@ -2,6 +2,7 @@ package xyz.shaohui.sicilly.data.database;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import com.squareup.sqlbrite.BriteDatabase;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,16 +26,20 @@ public class FeedbackDbAccessor {
 
     public Observable<List<Feedback>> loadFeedback() {
         return mBriteDatabase.createQuery(Feedback.TABLE_NAME, Feedback.SELECT_BY_UID,
-                SicillyApplication.currentUId())
-                .map(query -> {
-                    Cursor cursor = query.run();
-                    List<Feedback> result = new ArrayList<>();
-                    while (cursor.moveToNext()) {
-                        result.add(Feedback.MAPPER.map(cursor));
-                    }
-                    cursor.close();
-                    return result;
-                });
+                SicillyApplication.currentUId()).map(query -> {
+            Cursor cursor = query.run();
+            List<Feedback> result = new ArrayList<>();
+            while (cursor.moveToNext()) {
+                result.add(Feedback.MAPPER.map(cursor));
+            }
+            cursor.close();
+            return result;
+        });
+    }
+
+    public void makeFeedbackRead() {
+        mBriteDatabase.execute(Feedback.MAKE_ALL_READ,
+                SicillyApplication.currentUId());
     }
 
     public void insertFeedback(Feedback feedback) {
@@ -43,8 +48,20 @@ public class FeedbackDbAccessor {
                 SQLiteDatabase.CONFLICT_REPLACE);
     }
 
+    public Observable<Integer> unreadCount() {
+        return mBriteDatabase.createQuery(Feedback.TABLE_NAME, Feedback.SELECT_BY_UID_UNREAD,
+                SicillyApplication.currentUId()).map(query -> {
+            Cursor cursor = query.run();
+            if (cursor != null) {
+                Log.i("TAG", cursor.getCount() + "");
+                return cursor.getCount();
+            } else {
+                return 0;
+            }
+        });
+    }
+
     public void deleteAll() {
-        mBriteDatabase.delete(Feedback.TABLE_NAME, "uid = ?",
-                SicillyApplication.currentUId());
+        mBriteDatabase.delete(Feedback.TABLE_NAME, "uid = ?", SicillyApplication.currentUId());
     }
 }

@@ -44,11 +44,12 @@ public class FeedbackPresenterImpl extends FeedbackPresenter {
     public void loadFeedbackList() {
         mFeedbackDbAccessor.loadFeedback()
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(feedbacks -> {
+                    mFeedbackDbAccessor.makeFeedbackRead();
+                })
                 .subscribe(feedbacks -> {
                     if (isViewAttached()) {
-                        Log.i("TAG", feedbacks.size() + "");
                         if (feedbacks.isEmpty()) {
-                            Log.i("TAG", "kong");
                             mFeedbackDbAccessor.insertFeedback(autoAnswer(true));
                         } else {
                             getView().showFeedback(feedbacks);

@@ -11,4 +11,7 @@ select_by_uid:
 SELECT * FROM feedback WHERE uid = ? OR uid = 'admin' ORDER BY id DESC;
 
 select_by_uid_unread:
-SELECT * FROM feedback WHERE uid = ? OR uid = 'admin' AND is_read = '0';
+SELECT * FROM feedback WHERE (uid = ? OR uid = 'admin') AND is_read = 0;
+
+make_all_read:
+UPDATE feedback SET is_read = 1 WHERE uid = ? OR uid = 'admin';
