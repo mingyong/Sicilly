@@ -4,8 +4,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import com.squareup.sqlbrite.BriteDatabase;
 import com.squareup.sqlbrite.SqlBrite;
-import com.squareup.sqldelight.RowMapper;
-import java.security.acl.Group;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
@@ -27,15 +25,14 @@ public class AppUserDbAccessor {
     }
 
     public Observable<List<AppUser>> fetchAllUser() {
-        return mBriteDatabase.createQuery(AppUser.TABLE_NAME, AppUser.SELECT_ALL)
-                .map(query -> {
-                    List<AppUser> appUsers = new ArrayList<>();
-                    Cursor cursor = query.run();
-                    while (cursor != null && cursor.moveToNext()) {
-                        appUsers.add(AppUser.MAPPER.map(cursor));
-                    }
-                    return appUsers;
-                });
+        return mBriteDatabase.createQuery(AppUser.TABLE_NAME, AppUser.SELECT_ALL).map(query -> {
+            List<AppUser> appUsers = new ArrayList<>();
+            Cursor cursor = query.run();
+            while (cursor != null && cursor.moveToNext()) {
+                appUsers.add(AppUser.MAPPER.map(cursor));
+            }
+            return appUsers;
+        });
     }
 
     public Observable<Cursor> selectCurrentUser() {
@@ -52,4 +49,15 @@ public class AppUserDbAccessor {
         mBriteDatabase.delete(AppUser.TABLE_NAME, AppUser.DELETE_BY_ID, userId);
     }
 
+    public void switchActiveUser(AppUser origin, AppUser target) {
+        AppUser originUser = origin.updateActive();
+        AppUser targetUser = target.updateActive();
+        BriteDatabase.Transaction transaction = mBriteDatabase.newTransaction();
+        mBriteDatabase.update(AppUser.TABLE_NAME,
+                AppUser.FACTORY.marshal(originUser).asContentValues(), "id = ?", originUser.id());
+        mBriteDatabase.update(AppUser.TABLE_NAME,
+                AppUser.FACTORY.marshal(targetUser).asContentValues(), "id = ?", targetUser.id());
+        transaction.markSuccessful();
+        transaction.end();
+    }
 }

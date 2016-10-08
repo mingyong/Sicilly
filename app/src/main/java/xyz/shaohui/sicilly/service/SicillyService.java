@@ -82,21 +82,12 @@ public class SicillyService extends Service {
                 .appComponent(SicillyApplication.getAppComponent())
                 .build();
         mComponent.inject(this);
+
+        setupAppUser();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-
-        if (SicillyApplication.currentAppUser() == null) {
-            if (intent != null) {
-                AppUser user = intent.getParcelableExtra("user");
-                if (user != null) {
-                    SicillyApplication.setCurrentAppUser(user);
-                }
-            } else {
-                setupAppUser();
-            }
-        }
 
         listenerNewMessage();
 

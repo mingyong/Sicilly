@@ -167,6 +167,9 @@
                 android:process=":listener"
                 >
         </service>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="e11b6ba8b1076ad8fd862e4f1a33a88907a31aea" />
     </application>
 
 </manifest>

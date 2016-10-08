@@ -18,6 +18,11 @@ public abstract class AppUser implements AppUserModel, Parcelable {
         return new AutoValue_AppUser(id, token, token_secret, name, avatar, current);
     }
 
+    public AppUser updateActive() {
+        return new AutoValue_AppUser(id(), token(), token_secret(), name(),
+                avatar(), !current());
+    }
+
     public final static Factory<AppUser> FACTORY =
             new Factory<>(new AppUserModel.Creator<AppUser>() {
                 @Override

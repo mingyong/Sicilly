@@ -5,7 +5,9 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Process;
 import android.text.TextUtils;
+import com.crashlytics.android.Crashlytics;
 import com.xiaomi.mipush.sdk.MiPushClient;
+import io.fabric.sdk.android.Fabric;
 import java.util.List;
 import xyz.shaohui.sicilly.app.di.AppComponent;
 import xyz.shaohui.sicilly.app.di.DaggerAppComponent;
@@ -22,6 +24,7 @@ public class SicillyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Fabric.with(this, new Crashlytics());
         context = getApplicationContext();
         mAppComponent = DaggerAppComponent.builder().build();
 

@@ -91,5 +91,17 @@ public class NotificationUtils {
         manager.notify(REQUEST_ID, builder.build());
     }
 
+    public static void clearMessageNoti(Context context) {
+        NotificationManager manager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.cancel(MESSAGE_ID);
+    }
+
+    public static void clearAll(Context context) {
+        NotificationManager manager =
+                (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.cancelAll();
+    }
+
 
 }

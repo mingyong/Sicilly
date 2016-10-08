@@ -1,5 +1,6 @@
 package xyz.shaohui.sicilly.views.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,7 +21,9 @@ import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.base.BaseDialogFragment;
 import xyz.shaohui.sicilly.data.database.AppUserDbAccessor;
 import xyz.shaohui.sicilly.data.models.AppUser;
+import xyz.shaohui.sicilly.notification.NotificationUtils;
 import xyz.shaohui.sicilly.utils.RxUtils;
+import xyz.shaohui.sicilly.views.home.IndexActivity;
 import xyz.shaohui.sicilly.views.home.di.HomeComponent;
 
 /**
@@ -76,6 +79,19 @@ public class SwitchAccountDialog extends BaseDialogFragment
     @Override
     public void switchAccount(AppUser user) {
         //mAppUserDbAccessor
+        // 切换用户
+        // 1. 切换DB中的Active User
+        // 2. 切换Application 的 currentUser
+        // 3. 停止Service
+        // 4. 切换Service 进程中 Application 的 Current User
+        // 5. 清除所有的Notification
+        // 6. 重启Activity
+
+        mAppUserDbAccessor.switchActiveUser(SicillyApplication.currentAppUser(), user);
+        SicillyApplication.setCurrentAppUser(user);
+        NotificationUtils.clearAll(getContext());
+
+        getActivity().recreate();
     }
 
     class AppUserAdapter extends RecyclerView.Adapter<AppUserViewHolder> {
