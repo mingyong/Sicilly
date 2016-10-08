@@ -8,7 +8,7 @@ CREATE TABLE feedback (
 );
 
 select_by_uid:
-SELECT * FROM feedback WHERE uid = ? ORDER BY id DESC;
+SELECT * FROM feedback WHERE uid = ? OR uid = 'admin' ORDER BY id DESC;
 
 select_by_uid_unread:
-SELECT * FROM feedback WHERE uid = ? AND is_read = '0';
+SELECT * FROM feedback WHERE uid = ? OR uid = 'admin' AND is_read = '0';

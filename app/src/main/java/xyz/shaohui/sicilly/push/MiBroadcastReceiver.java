@@ -26,6 +26,12 @@ public class MiBroadcastReceiver extends PushMessageReceiver {
     @Inject
     FeedbackDbAccessor mFeedbackDbAccessor;
 
+    /**
+     * example
+     *  1. push_web: PUSH_WEB http://shaohui.me/
+     *  2. push_feedback: PUSH_FEEDBACK admin 这是一条测试消息
+     */
+
     private static final String TYPE_WEB = "PUSH_WEB";
 
     private static final String TYPE_FEEDBACK = "PUSH_FEEDBACK";
