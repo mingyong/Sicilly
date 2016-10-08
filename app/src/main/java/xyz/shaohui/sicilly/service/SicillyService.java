@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+import android.os.RemoteException;
 import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import org.greenrobot.eventbus.EventBus;
@@ -27,6 +28,8 @@ import xyz.shaohui.sicilly.event.MentionEvent;
 import xyz.shaohui.sicilly.event.MessageEvent;
 import xyz.shaohui.sicilly.event.MessageSumEvent;
 import xyz.shaohui.sicilly.notification.NotificationUtils;
+import xyz.shaohui.sicilly.service.aidl.IEventListener;
+import xyz.shaohui.sicilly.service.aidl.ISicillyService;
 import xyz.shaohui.sicilly.service.di.DaggerSicillyServiceComponent;
 import xyz.shaohui.sicilly.service.di.SicillyServiceComponent;
 import xyz.shaohui.sicilly.utils.RxUtils;
@@ -38,6 +41,13 @@ public class SicillyService extends Service {
     public static final int STATUS_YES = 1;
     public static final int STATUS_NO = 2;
     public static final int STATUS_UNCERTAIN = 0;
+
+    public static final int EVENT_TYPE_MESSAGE = 1;
+    public static final int EVENT_TYPE_REQUEST = 2;
+    public static final int EVENT_TYPE_MENTION = 3;
+    public static final int EVENT_TYPE_HOME = 4;
+    public static final int EVENT_TYPE_SUM_MESSAGE = 5;
+
 
     private int canMessageNotice;
 
@@ -59,9 +69,6 @@ public class SicillyService extends Service {
     StatusAPI mStatusService;
 
     @Inject
-    EventBus mBus;
-
-    @Inject
     AppUserDbAccessor mAppUserDbAccessor;
 
     SicillyServiceComponent mComponent;
@@ -69,6 +76,8 @@ public class SicillyService extends Service {
     private long time;
 
     private Subscription mSubscription;
+
+    private IEventListener mEventListener;
 
     public SicillyService() {
     }
@@ -105,8 +114,12 @@ public class SicillyService extends Service {
 
     @Override
     public IBinder onBind(Intent intent) {
-        // TODO: Return the communication channel to the service.
-        throw new UnsupportedOperationException("Not yet implemented");
+        return new SicillyServiceImpl() {
+            @Override
+            public void registerListener(IEventListener listener) throws RemoteException {
+                mEventListener = listener;
+            }
+        };
     }
 
     private void listenerNewMessage() {
@@ -124,25 +137,46 @@ public class SicillyService extends Service {
         mSubscription.unsubscribe();
     }
 
+    public abstract class SicillyServiceImpl extends ISicillyService.Stub {
+
+        @Override
+        public void basicTypes(int anInt, long aLong, boolean aBoolean, float aFloat,
+                double aDouble, String aString) throws RemoteException {
+
+        }
+    }
+
     private Action1<FanNotification> handleNotification = new Action1<FanNotification>() {
 
         @Override
         public void call(FanNotification notification) {
 
             if (notification.direct_messages() > sendMessageCount) {
-                mBus.post(new MessageEvent(notification.direct_messages()));
+                try {
+                    mEventListener.onEvent(EVENT_TYPE_MESSAGE, notification.direct_messages());
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
                 sendMessageNotification();
                 sendMessageCount = notification.direct_messages();
             }
 
             if (notification.friend_requests() > sendRequestCount) {
-                mBus.post(new FriendRequestEvent(notification.friend_requests()));
+                try {
+                    mEventListener.onEvent(EVENT_TYPE_REQUEST, notification.friend_requests());
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
                 sendRequestNotification(notification.friend_requests());
                 sendRequestCount = notification.friend_requests();
             }
 
             if (notification.mentions() > sendMentionCount) {
-                mBus.post(new MentionEvent(notification.mentions()));
+                try {
+                    mEventListener.onEvent(EVENT_TYPE_MENTION, notification.mentions());
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
                 sendMentionNotification(notification.mentions());
                 sendMentionCount = notification.mentions();
             }
@@ -154,11 +188,19 @@ public class SicillyService extends Service {
             int messageSum = notification.direct_messages() + notification.friend_requests();
 
             if (sum > 0) {
-                mBus.post(new HomeMessageEvent(sum));
+                try {
+                    mEventListener.onEvent(EVENT_TYPE_HOME, sum);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
             }
 
             if (messageSum > 0) {
-                mBus.post(new MessageSumEvent(messageSum));
+                try {
+                    mEventListener.onEvent(EVENT_TYPE_SUM_MESSAGE, messageSum);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
             }
 
             listenerNewMessage();

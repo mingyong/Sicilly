@@ -1,10 +1,14 @@
 package xyz.shaohui.sicilly.views.home;
 
 import android.Manifest;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.IBinder;
+import android.os.RemoteException;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -31,9 +35,15 @@ import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.base.HasComponent;
 import xyz.shaohui.sicilly.event.FeedbackEvent;
+import xyz.shaohui.sicilly.event.FriendRequestEvent;
 import xyz.shaohui.sicilly.event.HomeMessageEvent;
+import xyz.shaohui.sicilly.event.MentionEvent;
+import xyz.shaohui.sicilly.event.MessageEvent;
+import xyz.shaohui.sicilly.event.MessageSumEvent;
 import xyz.shaohui.sicilly.leanCloud.service.ActiveUserService;
 import xyz.shaohui.sicilly.service.SicillyService;
+import xyz.shaohui.sicilly.service.aidl.IEventListener;
+import xyz.shaohui.sicilly.service.aidl.ISicillyService;
 import xyz.shaohui.sicilly.views.home.chat.MessageFragment;
 import xyz.shaohui.sicilly.views.home.di.DaggerHomeComponent;
 import xyz.shaohui.sicilly.views.home.di.HomeComponent;
@@ -91,6 +101,59 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
 
         // 启动Service 监听
         startService(new Intent(this, SicillyService.class));
+        bindService();
+    }
+
+    /**
+     * 监听Service Event
+     */
+
+    private ISicillyService mService;
+
+    private IEventListener mListener;
+
+    private void bindService() {
+        mListener = new IEventListener.Stub() {
+            @Override
+            public void onEvent(int type, int count) throws RemoteException {
+                switch (type) {
+                    case SicillyService.EVENT_TYPE_HOME:
+                        mBus.post(new HomeMessageEvent(count));
+                        break;
+                    case SicillyService.EVENT_TYPE_MENTION:
+                        mBus.post(new MentionEvent(count));
+                        break;
+                    case SicillyService.EVENT_TYPE_MESSAGE:
+                        mBus.post(new MessageEvent(count));
+                        break;
+                    case SicillyService.EVENT_TYPE_REQUEST:
+                        mBus.post(new FriendRequestEvent(count));
+                        break;
+                    case SicillyService.EVENT_TYPE_SUM_MESSAGE:
+                        mBus.post(new MessageSumEvent(count));
+                        break;
+                }
+            }
+        };
+
+        ServiceConnection serviceConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                mService = ISicillyService.Stub.asInterface(service);
+                try {
+                    mService.registerListener(mListener);
+                } catch (RemoteException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+
+            }
+        };
+
+        bindService(new Intent(this, SicillyService.class), serviceConnection, BIND_AUTO_CREATE);
     }
 
     /**
@@ -135,7 +198,6 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void subscirbeMessaegTab(HomeMessageEvent event) {
         if (event.count > 0) {
-            ToastUtils.showToast(this, event.count + "");
             bottomTab.showDot(1);
             MsgView msgView = bottomTab.getMsgView(1);
             msgView.setBackgroundColor(getResources().getColor(R.color.red));

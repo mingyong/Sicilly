@@ -166,6 +166,9 @@
                 android:exported="false"
                 android:process=":listener"
                 >
+            <intent-filter>
+                <action android:name="xyz.shaohui.sicilly.service.aidl.ISicillyService"/>
+            </intent-filter>
         </service>
         <meta-data
             android:name="io.fabric.ApiKey"
