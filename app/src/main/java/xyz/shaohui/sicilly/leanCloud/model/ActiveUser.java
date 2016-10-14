@@ -8,15 +8,18 @@ import com.google.gson.annotations.Expose;
 
 public class ActiveUser {
 
-    public ActiveUser(String userId, String userName) {
+    public ActiveUser(String userId, String userName, String regId) {
         user_id = userId;
         user_name = userName;
+        reg_id = regId;
     }
 
     @Expose
     private String user_id;
 
     private String user_name;
+
+    private String reg_id;
 
     public String getUser_id() {
         return user_id;

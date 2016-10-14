@@ -109,7 +109,7 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
 
         // 激活用户
         ActiveUserService.activeUser(SicillyApplication.currentUId(),
-                SicillyApplication.currentAppUser().name());
+                SicillyApplication.currentAppUser().name(), SicillyApplication.getRegId());
 
         // 启动Service 监听
         startService(new Intent(this, SicillyService.class));

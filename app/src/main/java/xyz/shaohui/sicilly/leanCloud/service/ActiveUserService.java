@@ -16,8 +16,8 @@ import xyz.shaohui.sicilly.utils.RxUtils;
 
 public class ActiveUserService {
 
-    public static void activeUser(String userId, String userName) {
-        ActiveUser user = new ActiveUser(userId, userName);
+    public static void activeUser(String userId, String userName, String regId) {
+        ActiveUser user = new ActiveUser(userId, userName, regId);
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
         LeanCloudAPI service = LeanCloudService.getInstance();
         service.queryActiveUser(gson.toJson(user))

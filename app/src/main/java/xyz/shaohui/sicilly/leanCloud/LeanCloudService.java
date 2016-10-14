@@ -26,7 +26,7 @@ public class LeanCloudService {
 
     static final String APP_KEY = "vgzabsPtGHicas7K3c1L6Gwc";
 
-    private static final String LEAN_CLOUD_URL = "http://api.leancloud.cn/1.1/";
+    private static final String LEAN_CLOUD_URL = "https://api.leancloud.cn/1.1/";
 
     public static LeanCloudAPI getInstance() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -35,7 +35,7 @@ public class LeanCloudService {
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor)
                 .addInterceptor(new LeanCloudInterceptor())
                 .build();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("https://api.leancloud.cn/1.1/")
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(LEAN_CLOUD_URL)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
