@@ -31,6 +31,7 @@ import me.shaohui.sicillylib.utils.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import retrofit2.Retrofit;
 import rx.android.schedulers.AndroidSchedulers;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyApplication;
@@ -47,6 +48,7 @@ import xyz.shaohui.sicilly.leanCloud.service.ActiveUserService;
 import xyz.shaohui.sicilly.service.SicillyService;
 import xyz.shaohui.sicilly.service.aidl.IEventListener;
 import xyz.shaohui.sicilly.service.aidl.ISicillyService;
+import xyz.shaohui.sicilly.views.create_status.DialogController;
 import xyz.shaohui.sicilly.views.home.chat.MessageFragment;
 import xyz.shaohui.sicilly.views.home.di.DaggerHomeComponent;
 import xyz.shaohui.sicilly.views.home.di.HomeComponent;
@@ -54,7 +56,8 @@ import xyz.shaohui.sicilly.views.home.profile.ProfileFragment;
 import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragment;
 import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragmentBuilder;
 
-public class IndexActivity extends BaseActivity implements HasComponent<HomeComponent> {
+public class IndexActivity extends BaseActivity implements HasComponent<HomeComponent>,
+        DialogController {
 
     public static final int ACTION_CHAT = 1;
     public static final int ACTION_MENTION = 2;
@@ -66,6 +69,9 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
 
     @Inject
     EventBus mBus;
+
+    @Inject
+    Retrofit mRetrofit;
 
     @Inject
     FeedbackDbAccessor mFeedbackDbAccessor;
@@ -291,6 +297,11 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
     @Override
     public HomeComponent getComponent() {
         return mComponent;
+    }
+
+    @Override
+    public Retrofit getRetrofit() {
+        return mRetrofit;
     }
 
     class TabEntity implements CustomTabEntity {

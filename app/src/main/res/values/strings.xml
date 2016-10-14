@@ -67,6 +67,7 @@
     <string name="load_user_failure">用户信息加载失败, 请重试</string>
     <string name="confirm_un_follow_message">确认取消Follow?</string>
     <string name="follow_error">Sorry, 刚才的请求好像出了点问题, 请重试</string>
+    <string name="user_info_protected">我只向关注我的人公开我的消息(可点击右上角请求关注)</string>
 
     // new
     <string name="commit">发饭</string>
@@ -92,6 +93,29 @@
     <string name="notification_mention_title">消息提醒</string>
     <string name="notification_new_mention">%s 在饭否中提到了你</string>
 
+
+    // setting
+    <string name="setting_title">设置</string>
+    <string name="setting_notification">通知</string>
+    <string name="setting_notification_message">私信提醒</string>
+    <string name="setting_notification_mention">有人@我提醒</string>
+    <string name="setting_notification_request">好友关注请求提醒</string>
+    <string name="setting_notification_sound">提示音</string>
+    <array name="notification_sound_type_list">
+        <item>0</item>
+        <item>1</item>
+    </array>
+    <array name="notification_sound_value_list">
+        <item>尚饭提示音</item>
+        <item>系统默认提示音</item>
+    </array>
+    <integer name="notification_sound_type_default">0</integer>
+    <string name="setting_about">关于尚饭</string>
+    <string name="setting_mark">给个五星好评</string>
+    <string name="setting_log_out">退出登录</string>
+
+    <string name="app_market_uri">market://details?id=xyz.shaohui.sicilly</string>
+
+
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="user_info_protected">我只向关注我的人公开我的消息(可点击右上角请求关注)</string>
 </resources>

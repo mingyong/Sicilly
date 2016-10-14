@@ -30,11 +30,13 @@ import me.shaohui.scrollablelayout.ScrollableHelper;
 import me.shaohui.scrollablelayout.ScrollableLayout;
 import me.shaohui.sicillylib.utils.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
+import retrofit2.Retrofit;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseMvpActivity;
 import xyz.shaohui.sicilly.base.HasComponent;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
+import xyz.shaohui.sicilly.views.create_status.DialogController;
 import xyz.shaohui.sicilly.views.user_info.di.DaggerUserInfoComponent;
 import xyz.shaohui.sicilly.views.user_info.di.UserInfoComponent;
 import xyz.shaohui.sicilly.views.user_info.mvp.UserInfoPresenter;
@@ -43,7 +45,7 @@ import xyz.shaohui.sicilly.views.user_info.photo.UserPhotoFragmentBuilder;
 import xyz.shaohui.sicilly.views.user_info.timeline.UserTimelineFragmentBuilder;
 
 public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresenter>
-        implements UserInfoView, HasComponent<UserInfoComponent> {
+        implements UserInfoView, HasComponent<UserInfoComponent>, DialogController {
 
     @BindView(R.id.count_follow)
     TextView countFollow;
@@ -82,6 +84,9 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
 
     @Inject
     EventBus mBus;
+
+    @Inject
+    Retrofit mRetrofit;
 
     public static Intent newIntent(Context context, String userId) {
         Intent intent = new Intent(context, UserActivity.class);
@@ -282,6 +287,11 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
     @Override
     public UserInfoComponent getComponent() {
         return mComponent;
+    }
+
+    @Override
+    public Retrofit getRetrofit() {
+        return mRetrofit;
     }
 
     class UserPagerAdapter extends FragmentPagerAdapter {

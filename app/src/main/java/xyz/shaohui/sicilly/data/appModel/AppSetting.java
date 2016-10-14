@@ -15,6 +15,8 @@ public abstract class AppSetting {
 
     public static final String SEND_REQUEST_KEY = "send_request";
 
+    public static final String SEND_NOTIFICATION_SOUND = "notification_sound";
+
     public static AppSetting create(boolean sendMessageNotice, boolean sendMentionNotice,
             boolean sendRequestNotice) {
         return new AutoValue_AppSetting(sendMessageNotice, sendMentionNotice, sendRequestNotice);

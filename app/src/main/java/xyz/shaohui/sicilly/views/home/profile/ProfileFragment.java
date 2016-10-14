@@ -27,6 +27,7 @@ import xyz.shaohui.sicilly.views.home.profile.mvp.ProfilePresenter;
 import xyz.shaohui.sicilly.views.home.profile.mvp.ProfileView;
 import xyz.shaohui.sicilly.views.login.LoginDialogFragment;
 import xyz.shaohui.sicilly.views.login.SwitchAccountDialog;
+import xyz.shaohui.sicilly.views.setting.SettingActivity;
 
 public class ProfileFragment extends BaseFragment<ProfileView, ProfilePresenter>
         implements ProfileView {
@@ -133,7 +134,7 @@ public class ProfileFragment extends BaseFragment<ProfileView, ProfilePresenter>
 
     @OnClick(R.id.btn_setting)
     void setting() {
-
+        startActivity(new Intent(getContext(), SettingActivity.class));
     }
 
     @OnClick(R.id.btn_switch)

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+            android:title="@string/setting_notification">
+        <SwitchPreference
+                android:defaultValue="true"
+                android:key="send_message"
+                android:title="@string/setting_notification_message"
+                />
+        <SwitchPreference
+                android:defaultValue="true"
+                android:key="send_mention"
+                android:title="@string/setting_notification_mention"
+                />
+        <SwitchPreference
+                android:defaultValue="true"
+                android:key="send_request"
+                android:title="@string/setting_notification_request"
+                />
+        <ListPreference
+                android:defaultValue="@integer/notification_sound_type_default"
+                android:dialogTitle="@string/setting_notification_sound"
+                android:entries="@array/notification_sound_type_list"
+                android:entryValues="@array/notification_sound_value_list"
+                android:key="notification_sound"
+                android:title="@string/setting_notification_sound"
+                />
+    </PreferenceCategory>
+    <PreferenceCategory>
+        <Preference
+            android:title="@string/setting_mark">
+            <intent
+                android:action="android.intent.action.VIEW"
+                android:data="@string/app_market_uri"/>
+        </Preference>
+    </PreferenceCategory>
+</PreferenceScreen>

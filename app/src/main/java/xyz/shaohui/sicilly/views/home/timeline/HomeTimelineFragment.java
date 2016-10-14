@@ -24,6 +24,10 @@ import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseFragment;
 import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.views.create_status.CreateStatusActivity;
+import xyz.shaohui.sicilly.views.create_status.CreateStatusDialog;
+import xyz.shaohui.sicilly.views.create_status.CreateStatusDialogBuilder;
+import xyz.shaohui.sicilly.views.create_status.CreateStatusDialog_ViewBinder;
+import xyz.shaohui.sicilly.views.create_status.CreateStatusFragment;
 import xyz.shaohui.sicilly.views.home.di.HomeComponent;
 import xyz.shaohui.sicilly.views.home.timeline.adapter.IndexStatusAdapter;
 import xyz.shaohui.sicilly.views.home.timeline.mvp.HomeTimelinePresenter;
@@ -204,14 +208,18 @@ public class HomeTimelineFragment extends BaseFragment<HomeTimelineView, HomeTim
 
     @Override
     public void opComment(Status status) {
-        startActivity(CreateStatusActivity.newIntent(getActivity(), status,
-                CreateStatusActivity.TYPE_REPLY));
+        //startActivity(CreateStatusActivity.newIntent(getActivity(), status,
+        //        CreateStatusActivity.TYPE_REPLY));
+        new CreateStatusDialogBuilder(CreateStatusActivity.TYPE_REPLY)
+                .originStatus(status).build().show(getFragmentManager());
     }
 
     @Override
     public void opRepost(Status status) {
-        startActivity(CreateStatusActivity.newIntent(getActivity(), status,
-                CreateStatusActivity.TYPE_REPOST));
+        //startActivity(CreateStatusActivity.newIntent(getActivity(), status,
+        //        CreateStatusActivity.TYPE_REPOST));
+        new CreateStatusDialogBuilder(CreateStatusActivity.TYPE_REPOST)
+                .originStatus(status).build().show(getFragmentManager());
     }
 
     @Override
