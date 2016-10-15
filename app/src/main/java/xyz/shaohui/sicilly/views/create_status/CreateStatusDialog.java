@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -22,12 +23,10 @@ import com.hannesdorfmann.fragmentargs.FragmentArgs;
 import com.hannesdorfmann.fragmentargs.annotation.Arg;
 import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs;
 import java.io.File;
-import javax.inject.Inject;
 import me.shaohui.bottomdialog.BaseBottomDialog;
 import me.shaohui.sicillylib.utils.ToastUtils;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
-import retrofit2.Retrofit;
 import rx.Observable;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyApplication;
@@ -38,7 +37,6 @@ import xyz.shaohui.sicilly.utils.FileUtils;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
 import xyz.shaohui.sicilly.utils.ImageUtils;
 import xyz.shaohui.sicilly.views.friend_list.FriendListActivity;
-import xyz.shaohui.sicilly.views.home.di.HomeComponent;
 
 /**
  * Created by shaohui on 16/9/30.
@@ -145,8 +143,8 @@ public class CreateStatusDialog extends BaseBottomDialog {
 
     @OnClick(R.id.action_at)
     void actionAt() {
-        startActivityForResult(
-                FriendListActivity.newIntent(getContext(), FriendListActivity.TYPE_TINY), CODE_AT);
+        startActivityForResult(FriendListActivity.newIntent(getContext(), SicillyApplication.currentUId(),
+                FriendListActivity.DATA_TYPE_FRIEND, FriendListActivity.VIEW_TYPE_TINY), CODE_AT);
     }
 
     @OnClick(R.id.action_close_image)
@@ -166,8 +164,8 @@ public class CreateStatusDialog extends BaseBottomDialog {
     }
 
     private void hideSoftInput() {
-        InputMethodManager imm = (InputMethodManager) getContext().getSystemService(
-                Service.INPUT_METHOD_SERVICE);
+        InputMethodManager imm =
+                (InputMethodManager) getContext().getSystemService(Service.INPUT_METHOD_SERVICE);
     }
 
     @Override
@@ -176,7 +174,9 @@ public class CreateStatusDialog extends BaseBottomDialog {
             String realPath;
             switch (requestCode) {
                 case CODE_AT:
-
+                    String name = data.getStringExtra(FriendListActivity.RESULT_DATA);
+                    Editable edit = statusText.getEditableText();
+                    edit.insert(statusText.getSelectionStart(), String.format("@%s ", name));
                     break;
                 case CODE_CAMREA:
                     realPath = FileUtils.getPath(getActivity(), imageFileUri);

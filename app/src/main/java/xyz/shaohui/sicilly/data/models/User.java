@@ -52,6 +52,7 @@ public abstract class User implements Parcelable {
     @Nullable
     public abstract String gender();
 
+    @Nullable
     public abstract String profile_background_image_url();
 
     public abstract int favourites_count();

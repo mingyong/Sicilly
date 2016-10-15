@@ -18,6 +18,13 @@ public interface UserAPI {
     @GET("users/show.json?format=html")
     Observable<User> userInfoOther(@Query("id") String id);
 
+    @GET("users/followers.json?count=60&mode=lite")
+    Observable<List<User>> userFollowers(@Query("id") String userId, @Query("page") int page);
+
+    @GET("users/friends.json?count=60&mode=lite")
+    Observable<List<User>> userFriends(@Query("id") String userId, @Query("page") int page);
+
+
     /**
      * 图片相关
      */
