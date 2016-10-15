@@ -25,6 +25,7 @@
     <color name="status_line">#809EA4AB</color>
     <color name="place_bg">#90A4AE</color>
     <color name="divider">#F2F3F4</color>
+    <color name="profile_title">#CCFFFFFF</color>
 
     <color name="positive">#484b50</color>
     <color name="negative">#D8D8D8</color>

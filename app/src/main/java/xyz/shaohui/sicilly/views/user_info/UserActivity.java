@@ -198,7 +198,7 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
         if (!TextUtils.isEmpty(user.location())) {
             location.setText(user.location());
         }
-        brief.setText(user.description());
+        brief.setText(user.description().replaceAll("\\n", " "));
         Glide.with(this).load(user.profile_image_url_large()).into(avatar);
         Glide.with(this).load(user.profile_background_image_url()).into(userBackground);
 

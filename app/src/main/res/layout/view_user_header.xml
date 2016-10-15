@@ -1,125 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="200dp"
-    android:gravity="center_horizontal">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:gravity="center_horizontal"
+        >
+
     <ImageView
-        android:id="@+id/user_bg"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"/>
+            android:id="@+id/user_bg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            />
     <!--<FrameLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:background="@color/transparent_50"/>-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:background="@color/transparent_50"/>-->
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/user_avatar"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        app:civ_border_color="@color/white"
-        app:civ_border_width="2dp"/>
+            android:id="@+id/user_avatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            app:civ_border_color="@color/white"
+            app:civ_border_width="2dp"
+            />
+
     <TextView
-        android:id="@+id/user_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/user_avatar"
-        android:layout_marginTop="6dp"
-        android:textSize="16sp"
-        android:textColor="@color/white"
-        tools:text="邵辉Vista"/>
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user_avatar"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="6dp"
+            android:shadowColor="@color/black"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="1"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            tools:text="邵辉Vista"
+            />
+
     <TextView
-        android:id="@+id/user_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/user_name"
-        android:layout_marginTop="3dp"
-        android:textSize="14sp"
-        android:textColor="@color/place_bg"
-        tools:text="北京市 海淀"/>
+            android:id="@+id/user_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user_name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="3dp"
+            android:textColor="#ff9e9e9e"
+            android:textSize="12sp"
+            tools:text="北京市 海淀"
+            />
+
     <TextView
-        android:id="@+id/user_brief"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/user_location"
-        android:layout_marginTop="10dp"
-        android:textSize="14sp"
-        android:textColor="@color/negative"
-        tools:text="我自横刀向天笑, 去留肝胆两昆仑"/>
+            android:id="@+id/user_brief"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user_location"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="3dp"
+            android:paddingRight="@dimen/spacing_large"
+            android:paddingLeft="@dimen/spacing_large"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:shadowColor="@color/black"
+            android:shadowDx="1"
+            android:shadowDy="1"
+            android:shadowRadius="1"
+            android:textColor="@color/white"
+            android:textSize="14sp"
+            tools:text="我自横刀向天笑, 去留肝胆两昆仑"
+            />
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:layout_alignParentBottom="true">
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:background="#1A000000"
+            android:orientation="horizontal"
+            >
+
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/gray_tag"
-                android:text="@string/follow"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/follow"
+                    android:textColor="@color/profile_title"
+                    android:textSize="12sp"
+                    />
+
             <TextView
-                android:id="@+id/count_follow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                tools:text="1733"/>
+                    android:id="@+id/count_follow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    tools:text="1733"
+                    />
         </LinearLayout>
+
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/gray_tag"
-                android:text="@string/follower"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/follower"
+                    android:textColor="@color/profile_title"
+                    android:textSize="12sp"
+                    />
+
             <TextView
-                android:id="@+id/count_follower"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                tools:text="23"/>
+                    android:id="@+id/count_follower"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    tools:text="23"
+                    />
         </LinearLayout>
+
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                >
+
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="12sp"
-                android:textColor="@color/gray_tag"
-                android:text="@string/message"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/message"
+                    android:textColor="@color/profile_title"
+                    android:textSize="12sp"
+                    />
+
             <TextView
-                android:id="@+id/count_status"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:textColor="@color/white"
-                android:textSize="14sp"
-                tools:text="54"/>
+                    android:id="@+id/count_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp"
+                    tools:text="54"
+                    />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>
