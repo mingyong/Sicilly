@@ -1,6 +1,5 @@
 package xyz.shaohui.sicilly.views.feedback;
 
-import android.util.Log;
 import com.google.gson.Gson;
 import com.squareup.sqlbrite.BriteDatabase;
 import javax.inject.Inject;
@@ -16,6 +15,7 @@ import xyz.shaohui.sicilly.data.database.FeedbackDbAccessor;
 import xyz.shaohui.sicilly.data.models.AppUser;
 import xyz.shaohui.sicilly.data.models.Feedback;
 import xyz.shaohui.sicilly.data.network.api.SimpleAPI;
+import xyz.shaohui.sicilly.leanCloud.service.RemoteService;
 import xyz.shaohui.sicilly.utils.ErrorUtils;
 import xyz.shaohui.sicilly.utils.RxUtils;
 import xyz.shaohui.sicilly.views.feedback.mvp.FeedbackPresenter;
@@ -78,6 +78,11 @@ public class FeedbackPresenterImpl extends FeedbackPresenter {
                     transaction.markSuccessful();
                     transaction.end();
                 }, RxUtils.ignoreNetError);
+
+        // 发送RemoteFeedback
+        AppUser user = SicillyApplication.currentAppUser();
+        RemoteService.sendRemoteFeedback(user.id(), user.name(), SicillyApplication.getRegId(),
+                text);
     }
 
     @Override
@@ -97,8 +102,7 @@ public class FeedbackPresenterImpl extends FeedbackPresenter {
         FeedbackSlack slack = new FeedbackSlack(text + "##" + SicillyApplication.getRegId(),
                 String.format("%s(%s)", user.name(), user.id()), user.avatar());
 
-        return RequestBody.create(MediaType.parse("text/plain"),
-                new Gson().toJson(slack));
+        return RequestBody.create(MediaType.parse("text/plain"), new Gson().toJson(slack));
     }
 
     private class FeedbackSlack {

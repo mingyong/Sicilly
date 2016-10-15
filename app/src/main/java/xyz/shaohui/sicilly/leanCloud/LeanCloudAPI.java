@@ -8,6 +8,7 @@ import rx.Observable;
 import xyz.shaohui.sicilly.leanCloud.model.ActiveUser;
 import xyz.shaohui.sicilly.leanCloud.model.LeanCloudNew;
 import xyz.shaohui.sicilly.leanCloud.model.LeanCloudResult;
+import xyz.shaohui.sicilly.leanCloud.model.RemoteFeedback;
 
 /**
  * Created by shaohui on 16/10/6.
@@ -24,4 +25,7 @@ public interface LeanCloudAPI {
 
     @POST("classes/ActiveUser")
     Observable<LeanCloudNew> addActiveUser(@Body ActiveUser body);
+
+    @POST("classes/Feedback")
+    Observable<LeanCloudNew> sendFeedback(@Body RemoteFeedback feedback);
 }

@@ -14,7 +14,7 @@ import xyz.shaohui.sicilly.utils.HashUtils;
 
 public class LeanCloudService {
 
-    private final Retrofit mRetrofit;
+    private static Retrofit mRetrofit;
 
     @Inject
     LeanCloudService(Retrofit retrofit) {
@@ -29,19 +29,24 @@ public class LeanCloudService {
     private static final String LEAN_CLOUD_URL = "https://api.leancloud.cn/1.1/";
 
     public static LeanCloudAPI getInstance() {
+        if (mRetrofit == null) {
+            mRetrofit = createRetrofit();
+        }
+        return mRetrofit.create(LeanCloudAPI.class);
+    }
+
+    private static Retrofit createRetrofit() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor)
                 .addInterceptor(new LeanCloudInterceptor())
                 .build();
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(LEAN_CLOUD_URL)
+        return new Retrofit.Builder().baseUrl(LEAN_CLOUD_URL)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .build();
-
-        return retrofit.create(LeanCloudAPI.class);
     }
 
     static String buildSignKey() {

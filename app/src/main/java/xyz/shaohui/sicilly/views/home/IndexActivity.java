@@ -38,13 +38,12 @@ import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.base.HasComponent;
 import xyz.shaohui.sicilly.data.database.FeedbackDbAccessor;
-import xyz.shaohui.sicilly.event.FeedbackEvent;
 import xyz.shaohui.sicilly.event.FriendRequestEvent;
 import xyz.shaohui.sicilly.event.HomeMessageEvent;
 import xyz.shaohui.sicilly.event.MentionEvent;
 import xyz.shaohui.sicilly.event.MessageEvent;
 import xyz.shaohui.sicilly.event.MessageSumEvent;
-import xyz.shaohui.sicilly.leanCloud.service.ActiveUserService;
+import xyz.shaohui.sicilly.leanCloud.service.RemoteService;
 import xyz.shaohui.sicilly.service.SicillyService;
 import xyz.shaohui.sicilly.service.aidl.IEventListener;
 import xyz.shaohui.sicilly.service.aidl.ISicillyService;
@@ -108,7 +107,7 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
         checkUpdate();
 
         // 激活用户
-        ActiveUserService.activeUser(SicillyApplication.currentUId(),
+        RemoteService.activeUser(SicillyApplication.currentUId(),
                 SicillyApplication.currentAppUser().name(), SicillyApplication.getRegId());
 
         // 启动Service 监听
