@@ -1,6 +1,7 @@
 package xyz.shaohui.sicilly.views.home.timeline;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -23,6 +24,7 @@ import retrofit2.Retrofit;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseFragment;
 import xyz.shaohui.sicilly.data.models.Status;
+import xyz.shaohui.sicilly.utils.SimpleUtils;
 import xyz.shaohui.sicilly.views.create_status.CreateStatusActivity;
 import xyz.shaohui.sicilly.views.create_status.CreateStatusDialog;
 import xyz.shaohui.sicilly.views.create_status.CreateStatusDialogBuilder;
