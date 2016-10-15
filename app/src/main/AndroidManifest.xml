@@ -33,15 +33,18 @@
             tools:replace="android:icon"
             >
         <activity android:name=".views.home.IndexActivity"/>
-        <activity android:name=".views.activities.SplashActivity">
+        <activity android:name=".views.activities.SplashActivity"
+                android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".views.activities.StatusActivity"/>
-        <activity android:name=".views.user_info.UserActivity">
+        <activity android:name=".views.activities.StatusActivity"
+                android:screenOrientation="portrait"/>
+        <activity android:name=".views.user_info.UserActivity"
+                android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
 
@@ -50,17 +53,24 @@
                 <data android:scheme="me.shaohui.sicilly.user"/>
             </intent-filter>
         </activity>
-        <activity android:name=".views.activities.CreateActivity"/>
-        <activity android:name=".views.activities.SearchActivity"/>
-        <activity android:name=".views.activities.UserListActivity"/>
+        <activity android:name=".views.activities.CreateActivity"
+                android:screenOrientation="portrait"/>
+        <activity android:name=".views.activities.SearchActivity"
+                android:screenOrientation="portrait"/>
+        <activity android:name=".views.activities.UserListActivity"
+                android:screenOrientation="portrait"/>
         <activity
                 android:name=".views.chat.ChatActivity"
                 android:parentActivityName=".views.home.IndexActivity"
+                android:screenOrientation="portrait"
                 >
         </activity>
-        <activity android:name=".views.setting.SettingActivity"/>
-        <activity android:name=".views.login.LoginActivity"/>
-        <activity android:name=".views.activities.SearchResultActivity">
+        <activity android:name=".views.setting.SettingActivity"
+                android:screenOrientation="portrait"/>
+        <activity android:name=".views.login.LoginActivity"
+                android:screenOrientation="portrait"/>
+        <activity android:name=".views.activities.SearchResultActivity"
+                android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
 
@@ -69,11 +79,14 @@
                 <data android:scheme="me.shaohui.sicilly.catalog"/>
             </intent-filter>
         </activity>
-        <activity android:name=".views.create_status.CreateStatusActivity">
+        <activity android:name=".views.create_status.CreateStatusActivity"
+                android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".views.status_detail.StatusDetailActivity">
+        <activity android:name=".views.status_detail.StatusDetailActivity"
+                android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".views.web.WebActivity">
+        <activity android:name=".views.web.WebActivity"
+                android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
 
@@ -85,11 +98,14 @@
         <activity
                 android:name=".views.photo.PictureActivity"
                 android:theme="@style/AppTheme.PictureActivity"
+                android:screenOrientation="portrait"
                 >
         </activity>
-        <activity android:name=".views.friend_request.FriendRequestActivity">
+        <activity android:name=".views.friend_request.FriendRequestActivity"
+                android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".views.feedback.FeedbackActivity">
+        <activity android:name=".views.feedback.FeedbackActivity"
+                android:screenOrientation="portrait">
         </activity>
 
         <meta-data
@@ -178,9 +194,11 @@
                 android:value="e11b6ba8b1076ad8fd862e4f1a33a88907a31aea"
                 />
 
-        <activity android:name=".views.setting.AboutActivity">
+        <activity android:name=".views.setting.AboutActivity"
+                android:screenOrientation="portrait">
         </activity>
-        <activity android:name=".views.friend_list.FriendListActivity">
+        <activity android:name=".views.friend_list.FriendListActivity"
+                android:screenOrientation="portrait">
         </activity>
     </application>
 
