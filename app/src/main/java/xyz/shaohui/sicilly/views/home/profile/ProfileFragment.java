@@ -22,6 +22,7 @@ import xyz.shaohui.sicilly.base.BaseFragment;
 import xyz.shaohui.sicilly.data.database.FeedbackDbAccessor;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.views.feedback.FeedbackActivity;
+import xyz.shaohui.sicilly.views.friend_list.FriendListActivity;
 import xyz.shaohui.sicilly.views.home.di.HomeComponent;
 import xyz.shaohui.sicilly.views.home.profile.mvp.ProfilePresenter;
 import xyz.shaohui.sicilly.views.home.profile.mvp.ProfileView;
@@ -110,6 +111,20 @@ public class ProfileFragment extends BaseFragment<ProfileView, ProfilePresenter>
     @Override
     public void loadFailure() {
         ToastUtils.showToast(getActivity(), R.string.load_user_failure);
+    }
+
+    @OnClick(R.id.user_profile_follower)
+    void userProfileFollower() {
+        startActivity(
+                FriendListActivity.newIntent(getContext(), null, FriendListActivity.DATA_TYPE_FOLLOWER,
+                        FriendListActivity.VIEW_TYPE_FULL));
+    }
+
+    @OnClick(R.id.user_profile_friend)
+    void userProfileFriend() {
+        startActivity(
+                FriendListActivity.newIntent(getContext(), null, FriendListActivity.DATA_TYPE_FRIEND,
+                        FriendListActivity.VIEW_TYPE_FULL));
     }
 
     @OnClick(R.id.action_status_list)

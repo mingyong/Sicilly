@@ -4,8 +4,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context="xyz.shaohui.sicilly.views.fragments.TimelineFragment">
+        android:layout_height="match_parent">
 
     <me.shaohui.vistarecyclerview.VistaRecyclerView
             android:id="@+id/recycler"

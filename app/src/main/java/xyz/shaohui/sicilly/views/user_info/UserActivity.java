@@ -37,6 +37,7 @@ import xyz.shaohui.sicilly.base.HasComponent;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
 import xyz.shaohui.sicilly.views.create_status.DialogController;
+import xyz.shaohui.sicilly.views.friend_list.FriendListActivity;
 import xyz.shaohui.sicilly.views.user_info.di.DaggerUserInfoComponent;
 import xyz.shaohui.sicilly.views.user_info.di.UserInfoComponent;
 import xyz.shaohui.sicilly.views.user_info.mvp.UserInfoPresenter;
@@ -187,6 +188,20 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
         });
     }
 
+    @OnClick(R.id.user_profile_follower)
+    void userProfileFollower() {
+        startActivity(
+                FriendListActivity.newIntent(this, userId, FriendListActivity.DATA_TYPE_FOLLOWER,
+                        FriendListActivity.VIEW_TYPE_FULL));
+    }
+
+    @OnClick(R.id.user_profile_friend)
+    void userProfileFriend() {
+        startActivity(
+                FriendListActivity.newIntent(this, userId, FriendListActivity.DATA_TYPE_FRIEND,
+                        FriendListActivity.VIEW_TYPE_FULL));
+    }
+
     @Override
     public void placeUserInfo(User user, boolean isProtected) {
         mUser = user;
@@ -250,8 +265,7 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
 
     @Override
     public void showUnFollowConfirmDialog() {
-        new MaterialDialog.Builder(this)
-                .content(R.string.confirm_un_follow_message)
+        new MaterialDialog.Builder(this).content(R.string.confirm_un_follow_message)
                 .positiveText(R.string.yes)
                 .negativeText(R.string.no)
                 .onPositive((dialog, which) -> presenter.opUnFollow(mUser));

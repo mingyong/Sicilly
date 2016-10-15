@@ -17,6 +17,7 @@ import javax.inject.Named;
 import me.shaohui.sicillylib.utils.ToastUtils;
 import me.shaohui.vistarecyclerview.VistaRecyclerView;
 import me.shaohui.vistarecyclerview.decoration.DividerDecoration;
+import me.shaohui.vistarecyclerview.decoration.SpacingDecoration;
 import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyApplication;
@@ -92,7 +93,7 @@ public class FriendListFragment extends BaseFragment<FriendListMVP.View, FriendL
                         });
         mRecyclerView.setAdapter(adapter);
 
-        mRecyclerView.addItemDecoration(new DividerDecoration(R.color.window_background, 3));
+        mRecyclerView.addItemDecoration(new SpacingDecoration(3));
 
         mRecyclerView.setOnMoreListener((total, left, current) -> {
             presenter.loadUser(++mPage);
