@@ -51,4 +51,16 @@ public class RemoteService {
 
                 }, ErrorUtils::catchException);
     }
+
+    public static void requestQiniuToken() {
+        LeanCloudAPI service = LeanCloudService.getInstance();
+        service.requestQiniuToken()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(qiniuTokenLeanCloudResult -> {
+
+                }, throwable -> {
+
+                });
+    }
 }

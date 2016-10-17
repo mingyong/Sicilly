@@ -18,4 +18,6 @@ public class SicillyFactory {
     public static final String MI_PUSH_APPID = "2882303761517512363";
     public static final String MI_PUSH_APPKEY = "5851751239363";
 
+    public static final String FAN_STATIC = "http://fan.shaohui.me/";
+
 }

@@ -8,6 +8,7 @@ import rx.Observable;
 import xyz.shaohui.sicilly.leanCloud.model.ActiveUser;
 import xyz.shaohui.sicilly.leanCloud.model.LeanCloudNew;
 import xyz.shaohui.sicilly.leanCloud.model.LeanCloudResult;
+import xyz.shaohui.sicilly.leanCloud.model.QiniuToken;
 import xyz.shaohui.sicilly.leanCloud.model.RemoteFeedback;
 
 /**
@@ -28,4 +29,7 @@ public interface LeanCloudAPI {
 
     @POST("classes/Feedback")
     Observable<LeanCloudNew> sendFeedback(@Body RemoteFeedback feedback);
+
+    @GET("classes/QiniuToken")
+    Observable<LeanCloudResult<QiniuToken>> requestQiniuToken();
 }

@@ -12,6 +12,8 @@ public abstract class FeedbackPresenter extends BasePresenter<FeedbackView> {
 
     public abstract void sendFeedback(String text);
 
+    public abstract void uploadImage(String localPath);
+
     public abstract void deleteAll();
 
 }

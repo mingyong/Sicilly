@@ -2,6 +2,7 @@ package xyz.shaohui.sicilly.views.feedback;
 
 import com.google.gson.Gson;
 import com.squareup.sqlbrite.BriteDatabase;
+import java.io.File;
 import javax.inject.Inject;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
@@ -19,6 +20,7 @@ import xyz.shaohui.sicilly.leanCloud.service.RemoteService;
 import xyz.shaohui.sicilly.utils.ErrorUtils;
 import xyz.shaohui.sicilly.utils.RxUtils;
 import xyz.shaohui.sicilly.views.feedback.mvp.FeedbackPresenter;
+import xyz.shaohui.sicilly.views.feedback.upload.UploadImage;
 
 /**
  * Created by shaohui on 16/9/24.
@@ -86,6 +88,32 @@ public class FeedbackPresenterImpl extends FeedbackPresenter {
     }
 
     @Override
+    public void uploadImage(String localPath) {
+        File image = new File(localPath);
+        String key = SicillyApplication.currentUId() + "@" + System.currentTimeMillis();
+        String text = "图片上传中...";
+        String url = SicillyFactory.FAN_STATIC + key;
+
+        Feedback feedback = Feedback.sendImage(text, SicillyApplication.currentUId(), url);
+        mFeedbackDbAccessor.insertFeedback(feedback);
+
+        UploadImage.toQiniu(image, key, key1 -> {
+            mSimpleService.sendFeedback(SicillyFactory.FEEDBACK_URL, wrapperTextToSend(url))
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(o -> {
+                        BriteDatabase.Transaction transaction =
+                                mFeedbackDbAccessor.mBriteDatabase.newTransaction();
+                        mFeedbackDbAccessor.insertFeedback(
+                                feedback.sendImageSuccess("发送成功！【暂不支持显示图片】"));
+                        mFeedbackDbAccessor.insertFeedback(autoAnswer(false));
+                        transaction.markSuccessful();
+                        transaction.end();
+                    }, RxUtils.ignoreNetError);
+        });
+    }
+
+    @Override
     public void deleteAll() {
         mFeedbackDbAccessor.deleteAll();
     }
@@ -99,7 +127,7 @@ public class FeedbackPresenterImpl extends FeedbackPresenter {
     private RequestBody wrapperTextToSend(String text) {
         AppUser user = SicillyApplication.currentAppUser();
 
-        FeedbackSlack slack = new FeedbackSlack(text + "##" + SicillyApplication.getRegId(),
+        FeedbackSlack slack = new FeedbackSlack(text + "???" + SicillyApplication.getRegId(),
                 String.format("%s(%s)", user.name(), user.id()), user.avatar());
 
         return RequestBody.create(MediaType.parse("text/plain"), new Gson().toJson(slack));

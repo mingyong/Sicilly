@@ -4,7 +4,8 @@ CREATE TABLE feedback (
     uid TEXT NOT NULL,
     is_right INTEGER AS boolean DEFAULT 1,
     send_success INTEGER AS boolean DEFAULT 1,
-    is_read INTEGER AS boolean DEFAULT 0
+    is_read INTEGER AS boolean DEFAULT 0,
+    image TEXT
 );
 
 select_by_uid:

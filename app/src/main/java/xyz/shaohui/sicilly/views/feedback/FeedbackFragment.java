@@ -1,5 +1,9 @@
 package xyz.shaohui.sicilly.views.feedback;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.text.TextUtils;
@@ -17,6 +21,7 @@ import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseFragment;
 import xyz.shaohui.sicilly.data.models.Feedback;
+import xyz.shaohui.sicilly.utils.FileUtils;
 import xyz.shaohui.sicilly.views.feedback.di.FeedbackComponent;
 import xyz.shaohui.sicilly.views.feedback.mvp.FeedbackPresenter;
 import xyz.shaohui.sicilly.views.feedback.mvp.FeedbackView;
@@ -27,6 +32,8 @@ import xyz.shaohui.sicilly.views.feedback.mvp.FeedbackView;
 
 public class FeedbackFragment extends BaseFragment<FeedbackView, FeedbackPresenter>
         implements FeedbackView {
+
+    private static final int CODE_PHOTO = 1;
 
     @Inject
     EventBus mBus;
@@ -91,6 +98,25 @@ public class FeedbackFragment extends BaseFragment<FeedbackView, FeedbackPresent
                 .negativeText(R.string.no)
                 .onPositive(((dialog, which) -> presenter.deleteAll()))
                 .show();
+    }
+
+    @OnClick(R.id.action_image)
+    void actionImage() {
+        Intent intent =
+                new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(intent, CODE_PHOTO);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK && requestCode == CODE_PHOTO) {
+            if (data != null && data.getData() != null) {
+                Uri imageFileUri = data.getData();
+                String localPath = FileUtils.getPath(getActivity(), imageFileUri);
+                presenter.uploadImage(localPath);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

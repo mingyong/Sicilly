@@ -96,11 +96,21 @@
                     android:text="@string/message_submit"
                     android:textColor="@color/white"
                     />
+            <ImageButton
+                    android:id="@+id/action_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:paddingRight="@dimen/spacing_normal"
+                    android:paddingLeft="@dimen/spacing_normal"
+                    android:background="@null"
+                    app:srcCompat="@drawable/ic_picture_dialog"
+                    />
 
             <EditText
                     android:id="@+id/main_edit"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_toRightOf="@id/action_image"
                     android:layout_toLeftOf="@id/btn_submit"
                     android:lines="1"
                     />
