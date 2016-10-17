@@ -12,7 +12,10 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:orientation="horizontal"
-            android:layout_margin="6dp"
+            android:layout_marginRight="6dp"
+            android:layout_marginLeft="6dp"
+            android:layout_marginBottom="6dp"
+            android:layout_marginTop="@dimen/spacing_normal"
             android:background="@drawable/create_status_dialog_bg"
             >
         <EditText

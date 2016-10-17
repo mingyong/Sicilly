@@ -91,10 +91,10 @@
             <com.makeramen.roundedimageview.RoundedImageView
                     android:id="@+id/self_avatar"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_centerVertical="true"
                     app:riv_corner_radius="3dp"
-                    android:paddingLeft="@dimen/spacing_normal"
-                    android:paddingRight="@dimen/spacing_normal"
+                    android:layout_marginLeft="8dp"
                     />
 
             <TextView
@@ -113,7 +113,12 @@
             <EditText
                     android:id="@+id/main_edit"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_centerVertical="true"
+                    android:paddingLeft="5dp"
+                    android:background="@drawable/drawable_chat_round"
+                    android:layout_marginRight="8dp"
+                    android:layout_marginLeft="8dp"
                     android:layout_toLeftOf="@id/btn_submit"
                     android:layout_toRightOf="@id/self_avatar"
                     />
