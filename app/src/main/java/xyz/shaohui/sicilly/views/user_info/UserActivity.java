@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.graphics.ColorUtils;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.widget.ImageButton;
@@ -180,11 +181,12 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
         scrollableLayout.getHelper()
                 .setScrollableContainer((ScrollableHelper.ScrollableContainer) fragmentList.get(0));
         scrollableLayout.setOnScrollListener((currentY, maxY) -> {
-            if (currentY >= maxY) {
-                titleBar.setBackgroundColor(getResources().getColor(R.color.positive));
-            } else {
-                titleBar.setBackgroundColor(getResources().getColor(R.color.transparent));
-            }
+            int alpha = 0;
+            float scale = currentY / (float) maxY;
+            alpha = scale > 1 ? 255 : (int) (scale * 255);
+            int color =
+                    ColorUtils.setAlphaComponent(getResources().getColor(R.color.positive), alpha);
+            titleBar.setBackgroundColor(color);
         });
     }
 
@@ -256,11 +258,6 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
             mUser = mUser.updateFollow();
             actionFollow.setImageResource(R.drawable.ic_followed);
         }
-    }
-
-    @Override
-    public void opRequestFollow() {
-
     }
 
     @Override
