@@ -73,6 +73,7 @@
     <string name="load_user_failure">用户信息加载失败, 请重试</string>
     <string name="confirm_un_follow_message">确认取消Follow?</string>
     <string name="follow_error">Sorry, 刚才的请求好像出了点问题, 请重试</string>
+    <string name="request_follow_success">请求发送成功</string>
     <string name="user_info_protected">我只向关注我的人公开我的消息(可点击右上角请求关注)</string>
 
     // new

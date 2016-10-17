@@ -4,6 +4,7 @@ import android.util.Pair;
 import javax.inject.Inject;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -70,9 +71,14 @@ public class UserInfoPresenterImpl extends UserInfoPresenter {
                     .subscribe(result -> {
 
                     }, throwable -> {
-                        ErrorUtils.catchException(throwable);
                         if (isViewAttached()) {
-                            getView().followError();
+                            if (throwable instanceof HttpException) {
+                                if (((HttpException) throwable).code() == 403) {
+                                    getView().requestSuccess();
+                                }
+                            } else {
+                                ErrorUtils.catchException(throwable);
+                            }
                         }
                     });
         }

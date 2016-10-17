@@ -21,6 +21,8 @@ public interface UserInfoView extends MvpView {
 
     void followError();
 
+    void requestSuccess();
+
     void unFollowError();
 
 

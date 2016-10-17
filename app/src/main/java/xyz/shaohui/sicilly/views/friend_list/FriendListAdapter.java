@@ -56,7 +56,7 @@ public class FriendListAdapter
         if (user.following()) {
             holder.actionFollow.setVisibility(View.GONE);
         } else {
-            holder.actionFollow.setVisibility(View.VISIBLE);
+            holder.actionFollow.setVisibility(View.GONE);
             holder.actionFollow.setOnClickListener(v -> mAction.actionFollow(position, user));
         }
 

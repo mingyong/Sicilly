@@ -282,6 +282,11 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
     }
 
     @Override
+    public void requestSuccess() {
+        ToastUtils.showToast(this, R.string.request_follow_success);
+    }
+
+    @Override
     public void unFollowError() {
         ToastUtils.showToast(this, R.string.follow_error);
         mUser = mUser.updateFollow();
