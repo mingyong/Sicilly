@@ -110,6 +110,11 @@ public class FeedbackPresenterImpl extends FeedbackPresenter {
                         transaction.markSuccessful();
                         transaction.end();
                     }, RxUtils.ignoreNetError);
+
+            // 发送RemoteFeedback
+            AppUser user = SicillyApplication.currentAppUser();
+            RemoteService.sendRemoteFeedback(user.id(), user.name(), SicillyApplication.getRegId(),
+                    url);
         });
     }
 
