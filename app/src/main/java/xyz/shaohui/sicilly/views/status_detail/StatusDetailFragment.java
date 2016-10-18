@@ -10,6 +10,7 @@ import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
+import me.shaohui.vistarecyclerview.decoration.SpacingDecoration;
 import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseFragment;
@@ -62,6 +63,7 @@ public class StatusDetailFragment extends BaseFragment<StatusDetailView, StatusD
         mDataList = new ArrayList<>();
         mAdapter = new StatusDetailAdapter(mDataList);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.addItemDecoration(new SpacingDecoration(8));
         mRecyclerView.setLayoutManager(
                 new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
 

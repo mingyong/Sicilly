@@ -60,7 +60,7 @@ public class StatusDetailAdapter
         final Context context = viewHolder.avatar.getContext();
 
         viewHolder.name.setText(user.screen_name());
-        viewHolder.createdTime.setText(TimeUtils.simpleFormat(status.created_at()));
+        viewHolder.createdTime.setText(TimeUtils.timeFormat(status.created_at()));
         viewHolder.source.setText(HtmlUtils.cleanAllTag(status.source()));
 
         // text
