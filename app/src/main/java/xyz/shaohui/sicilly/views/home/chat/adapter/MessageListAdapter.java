@@ -2,7 +2,6 @@ package xyz.shaohui.sicilly.views.home.chat.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 import java.util.List;
 import xyz.shaohui.sicilly.R;
@@ -43,30 +42,32 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0) {
-            return TYPE_HEADER;
-        } else if (dataList.get(position - 1) instanceof Conversation) {
-            return TYPE_MESSAGE;
-        } else {
-            return TYPE_REQUEST;
-        }
+        //if (position == 0) {
+        //    return TYPE_HEADER;
+        //} else if (dataList.get(position - 1) instanceof Conversation) {
+        //    return TYPE_MESSAGE;
+        //} else {
+        //    return TYPE_REQUEST;
+        //}
+        return TYPE_MESSAGE;
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ConversationMessageHolder) {
-            ((ConversationMessageHolder) holder).bind((Conversation) dataList.get(position - 1),
+            ((ConversationMessageHolder) holder).bind((Conversation) dataList.get(position),
                     position);
-        } else if (holder instanceof ConversationRequestHolder) {
-            ((ConversationRequestHolder) holder).bind(dataList.get(position - 1), position);
-        } else if (holder instanceof ConversationHeaderHolder) {
-            // do nothing
-            holder.itemView.setVisibility(View.GONE);
         }
+        //else if (holder instanceof ConversationRequestHolder) {
+        //    ((ConversationRequestHolder) holder).bind(dataList.get(position - 1), position);
+        //} else if (holder instanceof ConversationHeaderHolder) {
+        //    // do nothing
+        //    holder.itemView.setVisibility(View.GONE);
+        //}
     }
 
     @Override
     public int getItemCount() {
-        return dataList.size() + 1;
+        return dataList.size();
     }
 }

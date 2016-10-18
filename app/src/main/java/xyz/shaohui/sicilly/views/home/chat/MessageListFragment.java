@@ -1,5 +1,6 @@
 package xyz.shaohui.sicilly.views.home.chat;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -77,8 +78,8 @@ public class MessageListFragment extends BaseFragment<MessageListView, MessageLi
         mDataList = new ArrayList<>();
         MessageListAdapter adapter = new MessageListAdapter(mDataList);
         mRecyclerView.setAdapter(adapter);
-        //mRecyclerView.addItemDecoration(
-        //        new DividerDecoration(getResources().getColor(R.color.place_bg), 3, 40, 0));
+        mRecyclerView.addItemDecoration(
+                new DividerDecoration(Color.parseColor("#F8F8F8"), 2, 40, 40));
         mRecyclerView.setRefreshListener(() -> {
             mPage = 1;
             presenter.fetchMessageList();
