@@ -16,6 +16,7 @@ import xyz.shaohui.sicilly.views.home.IndexActivity;
 import xyz.shaohui.sicilly.views.login.di.LoginComponent;
 import xyz.shaohui.sicilly.views.login.mvp.LoginPresenter;
 import xyz.shaohui.sicilly.views.login.mvp.LoginView;
+import xyz.shaohui.sicilly.views.web.WebActivity;
 
 /**
  * Created by shaohui on 16/9/30.
@@ -66,6 +67,11 @@ public class LoginFragment extends BaseFragment<LoginView, LoginPresenter> imple
             return;
         }
         presenter.opLogin(username.getText().toString(), password.getText().toString());
+    }
+
+    @OnClick(R.id.action_register)
+    void actionRegister() {
+        startActivity(WebActivity.newIntent(getContext(), "http://fanfou.com/register/"));
     }
 
     @Override
