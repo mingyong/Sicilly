@@ -39,6 +39,7 @@
     <string name="message">消息</string>
     <string name="user_status">我的消息</string>
     <string name="user_star">我的收藏</string>
+    <string name="friend_request">好友请求</string>
     <string name="user_toolbox">饭友工具箱</string>
     <string name="user_feedback">意见反馈</string>
     <string name="follow_success">关注成功</string>
@@ -50,10 +51,12 @@
 
     // message
     <string name="message_title">消息盒子</string>
-    <string name="friend_request">好友请求</string>
     <string name="message_tab_1">私信</string>
     <string name="message_tab_2">\@我</string>
     <string name="message_submit">发送</string>
+
+    // friend request
+    <string name="friend_request_op_failed">操作失败，请重试</string>
 
 
     // chat

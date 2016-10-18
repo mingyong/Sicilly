@@ -57,6 +57,42 @@
                     android:text="@string/user_star"/>
             </LinearLayout>
             <LinearLayout
+                    android:id="@+id/action_request"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="@dimen/spacing_large">
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_friend"/>
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/spacing_large"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_main"
+                        android:text="@string/friend_request"/>
+                <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        >
+                    <TextView
+                            android:id="@+id/friend_request_count"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
+                            android:visibility="gone"
+                            android:background="@drawable/drawable_notification_red"
+                            android:layout_marginRight="@dimen/spacing_large"
+                            android:layout_gravity="right"
+                            android:gravity="center"
+                            android:textColor="@color/white"
+                            android:textSize="12sp"
+                            />
+                </FrameLayout>
+            </LinearLayout>
+            <LinearLayout
                 android:id="@+id/action_toolbox"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"

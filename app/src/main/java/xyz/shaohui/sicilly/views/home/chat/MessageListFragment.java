@@ -3,9 +3,11 @@ package xyz.shaohui.sicilly.views.home.chat;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.SparseArray;
 import android.view.View;
 import butterknife.BindView;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import javax.inject.Inject;
 import me.shaohui.sicillylib.utils.ToastUtils;
@@ -33,10 +35,17 @@ public class MessageListFragment extends BaseFragment<MessageListView, MessageLi
     VistaRecyclerView mRecyclerView;
 
     private List<ConversationBean> mDataList;
+    private SparseArray<String> mUnreadConversation;
     private int mPage = 1;
 
     @Inject
     EventBus mBus;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mUnreadConversation = new SparseArray<>();
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -96,6 +105,11 @@ public class MessageListFragment extends BaseFragment<MessageListView, MessageLi
         if (!checkHaveNewMessage()) {
             mBus.post(new HomeMessageEvent(-1));
         }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void subscribeNewMessage() {
+
     }
 
     private boolean checkHaveNewMessage() {

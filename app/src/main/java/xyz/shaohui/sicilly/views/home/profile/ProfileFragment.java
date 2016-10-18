@@ -16,11 +16,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import javax.inject.Inject;
 import me.shaohui.sicillylib.utils.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import rx.android.schedulers.AndroidSchedulers;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseFragment;
 import xyz.shaohui.sicilly.data.database.FeedbackDbAccessor;
 import xyz.shaohui.sicilly.data.models.User;
+import xyz.shaohui.sicilly.event.FriendRequestEvent;
 import xyz.shaohui.sicilly.views.feedback.FeedbackActivity;
 import xyz.shaohui.sicilly.views.friend_list.FriendListActivity;
 import xyz.shaohui.sicilly.views.home.di.HomeComponent;
@@ -52,6 +55,9 @@ public class ProfileFragment extends BaseFragment<ProfileView, ProfilePresenter>
 
     @BindView(R.id.feedback_count)
     TextView feedbackCount;
+
+    @BindView(R.id.friend_request_count)
+    TextView friendRequestCount;
 
     @Inject
     EventBus mBus;
@@ -137,6 +143,11 @@ public class ProfileFragment extends BaseFragment<ProfileView, ProfilePresenter>
 
     }
 
+    @OnClick(R.id.action_request)
+    void showFriendRequest() {
+        
+    }
+
     @OnClick(R.id.action_feedback)
     void feedback() {
         getContext().startActivity(new Intent(getContext(), FeedbackActivity.class));
@@ -156,5 +167,15 @@ public class ProfileFragment extends BaseFragment<ProfileView, ProfilePresenter>
     void switchAccount() {
         //new LoginDialogFragment().show(getFragmentManager(), "login");
         new SwitchAccountDialog().show(getFragmentManager(), "dialog");
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void subscribeFriendRequest(FriendRequestEvent event) {
+        if (event.getCount() > 0) {
+            friendRequestCount.setText(String.valueOf(event.getCount()));
+            friendRequestCount.setVisibility(View.VISIBLE);
+        } else {
+            friendRequestCount.setVisibility(View.GONE);
+        }
     }
 }

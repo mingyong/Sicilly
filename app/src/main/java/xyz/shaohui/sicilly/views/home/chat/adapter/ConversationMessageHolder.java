@@ -34,9 +34,9 @@ public class ConversationMessageHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.message_time)
     TextView time;
 
-    Context mContext = itemView.getContext();
+    private Context mContext = itemView.getContext();
 
-    public ConversationMessageHolder(View itemView) {
+    ConversationMessageHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }
@@ -54,7 +54,12 @@ public class ConversationMessageHolder extends RecyclerView.ViewHolder {
         text.setText(message.getText());
         name.setText(otherUser.screen_name());
         time.setText(TimeUtils.timeFormat(message.getCreated_at()));
-        count.setText(String.valueOf(conversation.getMsg_num()));
+        if (conversation.getUnRead() > 0) {
+            count.setVisibility(View.VISIBLE);
+            count.setText(String.valueOf(conversation.getUnRead()));
+        } else {
+            count.setVisibility(View.GONE);
+        }
         Glide.with(mContext).load(otherUser.profile_image_url_large()).into(avatar);
         avatar.setOnClickListener(
                 v -> mContext.startActivity(UserActivity.newIntent(mContext, otherUser.id())));

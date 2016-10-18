@@ -6,6 +6,14 @@ package xyz.shaohui.sicilly.event;
 
 public class FriendRequestEvent {
 
+    public int getCount() {
+        return count;
+    }
+
+    public void setCount(int count) {
+        this.count = count;
+    }
+
     private int count;
 
     public FriendRequestEvent(int count) {

@@ -8,6 +8,15 @@ public class Conversation extends ConversationBean {
     private Message dm;
     private String otherid;
     private boolean new_conv;
+    private int unRead = 0;
+
+    public int getUnRead() {
+        return unRead;
+    }
+
+    public void setUnRead(int unRead) {
+        this.unRead = unRead;
+    }
 
     public Conversation(int count) {
         super(count);
