@@ -119,6 +119,7 @@
                     android:layout_toRightOf="@id/action_image"
                     android:layout_toLeftOf="@id/btn_submit"
                     android:lines="1"
+                    android:textSize="13sp"
                     />
         </RelativeLayout>
     </LinearLayout>

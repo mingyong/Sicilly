@@ -128,9 +128,6 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
             @Override
             public void onEvent(int type, int count) throws RemoteException {
                 switch (type) {
-                    case SicillyService.EVENT_TYPE_HOME:
-                        mBus.post(new HomeMessageEvent(count));
-                        break;
                     case SicillyService.EVENT_TYPE_MENTION:
                         mBus.post(new MentionEvent(count));
                         break;
@@ -139,9 +136,6 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
                         break;
                     case SicillyService.EVENT_TYPE_REQUEST:
                         mBus.post(new FriendRequestEvent(count));
-                        break;
-                    case SicillyService.EVENT_TYPE_SUM_MESSAGE:
-                        mBus.post(new MessageSumEvent(count));
                         break;
                 }
             }

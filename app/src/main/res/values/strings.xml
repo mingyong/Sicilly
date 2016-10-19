@@ -103,6 +103,10 @@
     <string name="notification_mention_title">消息提醒</string>
     <string name="notification_new_mention">%s 在饭否中提到了你</string>
 
+    // timeline
+    <string name="timeline_message_title">%s的消息</string>
+    <string name="timeline_favorite_title">%s的收藏</string>
+
 
     // setting
     <string name="setting_title">设置</string>

@@ -1,9 +1,7 @@
 package xyz.shaohui.sicilly.views.home.profile;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,7 +9,6 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
 import com.bumptech.glide.Glide;
-import com.flyco.tablayout.widget.MsgView;
 import de.hdodenhof.circleimageview.CircleImageView;
 import javax.inject.Inject;
 import me.shaohui.sicillylib.utils.ToastUtils;
@@ -20,18 +17,21 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import rx.android.schedulers.AndroidSchedulers;
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.base.BaseFragment;
 import xyz.shaohui.sicilly.data.database.FeedbackDbAccessor;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.event.FriendRequestEvent;
 import xyz.shaohui.sicilly.views.feedback.FeedbackActivity;
 import xyz.shaohui.sicilly.views.friend_list.FriendListActivity;
+import xyz.shaohui.sicilly.views.friend_request.FriendRequestActivity;
+import xyz.shaohui.sicilly.views.friendship.FriendshipActivity;
 import xyz.shaohui.sicilly.views.home.di.HomeComponent;
 import xyz.shaohui.sicilly.views.home.profile.mvp.ProfilePresenter;
 import xyz.shaohui.sicilly.views.home.profile.mvp.ProfileView;
-import xyz.shaohui.sicilly.views.login.LoginDialogFragment;
 import xyz.shaohui.sicilly.views.login.SwitchAccountDialog;
 import xyz.shaohui.sicilly.views.setting.SettingActivity;
+import xyz.shaohui.sicilly.views.timeline.TimelineActivity;
 
 public class ProfileFragment extends BaseFragment<ProfileView, ProfilePresenter>
         implements ProfileView {
@@ -121,31 +121,31 @@ public class ProfileFragment extends BaseFragment<ProfileView, ProfilePresenter>
 
     @OnClick(R.id.user_profile_follower)
     void userProfileFollower() {
-        startActivity(
-                FriendListActivity.newIntent(getContext(), null, FriendListActivity.DATA_TYPE_FOLLOWER,
-                        FriendListActivity.VIEW_TYPE_FULL));
+        startActivity(FriendListActivity.newIntent(getContext(), null,
+                FriendListActivity.DATA_TYPE_FOLLOWER, FriendListActivity.VIEW_TYPE_FULL));
     }
 
     @OnClick(R.id.user_profile_friend)
     void userProfileFriend() {
-        startActivity(
-                FriendListActivity.newIntent(getContext(), null, FriendListActivity.DATA_TYPE_FRIEND,
-                        FriendListActivity.VIEW_TYPE_FULL));
+        startActivity(FriendListActivity.newIntent(getContext(), null,
+                FriendListActivity.DATA_TYPE_FRIEND, FriendListActivity.VIEW_TYPE_FULL));
     }
 
     @OnClick(R.id.action_status_list)
     void showStatusList() {
-
+        startActivity(TimelineActivity.newIntent(getContext(), SicillyApplication.currentUId(),
+                TimelineActivity.DATA_TYPE_TIMELINE));
     }
 
     @OnClick(R.id.action_star_list)
     void showStarList() {
-
+        startActivity(TimelineActivity.newIntent(getContext(), SicillyApplication.currentUId(),
+                TimelineActivity.DATA_TYPE_STAR));
     }
 
     @OnClick(R.id.action_request)
     void showFriendRequest() {
-        
+        startActivity(new Intent(getContext(), FriendshipActivity.class));
     }
 
     @OnClick(R.id.action_feedback)

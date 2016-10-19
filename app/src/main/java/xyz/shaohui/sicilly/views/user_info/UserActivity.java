@@ -39,6 +39,7 @@ import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
 import xyz.shaohui.sicilly.views.create_status.DialogController;
 import xyz.shaohui.sicilly.views.friend_list.FriendListActivity;
+import xyz.shaohui.sicilly.views.timeline.TimelineActivity;
 import xyz.shaohui.sicilly.views.user_info.di.DaggerUserInfoComponent;
 import xyz.shaohui.sicilly.views.user_info.di.UserInfoComponent;
 import xyz.shaohui.sicilly.views.user_info.mvp.UserInfoPresenter;
@@ -202,6 +203,12 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
         startActivity(
                 FriendListActivity.newIntent(this, userId, FriendListActivity.DATA_TYPE_FRIEND,
                         FriendListActivity.VIEW_TYPE_FULL));
+    }
+
+    @OnClick(R.id.user_profile_timeline)
+    void userProfileTimeline() {
+        startActivity(
+                TimelineActivity.newIntent(this, userId, TimelineActivity.DATA_TYPE_TIMELINE));
     }
 
     @Override

@@ -66,7 +66,6 @@ public class StatusDetailFragment extends BaseFragment<StatusDetailView, StatusD
         mRecyclerView.addItemDecoration(new SpacingDecoration(8));
         mRecyclerView.setLayoutManager(
                 new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-
         presenter.loadStatus(mOriginStatus);
     }
 

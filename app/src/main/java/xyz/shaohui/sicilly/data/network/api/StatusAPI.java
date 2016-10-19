@@ -25,6 +25,9 @@ public interface StatusAPI {
     Observable<List<Status>> userTimeline(@Query("id") String userId);
 
     @GET("statuses/user_timeline.json?format=html")
+    Observable<List<Status>> userTimelineSimple(@Query("id") String userId, @Query("page")int page);
+
+    @GET("statuses/user_timeline.json?format=html")
     Observable<List<Status>> userTimelineNext(@Query("id") String userId, @Query("page") int page,
             @Query("since_id") int id);
 

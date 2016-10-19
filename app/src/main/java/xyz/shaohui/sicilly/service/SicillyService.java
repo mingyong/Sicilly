@@ -47,10 +47,6 @@ public class SicillyService extends Service {
 
     private int canRequestNotice;
 
-    private int sendMessageCount = 0;
-    private int sendMentionCount = 0;
-    private int sendRequestCount = 0;
-
     @Inject
     AccountAPI mAccountService;
 
@@ -143,56 +139,37 @@ public class SicillyService extends Service {
         @Override
         public void call(FanNotification notification) {
 
-            if (notification.direct_messages() > sendMessageCount) {
+            if (notification.direct_messages() > 0) {
                 try {
                     mEventListener.onEvent(EVENT_TYPE_MESSAGE, notification.direct_messages());
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
                 sendMessageNotification();
-                sendMessageCount = notification.direct_messages();
             }
 
-            if (notification.friend_requests() > sendRequestCount) {
+            if (notification.friend_requests() > 0) {
+                int origin = SPDataManager.getInt(SPDataManager.SP_KEY_FRIEND_REQUEST, 0);
+                SPDataManager.setInt(SPDataManager.SP_KEY_FRIEND_REQUEST,
+                        notification.friend_requests() + origin, false);
                 try {
                     mEventListener.onEvent(EVENT_TYPE_REQUEST, notification.friend_requests());
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
                 sendRequestNotification(notification.friend_requests());
-                sendRequestCount = notification.friend_requests();
             }
 
-            if (notification.mentions() > sendMentionCount) {
+            if (notification.mentions() > 0) {
+                int origin = SPDataManager.getInt(SPDataManager.SP_KEY_MENTION, 0);
+                SPDataManager.setInt(SPDataManager.SP_KEY_MENTION,
+                        notification.friend_requests() + origin, false);
                 try {
                     mEventListener.onEvent(EVENT_TYPE_MENTION, notification.mentions());
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }
                 sendMentionNotification(notification.mentions());
-                sendMentionCount = notification.mentions();
-            }
-
-            int sum = notification.mentions()
-                    + notification.direct_messages()
-                    + notification.friend_requests();
-
-            int messageSum = notification.direct_messages() + notification.friend_requests();
-
-            if (sum > 0) {
-                try {
-                    mEventListener.onEvent(EVENT_TYPE_HOME, sum);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            if (messageSum > 0) {
-                try {
-                    mEventListener.onEvent(EVENT_TYPE_SUM_MESSAGE, messageSum);
-                } catch (RemoteException e) {
-                    e.printStackTrace();
-                }
             }
 
             listenerNewMessage();
@@ -202,13 +179,9 @@ public class SicillyService extends Service {
     private void sendMessageNotification() {
         if (canMessageNotice == STATUS_UNCERTAIN) {
             canMessageNotice =
-                    SPDataManager.loadSetting(this).sendMessageNotice() ? STATUS_YES : STATUS_NO;
+                    SPDataManager.loadAppSetting(this).sendMessageNotice() ? STATUS_YES : STATUS_NO;
         }
-        if (canMessageNotice == STATUS_YES) {
-            loadMessage();
-        } else {
-            sendMessageCount = 0;
-        }
+        loadMessage();
     }
 
     private void loadMessage() {
@@ -219,8 +192,9 @@ public class SicillyService extends Service {
                 return Observable.just(messages.get(0));
             }
         }).subscribeOn(Schedulers.io()).subscribe(message -> {
-            sendMessageCount = 0;
-            NotificationUtils.showMessageNotice(this, message);
+            if (canMessageNotice == STATUS_YES) {
+                NotificationUtils.showMessageNotice(this, message);
+            }
         }, RxUtils.ignoreNetError);
     }
 
@@ -235,13 +209,9 @@ public class SicillyService extends Service {
     private void sendMentionNotification(int count) {
         if (canMentionNotice == STATUS_UNCERTAIN) {
             canMentionNotice =
-                    SPDataManager.loadSetting(this).sendMentionNotice() ? STATUS_YES : STATUS_NO;
+                    SPDataManager.loadAppSetting(this).sendMentionNotice() ? STATUS_YES : STATUS_NO;
         }
-        if (canMentionNotice == STATUS_YES) {
-            loadMention(count);
-        } else {
-            sendMentionCount = 0;
-        }
+        loadMention(count);
     }
 
     private void loadMention(int count) {
@@ -260,8 +230,9 @@ public class SicillyService extends Service {
                         names.toString()));
             }
         }).subscribeOn(Schedulers.io()).subscribe(string -> {
-            sendMentionCount = 0;
-            NotificationUtils.showMentionNotice(this, string);
+            if (canMentionNotice == STATUS_YES) {
+                NotificationUtils.showMentionNotice(this, string);
+            }
         }, RxUtils.ignoreNetError);
     }
 }
