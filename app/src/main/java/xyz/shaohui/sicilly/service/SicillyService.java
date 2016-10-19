@@ -38,8 +38,6 @@ public class SicillyService extends Service {
     public static final int EVENT_TYPE_MESSAGE = 1;
     public static final int EVENT_TYPE_REQUEST = 2;
     public static final int EVENT_TYPE_MENTION = 3;
-    public static final int EVENT_TYPE_HOME = 4;
-    public static final int EVENT_TYPE_SUM_MESSAGE = 5;
 
     private int canMessageNotice;
 
@@ -149,9 +147,6 @@ public class SicillyService extends Service {
             }
 
             if (notification.friend_requests() > 0) {
-                int origin = SPDataManager.getInt(SPDataManager.SP_KEY_FRIEND_REQUEST, 0);
-                SPDataManager.setInt(SPDataManager.SP_KEY_FRIEND_REQUEST,
-                        notification.friend_requests() + origin, false);
                 try {
                     mEventListener.onEvent(EVENT_TYPE_REQUEST, notification.friend_requests());
                 } catch (RemoteException e) {
@@ -161,9 +156,6 @@ public class SicillyService extends Service {
             }
 
             if (notification.mentions() > 0) {
-                int origin = SPDataManager.getInt(SPDataManager.SP_KEY_MENTION, 0);
-                SPDataManager.setInt(SPDataManager.SP_KEY_MENTION,
-                        notification.friend_requests() + origin, false);
                 try {
                     mEventListener.onEvent(EVENT_TYPE_MENTION, notification.mentions());
                 } catch (RemoteException e) {

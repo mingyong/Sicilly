@@ -19,6 +19,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.base.BaseFragment;
+import xyz.shaohui.sicilly.data.SPDataManager;
 import xyz.shaohui.sicilly.data.database.FeedbackDbAccessor;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.event.FriendRequestEvent;
@@ -171,8 +172,19 @@ public class ProfileFragment extends BaseFragment<ProfileView, ProfilePresenter>
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void subscribeFriendRequest(FriendRequestEvent event) {
-        if (event.getCount() > 0) {
-            friendRequestCount.setText(String.valueOf(event.getCount()));
+        showFriendRequestBadge();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        showFriendRequestBadge();
+    }
+
+    private void showFriendRequestBadge() {
+        int count = SPDataManager.getInt(SPDataManager.SP_KEY_FRIEND_REQUEST, 0);
+        if (count > 0) {
+            friendRequestCount.setText(String.valueOf(count));
             friendRequestCount.setVisibility(View.VISIBLE);
         } else {
             friendRequestCount.setVisibility(View.GONE);

@@ -18,12 +18,11 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.data.SPDataManager;
 import xyz.shaohui.sicilly.event.HomeMessageEvent;
 import xyz.shaohui.sicilly.event.MentionEvent;
-import xyz.shaohui.sicilly.event.MessageSumEvent;
-import xyz.shaohui.sicilly.notification.NotificationUtils;
+import xyz.shaohui.sicilly.event.MessageEvent;
 import xyz.shaohui.sicilly.provider.BusProvider;
-import xyz.shaohui.sicilly.views.home.event.NoMessageEvent;
 import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragment;
 import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragmentBuilder;
 
@@ -36,11 +35,6 @@ public class MessageFragment extends Fragment {
 
     @Inject
     EventBus mBus;
-
-    // 检测Mention用
-    private boolean hasMention;
-
-    private boolean hasMessage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -86,16 +80,18 @@ public class MessageFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 tabLayout.setCurrentTab(position);
-                if (position == 0) {
-                    hasMessage = false;
-                } else {
-                    hasMention = false;
-                    // 清除MentionNotification
-                    NotificationUtils.clearMentionNoti(getContext());
-                }
-                tabLayout.hideMsg(position);
-                if (!hasMessage && !hasMention) {
-                    mBus.post(new HomeMessageEvent(-1));
+                if (position == 0 && checkMessageCount()) {
+                    tabLayout.hideMsg(0);
+                    clearMessageCount();
+                    if (!checkMentionCount()) {
+                        mBus.post(new HomeMessageEvent(false));
+                    }
+                } else if (position == 1 && checkMentionCount()) {
+                    tabLayout.hideMsg(1);
+                    clearMentionCount();
+                    if (!checkMessageCount()) {
+                        mBus.post(new HomeMessageEvent(false));
+                    }
                 }
             }
 
@@ -110,30 +106,55 @@ public class MessageFragment extends Fragment {
      * 监听消息提示
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void subscribeMessageTab(MessageSumEvent event) {
-        if (event.count > 0) {
-            tabLayout.showDot(0);
-            MsgView view = tabLayout.getMsgView(0);
-            view.setBackgroundColor(getResources().getColor(R.color.red));
-            hasMessage = true;
-        } else {
-            tabLayout.hideMsg(0);
-            hasMessage = false;
-        }
+    public void subscribeMessageTab(MessageEvent event) {
+        tabLayout.showDot(0);
+        MsgView view = tabLayout.getMsgView(0);
+        view.setBackgroundColor(getResources().getColor(R.color.red));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void subscribeMentionTab(MentionEvent event) {
-        if (event.count > 0) {
-            hasMention = true;
-            tabLayout.showDot(1);
-            MsgView view = tabLayout.getMsgView(1);
-            view.setBackgroundColor(getResources().getColor(R.color.red));
-            hasMention = true;
-        } else {
-            hasMention = false;
+        tabLayout.showDot(1);
+        MsgView view = tabLayout.getMsgView(1);
+        view.setBackgroundColor(getResources().getColor(R.color.red));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (viewPager.getCurrentItem() == 0) {
+            tabLayout.hideMsg(0);
+            if (checkMessageCount()) {
+                clearMessageCount();
+                if (!checkMentionCount()) {
+                    mBus.post(new HomeMessageEvent(false));
+                }
+            }
+        } else if (viewPager.getCurrentItem() == 1) {
             tabLayout.hideMsg(1);
+            if (checkMentionCount()) {
+                clearMentionCount();
+                if (!checkMessageCount()) mBus.post(new HomeMessageEvent(false));
+            }
         }
+    }
+
+    private void clearMessageCount() {
+        SPDataManager.setInt(SPDataManager.SP_KEY_MESSAGE, 0, true);
+    }
+
+    private void clearMentionCount() {
+        SPDataManager.setInt(SPDataManager.SP_KEY_MENTION, 0, true);
+    }
+
+    private boolean checkMessageCount() {
+        int count = SPDataManager.getInt(SPDataManager.SP_KEY_MESSAGE, 0);
+        return count > 0;
+    }
+
+    private boolean checkMentionCount() {
+        int count = SPDataManager.getInt(SPDataManager.SP_KEY_MENTION, 0);
+        return count > 0;
     }
 
     class MessageAdapter extends FragmentPagerAdapter {

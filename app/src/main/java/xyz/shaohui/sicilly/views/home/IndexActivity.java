@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -37,12 +36,12 @@ import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.base.HasComponent;
+import xyz.shaohui.sicilly.data.SPDataManager;
 import xyz.shaohui.sicilly.data.database.FeedbackDbAccessor;
 import xyz.shaohui.sicilly.event.FriendRequestEvent;
 import xyz.shaohui.sicilly.event.HomeMessageEvent;
 import xyz.shaohui.sicilly.event.MentionEvent;
 import xyz.shaohui.sicilly.event.MessageEvent;
-import xyz.shaohui.sicilly.event.MessageSumEvent;
 import xyz.shaohui.sicilly.leanCloud.service.RemoteService;
 import xyz.shaohui.sicilly.service.SicillyService;
 import xyz.shaohui.sicilly.service.aidl.IEventListener;
@@ -55,8 +54,8 @@ import xyz.shaohui.sicilly.views.home.profile.ProfileFragment;
 import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragment;
 import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragmentBuilder;
 
-public class IndexActivity extends BaseActivity implements HasComponent<HomeComponent>,
-        DialogController {
+public class IndexActivity extends BaseActivity
+        implements HasComponent<HomeComponent>, DialogController {
 
     public static final int ACTION_CHAT = 1;
     public static final int ACTION_MENTION = 2;
@@ -127,14 +126,24 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
         mListener = new IEventListener.Stub() {
             @Override
             public void onEvent(int type, int count) throws RemoteException {
+                int origin;
                 switch (type) {
                     case SicillyService.EVENT_TYPE_MENTION:
+                        origin = SPDataManager.getInt(SPDataManager.SP_KEY_MENTION, 0);
+                        SPDataManager.setInt(SPDataManager.SP_KEY_MENTION, count + origin, false);
                         mBus.post(new MentionEvent(count));
+                        mBus.post(new HomeMessageEvent(true));
                         break;
                     case SicillyService.EVENT_TYPE_MESSAGE:
+                        origin = SPDataManager.getInt(SPDataManager.SP_KEY_MESSAGE, 0);
+                        SPDataManager.setInt(SPDataManager.SP_KEY_MESSAGE, count + origin, false);
                         mBus.post(new MessageEvent(count));
+                        mBus.post(new HomeMessageEvent(true));
                         break;
                     case SicillyService.EVENT_TYPE_REQUEST:
+                        origin = SPDataManager.getInt(SPDataManager.SP_KEY_FRIEND_REQUEST, 0);
+                        SPDataManager.setInt(SPDataManager.SP_KEY_FRIEND_REQUEST, count + origin,
+                                false);
                         mBus.post(new FriendRequestEvent(count));
                         break;
                 }
@@ -176,8 +185,8 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
         ArrayList<CustomTabEntity> tabData = new ArrayList<>();
         tabData.add(new TabEntity(getString(R.string.bottom_tab_home), R.drawable.ic_home_selected,
                 R.drawable.ic_home));
-        tabData.add(new TabEntity(getString(R.string.bottom_tab_message), R.drawable.ic_message_selected,
-                R.drawable.ic_message));
+        tabData.add(new TabEntity(getString(R.string.bottom_tab_message),
+                R.drawable.ic_message_selected, R.drawable.ic_message));
         tabData.add(new TabEntity(getString(R.string.bottom_tab_user), R.drawable.ic_user_selected,
                 R.drawable.ic_user));
 
@@ -190,11 +199,11 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
     }
 
     /**
-     * 监听更新BottomTab
+     * 监听更新BottomTabMessage
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void subscirbeMessaegTab(HomeMessageEvent event) {
-        if (event.count > 0) {
+        if (event.show) {
             bottomTab.showDot(1);
             MsgView msgView = bottomTab.getMsgView(1);
             msgView.setBackgroundColor(getResources().getColor(R.color.red));
@@ -203,16 +212,25 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
         }
     }
 
-    /**
-     * 监听Feedback消息
-     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void subscribeProfileTab(FriendRequestEvent event) {
+        checkForShowProfileBadge();
+    }
+
     @Override
-    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
+    protected void onResume() {
+        super.onResume();
+        checkForShowProfileBadge();
+
+        checkForShowMessageBadge();
+    }
+
+    private void checkForShowProfileBadge() {
         mFeedbackDbAccessor.unreadCount()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(integer -> {
-                    if (integer > 0) {
+                    if (integer > 0
+                            || SPDataManager.getInt(SPDataManager.SP_KEY_FRIEND_REQUEST, 0) > 0) {
                         bottomTab.showDot(2);
                         MsgView msgView = bottomTab.getMsgView(2);
                         msgView.setBackgroundColor(getResources().getColor(R.color.red));
@@ -220,6 +238,17 @@ public class IndexActivity extends BaseActivity implements HasComponent<HomeComp
                         bottomTab.hideMsg(2);
                     }
                 });
+    }
+
+    private void checkForShowMessageBadge() {
+        if (SPDataManager.getInt(SPDataManager.SP_KEY_MENTION, 0) > 0
+                || SPDataManager.getInt(SPDataManager.SP_KEY_MESSAGE, 0) > 0) {
+            bottomTab.showDot(1);
+            MsgView msgView = bottomTab.getMsgView(1);
+            msgView.setBackgroundColor(getResources().getColor(R.color.red));
+        } else {
+            bottomTab.hideMsg(1);
+        }
     }
 
     /**

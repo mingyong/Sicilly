@@ -6,9 +6,9 @@ package xyz.shaohui.sicilly.event;
 
 public class HomeMessageEvent {
 
-    public int count;
+    public boolean show;
 
-    public HomeMessageEvent(int count) {
-        this.count = count;
+    public HomeMessageEvent(boolean show) {
+        this.show = show;
     }
 }

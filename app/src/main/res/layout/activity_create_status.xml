@@ -28,7 +28,7 @@
                     android:paddingLeft="3dp"
                     android:paddingBottom="6dp"
                     android:background="@null"
-                    android:textSize="14sp"
+                    android:textSize="15sp"
                     android:textColor="@color/text_main"
                     android:minLines="3"
                     android:lineSpacingExtra="4dp"

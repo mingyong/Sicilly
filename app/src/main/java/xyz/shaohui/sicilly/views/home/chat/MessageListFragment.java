@@ -91,37 +91,6 @@ public class MessageListFragment extends BaseFragment<MessageListView, MessageLi
         }, 4);
     }
 
-    // 更新消息提示
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (!checkHaveNewMessage()) {
-            mBus.post(new NoMessageEvent());
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void subscribeMessage(NoMentionEvent event) {
-        if (!checkHaveNewMessage()) {
-            mBus.post(new HomeMessageEvent(-1));
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void subscribeNewMessage() {
-
-    }
-
-    private boolean checkHaveNewMessage() {
-        for (ConversationBean bean : mDataList) {
-            if (bean.msg_num > 0) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     @Override
     public void showEmpty() {
         mRecyclerView.showEmptyView();
@@ -133,7 +102,7 @@ public class MessageListFragment extends BaseFragment<MessageListView, MessageLi
     }
 
     @Override
-    public void showConversation(List<ConversationBean> conversations) {
+    public void showConversation(List<Conversation> conversations) {
         if (!mDataList.isEmpty()) {
             mDataList.clear();
         }

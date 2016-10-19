@@ -121,7 +121,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_toLeftOf="@id/btn_submit"
                     android:layout_toRightOf="@id/self_avatar"
-                    android:textSize="13sp"
+                    android:textSize="14sp"
                     />
         </RelativeLayout>
     </LinearLayout>

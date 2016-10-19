@@ -40,45 +40,68 @@ public class MessageListPresenterImpl extends MessageListPresenter {
 
     @Override
     public void fetchMessageList() {
-        Observable<Conversation> mainObservable = mMessageService.conversationList(1)
-                .flatMap(Observable::from);
+        //Observable<Conversation> mainObservable = mMessageService.conversationList(1)
+        //        .flatMap(Observable::from);
+        //
+        //mainObservable.subscribeOn(Schedulers.io())
+        //        .observeOn(AndroidSchedulers.mainThread())
+        //        .subscribeOn()
 
-        Observable<ConversationBean> notificationObservable =
-                mAccountService.notification().flatMap(fanNotification -> {
-                    if (fanNotification.mentions() > 0) {
-                        mBus.post(new MentionEvent(fanNotification.mentions()));
-                    }
-
-                    if (fanNotification.direct_messages() > 0
-                            || fanNotification.friend_requests() > 0) {
-                        mBus.post(new MessageEvent(fanNotification.direct_messages()
-                                + fanNotification.friend_requests()));
-                    }
-
-                    if (fanNotification.friend_requests() > 0) {
-                        return Observable.just(
-                                new ConversationBean(fanNotification.friend_requests()));
-                    }
-                    return Observable.empty();
-                });
-
-        Observable.concat(notificationObservable, mainObservable)
+        mMessageService.conversationList(1)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .toList()
-                .subscribe(conversationBeen -> {
+                .subscribe(conversations -> {
                     if (isViewAttached()) {
-                        if (conversationBeen.isEmpty()) {
+                        if (conversations.isEmpty()) {
                             getView().showEmpty();
                         } else {
-                            getView().showConversation(conversationBeen);
+                            getView().showConversation(conversations);
                         }
                     }
                 }, throwable -> {
+                    ErrorUtils.catchException(throwable);
                     if (isViewAttached()) {
                         getView().showNetError();
                     }
                 });
+        //Observable<ConversationBean> notificationObservable =
+        //        mAccountService.notification().flatMap(fanNotification -> {
+        //            if (fanNotification.mentions() > 0) {
+        //                mBus.post(new MentionEvent(fanNotification.mentions()));
+        //            }
+        //
+        //            if (fanNotification.direct_messages() > 0
+        //                    || fanNotification.friend_requests() > 0) {
+        //                mBus.post(new MessageEvent(fanNotification.direct_messages()
+        //                        + fanNotification.friend_requests()));
+        //            }
+        //
+        //            if (fanNotification.friend_requests() > 0) {
+        //                return Observable.just(
+        //                        new ConversationBean(fanNotification.friend_requests()));
+        //            }
+        //            return Observable.empty();
+        //        });
+
+        //Observable.concat(notificationObservable, mainObservable)
+        //        .subscribeOn(Schedulers.io())
+        //        .observeOn(AndroidSchedulers.mainThread())
+        //        .toList()
+        //        .subscribe(conversationBeen -> {
+        //            if (isViewAttached()) {
+        //                if (conversationBeen.isEmpty()) {
+        //                    getView().showEmpty();
+        //                } else {
+        //                    getView().showConversation(conversationBeen);
+        //                }
+        //            }
+        //        }, throwable -> {
+        //            if (isViewAttached()) {
+        //                getView().showNetError();
+        //            }
+        //        });
+        //
+
 
 
 

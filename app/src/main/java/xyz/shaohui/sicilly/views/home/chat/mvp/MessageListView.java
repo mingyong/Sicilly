@@ -15,7 +15,7 @@ public interface MessageListView extends MvpView {
 
     void showNetError();
 
-    void showConversation(List<ConversationBean> conversations);
+    void showConversation(List<Conversation> conversations);
 
     void showMoreConversation(List<Conversation> conversations);
 

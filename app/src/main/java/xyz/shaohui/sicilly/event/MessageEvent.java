@@ -12,4 +12,7 @@ public class MessageEvent {
         this.count = count;
     }
 
+    public int getCount() {
+        return count;
+    }
 }
