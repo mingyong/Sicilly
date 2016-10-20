@@ -44,7 +44,7 @@ public class SplashActivity extends BaseActivity {
 
         mAppUserDbAccessor.selectCurrentUser()
                 .subscribe(cursor -> {
-                    Log.i("TAG", cursor.getCount() + "");
+                    Log.i("TAG_login_user", cursor.getCount() + "");
                    if (cursor.getCount() > 0) {
                        cursor.moveToFirst();
                        SicillyApplication.setCurrentAppUser(AppUser.MAPPER.map(cursor));

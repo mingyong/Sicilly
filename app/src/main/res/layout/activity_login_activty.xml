@@ -20,7 +20,7 @@
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
             android:layout_centerVertical="true"
-            app:cardElevation="3dp"
+            app:cardElevation="2dp"
             app:cardCornerRadius="3dp"
             >
 
@@ -33,7 +33,7 @@
 
             <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="55dp"
                     android:layout_marginBottom="5dp"
                     >
 
@@ -52,7 +52,7 @@
 
             <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="55dp"
                     >
 
                 <EditText

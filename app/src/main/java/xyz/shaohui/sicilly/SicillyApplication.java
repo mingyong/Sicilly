@@ -20,6 +20,7 @@ public class SicillyApplication extends Application {
     public static AppComponent mAppComponent;
     public static AppUser mAppUser;
     public static OAuthToken mToken;
+    public static OAuthToken mTempToken;
 
     @Override
     public void onCreate() {
@@ -37,6 +38,9 @@ public class SicillyApplication extends Application {
     }
 
     public static OAuthToken getToken() {
+        if (mTempToken != null) {
+            return mTempToken;
+        }
         if (mToken != null && mAppUser != null && !TextUtils.equals(mToken.getToken(),
                 mAppUser.token())) {
             mToken = new OAuthToken(mAppUser.token(), mAppUser.token_secret());
@@ -49,6 +53,10 @@ public class SicillyApplication extends Application {
     // 仅在登录成功之后调用一次
     public static void setToken(OAuthToken token) {
         mToken = token;
+    }
+
+    public static void setTempToken(OAuthToken token) {
+        mTempToken = token;
     }
 
     public static String currentUId() {

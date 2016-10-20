@@ -104,7 +104,7 @@ public class LoginDialogFragment extends BaseDialogFragment {
     private void loadUserInfo(OAuthToken token) {
 
         // 临时Token
-        SicillyApplication.setToken(token);
+        SicillyApplication.setTempToken(token);
 
         mUserService.userInfoSelf()
                 .subscribeOn(Schedulers.io())
@@ -117,17 +117,20 @@ public class LoginDialogFragment extends BaseDialogFragment {
                     // 切换用户
                     // 1. 切换DB中的Active User
                     // 2. 切换Application 的 currentUser
-                    // 3. Service 中自动观察数据库变化 更新Application,
-                    //      如果不生效, 可以使用AIDL调用, 使Service更新
-                    // 4. 清除所有的Notification
-                    // 5. 重启Activity
+                    //
+                    // 3. 清除所有的Notification
+                    // 4. 重启Activity, Service会自动重启
 
                     mAppUserDbAccessor.updateActiveUser(SicillyApplication.currentAppUser(),
                             appUser);           // 1
-                    SicillyApplication.setCurrentAppUser(appUser);          // 2
-                    NotificationUtils.clearAll(getContext());       // 4
+                    SicillyApplication.setCurrentAppUser(appUser);      //2
+                    SicillyApplication.setTempToken(null);          // 清除临时Token
 
-                    startActivity(new Intent(getContext(), IndexActivity.class));      // 5
+                    NotificationUtils.clearAll(getContext());       // 3
+
+                    startActivity(new Intent(getContext(), IndexActivity.class));      // 4
+
+                    mProgressDialog.dismiss();
                     getActivity().finish();
                 });
     }

@@ -81,6 +81,8 @@ public class IndexActivity extends BaseActivity
 
     private HomeComponent mComponent;
 
+    private ServiceConnection mServiceConnection;
+
     private static final int REQUEST_PERMISSION_CODE = 0;
 
     private String downloadUrl;
@@ -150,7 +152,7 @@ public class IndexActivity extends BaseActivity
             }
         };
 
-        ServiceConnection serviceConnection = new ServiceConnection() {
+        mServiceConnection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName name, IBinder service) {
                 mService = ISicillyService.Stub.asInterface(service);
@@ -167,7 +169,13 @@ public class IndexActivity extends BaseActivity
             }
         };
 
-        bindService(new Intent(this, SicillyService.class), serviceConnection, BIND_AUTO_CREATE);
+        bindService(new Intent(this, SicillyService.class), mServiceConnection, BIND_AUTO_CREATE);
+    }
+
+    @Override
+    protected void onDestroy() {
+        unbindService(mServiceConnection);
+        super.onDestroy();
     }
 
     @Override
