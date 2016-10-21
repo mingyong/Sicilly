@@ -31,7 +31,7 @@ public class StatusDetailPresenterImpl extends StatusDetailPresenter {
     public void loadStatus(Status origin) {
         List<Status> originList = new ArrayList<>();
         originList.add(origin);
-        Observable<List<Status>> local = Observable.just(new ArrayList<>());
+        Observable<List<Status>> local = Observable.just(originList);
 
         Observable<List<Status>> remote = mStatusService.context(origin.id());
 
