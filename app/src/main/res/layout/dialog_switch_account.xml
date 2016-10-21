@@ -6,6 +6,15 @@
         android:background="@drawable/drawable_white_round"
         android:orientation="vertical"
         >
+    <TextView
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:textColor="@color/text_main"
+            android:padding="10dp"
+            android:text="账号切换"
+            />
 
     <android.support.v7.widget.RecyclerView
             android:id="@+id/account_list"
