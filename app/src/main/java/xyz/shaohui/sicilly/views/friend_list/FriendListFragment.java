@@ -96,7 +96,9 @@ public class FriendListFragment extends BaseFragment<FriendListMVP.View, FriendL
         mRecyclerView.addItemDecoration(new SpacingDecoration(3));
 
         mRecyclerView.setOnMoreListener((total, left, current) -> {
-            presenter.loadUser(++mPage);
+            if (mUserList.size() > 0) {
+                presenter.loadUser(++mPage);
+            }
         }, 6);
 
         // title

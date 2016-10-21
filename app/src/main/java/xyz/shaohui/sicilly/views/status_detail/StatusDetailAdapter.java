@@ -29,6 +29,7 @@ import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
 import xyz.shaohui.sicilly.utils.NoUnderlineSpan;
 import xyz.shaohui.sicilly.utils.TimeUtils;
+import xyz.shaohui.sicilly.views.home.timeline.TimelineItemListener;
 import xyz.shaohui.sicilly.views.home.timeline.adapter.IndexStatusAdapter;
 import xyz.shaohui.sicilly.views.photo.PictureActivity;
 import xyz.shaohui.sicilly.views.user_info.UserActivity;
@@ -42,8 +43,11 @@ public class StatusDetailAdapter
 
     private List<Status> dataList;
 
-    public StatusDetailAdapter(List<Status> dataList) {
+    private TimelineItemListener mListener;
+
+    public StatusDetailAdapter(List<Status> dataList, TimelineItemListener listener) {
         this.dataList = dataList;
+        this.mListener = listener;
     }
 
     @Override
@@ -117,22 +121,23 @@ public class StatusDetailAdapter
                     context.startActivity(UserActivity.newIntent(context, user.id()));
                     break;
                 case R.id.action_comment:
-                    //mListener.opComment(status);
+                    mListener.opComment(status);
                     break;
                 case R.id.action_repost:
-                    //mListener.opRepost(status);
+                    mListener.opRepost(status);
                     break;
                 case R.id.action_star:
                     //mListener.opStar(status, position);
                     break;
                 case R.id.action_delete:
-                    //mListener.opDelete(status, position);
+                    mListener.opDelete(status, position);
                     break;
             }
         };
         viewHolder.actionComment.setOnClickListener(listener);
         viewHolder.actionRepost.setOnClickListener(listener);
         viewHolder.actionStar.setOnClickListener(listener);
+        viewHolder.actionStar.setVisibility(View.INVISIBLE);
         viewHolder.actionDelete.setOnClickListener(listener);
         viewHolder.header.setOnClickListener(listener);
 

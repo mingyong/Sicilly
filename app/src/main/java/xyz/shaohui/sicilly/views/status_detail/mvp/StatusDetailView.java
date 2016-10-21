@@ -12,6 +12,5 @@ public interface StatusDetailView extends MvpView {
 
     void showStatus(List<Status> statuses);
 
-
-
+    void deleteStatusFailure(Status status, int position);
 }

@@ -80,6 +80,9 @@ public class SicillyApplication extends Application {
     }
 
     public static AppComponent getAppComponent() {
+        if (mAppComponent == null) {
+            mAppComponent = DaggerAppComponent.builder().build();
+        }
         return mAppComponent;
     }
 

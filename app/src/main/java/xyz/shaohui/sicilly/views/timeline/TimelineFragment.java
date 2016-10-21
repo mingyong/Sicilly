@@ -7,17 +7,24 @@ import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
+import com.afollestad.materialdialogs.MaterialDialog;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
+import me.shaohui.sicillylib.utils.ToastUtils;
 import me.shaohui.vistarecyclerview.VistaRecyclerView;
 import me.shaohui.vistarecyclerview.decoration.SpacingDecoration;
 import org.greenrobot.eventbus.EventBus;
+import retrofit2.Retrofit;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.base.BaseFragment;
 import xyz.shaohui.sicilly.data.models.Status;
+import xyz.shaohui.sicilly.views.create_status.CreateStatusActivity;
+import xyz.shaohui.sicilly.views.create_status.CreateStatusDialogBuilder;
+import xyz.shaohui.sicilly.views.create_status.DialogController;
+import xyz.shaohui.sicilly.views.home.timeline.TimelineItemListener;
 import xyz.shaohui.sicilly.views.status_detail.StatusDetailAdapter;
 import xyz.shaohui.sicilly.views.timeline.di.TimelineComponent;
 import xyz.shaohui.sicilly.views.timeline.di.TimelineModule;
@@ -28,10 +35,13 @@ import xyz.shaohui.sicilly.views.timeline.mvp.TimelineMVP;
  */
 
 public class TimelineFragment extends BaseFragment<TimelineMVP.View, TimelineMVP.Presenter>
-        implements TimelineMVP.View {
+        implements TimelineMVP.View, TimelineItemListener, DialogController {
 
     @Inject
     EventBus mBus;
+
+    @Inject
+    Retrofit mRetrofit;
 
     @Inject
     @Named(TimelineModule.TIMELINE_USER_ID)
@@ -81,7 +91,7 @@ public class TimelineFragment extends BaseFragment<TimelineMVP.View, TimelineMVP
         }
 
         mStatusList = new ArrayList<>();
-        StatusDetailAdapter adapter = new StatusDetailAdapter(mStatusList);
+        StatusDetailAdapter adapter = new StatusDetailAdapter(mStatusList, this);
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.addItemDecoration(new SpacingDecoration(8));
         mRecyclerView.setOnMoreListener((total, left, current) -> {
@@ -121,5 +131,61 @@ public class TimelineFragment extends BaseFragment<TimelineMVP.View, TimelineMVP
     @Override
     public void loadNoMore() {
         mRecyclerView.loadNoMore();
+    }
+
+    @Override
+    public void deleteStatusFailure(Status status, int position) {
+        mStatusList.set(position, status);
+        mRecyclerView.notifyDataSetChanged();
+        ToastUtils.showToast(getActivity(), R.string.delete_status_failure);
+    }
+
+    @Override
+    public void opAvatar() {
+
+    }
+
+    @Override
+    public void opContent(Status status) {
+
+    }
+
+    @Override
+    public void opStar(Status status, int position) {
+
+    }
+
+    @Override
+    public void opComment(Status status) {
+        //startActivity(CreateStatusActivity.newIntent(getActivity(), status,
+        //        CreateStatusActivity.TYPE_REPLY));
+        new CreateStatusDialogBuilder(CreateStatusActivity.TYPE_REPLY)
+                .originStatus(status).build().show(getFragmentManager());
+    }
+
+    @Override
+    public void opRepost(Status status) {
+        //startActivity(CreateStatusActivity.newIntent(getActivity(), status,
+        //        CreateStatusActivity.TYPE_REPOST));
+        new CreateStatusDialogBuilder(CreateStatusActivity.TYPE_REPOST)
+                .originStatus(status).build().show(getFragmentManager());
+    }
+
+    @Override
+    public void opDelete(Status status, int position) {
+        new MaterialDialog.Builder(getActivity()).content(R.string.confirm_delete_status)
+                .positiveText(R.string.yes)
+                .negativeText(R.string.no)
+                .onPositive((dialog, which) -> {
+                    mStatusList.remove(position);
+                    mRecyclerView.notifyDataSetChanged();
+                    presenter.deleteMessage(status, position);
+                })
+                .show();
+    }
+
+    @Override
+    public Retrofit getRetrofit() {
+        return mRetrofit;
     }
 }

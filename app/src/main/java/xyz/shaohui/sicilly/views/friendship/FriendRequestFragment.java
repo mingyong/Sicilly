@@ -73,8 +73,11 @@ public class FriendRequestFragment
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.addItemDecoration(
                 new DividerDecoration(Color.parseColor("#F8F8F8"), 2, 8, 8));
-        mRecyclerView.setOnMoreListener((total, left, current) -> presenter.loadRequest(++mPage),
-                6);
+        mRecyclerView.setOnMoreListener((total, left, current) -> {
+            if (mUserList.size() > 0) {
+                presenter.loadRequest(++mPage);
+            }
+        }, 6);
 
         presenter.loadRequest(mPage);
     }

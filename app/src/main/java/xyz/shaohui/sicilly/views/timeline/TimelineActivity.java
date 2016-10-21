@@ -5,20 +5,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import javax.inject.Inject;
 import org.greenrobot.eventbus.EventBus;
+import retrofit2.Retrofit;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.base.HasComponent;
+import xyz.shaohui.sicilly.views.create_status.DialogController;
 import xyz.shaohui.sicilly.views.timeline.di.DaggerTimelineComponent;
 import xyz.shaohui.sicilly.views.timeline.di.TimelineComponent;
 import xyz.shaohui.sicilly.views.timeline.di.TimelineModule;
 
-public class TimelineActivity extends BaseActivity implements HasComponent<TimelineComponent> {
+public class TimelineActivity extends BaseActivity implements HasComponent<TimelineComponent>,
+        DialogController {
 
     public static final int DATA_TYPE_TIMELINE = 1;
     public static final int DATA_TYPE_STAR = 2;
 
     @Inject
     EventBus mBus;
+
+    @Inject
+    Retrofit mRetrofit;
 
     private TimelineComponent mComponent;
 
@@ -56,5 +62,10 @@ public class TimelineActivity extends BaseActivity implements HasComponent<Timel
     @Override
     public TimelineComponent getComponent() {
         return mComponent;
+    }
+
+    @Override
+    public Retrofit getRetrofit() {
+        return mRetrofit;
     }
 }

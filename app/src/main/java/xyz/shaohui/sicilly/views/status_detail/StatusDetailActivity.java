@@ -5,17 +5,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import javax.inject.Inject;
 import org.greenrobot.eventbus.EventBus;
+import retrofit2.Retrofit;
 import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.base.HasComponent;
 import xyz.shaohui.sicilly.data.models.Status;
+import xyz.shaohui.sicilly.views.create_status.DialogController;
 import xyz.shaohui.sicilly.views.status_detail.di.DaggerStatusDetailComponent;
 import xyz.shaohui.sicilly.views.status_detail.di.StatusDetailComponent;
 
 public class StatusDetailActivity extends BaseActivity
-        implements HasComponent<StatusDetailComponent> {
+        implements HasComponent<StatusDetailComponent>, DialogController{
 
     @Inject
     EventBus mBus;
+
+    @Inject
+    Retrofit mRetrofit;
 
     StatusDetailComponent mComponent;
 
@@ -48,5 +53,10 @@ public class StatusDetailActivity extends BaseActivity
     @Override
     public StatusDetailComponent getComponent() {
         return mComponent;
+    }
+
+    @Override
+    public Retrofit getRetrofit() {
+        return mRetrofit;
     }
 }

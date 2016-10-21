@@ -3,6 +3,8 @@ package xyz.shaohui.sicilly.views.timeline;
 import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -67,6 +69,20 @@ public class TimelinePresenterImpl extends TimelineMVP.Presenter {
                             getView().loadMoreError();
                         }
                     }
+                });
+    }
+
+    @Override
+    public void deleteMessage(Status status, int position) {
+        mStatusService.destroyStatus(RequestBody.create(MediaType.parse("text/plain"), status.id()))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(status1 -> {
+                }, throwable -> {
+                    if (isViewAttached()) {
+                        getView().deleteStatusFailure(status, position);
+                    }
+                    throwable.printStackTrace();
                 });
     }
 }

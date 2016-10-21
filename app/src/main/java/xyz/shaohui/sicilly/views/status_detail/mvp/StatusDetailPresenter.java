@@ -11,4 +11,6 @@ public abstract class StatusDetailPresenter extends MvpBasePresenter<StatusDetai
 
     public abstract void loadStatus(Status origin);
 
+    public abstract void deleteMessage(Status status, int position);
+
 }

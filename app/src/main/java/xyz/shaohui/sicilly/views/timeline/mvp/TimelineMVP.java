@@ -23,11 +23,15 @@ public interface TimelineMVP {
 
         void loadNoMore();
 
+        void deleteStatusFailure(Status status, int position);
+
     }
 
     abstract class Presenter extends MvpBasePresenter<View> {
 
         public abstract void loadStatus(int page);
+
+        public abstract void deleteMessage(Status status, int position);
 
     }
 

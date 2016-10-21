@@ -33,9 +33,10 @@ import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
 import xyz.shaohui.sicilly.utils.NoUnderlineSpan;
 import xyz.shaohui.sicilly.utils.TimeUtils;
-import xyz.shaohui.sicilly.views.user_info.UserActivity;
 import xyz.shaohui.sicilly.views.home.timeline.TimelineItemListener;
 import xyz.shaohui.sicilly.views.photo.PictureActivity;
+import xyz.shaohui.sicilly.views.status_detail.StatusDetailActivity;
+import xyz.shaohui.sicilly.views.user_info.UserActivity;
 
 /**
  * Created by shaohui on 16/8/19.
@@ -86,10 +87,8 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(viewHolder.image);
             viewHolder.image.setOnClickListener(v -> {
-                Intent intent =
-                        PictureActivity.newIntent(context, status.photo().getLargeurl());
-                if (android.os.Build.VERSION.SDK_INT
-                        >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                Intent intent = PictureActivity.newIntent(context, status.photo().getLargeurl());
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                     ActivityOptions options =
                             ActivityOptions.makeSceneTransitionAnimation((Activity) context,
                                     viewHolder.image, "image");
@@ -154,6 +153,10 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
         viewHolder.actionContxt.setOnClickListener(listener);
         viewHolder.name.setOnClickListener(listener);
         viewHolder.avatar.setOnClickListener(listener);
+        viewHolder.text.setOnClickListener(
+                v -> context.startActivity(StatusDetailActivity.newIntent(context, status)));
+        viewHolder.itemView.setOnClickListener(
+                v -> context.startActivity(StatusDetailActivity.newIntent(context, status)));
         //viewHolder.header.setOnClickListener(listener);
 
         if (status.favorited()) {
