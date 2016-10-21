@@ -21,6 +21,7 @@ import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.OnClick;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.bumptech.glide.Glide;
 import com.hannesdorfmann.fragmentargs.annotation.Arg;
 import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs;
 import java.io.File;
@@ -201,14 +202,14 @@ public class CreateStatusFragment extends BaseFragment<CreateStatusView, CreateS
                     if (data != null && data.getData() != null) {
                         imageFileUri = data.getData();
                         realPath = FileUtils.getPath(getActivity(), imageFileUri);
-                        statusImage.setImageURI(FileUtils.path2Uri(realPath));
+                        Glide.with(this).load(new File(realPath)).into(statusImage);
                         statusImage.setVisibility(View.VISIBLE);
                         mLocalImagePath = realPath;
                     }
                     break;
                 case TAKE_PHOTO:
                     realPath = FileUtils.getPath(getActivity(), imageFileUri);
-                    statusImage.setImageURI(FileUtils.path2Uri(realPath));
+                    Glide.with(this).load(new File(realPath)).into(statusImage);
                     statusImage.setVisibility(View.VISIBLE);
                     mLocalImagePath = realPath;
                     break;

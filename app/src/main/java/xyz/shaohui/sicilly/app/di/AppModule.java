@@ -42,7 +42,7 @@ public class AppModule {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        return new OkHttpClient.Builder().connectTimeout(20, TimeUnit.SECONDS)  // 超时20s
+        return new OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS)  // 超时20s
                 .addInterceptor(interceptor)
                 .addInterceptor(new OkHttpInterceptor())
                 .retryOnConnectionFailure(true)

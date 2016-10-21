@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.text.TextUtils;
 import java.io.File;
 import javax.inject.Inject;
+import me.shaohui.advancedluban.Luban;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
 import rx.Observable;
@@ -11,7 +12,7 @@ import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.data.DataManager;
 import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.network.api.StatusAPI;
-import xyz.shaohui.sicilly.utils.ImageUtils;
+import xyz.shaohui.sicilly.utils.RxUtils;
 import xyz.shaohui.sicilly.views.create_status.mvp.CreateStatusPresenter;
 
 /**
@@ -70,19 +71,22 @@ public class CreateStatusPresenterImpl extends CreateStatusPresenter {
 
     private void sendTextWithPhoto(String text, String path) {
         RequestBody status = RequestBody.create(MediaType.parse("text/plain"), text);
-        File pic = new File(path);
+        final File pic = new File(path);
         //compress image here
-        File compressedFile = null;
-        try {
-            compressedFile = ImageUtils.compressImage(pic);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        pic = (compressedFile != null && compressedFile.length() > 0) ? compressedFile : pic;
-        RequestBody photo = RequestBody.create(MediaType.parse("multipart/form-data"), pic);
-        Intent failureIntent =
-                CreateStatusActivity.newIntent(SicillyApplication.getContext(), text, path);
-        DataManager.sendStatus(statusService.createStatusWithPhoto(status, photo), failureIntent);
+        Luban.get(SicillyApplication.getContext())
+                .load(pic)
+                .setMaxSize(2000)
+                .putGear(Luban.CUSTOM_GEAR)
+                .asObservable()
+                .subscribe(file -> {
+                    File result = (file != null && file.length() > 0) ? file : pic;
+                    RequestBody photo =
+                            RequestBody.create(MediaType.parse("multipart/form-data"), result);
+                    Intent failureIntent =
+                            CreateStatusActivity.newIntent(SicillyApplication.getContext(), text,
+                                    path);
+                    DataManager.sendStatus(statusService.createStatusWithPhoto(status, photo),
+                            failureIntent);
+                }, RxUtils.ignoreError);
     }
 }
