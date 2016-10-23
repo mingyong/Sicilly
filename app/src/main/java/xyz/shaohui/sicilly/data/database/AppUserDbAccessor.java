@@ -46,7 +46,7 @@ public class AppUserDbAccessor {
     }
 
     public void deleteUser(String userId) {
-        mBriteDatabase.delete(AppUser.TABLE_NAME, AppUser.DELETE_BY_ID, userId);
+        mBriteDatabase.delete(AppUser.TABLE_NAME, "id = ?", userId);
     }
 
     public void switchActiveUser(AppUser origin, AppUser target) {

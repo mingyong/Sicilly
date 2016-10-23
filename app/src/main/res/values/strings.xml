@@ -115,6 +115,8 @@
     <string name="setting_notification_mention">有人@我提醒</string>
     <string name="setting_notification_request">好友关注请求提醒</string>
     <string name="setting_notification_sound">提示音</string>
+    <string name="setting_no_sound">静音模式</string>
+
     <array name="notification_sound_type_list">
         <item>0</item>
         <item>1</item>
@@ -127,6 +129,7 @@
     <string name="setting_about">关于尚饭</string>
     <string name="setting_mark">给个五星好评</string>
     <string name="setting_log_out">退出登录</string>
+    <string name="log_out_message">确认退出登录？</string>
 
     <string name="app_market_uri">market://details?id=xyz.shaohui.sicilly</string>
 

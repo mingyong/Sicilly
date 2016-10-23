@@ -16,12 +16,12 @@ public class SettingFragment extends PreferenceFragment {
         super.onCreate(savedInstanceState);
 
         addPreferencesFromResource(R.xml.preference);
-        Preference sing = findPreference("fewf");
-        sing.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                return false;
-            }
-        });
+        //Preference sing = findPreference("fewf");
+        //sing.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        //    @Override
+        //    public boolean onPreferenceClick(Preference preference) {
+        //        return false;
+        //    }
+        //});
     }
 }
