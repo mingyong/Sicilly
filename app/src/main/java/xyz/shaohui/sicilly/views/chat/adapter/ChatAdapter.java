@@ -2,16 +2,13 @@ package xyz.shaohui.sicilly.views.chat.adapter;
 
 import android.support.v4.widget.ContentLoadingProgressBar;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import java.util.List;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.data.models.Message;
 import xyz.shaohui.sicilly.utils.TimeUtils;
@@ -35,7 +32,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     @Override
     public int getItemViewType(int position) {
         Message message = dataList.get(position);
-        if (message.getSender_id().equals(otherUserId)) {
+        if (message.getSender().id().trim().equals(otherUserId)) {
             return TYPE_LEFT;
         } else {
             return TYPE_RIGHT;
@@ -73,9 +70,12 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
 
     class ChatViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.message_text)TextView text;
-        @BindView(R.id.message_time)TextView time;
-        @BindView(R.id.message_progress)ContentLoadingProgressBar progressBar;
+        @BindView(R.id.message_text)
+        TextView text;
+        @BindView(R.id.message_time)
+        TextView time;
+        @BindView(R.id.message_progress)
+        ContentLoadingProgressBar progressBar;
 
         public ChatViewHolder(View itemView) {
             super(itemView);

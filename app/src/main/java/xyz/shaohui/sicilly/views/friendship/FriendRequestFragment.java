@@ -14,6 +14,7 @@ import me.shaohui.vistarecyclerview.decoration.DividerDecoration;
 import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseFragment;
+import xyz.shaohui.sicilly.data.SPDataManager;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.views.friendship.di.FriendshipComponent;
 import xyz.shaohui.sicilly.views.friendship.mvp.FriendRequestMVP;
@@ -82,6 +83,12 @@ public class FriendRequestFragment
         presenter.loadRequest(mPage);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        SPDataManager.setInt(SPDataManager.SP_KEY_FRIEND_REQUEST, 0, true);
+    }
+
     @OnClick(R.id.btn_back)
     void btnBack() {
         getActivity().finish();
@@ -90,6 +97,7 @@ public class FriendRequestFragment
     @Override
     public void loadRequestSuccess(List<User> users) {
         mUserList.addAll(users);
+        mRecyclerView.notifyDataSetChanged();
     }
 
     @Override

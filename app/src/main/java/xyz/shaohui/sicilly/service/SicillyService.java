@@ -4,6 +4,7 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.util.Pair;
 import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 import rx.Observable;
@@ -218,12 +219,12 @@ public class SicillyService extends Service {
                         names.append("、");
                     }
                 }
-                return Observable.just(String.format(getString(R.string.notification_new_mention),
-                        names.toString()));
+                return Observable.just(Pair.create(String.format(getString(R.string.notification_new_mention),
+                        names.toString()), statuses.get(statuses.size() - 1)));
             }
-        }).subscribeOn(Schedulers.io()).subscribe(string -> {
+        }).subscribeOn(Schedulers.io()).subscribe(pair -> {
             if (canMentionNotice == STATUS_YES) {
-                NotificationUtils.showMentionNotice(this, string);
+                NotificationUtils.showMentionNotice(this, pair.first, pair.second);
             }
         }, RxUtils.ignoreNetError);
     }

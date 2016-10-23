@@ -10,8 +10,10 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.data.models.Message;
+import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.views.chat.ChatActivity;
 import xyz.shaohui.sicilly.views.home.IndexActivity;
+import xyz.shaohui.sicilly.views.status_detail.StatusDetailActivity;
 
 /**
  * Created by shaohui on 16/9/27.
@@ -38,7 +40,7 @@ public class NotificationUtils {
                 .setTicker(message.getText())
                 .setContentTitle(message.getSender_screen_name())
                 .setContentText(message.getText())
-                .setSmallIcon(R.drawable.ic_message)
+                .setSmallIcon(R.mipmap.ic_message)
                 .setLargeIcon(
                         BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_icon))
                 .setContentIntent(pendingIntent)
@@ -49,8 +51,8 @@ public class NotificationUtils {
         manager.notify(MESSAGE_ID, builder.build());
     }
 
-    public static void showMentionNotice(Context context, String mentionStr) {
-        Intent intent = IndexActivity.newIntent(context, IndexActivity.ACTION_MENTION);
+    public static void showMentionNotice(Context context, String mentionStr, Status origin) {
+        Intent intent = StatusDetailActivity.newIntent(context, origin, true);
         PendingIntent pendingIntent =
                 PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -59,9 +61,9 @@ public class NotificationUtils {
                 .setContentText(mentionStr)
                 .setTicker(mentionStr)
                 .setAutoCancel(true)
-                .setSmallIcon(R.drawable.ic_at_black)
+                .setSmallIcon(R.mipmap.ic_at)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
-                        R.drawable.ic_at_black))
+                        R.mipmap.ic_icon))
                 .setContentIntent(pendingIntent)
                 .setSound(Uri.parse("android.resource://xyz.shaohui.sicilly/raw/sound"));
 

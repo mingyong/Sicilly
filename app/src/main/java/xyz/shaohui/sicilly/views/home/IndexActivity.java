@@ -114,6 +114,9 @@ public class IndexActivity extends BaseActivity
         // 启动Service 监听
         startService(new Intent(this, SicillyService.class));
         bindService();
+
+        // 保存CurrentUser
+        SPDataManager.checkAndSaveAppUser(SicillyApplication.currentAppUser());
     }
 
     /**
@@ -144,9 +147,11 @@ public class IndexActivity extends BaseActivity
                         break;
                     case SicillyService.EVENT_TYPE_REQUEST:
                         origin = SPDataManager.getInt(SPDataManager.SP_KEY_FRIEND_REQUEST, 0);
-                        SPDataManager.setInt(SPDataManager.SP_KEY_FRIEND_REQUEST, count + origin,
-                                false);
-                        mBus.post(new FriendRequestEvent(count));
+                        if (origin != count) {
+                            SPDataManager.setInt(SPDataManager.SP_KEY_FRIEND_REQUEST, count,
+                                    false);
+                            mBus.post(new FriendRequestEvent(count));
+                        }
                         break;
                 }
             }

@@ -69,4 +69,20 @@ public abstract class BaseFragment<V extends MvpView, T extends MvpPresenter<V>>
 
     public void bindViews(View view) {
     }
+
+    //@Override
+    //public void onDestroy() {
+    //    if (getBus() != null && getBus().isRegistered(this)) {
+    //        getBus().unregister(this);
+    //    }
+    //    super.onDestroy();
+    //}
+
+    @Override
+    public void onDetach() {
+        if (getBus() != null && getBus().isRegistered(this)) {
+            getBus().unregister(this);
+        }
+        super.onDetach();
+    }
 }

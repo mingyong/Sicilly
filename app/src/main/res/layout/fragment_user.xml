@@ -1,149 +1,189 @@
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="xyz.shaohui.sicilly.views.home.profile.ProfileFragment">
-
-    <ScrollView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
-        <LinearLayout
+        tools:context="xyz.shaohui.sicilly.views.home.profile.ProfileFragment"
+        >
+
+    <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:divider="@drawable/drawable_divider_gray"
-            android:showDividers="middle|end">
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            >
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@drawable/drawable_divider_gray"
+                android:orientation="vertical"
+                android:showDividers="middle|end"
+                >
+
             <include
-                layout="@layout/view_user_header"/>
+                    layout="@layout/view_user_header"/>
+
             <LinearLayout
-                android:id="@+id/action_status_list"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingLeft="@dimen/spacing_large">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_user_status"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/spacing_large"
-                    android:textSize="14sp"
-                    android:textColor="@color/text_main"
-                    android:text="@string/user_status"/>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/action_star_list"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingLeft="@dimen/spacing_large">
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_star_black_main"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/spacing_large"
-                    android:textSize="14sp"
-                    android:textColor="@color/text_main"
-                    android:text="@string/user_star"/>
-            </LinearLayout>
-            <LinearLayout
-                    android:id="@+id/action_request"
+                    android:id="@+id/action_status_list"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"
-                    android:orientation="horizontal"
                     android:gravity="center_vertical"
-                    android:paddingLeft="@dimen/spacing_large">
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/spacing_large"
+                    >
+
                 <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:srcCompat="@drawable/ic_friend"/>
+                        app:srcCompat="@drawable/ic_user_status"
+                        />
+
                 <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/spacing_large"
-                        android:textSize="14sp"
+                        android:text="@string/user_status"
                         android:textColor="@color/text_main"
-                        android:text="@string/friend_request"/>
+                        android:textSize="14sp"
+                        />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/action_star_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/spacing_large"
+                    >
+
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_star_black_main"
+                        />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/spacing_large"
+                        android:text="@string/user_star"
+                        android:textColor="@color/text_main"
+                        android:textSize="14sp"
+                        />
+            </LinearLayout>
+
+            <LinearLayout
+                    android:id="@+id/action_request"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/spacing_large"
+                    >
+
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_friend"
+                        />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/spacing_large"
+                        android:text="@string/friend_request"
+                        android:textColor="@color/text_main"
+                        android:textSize="14sp"
+                        />
+
                 <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         >
+
                     <TextView
                             android:id="@+id/friend_request_count"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:visibility="gone"
-                            android:background="@drawable/drawable_notification_red"
-                            android:layout_marginRight="@dimen/spacing_large"
                             android:layout_gravity="right"
+                            android:layout_marginRight="@dimen/spacing_large"
+                            android:background="@drawable/drawable_notification_red"
                             android:gravity="center"
                             android:textColor="@color/white"
                             android:textSize="12sp"
+                            android:visibility="gone"
                             />
                 </FrameLayout>
             </LinearLayout>
+
             <LinearLayout
-                android:id="@+id/action_toolbox"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingLeft="@dimen/spacing_large">
+                    android:id="@+id/action_toolbox"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/spacing_large"
+                    android:visibility="gone"
+                    >
+
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_toolbox"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_toolbox"
+                        />
+
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/spacing_large"
-                    android:textSize="14sp"
-                    android:textColor="@color/text_main"
-                    android:text="@string/user_toolbox"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/spacing_large"
+                        android:text="@string/user_toolbox"
+                        android:textColor="@color/text_main"
+                        android:textSize="14sp"
+                        />
             </LinearLayout>
+
             <LinearLayout
-                android:id="@+id/action_feedback"
-                android:layout_width="match_parent"
-                android:layout_height="60dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:paddingLeft="@dimen/spacing_large">
+                    android:id="@+id/action_feedback"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/spacing_large"
+                    >
+
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_feedback"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_feedback"
+                        />
+
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/spacing_large"
-                    android:textSize="14sp"
-                    android:textColor="@color/text_main"
-                    android:text="@string/user_feedback"/>
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/spacing_large"
+                        android:text="@string/user_feedback"
+                        android:textColor="@color/text_main"
+                        android:textSize="14sp"
+                        />
+
                 <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         >
+
                     <TextView
                             android:id="@+id/feedback_count"
                             android:layout_width="20dp"
                             android:layout_height="20dp"
-                            android:visibility="gone"
-                            android:background="@drawable/drawable_notification_red"
-                            android:layout_marginRight="@dimen/spacing_large"
                             android:layout_gravity="right"
+                            android:layout_marginRight="@dimen/spacing_large"
+                            android:background="@drawable/drawable_notification_red"
                             android:gravity="center"
                             android:textColor="@color/white"
                             android:textSize="12sp"
+                            android:visibility="gone"
                             />
                 </FrameLayout>
             </LinearLayout>
@@ -151,21 +191,22 @@
     </ScrollView>
 
     <ImageButton
-        android:id="@+id/btn_switch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="@dimen/spacing_normal"
-        android:paddingLeft="@dimen/spacing_normal"
-        android:background="@null"
-        app:srcCompat="@drawable/ic_switch"/>
+            android:id="@+id/btn_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:padding="@dimen/spacing_normal"
+            app:srcCompat="@drawable/ic_switch"
+            />
+
     <ImageButton
-        android:id="@+id/btn_setting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:paddingTop="@dimen/spacing_normal"
-        android:paddingRight="@dimen/spacing_normal"
-        android:background="@null"
-        app:srcCompat="@drawable/ic_setting"/>
+            android:id="@+id/btn_setting"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@null"
+            android:padding="@dimen/spacing_normal"
+            app:srcCompat="@drawable/ic_setting"
+            />
 
 </RelativeLayout>

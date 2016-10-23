@@ -1,6 +1,7 @@
 package xyz.shaohui.sicilly.base;
 
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
 import com.hannesdorfmann.mosby.mvp.MvpPresenter;

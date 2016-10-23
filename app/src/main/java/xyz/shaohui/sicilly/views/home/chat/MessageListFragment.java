@@ -22,6 +22,7 @@ import xyz.shaohui.sicilly.base.BaseFragment;
 import xyz.shaohui.sicilly.data.models.Conversation;
 import xyz.shaohui.sicilly.data.models.ConversationBean;
 import xyz.shaohui.sicilly.event.HomeMessageEvent;
+import xyz.shaohui.sicilly.event.MessageEvent;
 import xyz.shaohui.sicilly.views.home.chat.adapter.MessageListAdapter;
 import xyz.shaohui.sicilly.views.home.chat.mvp.MessageListPresenter;
 import xyz.shaohui.sicilly.views.home.chat.mvp.MessageListView;
@@ -36,7 +37,6 @@ public class MessageListFragment extends BaseFragment<MessageListView, MessageLi
     VistaRecyclerView mRecyclerView;
 
     private List<ConversationBean> mDataList;
-    private SparseArray<String> mUnreadConversation;
     private int mPage = 1;
 
     @Inject
@@ -45,7 +45,6 @@ public class MessageListFragment extends BaseFragment<MessageListView, MessageLi
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mUnreadConversation = new SparseArray<>();
     }
 
     @Override
@@ -125,5 +124,10 @@ public class MessageListFragment extends BaseFragment<MessageListView, MessageLi
     @Override
     public void loadMoreError() {
         mRecyclerView.loadMoreFailure();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void subscribe(MessageEvent event) {
+        presenter.fetchMessageList();
     }
 }

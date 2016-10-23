@@ -11,6 +11,7 @@ import io.fabric.sdk.android.Fabric;
 import java.util.List;
 import xyz.shaohui.sicilly.app.di.AppComponent;
 import xyz.shaohui.sicilly.app.di.DaggerAppComponent;
+import xyz.shaohui.sicilly.data.SPDataManager;
 import xyz.shaohui.sicilly.data.models.AppUser;
 import xyz.shaohui.sicilly.data.network.auth.OAuthToken;
 
@@ -60,10 +61,13 @@ public class SicillyApplication extends Application {
     }
 
     public static String currentUId() {
-        return mAppUser.id();
+        return currentAppUser().id();
     }
 
     public static AppUser currentAppUser() {
+        if (mAppUser == null) {
+            mAppUser = SPDataManager.getAppUser();
+        }
         return mAppUser;
     }
 

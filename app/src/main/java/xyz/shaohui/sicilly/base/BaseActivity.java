@@ -33,7 +33,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         return SicillyApplication.getAppComponent();
     }
 
-    public abstract EventBus getBus() ;
+    public abstract EventBus getBus();
 
     @Override
     protected void onResume() {
@@ -45,5 +45,13 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (getBus() != null && getBus().isRegistered(this)) {
+            getBus().unregister(this);
+        }
+        super.onDestroy();
     }
 }

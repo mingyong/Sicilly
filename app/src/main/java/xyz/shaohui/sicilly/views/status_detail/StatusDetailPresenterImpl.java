@@ -47,6 +47,18 @@ public class StatusDetailPresenterImpl extends StatusDetailPresenter {
     }
 
     @Override
+    public void loadStatusById(String id) {
+        mStatusService.context(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(statuses -> {
+                    if (isViewAttached()) {
+                        getView().showStatus(statuses);
+                    }
+                }, RxUtils.ignoreNetError);
+    }
+
+    @Override
     public void deleteMessage(Status status, int position) {
         mStatusService.destroyStatus(RequestBody.create(MediaType.parse("text/plain"), status.id()))
                 .subscribeOn(Schedulers.io())

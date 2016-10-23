@@ -111,7 +111,7 @@ public class ChatFragment extends BaseFragment<ChatView, ChatPresenter> implemen
         mDataList = new ArrayList<>();
         LinearLayoutManager layoutManager =
                 new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, true);
-        ChatAdapter adapter = new ChatAdapter(mOtherUser.id(), mDataList);
+        ChatAdapter adapter = new ChatAdapter(mOtherUser.id().trim(), mDataList);
         layoutManager.setStackFromEnd(true);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);

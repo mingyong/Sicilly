@@ -17,6 +17,7 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.schedulers.Schedulers;
 import xyz.shaohui.sicilly.SicillyApplication;
+import xyz.shaohui.sicilly.data.database.BriteDatabaseProvider;
 import xyz.shaohui.sicilly.data.database.DbHelper;
 import xyz.shaohui.sicilly.data.network.MyAdapterFactory;
 import xyz.shaohui.sicilly.data.network.RetrofitService;
@@ -40,7 +41,7 @@ public class AppModule {
     @Provides
     OkHttpClient provideHttpClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        interceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
 
         return new OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS)  // 超时20s
                 .addInterceptor(interceptor)
@@ -69,13 +70,12 @@ public class AppModule {
     }
 
     @Provides
-    DbHelper prodiveDbHelper(Context context) {
+    DbHelper provideDbHelper(Context context) {
         return new DbHelper(context);
     }
 
     @Provides
-    BriteDatabase provideBriteDatabase(DbHelper dbHelper) {
-        SqlBrite sqlBrite = SqlBrite.create();
-        return sqlBrite.wrapDatabaseHelper(dbHelper, Schedulers.io());
+    BriteDatabase provideBriteDatabase(Context context) {
+        return BriteDatabaseProvider.instance(context);
     }
 }

@@ -115,9 +115,9 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+    public void onSaveInstanceState(Bundle outState) {
         outState.putString("user_id", userId);
-        super.onSaveInstanceState(outState, outPersistentState);
+        super.onSaveInstanceState(outState);
     }
 
     @NonNull

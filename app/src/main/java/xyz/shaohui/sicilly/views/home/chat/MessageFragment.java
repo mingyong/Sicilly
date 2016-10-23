@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -122,6 +123,13 @@ public class MessageFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        if (SPDataManager.getInt(SPDataManager.SP_KEY_MENTION, 0) > 0) {
+            tabLayout.showDot(1);
+            MsgView view = tabLayout.getMsgView(1);
+            view.setBackgroundColor(getResources().getColor(R.color.red));
+        }
+
         if (viewPager.getCurrentItem() == 0) {
             tabLayout.hideMsg(0);
             if (checkMessageCount()) {
@@ -137,6 +145,16 @@ public class MessageFragment extends Fragment {
                 if (!checkMessageCount()) mBus.post(new HomeMessageEvent(false));
             }
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        try {
+            mBus.unregister(this);
+        } catch (Exception e) {
+
+        }
+        super.onDestroyView();
     }
 
     private void clearMessageCount() {

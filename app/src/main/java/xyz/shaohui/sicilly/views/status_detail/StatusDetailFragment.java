@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import butterknife.BindView;
+import butterknife.OnClick;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.hannesdorfmann.fragmentargs.annotation.Arg;
 import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs;
@@ -77,6 +78,11 @@ public class StatusDetailFragment extends BaseFragment<StatusDetailView, StatusD
         mRecyclerView.setLayoutManager(
                 new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         presenter.loadStatus(mOriginStatus);
+    }
+
+    @OnClick(R.id.btn_back)
+    void btnBack() {
+        getActivity().finish();
     }
 
     @Override
