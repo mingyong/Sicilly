@@ -90,7 +90,7 @@ public class ChatFragment extends BaseFragment<ChatView, ChatPresenter> implemen
 
         presenter.fetchMessage();
 
-        presenter.checkFriendShip();
+        //presenter.checkFriendShip();
     }
 
     @OnClick(R.id.btn_back)
