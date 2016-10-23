@@ -13,5 +13,4 @@ public class ErrorUtils {
             HttpException exception = (HttpException) throwable;
         }
     }
-
 }

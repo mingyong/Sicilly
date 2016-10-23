@@ -3,18 +3,20 @@ package xyz.shaohui.sicilly.views.photo;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Environment;
 import android.view.View;
 import android.widget.ImageView;
-
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.google.common.io.Files;
+import java.io.File;
+import java.io.IOException;
 import me.shaohui.sicillylib.utils.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -23,7 +25,8 @@ import xyz.shaohui.sicilly.base.BaseActivity;
 
 public class PictureActivity extends BaseActivity {
 
-    @BindView(R.id.image_view)ImageView imageView;
+    @BindView(R.id.image_view)
+    ImageView imageView;
 
     private String url;
     private PhotoViewAttacher mAttacher;
@@ -63,8 +66,9 @@ public class PictureActivity extends BaseActivity {
     private void loadImage() {
         Glide.with(this)
                 .load(url)
+                .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                //.fitCenter()
+                .fitCenter()
                 .into(imageView);
         if (!url.toLowerCase().endsWith(".gif")) {
             mAttacher = new PhotoViewAttacher(imageView);
@@ -80,10 +84,31 @@ public class PictureActivity extends BaseActivity {
                 }
             });
             mAttacher.setOnLongClickListener(v -> {
-                ToastUtils.showToast(getApplicationContext(), "保存图片");
+                ToastUtils.showToast(getApplicationContext(), "TODO保存图片");
                 return true;
             });
         }
+    }
+
+    private void saveLocalImage() {
+        File dir = new File(
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
+                "尚饭");
+        dir.mkdirs();
+        File file = new File(dir, System.currentTimeMillis() + ".jpg");
+        Glide.with(this).load(url).downloadOnly(new SimpleTarget<File>() {
+            @Override
+            public void onResourceReady(File resource,
+                    GlideAnimation<? super File> glideAnimation) {
+                try {
+                    Files.copy(resource, file);
+                    ToastUtils.showToast(PictureActivity.this,
+                            String.format(getString(R.string.save_image), file.getPath()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @OnClick(R.id.image_view)

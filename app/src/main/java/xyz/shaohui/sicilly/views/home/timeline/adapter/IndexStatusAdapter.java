@@ -88,7 +88,8 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
                     .into(viewHolder.image);
             viewHolder.image.setOnClickListener(v -> {
                 Intent intent = PictureActivity.newIntent(context, status.photo().getLargeurl());
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP
+                        && !status.photo().getLargeurl().toLowerCase().endsWith(".gif")) {
                     ActivityOptions options =
                             ActivityOptions.makeSceneTransitionAnimation((Activity) context,
                                     viewHolder.image, "image");
