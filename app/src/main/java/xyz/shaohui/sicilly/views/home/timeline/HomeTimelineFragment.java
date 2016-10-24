@@ -239,7 +239,9 @@ public class HomeTimelineFragment extends BaseFragment<HomeTimelineView, HomeTim
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void updateStatus(Status status) {
-        mDataList.add(0, status);
-        mRecyclerView.notifyDataSetChanged();
+        if (mType == TYPE_HOME) {
+            mDataList.add(0, status);
+            mRecyclerView.notifyDataSetChanged();
+        }
     }
 }
