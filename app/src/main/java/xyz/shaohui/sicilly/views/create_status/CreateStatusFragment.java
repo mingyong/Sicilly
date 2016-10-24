@@ -29,6 +29,7 @@ import javax.inject.Inject;
 import me.shaohui.sicillylib.utils.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.SicillyFactory;
 import xyz.shaohui.sicilly.base.BaseFragment;
 import xyz.shaohui.sicilly.data.models.Status;
@@ -38,6 +39,7 @@ import xyz.shaohui.sicilly.utils.HtmlUtils;
 import xyz.shaohui.sicilly.views.create_status.di.CreateStatusComponent;
 import xyz.shaohui.sicilly.views.create_status.mvp.CreateStatusPresenter;
 import xyz.shaohui.sicilly.views.create_status.mvp.CreateStatusView;
+import xyz.shaohui.sicilly.views.friend_list.FriendListActivity;
 
 /**
  * Created by shaohui on 16/9/11.
@@ -50,6 +52,7 @@ public class CreateStatusFragment extends BaseFragment<CreateStatusView, CreateS
     private static final int TAKE_PHOTO = 1;
     private static final int SELECT_PHOTO = 2;
     private static final int REQUEST_PERMISSION = 3;
+    private static final int CODE_AT = 4;
 
     @BindView(R.id.status_image)
     ImageView statusImage;
@@ -213,6 +216,11 @@ public class CreateStatusFragment extends BaseFragment<CreateStatusView, CreateS
                     statusImage.setVisibility(View.VISIBLE);
                     mLocalImagePath = realPath;
                     break;
+                case CODE_AT:
+                    String name = data.getStringExtra(FriendListActivity.RESULT_DATA);
+                    Editable edit = statusText.getEditableText();
+                    edit.insert(statusText.getSelectionStart(), String.format("@%s ", name));
+                    break;
                 default:
                     break;
             }
@@ -249,7 +257,8 @@ public class CreateStatusFragment extends BaseFragment<CreateStatusView, CreateS
 
     @OnClick(R.id.action_at)
     void actionAt() {
-
+        startActivityForResult(FriendListActivity.newIntent(getContext(), SicillyApplication.currentUId(),
+                FriendListActivity.DATA_TYPE_FRIEND, FriendListActivity.VIEW_TYPE_TINY), CODE_AT);
     }
 
     @OnClick(R.id.action_submit)

@@ -41,7 +41,7 @@ public interface StatusAPI {
     Observable<List<Status>> mentionsStatusNext(@Query("page") int page, @Query("since_id")int id);
 
     @Multipart
-    @POST("statuses/update.json")
+    @POST("statuses/update.json?format=html")
     Observable<Status> createStatus(@Part("status") RequestBody text,
             @Part("in_reply_to_status_id") String reply_status_id,
             @Part("repost_status_id") String repost_status_id);
