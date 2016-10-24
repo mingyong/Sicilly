@@ -117,7 +117,7 @@ public class SwitchAccountDialog extends BaseDialogFragment
             AppUser user = dataList.get(position);
 
             holder.name.setText(user.name());
-            Glide.with(holder.itemView.getContext()).load(user.avatar()).into(holder.avatar);
+            Glide.with(SicillyApplication.getContext()).load(user.avatar()).into(holder.avatar);
             if (SicillyApplication.isSelf(user.id())) {
                 holder.dot.setVisibility(View.VISIBLE);
             } else {
