@@ -94,7 +94,7 @@ public class SicillyService extends Service {
                     listenerNewMessage();
                 }
             }
-        });
+        }, RxUtils.ignoreError);
 
         return START_STICKY;
     }

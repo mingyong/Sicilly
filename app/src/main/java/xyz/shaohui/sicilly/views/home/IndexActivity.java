@@ -46,6 +46,7 @@ import xyz.shaohui.sicilly.leanCloud.service.RemoteService;
 import xyz.shaohui.sicilly.service.SicillyService;
 import xyz.shaohui.sicilly.service.aidl.IEventListener;
 import xyz.shaohui.sicilly.service.aidl.ISicillyService;
+import xyz.shaohui.sicilly.utils.RxUtils;
 import xyz.shaohui.sicilly.views.create_status.DialogController;
 import xyz.shaohui.sicilly.views.home.chat.MessageFragment;
 import xyz.shaohui.sicilly.views.home.di.DaggerHomeComponent;
@@ -250,7 +251,7 @@ public class IndexActivity extends BaseActivity
                     } else {
                         bottomTab.hideMsg(2);
                     }
-                });
+                }, RxUtils.ignoreError);
     }
 
     private void checkForShowMessageBadge() {

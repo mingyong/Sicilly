@@ -1,14 +1,17 @@
 package xyz.shaohui.sicilly.views.login;
 
 import javax.inject.Inject;
+import me.shaohui.sicillylib.utils.ToastUtils;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.data.database.AppUserDbAccessor;
 import xyz.shaohui.sicilly.data.models.AppUser;
 import xyz.shaohui.sicilly.data.network.api.UserAPI;
 import xyz.shaohui.sicilly.data.network.auth.AuthService;
 import xyz.shaohui.sicilly.data.network.auth.OAuthToken;
+import xyz.shaohui.sicilly.utils.ErrorUtils;
 import xyz.shaohui.sicilly.views.login.mvp.LoginPresenter;
 
 /**
@@ -71,7 +74,10 @@ public class LoginPresenterImpl extends LoginPresenter {
                     if (isViewAttached()) {
                         getView().loginSuccess();
                     }
+                }, throwable -> {
+                    ToastUtils.showToast(SicillyApplication.getContext(),
+                            R.string.login_load_failed);
+                    ErrorUtils.catchException(throwable);
                 });
     }
-
 }
