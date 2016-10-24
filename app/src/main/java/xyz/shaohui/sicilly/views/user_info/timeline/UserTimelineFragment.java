@@ -182,6 +182,9 @@ public class UserTimelineFragment extends BaseFragment<UserTimelineView, UserTim
 
     @Override
     public View getScrollableView() {
-        return mRecyclerView.getRecycler();
+        if (mRecyclerView != null) {
+            return mRecyclerView.getRecycler();
+        }
+        return null;
     }
 }
