@@ -68,10 +68,10 @@ public class PictureActivity extends BaseActivity {
                 .load(url)
                 .skipMemoryCache(true)
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .fitCenter()
                 .into(imageView);
         if (!url.toLowerCase().endsWith(".gif")) {
             mAttacher = new PhotoViewAttacher(imageView);
+            mAttacher.setScaleType(ImageView.ScaleType.FIT_CENTER);
             mAttacher.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
                 @Override
                 public void onPhotoTap(View view, float x, float y) {
