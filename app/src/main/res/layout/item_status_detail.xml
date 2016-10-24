@@ -91,16 +91,16 @@
             android:background="@color/divider"/>
     <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingRight="@dimen/spacing_normal"
-            android:paddingLeft="@dimen/spacing_normal"
-            android:paddingTop="@dimen/spacing_small"
-            android:paddingBottom="@dimen/spacing_small">
+            android:layout_height="wrap_content">
         <ImageButton
                 android:id="@+id/action_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:paddingLeft="@dimen/spacing_normal"
+                android:paddingRight="@dimen/spacing_normal"
                 android:background="@null"
                 app:srcCompat="@drawable/ic_delete"
                 />
@@ -108,6 +108,10 @@
                 android:id="@+id/action_comment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
+                android:paddingRight="@dimen/spacing_normal"
+                android:paddingLeft="32dp"
                 android:layout_alignParentRight="true"
                 android:background="@color/transparent"
                 app:srcCompat="@drawable/ic_comment"/>
@@ -115,16 +119,21 @@
                 android:id="@+id/action_repost"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
                 android:layout_toLeftOf="@id/action_comment"
-                android:layout_marginRight="64dp"
+                android:paddingRight="32dp"
+                android:paddingLeft="32dp"
                 android:background="@color/transparent"
                 app:srcCompat="@drawable/ic_repost"/>
         <ImageButton
                 android:id="@+id/action_star"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="6dp"
+                android:paddingBottom="6dp"
                 android:layout_toLeftOf="@id/action_repost"
-                android:layout_marginRight="64dp"
+                android:paddingRight="32dp"
                 android:background="@color/transparent"
                 app:srcCompat="@drawable/ic_star"/>
     </RelativeLayout>

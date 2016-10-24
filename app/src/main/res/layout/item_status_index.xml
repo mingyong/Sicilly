@@ -1,141 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingTop="@dimen/spacing_large"
-    android:paddingLeft="@dimen/spacing_large"
-    android:paddingRight="@dimen/spacing_large"
-    android:foreground="?attr/selectableItemBackground"
-    android:background="@color/white">
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:foreground="?attr/selectableItemBackground"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/spacing_large"
+        android:paddingRight="@dimen/spacing_large"
+        android:paddingTop="@dimen/spacing_large"
+        >
+
     <RelativeLayout
-        android:id="@+id/status_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical">
-        <com.makeramen.roundedimageview.RoundedImageView
-            android:id="@+id/user_avatar"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginRight="6dp"
-            android:scaleType="centerCrop"
-            app:riv_corner_radius="3dp"
-            tools:src="@mipmap/ic_icon"/>
-        <TextView
-            android:id="@+id/user_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/user_avatar"
-            android:textSize="14sp"
-            android:textColor="@color/blue_title"
-            tools:text="邵辉Vista"/>
-        <TextView
-            android:id="@+id/status_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/user_avatar"
-            android:layout_below="@id/user_name"
-            android:textSize="12sp"
-            android:textColor="@color/gray_tag"
-            tools:text="14:32"/>
-        <TextView
-            android:id="@+id/status_source"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/status_time"
-            android:layout_marginLeft="6dp"
-            android:layout_alignBottom="@id/status_time"
-            android:textSize="12sp"
-            android:textColor="@color/gray_tag"
-            tools:text="via 尚饭"/>
-    </RelativeLayout>
-    <TextView
-        android:id="@+id/status_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textColorLink="@color/accent"
-        style="@style/AppTheme.StatusText"
-        tools:text="滴滴出行宣布与Uber全球达成战略协议，滴滴出行将收购优步中国的品牌、业务、数据等全部资产在中国大陆运营。双方达成战略协议后， 滴滴出行和优步的母公司Uber全球将相互持股，成为对方的少数股权股东"/>
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/status_image"
+            android:id="@+id/status_header"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="8dp"
-            android:transitionName="image"
-            android:scaleType="centerCrop"
-            tools:background="@color/place_bg"/>
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            >
+
+        <com.makeramen.roundedimageview.RoundedImageView
+                android:id="@+id/user_avatar"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginRight="6dp"
+                android:scaleType="centerCrop"
+                app:riv_corner_radius="3dp"
+                tools:src="@mipmap/ic_icon"
+                />
+
         <TextView
-            android:id="@+id/flag_gif"
-            android:layout_width="40dp"
-            android:layout_height="18dp"
-            android:layout_gravity="bottom|right"
-            android:gravity="center"
-            android:visibility="gone"
-            android:layout_margin="@dimen/spacing_normal"
-            android:text="@string/gif"
-            android:textColor="@color/white"
-            android:textSize="10sp"
-            android:background="@drawable/drawable_gif_bg"/>
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/user_avatar"
+                android:textColor="@color/blue_title"
+                android:textSize="14sp"
+                tools:text="邵辉Vista"
+                />
+
+        <TextView
+                android:id="@+id/status_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/user_name"
+                android:layout_toRightOf="@id/user_avatar"
+                android:textColor="@color/gray_tag"
+                android:textSize="12sp"
+                tools:text="14:32"
+                />
+
+        <TextView
+                android:id="@+id/status_source"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/status_time"
+                android:layout_marginLeft="6dp"
+                android:layout_toRightOf="@id/status_time"
+                android:textColor="@color/gray_tag"
+                android:textSize="12sp"
+                tools:text="via 尚饭"
+                />
+    </RelativeLayout>
+
+    <TextView
+            android:id="@+id/status_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColorLink="@color/accent"
+            tools:text="滴滴出行宣布与Uber全球达成战略协议，滴滴出行将收购优步中国的品牌、业务、数据等全部资产在中国大陆运营。双方达成战略协议后， 滴滴出行和优步的母公司Uber全球将相互持股，成为对方的少数股权股东"
+            style="@style/AppTheme.StatusText"
+            />
+
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+        <ImageView
+                android:id="@+id/status_image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="8dp"
+                android:scaleType="centerCrop"
+                android:transitionName="image"
+                tools:background="@color/place_bg"
+                />
+
+        <TextView
+                android:id="@+id/flag_gif"
+                android:layout_width="40dp"
+                android:layout_height="18dp"
+                android:layout_gravity="bottom|right"
+                android:layout_margin="@dimen/spacing_normal"
+                android:background="@drawable/drawable_gif_bg"
+                android:gravity="center"
+                android:text="@string/gif"
+                android:textColor="@color/white"
+                android:textSize="10sp"
+                android:visibility="gone"
+                />
     </FrameLayout>
+
     <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_marginTop="8dp"
-        android:background="@color/divider"/>
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="8dp"
+            android:background="@color/divider"
+            />
+
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingRight="@dimen/spacing_normal"
-        android:paddingLeft="@dimen/spacing_normal"
-        android:paddingTop="@dimen/spacing_small"
-        android:paddingBottom="@dimen/spacing_small">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
         <ImageButton
                 android:id="@+id/action_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/spacing_normal"
+                android:paddingTop="@dimen/spacing_small"
+                android:paddingBottom="@dimen/spacing_small"
+                android:paddingLeft="@dimen/spacing_normal"
                 android:visibility="gone"
+                android:paddingRight="16dp"
                 android:background="@null"
                 app:srcCompat="@drawable/ic_delete"
                 />
+
         <ImageButton
                 android:id="@+id/action_context"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
+                android:paddingTop="@dimen/spacing_small"
+                android:paddingBottom="@dimen/spacing_small"
+                android:paddingLeft="16dp"
+                android:paddingRight="@dimen/spacing_normal"
+                android:layout_toRightOf="@id/action_delete"
                 android:background="@null"
                 app:srcCompat="@drawable/ic_context"
-                android:layout_toRightOf="@id/action_delete"
                 />
+
         <ImageButton
-            android:id="@+id/action_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:background="@color/transparent"
-            app:srcCompat="@drawable/ic_comment"/>
+                android:id="@+id/action_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:background="@color/transparent"
+                android:paddingBottom="@dimen/spacing_small"
+                android:paddingTop="@dimen/spacing_small"
+                android:paddingLeft="32dp"
+                android:paddingRight="16dp"
+                app:srcCompat="@drawable/ic_comment"
+                />
+
         <ImageButton
-            android:id="@+id/action_repost"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/action_comment"
-            android:layout_marginRight="64dp"
-            android:background="@color/transparent"
-            app:srcCompat="@drawable/ic_repost"/>
+                android:id="@+id/action_repost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/spacing_small"
+                android:paddingBottom="@dimen/spacing_small"
+                android:paddingRight="32dp"
+                android:paddingLeft="32dp"
+                android:layout_toLeftOf="@id/action_comment"
+                android:background="@color/transparent"
+                app:srcCompat="@drawable/ic_repost"
+                />
+
         <ImageButton
-            android:id="@+id/action_star"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/action_repost"
-            android:layout_marginRight="64dp"
-            android:background="@color/transparent"
-            app:srcCompat="@drawable/ic_star"/>
+                android:id="@+id/action_star"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/spacing_small"
+                android:paddingBottom="@dimen/spacing_small"
+                android:paddingRight="32dp"
+                android:layout_toLeftOf="@id/action_repost"
+                android:background="@color/transparent"
+                app:srcCompat="@drawable/ic_star"
+                />
     </RelativeLayout>
 </LinearLayout>
