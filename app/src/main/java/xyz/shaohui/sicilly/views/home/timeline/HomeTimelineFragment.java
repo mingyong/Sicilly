@@ -24,6 +24,9 @@ import retrofit2.Retrofit;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseFragment;
 import xyz.shaohui.sicilly.data.models.Status;
+import xyz.shaohui.sicilly.event.HomeUpdateEvent;
+import xyz.shaohui.sicilly.event.MentionEvent;
+import xyz.shaohui.sicilly.event.MentionUpdateEvent;
 import xyz.shaohui.sicilly.utils.SimpleUtils;
 import xyz.shaohui.sicilly.views.create_status.CreateStatusActivity;
 import xyz.shaohui.sicilly.views.create_status.CreateStatusDialog;
@@ -242,6 +245,24 @@ public class HomeTimelineFragment extends BaseFragment<HomeTimelineView, HomeTim
         if (mType == TYPE_HOME) {
             mDataList.add(0, status);
             mRecyclerView.notifyDataSetChanged();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateHome(HomeUpdateEvent event) {
+        if (mType == TYPE_HOME) {
+            mRecyclerView.getRecycler().scrollToPosition(0);
+            presenter.loadMessage(mType);
+            mRecyclerView.setRefreshing(true);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateMention(MentionUpdateEvent event) {
+        if (mType == TYPE_ABOUT_ME) {
+            mRecyclerView.getRecycler().scrollToPosition(0);
+            presenter.loadMessage(mType);
+            mRecyclerView.setRefreshing(true);
         }
     }
 }

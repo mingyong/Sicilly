@@ -20,6 +20,7 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
+import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.flyco.tablayout.widget.MsgView;
 import com.pgyersdk.javabean.AppBean;
 import com.pgyersdk.update.PgyUpdateManager;
@@ -40,6 +41,7 @@ import xyz.shaohui.sicilly.data.SPDataManager;
 import xyz.shaohui.sicilly.data.database.FeedbackDbAccessor;
 import xyz.shaohui.sicilly.event.FriendRequestEvent;
 import xyz.shaohui.sicilly.event.HomeMessageEvent;
+import xyz.shaohui.sicilly.event.HomeUpdateEvent;
 import xyz.shaohui.sicilly.event.MentionEvent;
 import xyz.shaohui.sicilly.event.MessageEvent;
 import xyz.shaohui.sicilly.leanCloud.service.RemoteService;
@@ -210,6 +212,19 @@ public class IndexActivity extends BaseActivity
         fragments.add(userFragment);
 
         bottomTab.setTabData(tabData, this, R.id.main_frame, fragments);
+        bottomTab.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelect(int position) {
+
+            }
+
+            @Override
+            public void onTabReselect(int position) {
+                if (position == 0) {
+                    mBus.post(new HomeUpdateEvent());
+                }
+            }
+        });
     }
 
     /**

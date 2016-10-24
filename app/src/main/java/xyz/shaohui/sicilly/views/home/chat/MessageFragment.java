@@ -22,6 +22,7 @@ import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.data.SPDataManager;
 import xyz.shaohui.sicilly.event.HomeMessageEvent;
 import xyz.shaohui.sicilly.event.MentionEvent;
+import xyz.shaohui.sicilly.event.MentionUpdateEvent;
 import xyz.shaohui.sicilly.event.MessageEvent;
 import xyz.shaohui.sicilly.provider.BusProvider;
 import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragment;
@@ -68,7 +69,14 @@ public class MessageFragment extends Fragment {
 
             @Override
             public void onTabReselect(int position) {
-
+                if (position == 0) {
+                    mBus.post(new MentionUpdateEvent());
+                    tabLayout.hideMsg(0);
+                    clearMentionCount();
+                    if (!checkMessageCount()) {
+                        mBus.post(new HomeMessageEvent(false));
+                    }
+                }
             }
         });
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
