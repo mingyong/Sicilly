@@ -12,6 +12,7 @@ import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.network.api.FavoriteAPI;
 import xyz.shaohui.sicilly.data.network.api.StatusAPI;
+import xyz.shaohui.sicilly.utils.ErrorUtils;
 import xyz.shaohui.sicilly.views.home.timeline.mvp.HomeTimelinePresenter;
 
 /**
@@ -79,6 +80,11 @@ public class HomeTimelinePresenterImpl extends HomeTimelinePresenter {
                 .subscribe(statuses -> {
                     if (isViewAttached()) {
                         getView().showMoreMessage(statuses);
+                    }
+                }, throwable -> {
+                    ErrorUtils.catchException(throwable);
+                    if (isViewAttached()) {
+                        getView().loadMoreFail();
                     }
                 });
     }
