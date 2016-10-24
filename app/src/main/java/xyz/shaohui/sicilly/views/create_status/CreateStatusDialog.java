@@ -23,6 +23,7 @@ import com.hannesdorfmann.fragmentargs.FragmentArgs;
 import com.hannesdorfmann.fragmentargs.annotation.Arg;
 import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs;
 import java.io.File;
+import me.shaohui.advancedluban.Luban;
 import me.shaohui.bottomdialog.BaseBottomDialog;
 import me.shaohui.sicillylib.utils.ToastUtils;
 import okhttp3.MediaType;
@@ -36,6 +37,7 @@ import xyz.shaohui.sicilly.data.network.api.StatusAPI;
 import xyz.shaohui.sicilly.utils.FileUtils;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
 import xyz.shaohui.sicilly.utils.ImageUtils;
+import xyz.shaohui.sicilly.utils.RxUtils;
 import xyz.shaohui.sicilly.views.friend_list.FriendListActivity;
 
 /**
@@ -248,19 +250,22 @@ public class CreateStatusDialog extends BaseBottomDialog {
 
     private void sendTextWithPhoto(String text, String path) {
         RequestBody status = RequestBody.create(MediaType.parse("text/plain"), text);
-        File pic = new File(path);
+        final File pic = new File(path);
         //compress image here
-        File compressedFile = null;
-        try {
-            compressedFile = ImageUtils.compressImage(pic);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        pic = (compressedFile != null && compressedFile.length() > 0) ? compressedFile : pic;
-        RequestBody photo = RequestBody.create(MediaType.parse("multipart/form-data"), pic);
-        Intent failureIntent =
-                CreateStatusActivity.newIntent(SicillyApplication.getContext(), text, path);
-        DataManager.sendStatus(mStatusService.createStatusWithPhoto(status, photo), failureIntent);
+        Luban.get(SicillyApplication.getContext())
+                .load(pic)
+                .setMaxSize(path.toLowerCase().endsWith(".gif") ? 2000 : 3000)
+                .putGear(Luban.CUSTOM_GEAR)
+                .asObservable()
+                .subscribe(file -> {
+                    File result = (file != null && file.length() > 0) ? file : pic;
+                    RequestBody photo =
+                            RequestBody.create(MediaType.parse("multipart/form-data"), result);
+                    Intent failureIntent =
+                            CreateStatusActivity.newIntent(SicillyApplication.getContext(), text,
+                                    path);
+                    DataManager.sendStatus(mStatusService.createStatusWithPhoto(status, photo),
+                            failureIntent);
+                }, RxUtils.ignoreError);
     }
 }

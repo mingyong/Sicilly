@@ -75,7 +75,7 @@ public class CreateStatusPresenterImpl extends CreateStatusPresenter {
         //compress image here
         Luban.get(SicillyApplication.getContext())
                 .load(pic)
-                .setMaxSize(2000)
+                .setMaxSize(path.toLowerCase().endsWith(".gif") ? 2000 : 3000)
                 .putGear(Luban.CUSTOM_GEAR)
                 .asObservable()
                 .subscribe(file -> {
