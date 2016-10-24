@@ -2,6 +2,8 @@ package xyz.shaohui.sicilly.views.setting;
 
 import android.content.Intent;
 import android.os.Bundle;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.afollestad.materialdialogs.MaterialDialog;
 import javax.inject.Inject;
 import org.greenrobot.eventbus.EventBus;
@@ -26,6 +28,7 @@ public class SettingActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
+        ButterKnife.bind(this);
 
         getFragmentManager().beginTransaction()
                 .replace(R.id.setting_frame, new SettingFragment())
@@ -57,6 +60,11 @@ public class SettingActivity extends BaseActivity {
         SettingComponent component =
                 DaggerSettingComponent.builder().appComponent(getAppComponent()).build();
         component.inject(this);
+    }
+
+    @OnClick(R.id.btn_back)
+    void btnBack() {
+        finish();
     }
 
     @Override
