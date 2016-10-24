@@ -13,7 +13,7 @@ public abstract class UserInfoPresenter extends MvpBasePresenter<UserInfoView> {
 
     public abstract void fetchFriendShip(String userId);
 
-    public abstract void opFollow(User user);
+    public abstract void opFollowSelector(User user);
 
     public abstract void opUnFollow(User user);
 

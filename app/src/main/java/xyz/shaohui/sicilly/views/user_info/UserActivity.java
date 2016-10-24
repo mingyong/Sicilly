@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -33,6 +34,7 @@ import me.shaohui.sicillylib.utils.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
 import retrofit2.Retrofit;
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.base.BaseMvpActivity;
 import xyz.shaohui.sicilly.base.HasComponent;
 import xyz.shaohui.sicilly.data.models.User;
@@ -226,7 +228,9 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
         Glide.with(this).load(user.profile_image_url_large()).into(avatar);
         Glide.with(this).load(user.profile_background_image_url()).into(userBackground);
 
-        if (mUser.following()) {
+        if (SicillyApplication.isSelf(mUser.id())) {
+            actionFollow.setVisibility(View.GONE);
+        } else if (mUser.following()) {
             actionFollow.setImageResource(R.drawable.ic_followed);
         }
 
@@ -258,11 +262,9 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
 
     @Override
     public void opFollow() {
-        presenter.opFollow(mUser);
-
         // 用户没设置隐私, 直接显示关注成功
         if (!mUser.is_protected()) {
-            mUser = mUser.updateFollow();
+            mUser = mUser.updateFollow(true);
             actionFollow.setImageResource(R.drawable.ic_followed);
         }
     }
@@ -272,16 +274,18 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
         new MaterialDialog.Builder(this).content(R.string.confirm_un_follow_message)
                 .positiveText(R.string.yes)
                 .negativeText(R.string.no)
-                .onPositive((dialog, which) -> presenter.opUnFollow(mUser));
-
-        mUser = mUser.updateFollow();
-        actionFollow.setImageResource(R.drawable.ic_follow);
+                .onPositive((dialog, which) -> {
+                    presenter.opUnFollow(mUser);
+                    mUser = mUser.updateFollow(false);
+                    actionFollow.setImageResource(R.drawable.ic_follow);
+                })
+                .show();
     }
 
     @Override
     public void followError() {
         ToastUtils.showToast(this, R.string.follow_error);
-        mUser = mUser.updateFollow();
+        mUser = mUser.updateFollow(false);
         actionFollow.setImageResource(R.drawable.ic_follow);
     }
 
@@ -293,7 +297,7 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
     @Override
     public void unFollowError() {
         ToastUtils.showToast(this, R.string.follow_error);
-        mUser = mUser.updateFollow();
+        mUser = mUser.updateFollow(true);
         actionFollow.setImageResource(R.drawable.ic_followed);
     }
 
@@ -304,7 +308,7 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
 
     @OnClick(R.id.btn_follow)
     void actionFollow() {
-        presenter.opFollow(mUser);
+        presenter.opFollowSelector(mUser);
     }
 
     @Override

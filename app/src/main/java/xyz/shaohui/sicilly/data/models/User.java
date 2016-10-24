@@ -32,13 +32,13 @@ public abstract class User implements Parcelable {
         return new AutoValue_User.GsonTypeAdapter(gson);
     }
 
-    public User updateFollow() {
+    public User updateFollow(boolean following) {
         return new AutoValue_User(birthday(), utc_offset(), friends_count(), gender(),
                 profile_background_image_url(), favourites_count(), description(), created_at(),
                 is_protected(), screen_name(), profile_link_color(), id(),
                 profile_background_color(), profile_image_url_large(),
                 profile_sidebar_border_color(), profile_text_color(), profile_image_url(), url(),
-                profile_background_tile(), statuses_count(), followers_count(), !following(), name(),
+                profile_background_tile(), statuses_count(), followers_count(), following, name(),
                 location(), profile_sidebar_fill_color(), notifications(), status());
     }
 

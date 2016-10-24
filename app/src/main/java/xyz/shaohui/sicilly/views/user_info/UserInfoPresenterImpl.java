@@ -41,16 +41,14 @@ public class UserInfoPresenterImpl extends UserInfoPresenter {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(pair -> {
                     if (isViewAttached()) {
-                        //if (!SicillyApplication.isSelf(pair.first.id())
-                        //        && pair.first.is_protected()
-                        //        && !pair.second) {
-                        //    getView().placeUserInfo(pair.first, true);
-                        //} else {
-                        //    getView().placeUserInfo(pair.first, false);
-                        //}
                         getView().placeUserInfo(pair.first, false);
                     }
-                }, RxUtils.ignoreNetError);
+                }, throwable -> {
+                    ErrorUtils.catchException(throwable);
+                    if (isViewAttached()) {
+                        getView().loadUserInfoFailure();
+                    }
+                });
     }
 
     @Override
@@ -58,30 +56,37 @@ public class UserInfoPresenterImpl extends UserInfoPresenter {
     }
 
     @Override
-    public void opFollow(User user) {
-        RequestBody id = RequestBody.create(MediaType.parse("text/plain"), user.id());
+    public void opFollowSelector(User user) {
         if (user.following()) {
             if (isViewAttached()) {
                 getView().showUnFollowConfirmDialog();
             }
         } else {
-            mFriendshipService.create(id)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(result -> {
-
-                    }, throwable -> {
-                        if (isViewAttached()) {
-                            if (throwable instanceof HttpException) {
-                                if (((HttpException) throwable).code() == 403) {
-                                    getView().requestSuccess();
-                                }
-                            } else {
-                                ErrorUtils.catchException(throwable);
-                            }
-                        }
-                    });
+            opFollow(user);
         }
+    }
+
+    private void opFollow(User user) {
+        if (isViewAttached()) {
+            getView().opFollow();
+        }
+        RequestBody id = RequestBody.create(MediaType.parse("text/plain"), user.id());
+        mFriendshipService.create(id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(result -> {
+                }, throwable -> {
+                    if (isViewAttached()) {
+                        if (throwable instanceof HttpException) {
+                            if (((HttpException) throwable).code() == 403) {
+                                getView().requestSuccess();
+                            }
+                        } else {
+                            ErrorUtils.catchException(throwable);
+                            getView().followError();
+                        }
+                    }
+                });
     }
 
     @Override

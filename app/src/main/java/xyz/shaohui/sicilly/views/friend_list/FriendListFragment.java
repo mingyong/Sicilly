@@ -147,7 +147,7 @@ public class FriendListFragment extends BaseFragment<FriendListMVP.View, FriendL
     @Override
     public void followUserSuccess(int position, User user) {
         ToastUtils.showToast(getContext(), R.string.follow_success);
-        user.updateFollow();
+        user.updateFollow(true);
         mUserList.set(position, user);
         mRecyclerView.notifyDataSetChanged();
     }
