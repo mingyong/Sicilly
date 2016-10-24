@@ -1,5 +1,6 @@
 package xyz.shaohui.sicilly.utils;
 
+import com.crashlytics.android.Crashlytics;
 import retrofit2.adapter.rxjava.HttpException;
 
 /**
@@ -9,6 +10,7 @@ public class ErrorUtils {
 
     public static void catchException(Throwable throwable) {
         throwable.printStackTrace();
+        Crashlytics.logException(throwable);
         if (throwable instanceof HttpException) {
             HttpException exception = (HttpException) throwable;
         }

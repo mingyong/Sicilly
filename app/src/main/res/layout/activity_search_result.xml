@@ -5,4 +5,11 @@
     android:layout_height="match_parent"
     tools:context="xyz.shaohui.sicilly.views.activities.SearchResultActivity">
 
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="话题详情(会和搜索功能一起上线)"
+            />
+
 </RelativeLayout>
