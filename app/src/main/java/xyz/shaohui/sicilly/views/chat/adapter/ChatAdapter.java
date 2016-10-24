@@ -32,7 +32,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     @Override
     public int getItemViewType(int position) {
         Message message = dataList.get(position);
-        if (message.getSender().id().trim().equals(otherUserId)) {
+        if (message.getSender() != null && message.getSender().id().equals(otherUserId)) {
             return TYPE_LEFT;
         } else {
             return TYPE_RIGHT;

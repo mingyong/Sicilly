@@ -22,7 +22,7 @@ public class SendStatusNoti {
 
     public static void sendNoti(Context context) {
         Notification.Builder builder =
-                new Notification.Builder(context).setSmallIcon(R.drawable.ic_upload)
+                new Notification.Builder(context).setSmallIcon(R.mipmap.ic_upload)
                         .setContentTitle(context.getString(R.string.send_noti_title))
                         .setTicker(context.getString(R.string.send_noti_title))
                         .setAutoCancel(true);
@@ -41,7 +41,7 @@ public class SendStatusNoti {
 
         Notification notification = new Notification.Builder(context).setContentTitle(
                 context.getString(R.string.send_status_success))
-                .setSmallIcon(R.drawable.ic_success)
+                .setSmallIcon(R.mipmap.ic_success)
                 .setTicker(context.getString(R.string.send_status_success))
                 .build();
 
@@ -54,7 +54,7 @@ public class SendStatusNoti {
         PendingIntent pendingIntent =
                 PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_ONE_SHOT);
         Notification notification =
-                new Notification.Builder(context).setSmallIcon(R.drawable.ic_failure)
+                new Notification.Builder(context).setSmallIcon(R.mipmap.ic_failure)
                         .setTicker(context.getString(R.string.send_status_failure))
                         .setContentTitle(context.getString(R.string.send_status_failure))
                         .setAutoCancel(true)
