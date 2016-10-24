@@ -58,7 +58,7 @@ public class MessageFragment extends Fragment {
         viewPager.setAdapter(mAdapter);
 
         tabLayout.setTabData(new String[] {
-                getString(R.string.message_tab_1), getString(R.string.message_tab_2)
+                getString(R.string.message_tab_2), getString(R.string.message_tab_1)
         });
         tabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
@@ -81,14 +81,14 @@ public class MessageFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 tabLayout.setCurrentTab(position);
-                if (position == 0 && checkMessageCount()) {
-                    tabLayout.hideMsg(0);
+                if (position == 1 && checkMessageCount()) {
+                    tabLayout.hideMsg(1);
                     clearMessageCount();
                     if (!checkMentionCount()) {
                         mBus.post(new HomeMessageEvent(false));
                     }
-                } else if (position == 1 && checkMentionCount()) {
-                    tabLayout.hideMsg(1);
+                } else if (position == 0 && checkMentionCount()) {
+                    tabLayout.hideMsg(0);
                     clearMentionCount();
                     if (!checkMessageCount()) {
                         mBus.post(new HomeMessageEvent(false));
@@ -108,15 +108,15 @@ public class MessageFragment extends Fragment {
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void subscribeMessageTab(MessageEvent event) {
-        tabLayout.showDot(0);
-        MsgView view = tabLayout.getMsgView(0);
+        tabLayout.showDot(1);
+        MsgView view = tabLayout.getMsgView(1);
         view.setBackgroundColor(getResources().getColor(R.color.red));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void subscribeMentionTab(MentionEvent event) {
-        tabLayout.showDot(1);
-        MsgView view = tabLayout.getMsgView(1);
+        tabLayout.showDot(0);
+        MsgView view = tabLayout.getMsgView(0);
         view.setBackgroundColor(getResources().getColor(R.color.red));
     }
 
@@ -124,22 +124,22 @@ public class MessageFragment extends Fragment {
     public void onResume() {
         super.onResume();
 
-        if (SPDataManager.getInt(SPDataManager.SP_KEY_MENTION, 0) > 0) {
+        if (SPDataManager.getInt(SPDataManager.SP_KEY_MESSAGE, 0) > 0) {
             tabLayout.showDot(1);
             MsgView view = tabLayout.getMsgView(1);
             view.setBackgroundColor(getResources().getColor(R.color.red));
         }
 
-        if (viewPager.getCurrentItem() == 0) {
-            tabLayout.hideMsg(0);
+        if (viewPager.getCurrentItem() == 1) {
+            tabLayout.hideMsg(1);
             if (checkMessageCount()) {
                 clearMessageCount();
                 if (!checkMentionCount()) {
                     mBus.post(new HomeMessageEvent(false));
                 }
             }
-        } else if (viewPager.getCurrentItem() == 1) {
-            tabLayout.hideMsg(1);
+        } else if (viewPager.getCurrentItem() == 0) {
+            tabLayout.hideMsg(0);
             if (checkMentionCount()) {
                 clearMentionCount();
                 if (!checkMessageCount()) mBus.post(new HomeMessageEvent(false));
@@ -184,10 +184,10 @@ public class MessageFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return new MessageListFragment();
-            } else {
                 return HomeTimelineFragmentBuilder.newHomeTimelineFragment(
                         HomeTimelineFragment.TYPE_ABOUT_ME);
+            } else {
+                return new MessageListFragment();
             }
         }
 
