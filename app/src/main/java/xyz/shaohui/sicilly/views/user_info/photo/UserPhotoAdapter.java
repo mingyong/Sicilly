@@ -41,13 +41,14 @@ public class UserPhotoAdapter extends RecyclerView.Adapter<UserPhotoAdapter.Phot
         Context context = holder.parent.getContext();
 
         holder.text.setText(HtmlUtils.cleanAllTag(status.text()));
-        Glide.with(context)
-                .load(status.photo().getImageurl())
-                .placeholder(context.getResources().getDrawable(R.drawable.drawable_plcae_holder))
-                .into(holder.image);
-
-        holder.itemView.setOnClickListener(
-                v -> mPhotoItemListener.onItemClick(status.photo().getLargeurl(), status.text()));
+        if (status.photo() != null) {
+            Glide.with(context)
+                    .load(status.photo().getImageurl())
+                    .placeholder(context.getResources().getDrawable(R.drawable.drawable_plcae_holder))
+                    .into(holder.image);
+            holder.itemView.setOnClickListener(
+                    v -> mPhotoItemListener.onItemClick(status.photo().getLargeurl(), status.text()));
+        }
     }
 
     @Override
