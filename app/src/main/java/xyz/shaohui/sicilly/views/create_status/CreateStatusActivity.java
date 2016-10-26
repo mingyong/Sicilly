@@ -3,7 +3,6 @@ package xyz.shaohui.sicilly.views.create_status;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import javax.inject.Inject;
 import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.base.BaseActivity;
@@ -49,13 +48,11 @@ public class CreateStatusActivity extends BaseActivity
             String restoreText = getIntent().getStringExtra("text");
             String restorePath = getIntent().getStringExtra("path");
             getSupportFragmentManager().beginTransaction()
-                    .replace(android.R.id.content,
-                            new CreateStatusFragmentBuilder()
-                                    .status(status)
-                                    .type(type)
-                                    .restoreText(restoreText)
-                                    .restorePath(restorePath)
-                                    .build())
+                    .replace(android.R.id.content, new CreateStatusFragmentBuilder().status(status)
+                            .type(type)
+                            .restoreText(restoreText)
+                            .restorePath(restorePath)
+                            .build())
                     .commit();
         }
     }
@@ -73,6 +70,10 @@ public class CreateStatusActivity extends BaseActivity
 
     @Override
     public CreateStatusComponent getComponent() {
+        if (mComponent == null) {
+            mComponent =
+                    DaggerCreateStatusComponent.builder().appComponent(getAppComponent()).build();
+        }
         return mComponent;
     }
 }

@@ -347,6 +347,9 @@ public class IndexActivity extends BaseActivity
 
     @Override
     public HomeComponent getComponent() {
+        if (mComponent == null) {
+            mComponent = DaggerHomeComponent.builder().appComponent(getAppComponent()).build();
+        }
         return mComponent;
     }
 

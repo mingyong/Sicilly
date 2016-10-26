@@ -235,7 +235,7 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
         }
 
         // 针对设置隐私保护的user
-        if (!mUser.following() && mUser.is_protected()) {
+        if (!mUser.following() && mUser.is_protected() && !SicillyApplication.isSelf(mUser.id())) {
             showPrivacyFragment();
         } else {
             showSimpleFragment();

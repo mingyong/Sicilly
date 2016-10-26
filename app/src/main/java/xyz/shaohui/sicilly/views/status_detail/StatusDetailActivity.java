@@ -3,11 +3,9 @@ package xyz.shaohui.sicilly.views.status_detail;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import java.util.concurrent.Callable;
 import javax.inject.Inject;
 import org.greenrobot.eventbus.EventBus;
 import retrofit2.Retrofit;
-import rx.Observable;
 import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.base.HasComponent;
 import xyz.shaohui.sicilly.data.SPDataManager;
@@ -17,7 +15,7 @@ import xyz.shaohui.sicilly.views.status_detail.di.DaggerStatusDetailComponent;
 import xyz.shaohui.sicilly.views.status_detail.di.StatusDetailComponent;
 
 public class StatusDetailActivity extends BaseActivity
-        implements HasComponent<StatusDetailComponent>, DialogController{
+        implements HasComponent<StatusDetailComponent>, DialogController {
 
     @Inject
     EventBus mBus;
@@ -69,6 +67,10 @@ public class StatusDetailActivity extends BaseActivity
 
     @Override
     public StatusDetailComponent getComponent() {
+        if (mComponent == null) {
+            mComponent =
+                    DaggerStatusDetailComponent.builder().appComponent(getAppComponent()).build();
+        }
         return mComponent;
     }
 
