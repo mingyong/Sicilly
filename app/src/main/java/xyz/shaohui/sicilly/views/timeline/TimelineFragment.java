@@ -2,7 +2,6 @@ package xyz.shaohui.sicilly.views.timeline;
 
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
-import android.view.TextureView;
 import android.view.View;
 import android.widget.TextView;
 import butterknife.BindView;
@@ -21,8 +20,6 @@ import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.base.BaseFragment;
 import xyz.shaohui.sicilly.data.models.Status;
-import xyz.shaohui.sicilly.views.create_status.CreateStatusActivity;
-import xyz.shaohui.sicilly.views.create_status.CreateStatusDialogBuilder;
 import xyz.shaohui.sicilly.views.create_status.DialogController;
 import xyz.shaohui.sicilly.views.home.timeline.TimelineItemListener;
 import xyz.shaohui.sicilly.views.status_detail.StatusDetailAdapter;
@@ -91,7 +88,8 @@ public class TimelineFragment extends BaseFragment<TimelineMVP.View, TimelineMVP
         }
 
         mStatusList = new ArrayList<>();
-        StatusDetailAdapter adapter = new StatusDetailAdapter(mStatusList, this);
+        StatusDetailAdapter adapter =
+                new StatusDetailAdapter(mStatusList, this, getFragmentManager());
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.addItemDecoration(new SpacingDecoration(8));
         mRecyclerView.setOnMoreListener((total, left, current) -> {
@@ -141,34 +139,8 @@ public class TimelineFragment extends BaseFragment<TimelineMVP.View, TimelineMVP
     }
 
     @Override
-    public void opAvatar() {
-
-    }
-
-    @Override
-    public void opContent(Status status) {
-
-    }
-
-    @Override
     public void opStar(Status status, int position) {
 
-    }
-
-    @Override
-    public void opComment(Status status) {
-        //startActivity(CreateStatusActivity.newIntent(getActivity(), status,
-        //        CreateStatusActivity.TYPE_REPLY));
-        new CreateStatusDialogBuilder(CreateStatusActivity.TYPE_REPLY)
-                .originStatus(status).build().show(getFragmentManager());
-    }
-
-    @Override
-    public void opRepost(Status status) {
-        //startActivity(CreateStatusActivity.newIntent(getActivity(), status,
-        //        CreateStatusActivity.TYPE_REPOST));
-        new CreateStatusDialogBuilder(CreateStatusActivity.TYPE_REPOST)
-                .originStatus(status).build().show(getFragmentManager());
     }
 
     @Override

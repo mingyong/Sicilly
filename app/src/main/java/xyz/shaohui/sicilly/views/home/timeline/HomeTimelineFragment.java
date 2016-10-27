@@ -87,7 +87,7 @@ public class HomeTimelineFragment extends BaseFragment<HomeTimelineView, HomeTim
     @Override
     public void bindViews(View view) {
         mDataList = new ArrayList<>();
-        mAdapter = new IndexStatusAdapter(mDataList, this);
+        mAdapter = new IndexStatusAdapter(mDataList, this, getFragmentManager());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addItemDecoration(new SpacingDecoration(8));
         mRecyclerView.setOnMoreListener((total, left, current) -> {
@@ -195,36 +195,10 @@ public class HomeTimelineFragment extends BaseFragment<HomeTimelineView, HomeTim
     }
 
     @Override
-    public void opAvatar() {
-
-    }
-
-    @Override
-    public void opContent(Status status) {
-        startActivity(StatusDetailActivity.newIntent(getContext(), status));
-    }
-
-    @Override
     public void opStar(Status status, int position) {
         mDataList.set(position, Status.updateStatusStar(status));
         mRecyclerView.notifyDataSetChanged();
         presenter.opStar(status, position);
-    }
-
-    @Override
-    public void opComment(Status status) {
-        //startActivity(CreateStatusActivity.newIntent(getActivity(), status,
-        //        CreateStatusActivity.TYPE_REPLY));
-        new CreateStatusDialogBuilder(CreateStatusActivity.TYPE_REPLY)
-                .originStatus(status).build().show(getFragmentManager());
-    }
-
-    @Override
-    public void opRepost(Status status) {
-        //startActivity(CreateStatusActivity.newIntent(getActivity(), status,
-        //        CreateStatusActivity.TYPE_REPOST));
-        new CreateStatusDialogBuilder(CreateStatusActivity.TYPE_REPOST)
-                .originStatus(status).build().show(getFragmentManager());
     }
 
     @Override

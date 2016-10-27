@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.Spannable;
@@ -29,6 +30,8 @@ import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
 import xyz.shaohui.sicilly.utils.NoUnderlineSpan;
 import xyz.shaohui.sicilly.utils.TimeUtils;
+import xyz.shaohui.sicilly.views.create_status.CreateStatusActivity;
+import xyz.shaohui.sicilly.views.create_status.CreateStatusDialogBuilder;
 import xyz.shaohui.sicilly.views.home.timeline.TimelineItemListener;
 import xyz.shaohui.sicilly.views.home.timeline.adapter.IndexStatusAdapter;
 import xyz.shaohui.sicilly.views.photo.PictureActivity;
@@ -45,9 +48,12 @@ public class StatusDetailAdapter
 
     private TimelineItemListener mListener;
 
-    public StatusDetailAdapter(List<Status> dataList, TimelineItemListener listener) {
+    private FragmentManager mFragmentManager;
+
+    public StatusDetailAdapter(List<Status> dataList, TimelineItemListener listener, FragmentManager fragmentManager) {
         this.dataList = dataList;
         this.mListener = listener;
+        mFragmentManager = fragmentManager;
     }
 
     @Override
@@ -121,13 +127,13 @@ public class StatusDetailAdapter
                     context.startActivity(UserActivity.newIntent(context, user.id()));
                     break;
                 case R.id.action_comment:
-                    mListener.opComment(status);
+                    replyStatus(status);
                     break;
                 case R.id.action_repost:
-                    mListener.opRepost(status);
+                    repostStatus(status);
                     break;
                 case R.id.action_star:
-                    //mListener.opStar(status, position);
+                    mListener.opStar(status, position);
                     break;
                 case R.id.action_delete:
                     mListener.opDelete(status, position);
@@ -141,6 +147,17 @@ public class StatusDetailAdapter
         viewHolder.actionDelete.setOnClickListener(listener);
         viewHolder.header.setOnClickListener(listener);
 
+    }
+
+
+    private void replyStatus(Status status) {
+        new CreateStatusDialogBuilder(CreateStatusActivity.TYPE_REPLY)
+                .originStatus(status).build().show(mFragmentManager);
+    }
+
+    private void repostStatus(Status status) {
+        new CreateStatusDialogBuilder(CreateStatusActivity.TYPE_REPOST)
+                .originStatus(status).build().show(mFragmentManager);
     }
 
     @Override

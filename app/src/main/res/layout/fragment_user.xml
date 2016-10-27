@@ -75,6 +75,31 @@
             </LinearLayout>
 
             <LinearLayout
+                    android:id="@+id/action_public_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingLeft="@dimen/spacing_large"
+                    >
+
+                <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/ic_public_square"
+                        />
+
+                <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/spacing_large"
+                        android:text="@string/public_square"
+                        android:textColor="@color/text_main"
+                        android:textSize="14sp"
+                        />
+            </LinearLayout>
+
+            <LinearLayout
                     android:id="@+id/action_request"
                     android:layout_width="match_parent"
                     android:layout_height="60dp"

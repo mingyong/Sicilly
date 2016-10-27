@@ -72,7 +72,7 @@ public class StatusDetailFragment extends BaseFragment<StatusDetailView, StatusD
     @Override
     public void bindViews(View view) {
         mDataList = new ArrayList<>();
-        mAdapter = new StatusDetailAdapter(mDataList, this);
+        mAdapter = new StatusDetailAdapter(mDataList, this, getFragmentManager());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addItemDecoration(new SpacingDecoration(8));
         mRecyclerView.setLayoutManager(
@@ -102,34 +102,8 @@ public class StatusDetailFragment extends BaseFragment<StatusDetailView, StatusD
     }
 
     @Override
-    public void opAvatar() {
-
-    }
-
-    @Override
-    public void opContent(Status status) {
-
-    }
-
-    @Override
     public void opStar(Status status, int position) {
 
-    }
-
-    @Override
-    public void opComment(Status status) {
-        //startActivity(CreateStatusActivity.newIntent(getActivity(), status,
-        //        CreateStatusActivity.TYPE_REPLY));
-        new CreateStatusDialogBuilder(CreateStatusActivity.TYPE_REPLY)
-                .originStatus(status).build().show(getFragmentManager());
-    }
-
-    @Override
-    public void opRepost(Status status) {
-        //startActivity(CreateStatusActivity.newIntent(getActivity(), status,
-        //        CreateStatusActivity.TYPE_REPOST));
-        new CreateStatusDialogBuilder(CreateStatusActivity.TYPE_REPOST)
-                .originStatus(status).build().show(getFragmentManager());
     }
 
     @Override

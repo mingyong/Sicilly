@@ -8,15 +8,7 @@ import xyz.shaohui.sicilly.data.models.Status;
 
 public interface TimelineItemListener {
 
-    void opAvatar();
-
-    void opContent(Status status);
-
     void opStar(Status status, int position);
-
-    void opComment(Status status);
-
-    void opRepost(Status status);
 
     void opDelete(Status status, int position);
 

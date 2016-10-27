@@ -32,8 +32,10 @@
             android:theme="@style/AppTheme"
             tools:replace="android:icon"
             >
-        <activity android:name=".views.home.IndexActivity"
-                android:screenOrientation="portrait"/>
+        <activity
+                android:name=".views.home.IndexActivity"
+                android:screenOrientation="portrait"
+                />
         <activity
                 android:name=".views.activities.SplashActivity"
                 android:screenOrientation="portrait"
@@ -236,6 +238,10 @@
         <activity android:name=".views.timeline.TimelineActivity">
         </activity>
         <activity android:name=".views.friendship.FriendshipActivity">
+        </activity>
+        <activity android:name=".views.public_square.PublicSquareActivity">
+        </activity>
+        <activity android:name=".views.edit_info.EditInfoActivity">
         </activity>
     </application>
 

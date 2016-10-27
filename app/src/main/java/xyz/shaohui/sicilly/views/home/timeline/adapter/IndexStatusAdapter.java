@@ -6,6 +6,7 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
@@ -33,6 +34,8 @@ import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
 import xyz.shaohui.sicilly.utils.NoUnderlineSpan;
 import xyz.shaohui.sicilly.utils.TimeUtils;
+import xyz.shaohui.sicilly.views.create_status.CreateStatusActivity;
+import xyz.shaohui.sicilly.views.create_status.CreateStatusDialogBuilder;
 import xyz.shaohui.sicilly.views.home.timeline.TimelineItemListener;
 import xyz.shaohui.sicilly.views.photo.PictureActivity;
 import xyz.shaohui.sicilly.views.status_detail.StatusDetailActivity;
@@ -46,10 +49,12 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
     private List<Status> dataList;
     private TimelineItemListener mListener;
     private int mLastPosition = 0;
+    private FragmentManager mFragmentManager;
 
-    public IndexStatusAdapter(List<Status> dataList, TimelineItemListener listener) {
+    public IndexStatusAdapter(List<Status> dataList, TimelineItemListener listener, FragmentManager fragmentManager) {
         this.dataList = dataList;
         mListener = listener;
+        mFragmentManager = fragmentManager;
     }
 
     @Override
@@ -131,10 +136,10 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
                     context.startActivity(UserActivity.newIntent(context, user.id()));
                     break;
                 case R.id.action_comment:
-                    mListener.opComment(status);
+                    replyStatus(status);
                     break;
                 case R.id.action_repost:
-                    mListener.opRepost(status);
+                    repostStatus(status);
                     break;
                 case R.id.action_star:
                     mListener.opStar(status, position);
@@ -143,7 +148,7 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
                     mListener.opDelete(status, position);
                     break;
                 case R.id.action_context:
-                    mListener.opContent(status);
+                    context.startActivity(StatusDetailActivity.newIntent(context, status));
                     break;
             }
         };
@@ -186,6 +191,16 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
     private void clearAnimator(View view) {
         ViewCompat.setScaleX(view, 1);
         ViewCompat.setScaleY(view, 1);
+    }
+
+    private void replyStatus(Status status) {
+        new CreateStatusDialogBuilder(CreateStatusActivity.TYPE_REPLY)
+                .originStatus(status).build().show(mFragmentManager);
+    }
+
+    private void repostStatus(Status status) {
+        new CreateStatusDialogBuilder(CreateStatusActivity.TYPE_REPOST)
+                .originStatus(status).build().show(mFragmentManager);
     }
 
     @Override

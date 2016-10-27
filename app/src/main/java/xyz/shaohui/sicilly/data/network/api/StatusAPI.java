@@ -57,4 +57,7 @@ public interface StatusAPI {
 
     @GET("statuses/context_timeline.json?format=html&count=60&mode=lite")
     Observable<List<Status>> context(@Query("id")String id);
+
+    @GET("statuses/public_timeline.json?mode=lite&format=html&count=60")
+    Observable<List<Status>> publicStatus();
 }
