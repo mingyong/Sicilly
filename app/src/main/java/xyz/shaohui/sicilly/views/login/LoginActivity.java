@@ -38,6 +38,10 @@ public class LoginActivity extends BaseActivity implements HasComponent<LoginCom
 
     @Override
     public LoginComponent getComponent() {
+        if (mComponent == null) {
+            mComponent =
+                    DaggerLoginComponent.builder().appComponent(getAppComponent()).build();
+        }
         return mComponent;
     }
 }

@@ -80,7 +80,11 @@ public class UserPhotoFragment extends BaseFragment<UserPhotoView, UserPhotoPres
 
     @Override
     public View getScrollableView() {
-        return recyclerView.getRecycler();
+        if (recyclerView != null) {
+            return recyclerView.getRecycler();
+        } else {
+            return null;
+        }
     }
 
     @Override

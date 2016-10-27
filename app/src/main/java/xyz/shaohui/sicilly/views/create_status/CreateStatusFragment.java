@@ -205,7 +205,7 @@ public class CreateStatusFragment extends BaseFragment<CreateStatusView, CreateS
                     if (data != null && data.getData() != null) {
                         imageFileUri = data.getData();
                         realPath = FileUtils.getPath(getActivity(), imageFileUri);
-                        Glide.with(this).load(new File(realPath)).into(statusImage);
+                        Glide.with(this).load(imageFileUri).into(statusImage);
                         statusImage.setVisibility(View.VISIBLE);
                         mLocalImagePath = realPath;
                     }

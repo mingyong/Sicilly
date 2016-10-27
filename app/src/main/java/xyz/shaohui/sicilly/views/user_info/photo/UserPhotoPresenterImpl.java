@@ -36,7 +36,9 @@ public class UserPhotoPresenterImpl extends UserPhotoPresenter {
                     }
                 }, throwable -> {
                     ErrorUtils.catchException(throwable);
-                    getView().loadError();
+                    if (isViewAttached()) {
+                        getView().loadError();
+                    }
                 });
     }
 

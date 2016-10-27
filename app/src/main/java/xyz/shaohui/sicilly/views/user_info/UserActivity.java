@@ -321,7 +321,9 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
 
     @OnClick(R.id.btn_follow)
     void actionFollow() {
-        presenter.opFollowSelector(mUser);
+        if (mUser != null) {
+            presenter.opFollowSelector(mUser);
+        }
     }
 
     @Override

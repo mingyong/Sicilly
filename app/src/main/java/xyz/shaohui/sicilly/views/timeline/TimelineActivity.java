@@ -61,6 +61,14 @@ public class TimelineActivity extends BaseActivity implements HasComponent<Timel
 
     @Override
     public TimelineComponent getComponent() {
+        if (mComponent == null) {
+            String userId = getIntent().getStringExtra("user_id");
+            int dataType = getIntent().getIntExtra("data_type", DATA_TYPE_TIMELINE);
+            mComponent = DaggerTimelineComponent.builder()
+                    .appComponent(getAppComponent())
+                    .timelineModule(new TimelineModule(userId, dataType))
+                    .build();
+        }
         return mComponent;
     }
 
