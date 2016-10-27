@@ -25,6 +25,8 @@
                 android:gravity="top"
                 android:textColor="@color/text_main"
                 android:layout_height="match_parent"
+                android:textSize="15sp"
+                android:lineSpacingExtra="3dp"
                 android:background="@null"
                 />
         <ImageView

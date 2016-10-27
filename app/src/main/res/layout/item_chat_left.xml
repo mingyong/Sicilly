@@ -26,9 +26,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxWidth="250dp"
+                android:lineSpacingExtra="3dp"
                 android:textColor="@color/black"
-                android:textSize="14sp"
-                tools:text="锤子科技（全稱：锤子科技（北京）股份有限公司／北京锤子数码科技有限公司）"
+                android:textSize="15sp"
+                tools:text="锤子科技（全稱：锤子科技（北京）股份有限公司／北京锤子数码科技有限公司）科技（北京）股份有限公司／北京锤子数科技（北京）股份有限公司／北京锤子数科技（北京）股份有限公司／北京锤子数科技（北京）股份有限公司／北京锤子数"
                 />
     </com.daasuu.bl.BubbleLayout>
 
