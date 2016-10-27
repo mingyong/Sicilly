@@ -71,6 +71,9 @@ public class CreateStatusDialog extends BaseBottomDialog {
     @Arg(required = false)
     Status mOriginStatus;
 
+    @Arg(required = false)
+    String mOriginText;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,6 +113,12 @@ public class CreateStatusDialog extends BaseBottomDialog {
                         HtmlUtils.cleanAllTag(mOriginStatus.text())));
                 statusText.setSelection(0);
                 break;
+            case CreateStatusActivity.TYPE_TEXT:
+                if (mOriginText != null) {
+                    statusText.setText(String.format("@%s ", mOriginText));
+                    statusText.setSelection(statusText.length());
+                }
+
         }
     }
 

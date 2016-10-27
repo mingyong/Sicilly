@@ -18,6 +18,7 @@ public class CreateStatusActivity extends BaseActivity
     public static final int TYPE_REPOST = 1;
     public static final int TYPE_REPLY = 2;
     public static final int TYPE_RESTORE = 3;
+    public static final int TYPE_TEXT = 4;
 
     @Inject
     EventBus mBus;

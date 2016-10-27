@@ -3,7 +3,6 @@ package xyz.shaohui.sicilly.views.user_info;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -39,6 +38,9 @@ import xyz.shaohui.sicilly.base.BaseMvpActivity;
 import xyz.shaohui.sicilly.base.HasComponent;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
+import xyz.shaohui.sicilly.views.chat.ChatActivity;
+import xyz.shaohui.sicilly.views.create_status.CreateStatusActivity;
+import xyz.shaohui.sicilly.views.create_status.CreateStatusDialogBuilder;
 import xyz.shaohui.sicilly.views.create_status.DialogController;
 import xyz.shaohui.sicilly.views.friend_list.FriendListActivity;
 import xyz.shaohui.sicilly.views.timeline.TimelineActivity;
@@ -211,6 +213,17 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
     void userProfileTimeline() {
         startActivity(
                 TimelineActivity.newIntent(this, userId, TimelineActivity.DATA_TYPE_TIMELINE));
+    }
+
+    @OnClick(R.id.btn_chat)
+    void btnChat() {
+        startActivity(ChatActivity.newIntent(this, mUser));
+    }
+
+    @OnClick(R.id.btn_at)
+    void btnAt() {
+        new CreateStatusDialogBuilder(CreateStatusActivity.TYPE_TEXT).originText(
+                mUser.screen_name()).build().show(getSupportFragmentManager());
     }
 
     @Override

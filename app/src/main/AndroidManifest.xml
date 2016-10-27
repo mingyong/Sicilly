@@ -32,7 +32,8 @@
             android:theme="@style/AppTheme"
             tools:replace="android:icon"
             >
-        <activity android:name=".views.home.IndexActivity"/>
+        <activity android:name=".views.home.IndexActivity"
+                android:screenOrientation="portrait"/>
         <activity
                 android:name=".views.activities.SplashActivity"
                 android:screenOrientation="portrait"
@@ -64,7 +65,7 @@
                 android:screenOrientation="portrait"
                 />
         <activity
-                android:name=".views.activities.SearchActivity"
+                android:name=".views.search.SearchActivity"
                 android:screenOrientation="portrait"
                 />
         <activity
