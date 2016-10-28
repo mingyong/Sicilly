@@ -86,6 +86,8 @@ public class CreateStatusDialog extends BaseBottomDialog {
         super.onAttach(context);
         if (context instanceof DialogController) {
             mController = (DialogController) context;
+        } else {
+            throw new IllegalArgumentException("this is must a DialogController");
         }
     }
 

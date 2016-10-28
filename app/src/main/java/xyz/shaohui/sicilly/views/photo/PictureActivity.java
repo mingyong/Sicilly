@@ -122,11 +122,11 @@ public class PictureActivity extends BaseActivity {
 
     @Override
     public void supportFinishAfterTransition() {
-        super.supportFinishAfterTransition();
         if (mAttacher != null) {
             mAttacher.cleanup();
             mAttacher = null;
         }
+        super.supportFinishAfterTransition();
     }
 
     @Override
