@@ -12,8 +12,8 @@ android {
         applicationId "xyz.shaohui.sicilly"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 10
-        versionName "1.0.6"
+        versionCode 11
+        versionName "1.0.7"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
@@ -56,7 +56,7 @@ dependencies {
     compile 'com.umeng.analytics:analytics:5.6.7'
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'com.github.devlight.navigationtabbar:navigationtabbar:1.2.3'
-    compile 'me.shaohui.vistarecyclerview:vistarecyclerview:1.0.15'
+    compile 'me.shaohui:vistarecyclerview:1.1.0'
     compile 'de.hdodenhof:circleimageview:2.1.0'
     compile 'com.makeramen:roundedimageview:2.2.1'
     compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.0.8@aar'

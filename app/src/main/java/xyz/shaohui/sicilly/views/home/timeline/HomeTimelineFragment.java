@@ -37,6 +37,7 @@ import xyz.shaohui.sicilly.views.home.di.HomeComponent;
 import xyz.shaohui.sicilly.views.home.timeline.adapter.IndexStatusAdapter;
 import xyz.shaohui.sicilly.views.home.timeline.mvp.HomeTimelinePresenter;
 import xyz.shaohui.sicilly.views.home.timeline.mvp.HomeTimelineView;
+import xyz.shaohui.sicilly.views.search.SearchActivity;
 import xyz.shaohui.sicilly.views.status_detail.StatusDetailActivity;
 
 @FragmentWithArgs
@@ -113,6 +114,11 @@ public class HomeTimelineFragment extends BaseFragment<HomeTimelineView, HomeTim
     @OnClick(R.id.btn_add)
     void btnAdd() {
         startActivity(new Intent(getActivity(), CreateStatusActivity.class));
+    }
+
+    @OnClick(R.id.btn_search)
+    void btnSearch() {
+        startActivity(new Intent(getContext(), SearchActivity.class));
     }
 
     @Override

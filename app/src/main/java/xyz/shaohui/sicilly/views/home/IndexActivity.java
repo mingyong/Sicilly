@@ -106,7 +106,9 @@ public class IndexActivity extends BaseActivity
         ButterKnife.bind(this);
         bottomTab = (CommonTabLayout) findViewById(R.id.bottom_tab);
 
-        initBottomTab(savedInstanceState);
+        if (savedInstanceState == null) {
+            initBottomTab(savedInstanceState);
+        }
 
         // 检查更新
         checkUpdate();

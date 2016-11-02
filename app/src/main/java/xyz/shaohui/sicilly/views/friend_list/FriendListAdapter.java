@@ -85,7 +85,7 @@ public class FriendListAdapter
         }
     }
 
-    interface Action {
+    public interface Action {
         void actionFollow(int position, User user);
 
         void actionClick(User user);

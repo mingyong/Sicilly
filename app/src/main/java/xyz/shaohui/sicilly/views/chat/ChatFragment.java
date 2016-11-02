@@ -143,7 +143,7 @@ public class ChatFragment extends BaseFragment<ChatView, ChatPresenter> implemen
     @Override
     public void loadNoMore() {
         recyclerView.loadMoreFailure();
-        recyclerView.removeOnMoreListtener();
+        recyclerView.removeOnMoreListener();
     }
 
     @Override

@@ -5,25 +5,33 @@ import android.os.Bundle;
 
 import javax.inject.Inject;
 import org.greenrobot.eventbus.EventBus;
+import retrofit2.Retrofit;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.base.HasComponent;
+import xyz.shaohui.sicilly.views.create_status.DialogController;
 import xyz.shaohui.sicilly.views.search.di.DaggerSearchComponent;
 import xyz.shaohui.sicilly.views.search.di.SearchComponent;
 
-public class SearchActivity extends BaseActivity implements HasComponent<SearchComponent> {
+public class SearchActivity extends BaseActivity implements HasComponent<SearchComponent>,
+        DialogController {
 
     @Inject
     EventBus mBus;
+
+    @Inject
+    Retrofit mRetrofit;
 
     SearchComponent mComponent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportFragmentManager().beginTransaction()
-                .replace(android.R.id.content, new SearchFragment())
-                .commit();
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(android.R.id.content, new SearchFragment())
+                    .commit();
+        }
     }
 
     @Override
@@ -39,9 +47,11 @@ public class SearchActivity extends BaseActivity implements HasComponent<SearchC
 
     @Override
     public SearchComponent getComponent() {
-        if (mComponent == null) {
-            mComponent = DaggerSearchComponent.builder().appComponent(getAppComponent()).build();
-        }
         return mComponent;
+    }
+
+    @Override
+    public Retrofit getRetrofit() {
+        return mRetrofit;
     }
 }

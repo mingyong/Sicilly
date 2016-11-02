@@ -118,6 +118,10 @@
     <string name="setting_notification_sound">提示音</string>
     <string name="setting_no_sound">静音模式</string>
 
+    // search
+    <string name="search_tab_timeline">消息</string>
+    <string name="search_tab_user">用户</string>
+
     <array name="notification_sound_type_list">
         <item>0</item>
         <item>1</item>
@@ -140,4 +144,5 @@
     <string name="status_detail">消息详情</string>
     <string name="public_square">随便看看</string>
     <string name="save_image">图片已保存至：%s</string>
+    <string name="dialog_share_cancel">取消</string>
 </resources>

@@ -28,7 +28,7 @@
                     android:layout_alignParentRight="true"
                     android:paddingLeft="@dimen/spacing_normal"
                     android:paddingRight="@dimen/spacing_normal"
-                    app:srcCompat="@drawable/ic_add"
+                    app:srcCompat="@drawable/ic_add_big"
                     android:background="@null" />
             <ImageView
                     android:id="@+id/img_icon"
@@ -39,8 +39,11 @@
                     android:src="@mipmap/img_logo"/>
             <ImageButton
                     android:id="@+id/btn_search"
+                    android:padding="@dimen/spacing_normal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:visibility="invisible"
+                    app:srcCompat="@drawable/ic_search"
                     android:layout_marginRight="@dimen/spacing_normal"
                     android:background="@null"/>
         </RelativeLayout>

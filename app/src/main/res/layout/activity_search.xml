@@ -1,10 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
+        android:orientation="vertical"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         tools:context="xyz.shaohui.sicilly.views.search.SearchActivity"
         >
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@color/white"
+            >
+        <EditText
+                android:id="@+id/edit_search"
+                android:layout_width="match_parent"
+                android:layout_toLeftOf="@id/btn_back"
+                android:layout_margin="5dp"
+                android:background="@drawable/drawable_search_edit"
+                android:layout_height="match_parent"
+                android:maxLines="1"
+                android:imeOptions="actionDone"
+                android:paddingLeft="45dp"
+                android:textColor="@color/text_main"
+                android:textSize="16sp"
+                tools:text="sdfasdf"
+                />
+        <Button
+                android:id="@+id/btn_back"
+                android:layout_width="66dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:text="@string/no"
+                android:textSize="16sp"
+                android:background="@null"
+                android:textColor="@color/text_main"
+                />
+        <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/spacing_normal"
+                app:srcCompat="@drawable/ic_search_tip"
+                />
+    </RelativeLayout>
+    <android.support.design.widget.TabLayout
+            android:id="@+id/tab_layout"
+            android:layout_width="match_parent"
+            android:layout_height="33dp"
+            android:background="@color/white"
+            app:tabIndicatorColor="@color/accent"
+            app:tabIndicatorHeight="3dp"
+            />
+    <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
 
-</RelativeLayout>
+</LinearLayout>

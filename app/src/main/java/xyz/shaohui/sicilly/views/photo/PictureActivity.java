@@ -12,13 +12,15 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.google.common.io.Files;
 import java.io.File;
 import java.io.IOException;
 import me.shaohui.sicillylib.utils.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import uk.co.senab.photoview.PhotoViewAttacher;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseActivity;
@@ -84,31 +86,35 @@ public class PictureActivity extends BaseActivity {
                 }
             });
             mAttacher.setOnLongClickListener(v -> {
-                ToastUtils.showToast(getApplicationContext(), "TODO保存图片");
+                ToastUtils.showToast(getApplicationContext(), "正在保存图片到本地...");
+                saveLocalImage();
                 return true;
             });
         }
     }
 
     private void saveLocalImage() {
-        File dir = new File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),
-                "尚饭");
-        dir.mkdirs();
-        File file = new File(dir, System.currentTimeMillis() + ".jpg");
-        Glide.with(this).load(url).downloadOnly(new SimpleTarget<File>() {
-            @Override
-            public void onResourceReady(File resource,
-                    GlideAnimation<? super File> glideAnimation) {
-                try {
-                    Files.copy(resource, file);
-                    ToastUtils.showToast(PictureActivity.this,
-                            String.format(getString(R.string.save_image), file.getPath()));
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+        Observable.fromCallable(() -> Glide.with(this)
+                .load(url)
+                .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                .get())
+                .map(file1 -> {
+                    File dir = new File(Environment.getExternalStoragePublicDirectory(
+                            Environment.DIRECTORY_PICTURES), "尚饭");
+                    dir.mkdirs();
+                    File result = new File(dir, System.currentTimeMillis() + ".jpg");
+                    if (file1.renameTo(result)) {
+                        return result.getAbsolutePath();
+                    }
+                    return null;
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(path -> {
+                    ToastUtils.showToast(this, "图片已保存至：" + path);
+                }, throwable -> {
+                    ToastUtils.showToast(this, "图片保存失败， 请重试");
+                });
     }
 
     @OnClick(R.id.image_view)
@@ -121,19 +127,16 @@ public class PictureActivity extends BaseActivity {
     }
 
     @Override
-    public void supportFinishAfterTransition() {
+    public void finishAfterTransition() {
         if (mAttacher != null) {
             mAttacher.cleanup();
             mAttacher = null;
         }
-        super.supportFinishAfterTransition();
+        super.finishAfterTransition();
     }
 
     @Override
     protected void onDestroy() {
-        if (mAttacher != null) {
-            mAttacher.cleanup();
-        }
         super.onDestroy();
     }
 }

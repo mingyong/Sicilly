@@ -118,7 +118,7 @@ public class MessageListFragment extends BaseFragment<MessageListView, MessageLi
     @Override
     public void loadNoMore() {
         //mRecyclerView.loadNoMore();
-        mRecyclerView.removeOnMoreListtener();
+        mRecyclerView.removeOnMoreListener();
     }
 
     @Override
