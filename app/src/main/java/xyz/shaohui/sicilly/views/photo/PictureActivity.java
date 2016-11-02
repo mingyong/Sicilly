@@ -2,6 +2,7 @@ package xyz.shaohui.sicilly.views.photo;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaScannerConnection;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,6 +16,9 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.Target;
 import com.google.common.io.Files;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import me.shaohui.sicillylib.utils.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
@@ -103,15 +107,28 @@ public class PictureActivity extends BaseActivity {
                             Environment.DIRECTORY_PICTURES), "尚饭");
                     dir.mkdirs();
                     File result = new File(dir, System.currentTimeMillis() + ".jpg");
-                    if (file1.renameTo(result)) {
+                    try {
+                        FileInputStream in = new FileInputStream(file1);
+                        FileOutputStream out = new FileOutputStream(result);
+
+                        byte[] buffer = new byte[1024];
+                        while(in.read(buffer) > 0) {
+                            out.write(buffer);
+                        }
+                        out.flush();
+                        out.close();
+                        in.close();
                         return result.getAbsolutePath();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return null;
                     }
-                    return null;
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(path -> {
                     ToastUtils.showToast(this, "图片已保存至：" + path);
+                    MediaScannerConnection.scanFile(this, new String[]{path}, null, null);
                 }, throwable -> {
                     ToastUtils.showToast(this, "图片保存失败， 请重试");
                 });

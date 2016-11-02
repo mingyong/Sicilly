@@ -2,6 +2,7 @@ package xyz.shaohui.sicilly.views.web;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -19,6 +20,7 @@ import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
+import xyz.shaohui.sicilly.utils.SimpleUtils;
 
 public class WebActivity extends BaseActivity {
 
@@ -109,9 +111,12 @@ public class WebActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.open_by_browser:
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mUrl));
+                startActivity(intent);
                 return true;
             case R.id.copy_url:
-                ToastUtils.showToast(this, mUrl);
+                SimpleUtils.copyText(this, mUrl);
+                ToastUtils.showToast(this, R.string.copy_text_tip);
                 return true;
             case R.id.share_url:
 

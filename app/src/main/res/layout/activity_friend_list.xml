@@ -12,6 +12,7 @@
             android:id="@+id/recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:load_layout="@layout/recycler_load_progress"
             android:layout_marginTop="?attr/actionBarSize"
             />
 

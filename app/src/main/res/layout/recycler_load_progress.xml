@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            >
+        <android.support.v4.widget.ContentLoadingProgressBar
+                android:layout_height="40dp"
+                android:layout_width="40dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginBottom="@dimen/spacing_normal"
+                style="@style/Widget.AppCompat.ProgressBar"/>
+    </FrameLayout>
+
+</FrameLayout>

@@ -27,12 +27,14 @@ import butterknife.ButterKnife;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.List;
+import me.shaohui.sicillylib.utils.ToastUtils;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
 import xyz.shaohui.sicilly.utils.NoUnderlineSpan;
+import xyz.shaohui.sicilly.utils.SimpleUtils;
 import xyz.shaohui.sicilly.utils.TimeUtils;
 import xyz.shaohui.sicilly.views.create_status.CreateStatusActivity;
 import xyz.shaohui.sicilly.views.create_status.CreateStatusDialogBuilder;
@@ -81,6 +83,11 @@ public class IndexStatusAdapter extends RecyclerView.Adapter {
         s.setSpan(new NoUnderlineSpan(), 0, s.length(), Spanned.SPAN_MARK_MARK);
         viewHolder.text.setText(s);
         viewHolder.text.setMovementMethod(LinkMovementMethod.getInstance());
+        viewHolder.text.setOnLongClickListener(v -> {
+            SimpleUtils.copyText(context, HtmlUtils.cleanAllTag(status.text()));
+            ToastUtils.showToast(context, R.string.copy_text_tip);
+            return true;
+        });
 
         Glide.with(context).load(user.profile_image_url_large()).into(viewHolder.avatar);
         if (status.photo() != null) {

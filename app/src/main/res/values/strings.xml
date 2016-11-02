@@ -145,4 +145,5 @@
     <string name="public_square">随便看看</string>
     <string name="save_image">图片已保存至：%s</string>
     <string name="dialog_share_cancel">取消</string>
+    <string name="copy_text_tip">已复制到剪切板</string>
 </resources>

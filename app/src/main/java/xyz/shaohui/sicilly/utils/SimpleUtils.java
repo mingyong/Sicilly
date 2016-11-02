@@ -1,5 +1,7 @@
 package xyz.shaohui.sicilly.utils;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -17,6 +19,13 @@ public class SimpleUtils {
         if (intent.resolveActivity(context.getPackageManager()) != null) {
             context.startActivity(intent);
         }
+    }
+
+    public static void copyText(Context context, String text) {
+        ClipboardManager clipboardManager =
+                (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData data = ClipData.newPlainText("sicilly", text);
+        clipboardManager.setPrimaryClip(data);
     }
 
 }
