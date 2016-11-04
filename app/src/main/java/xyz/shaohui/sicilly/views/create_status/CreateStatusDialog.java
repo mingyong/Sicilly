@@ -78,7 +78,11 @@ public class CreateStatusDialog extends BaseBottomDialog {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         FragmentArgs.inject(this);
-        mStatusService = mController.getRetrofit().create(StatusAPI.class);
+        if (mController != null) {
+            mStatusService = mController.getRetrofit().create(StatusAPI.class);
+        } else {
+            dismiss();
+        }
     }
 
     @Override

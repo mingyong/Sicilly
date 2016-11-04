@@ -27,6 +27,7 @@ import com.pgyersdk.javabean.AppBean;
 import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
 import java.util.ArrayList;
+import java.util.List;
 import javax.inject.Inject;
 import me.shaohui.sicillylib.utils.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
@@ -78,11 +79,6 @@ public class IndexActivity extends BaseActivity
     @Inject
     FeedbackDbAccessor mFeedbackDbAccessor;
 
-    private Fragment indexFragment =
-            HomeTimelineFragmentBuilder.newHomeTimelineFragment(HomeTimelineFragment.TYPE_HOME);
-    private Fragment messageFragment = new MessageFragment();
-    private Fragment userFragment = new ProfileFragment();
-
     private HomeComponent mComponent;
 
     private ServiceConnection mServiceConnection;
@@ -90,6 +86,8 @@ public class IndexActivity extends BaseActivity
     private static final int REQUEST_PERMISSION_CODE = 0;
 
     private String downloadUrl;
+
+    private ArrayList<Fragment> mFragments;
 
     private int mAction;
 
@@ -106,9 +104,7 @@ public class IndexActivity extends BaseActivity
         ButterKnife.bind(this);
         bottomTab = (CommonTabLayout) findViewById(R.id.bottom_tab);
 
-        if (savedInstanceState == null) {
-            initBottomTab(savedInstanceState);
-        }
+        initBottomTab(savedInstanceState);
 
         // 检查更新
         checkUpdate();
@@ -209,12 +205,15 @@ public class IndexActivity extends BaseActivity
         tabData.add(new TabEntity(getString(R.string.bottom_tab_user), R.drawable.ic_user_selected,
                 R.drawable.ic_user));
 
-        ArrayList<Fragment> fragments = new ArrayList<>();
-        fragments.add(indexFragment);
-        fragments.add(messageFragment);
-        fragments.add(userFragment);
+        if (mFragments == null) {
+            mFragments = new ArrayList<>();
+            mFragments.add(HomeTimelineFragmentBuilder.newHomeTimelineFragment(
+                    HomeTimelineFragment.TYPE_HOME));
+            mFragments.add(new MessageFragment());
+            mFragments.add(new ProfileFragment());
+        }
 
-        bottomTab.setTabData(tabData, this, R.id.main_frame, fragments);
+        bottomTab.setTabData(tabData, this, R.id.main_frame, mFragments);
         bottomTab.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelect(int position) {

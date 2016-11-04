@@ -49,9 +49,11 @@ public class ChatActivity extends BaseActivity implements HasComponent<ChatCompo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportFragmentManager().beginTransaction()
-                .replace(android.R.id.content, new ChatFragment(), "chat")
-                .commit();
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .replace(android.R.id.content, new ChatFragment(), "chat")
+                    .commit();
+        }
     }
 
     @Override
