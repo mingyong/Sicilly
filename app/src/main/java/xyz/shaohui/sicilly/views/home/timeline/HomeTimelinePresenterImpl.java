@@ -66,13 +66,13 @@ public class HomeTimelinePresenterImpl extends HomeTimelinePresenter {
         Observable<List<Status>> observable;
         switch (type) {
             case HomeTimelineFragment.TYPE_HOME:
-                observable = statusService.homeStatusNext(page, status.rawid());
+                observable = statusService.homeStatusNext(page, status.id());
                 break;
             case HomeTimelineFragment.TYPE_ABOUT_ME:
                 observable = statusService.mentionsStatusNext(page, status.rawid());
                 break;
             default:
-                observable = statusService.homeStatusNext(page, status.rawid());
+                observable = statusService.homeStatusNext(page, status.id());
         }
         observable
                 .subscribeOn(Schedulers.io())

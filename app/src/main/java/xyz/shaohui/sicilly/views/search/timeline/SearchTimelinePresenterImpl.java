@@ -21,7 +21,7 @@ public class SearchTimelinePresenterImpl extends SearchTimelineMVP.Presenter {
     }
 
     @Override
-    public void loadStatus(String key, Integer id) {
+    public void loadStatus(String key, String id) {
         mSearchService.searchStatus(key, id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

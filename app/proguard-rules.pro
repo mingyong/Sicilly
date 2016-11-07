@@ -16,53 +16,94 @@
 #   public *;
 #}
 
--ignorewarnings                     # 忽略警告，避免打包时某些警告出现
--optimizationpasses 5               # 指定代码的压缩级别
--dontusemixedcaseclassnames         # 是否使用大小写混合
--dontskipnonpubliclibraryclasses    # 是否混淆第三方jar
--dontpreverify                      # 混淆时是否做预校验
--verbose                            # 混淆时是否记录日志
+#-ignorewarnings                     # 忽略警告，避免打包时某些警告出现
+#-optimizationpasses 5               # 指定代码的压缩级别
+#-dontusemixedcaseclassnames         # 是否使用大小写混合
+#-dontskipnonpubliclibraryclasses    # 是否混淆第三方jar
+#-dontpreverify                      # 混淆时是否做预校验
+#-verbose                            # 混淆时是否记录日志
+#
+#
+## 自定义配置
+#-keep public class xyz.shaohui.sicilly.data.models.**
+#-keep public class xyz.shaohui.sicilly.leancloud.model.**
+#
+#
+#-keep interface android.support.v4.app.** { *; }
+#-keep public class * extends android.support.v4.**
+#-keep public class * extends android.app.Fragment
+#
+#-keep public class * extends android.app.Activity
+#-keep public class * extends android.app.Application
+#-keep public class * extends android.app.Service
+#-keep public class * extends android.content.BroadcastReceiver
+#-keep public class * extends android.content.ContentProvider
+#-keep public class * extends android.support.v4.widget
+#
+#-keepattributes *Annotation*
+#
+#-keepclasseswithmembers class * {         # 保持自定义控件类不被混淆
+#    public <init>(android.content.Context, android.util.AttributeSet);
+#}
+#
+#-keepclasseswithmembers class * {         # 保持自定义控件类不被混淆
+#    public <init>(android.content.Context, android.util.AttributeSet, int);
+#}
+#
+#-keepclassmembers class * extends android.app.Activity { #保持类成员
+#   public void *(android.view.View);
+#}
+#
+#-keepclassmembers enum * {                  # 保持枚举 enum 类不被混淆
+#    public static **[] values();
+#    public static ** valueOf(java.lang.String);
+#}
+#
+#-keep class * implements android.os.Parcelable {    # 保持Parcelable不被混淆
+#  public static final android.os.Parcelable$Creator *;
+#}
 
 
-# 自定义配置
--keep public class xyz.shaohui.sicilly.data.models.**
--keep public class xyz.shaohui.sicilly.leancloud.model.**
+#指定压缩级别
+-optimizationpasses 5
 
+#不跳过非公共的库的类成员
+-dontskipnonpubliclibraryclassmembers
 
--keep interface android.support.v4.app.** { *; }
--keep public class * extends android.support.v4.**
+#混淆时采用的算法
+-optimizations !code/simplification/arithmetic,!field/*,!class/merging/*
+
+#把混淆类中的方法名也混淆了
+-useuniqueclassmembernames
+
+#优化时允许访问并修改有修饰符的类和类的成员
+-allowaccessmodification
+
+#将文件来源重命名为“SourceFile”字符串
+-renamesourcefileattribute SourceFile
+#保留行号
+-keepattributes SourceFile,LineNumberTable
+
+#保持所有实现 Serializable 接口的类成员
+-keepclassmembers class * implements java.io.Serializable {
+    static final long serialVersionUID;
+    private static final java.io.ObjectStreamField[] serialPersistentFields;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
+}
+
+#Fragment不需要在AndroidManifest.xml中注册，需要额外保护下
+-keep public class * extends android.support.v4.app.Fragment
 -keep public class * extends android.app.Fragment
 
--keep public class * extends android.app.Activity
--keep public class * extends android.app.Application
--keep public class * extends android.app.Service
--keep public class * extends android.content.BroadcastReceiver
--keep public class * extends android.content.ContentProvider
--keep public class * extends android.support.v4.widget
-
--keepattributes *Annotation*
-
--keepclasseswithmembers class * {         # 保持自定义控件类不被混淆
-    public <init>(android.content.Context, android.util.AttributeSet);
-}
-
--keepclasseswithmembers class * {         # 保持自定义控件类不被混淆
-    public <init>(android.content.Context, android.util.AttributeSet, int);
-}
-
--keepclassmembers class * extends android.app.Activity { #保持类成员
-   public void *(android.view.View);
-}
-
--keepclassmembers enum * {                  # 保持枚举 enum 类不被混淆
-    public static **[] values();
-    public static ** valueOf(java.lang.String);
-}
-
--keep class * implements android.os.Parcelable {    # 保持Parcelable不被混淆
-  public static final android.os.Parcelable$Creator *;
-}
-
+# 保持测试相关的代码
+-dontnote junit.framework.**
+-dontnote junit.runner.**
+-dontwarn android.test.**
+-dontwarn android.support.test.**
+-dontwarn org.junit.**
 
 ## ===================== 第三方
 
@@ -126,3 +167,56 @@
 -keep class butterknife.*
 -keepclasseswithmembernames class * { @butterknife.* <methods>; }
 -keepclasseswithmembernames class * { @butterknife.* <fields>; }
+
+
+### fragmengargs
+
+-keep class com.hannesdorfmann.fragmentargs.** { *; }
+
+### jsoup
+
+-keep public class org.jsoup.** {
+public *;
+}
+
+### photoView
+
+-dontwarn uk.co.senab.photoview.**
+-keep class uk.co.senab.photoview.** { *;}
+
+### numberprogressbar
+
+-dontwarn com.daimajia.numberprogressbar.**
+-keep class com.daimajia.numberprogressbar.** {*;}
+
+### umeng
+
+-keepclassmembers class * {
+   public <init> (org.json.JSONObject);
+}
+-keep public class xyz.shaohui.sicilly.R$*{
+public static final int *;
+}
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+
+### nineoldanimation
+
+-keep class com.your.package.ClassThatUsesObjectAnimator { *; }
+
+### vistaRecyclerView
+
+-dontwarn me.shaohui.vistarecyclerview.**
+-keep class me.shaohui.vistarecyclerview.** {*;}
+
+### roundImageView
+
+-dontwarn com.makeramen.roundedimageview.**
+-keep class com.makeramen.roundedimageview.** { *;}
+
+
+
+

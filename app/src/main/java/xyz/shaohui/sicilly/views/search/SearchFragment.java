@@ -104,7 +104,6 @@ public class SearchFragment extends BaseFragment<SearchMVP.View, SearchMVP.Prese
 
     @OnClick(R.id.btn_back)
     void btnBack() {
-        //getActivity().finish();
-        preformSearch();
+        getActivity().finish();
     }
 }

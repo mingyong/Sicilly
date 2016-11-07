@@ -19,7 +19,7 @@ public interface StatusAPI {
     Observable<List<Status>> homeStatus();
 
     @GET("statuses/home_timeline.json?format=html")
-    Observable<List<Status>> homeStatusNext(@Query("page") int page, @Query("since_id") int id);
+    Observable<List<Status>> homeStatusNext(@Query("page") int page, @Query("max_id") String id);
 
     @GET("statuses/user_timeline.json?format=html")
     Observable<List<Status>> userTimeline(@Query("id") String userId);

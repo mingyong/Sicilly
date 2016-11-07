@@ -13,8 +13,8 @@ import xyz.shaohui.sicilly.data.models.UserListBean;
  */
 public interface SearchAPI {
 
-    @GET("search/public_timeline.json?format=html&count=30&mode=lite")
-    Observable<List<Status>> searchStatus(@Query("q")String q, @Query("since_id")Integer sinceId);
+    @GET("search/public_timeline.json?format=html&count=50&mode=lite&page=3")
+    Observable<List<Status>> searchStatus(@Query("q")String q, @Query("max_id")String sinceId);
 
     @GET("search/users.json?mode=lite&format=html&count=30")
     Observable<UserListBean> searchUser(@Query("q")String q, @Query("page")int page);

@@ -42,7 +42,6 @@
                     android:padding="@dimen/spacing_normal"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:visibility="invisible"
                     app:srcCompat="@drawable/ic_search"
                     android:layout_marginRight="@dimen/spacing_normal"
                     android:background="@null"/>

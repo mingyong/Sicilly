@@ -61,7 +61,7 @@ public class SearchTimelineFragment
         mRecyclerView.addItemDecoration(new SpacingDecoration(8));
         mRecyclerView.setOnMoreListener((total, left, current) -> {
             if (mStatusList.size() > 0) {
-                presenter.loadStatus(key, mStatusList.get(mStatusList.size() - 1).rawid());
+                presenter.loadStatus(key, mStatusList.get(mStatusList.size() - 1).id());
             }
         }, 6);
         mRecyclerView.setRefreshListener(() -> {

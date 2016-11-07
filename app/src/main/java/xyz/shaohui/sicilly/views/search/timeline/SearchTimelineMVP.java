@@ -29,7 +29,7 @@ public interface SearchTimelineMVP {
 
     abstract class Presenter extends MvpBasePresenter<View> {
 
-        public abstract void loadStatus(String key, Integer id);
+        public abstract void loadStatus(String key, String id);
 
     }
 
