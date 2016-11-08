@@ -1,11 +1,13 @@
 package xyz.shaohui.sicilly.views.search;
 
+import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -64,6 +66,7 @@ public class SearchFragment extends BaseFragment<SearchMVP.View, SearchMVP.Prese
         mSearch.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                 preformSearch();
+                hideSoftInput();
                 return true;
             }
             return false;
@@ -86,6 +89,12 @@ public class SearchFragment extends BaseFragment<SearchMVP.View, SearchMVP.Prese
 
             }
         });
+    }
+
+    private void hideSoftInput() {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputMethodManager.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
     private void preformSearch() {
