@@ -6,6 +6,7 @@
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/scrollablelayout/scrollablelayout.iml" filepath="$PROJECT_DIR$/scrollablelayout/scrollablelayout.iml" />
       <module fileurl="file://$PROJECT_DIR$/sicillylib/sicillylib.iml" filepath="$PROJECT_DIR$/sicillylib/sicillylib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/vistashareutil/vistashareutil.iml" filepath="$PROJECT_DIR$/vistashareutil/vistashareutil.iml" />
     </modules>
   </component>
 </project>

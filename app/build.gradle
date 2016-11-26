@@ -5,9 +5,16 @@ apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.squareup.sqldelight'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'ideaplus'
+            keyPassword 'ideaplus'
+            storeFile file('/Users/shaohui/Android/fan_ideaplus.jks')
+            storePassword 'ideaplus'
+        }
+    }
     compileSdkVersion 24
-    buildToolsVersion "24.0.2"
-
+    buildToolsVersion '25.0.0'
     defaultConfig {
         applicationId "xyz.shaohui.sicilly"
         minSdkVersion 16
@@ -21,8 +28,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+//        debug {
+//            signingConfig signingConfigs.config
+//        }
     }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -90,4 +99,5 @@ dependencies {
     compile('com.crashlytics.sdk.android:answers:1.3.10@aar') {
         transitive = true;
     }
+    compile project(':vistashareutil')
 }

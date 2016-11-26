@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/app" />
             <option value="$PROJECT_DIR$/scrollablelayout" />
             <option value="$PROJECT_DIR$/sicillylib" />
+            <option value="$PROJECT_DIR$/vistashareutil" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

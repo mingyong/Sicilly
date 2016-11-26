@@ -1,4 +1,4 @@
-package xyz.shaohui.sicilly.share;
+package xyz.shaohui.sicilly.views.share;
 
 import android.graphics.drawable.Drawable;
 

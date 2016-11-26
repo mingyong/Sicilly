@@ -38,6 +38,7 @@ import xyz.shaohui.sicilly.views.home.timeline.adapter.IndexStatusAdapter;
 import xyz.shaohui.sicilly.views.home.timeline.mvp.HomeTimelinePresenter;
 import xyz.shaohui.sicilly.views.home.timeline.mvp.HomeTimelineView;
 import xyz.shaohui.sicilly.views.search.SearchActivity;
+import xyz.shaohui.sicilly.views.share.ShareDialog;
 import xyz.shaohui.sicilly.views.status_detail.StatusDetailActivity;
 
 @FragmentWithArgs
@@ -146,7 +147,9 @@ public class HomeTimelineFragment extends BaseFragment<HomeTimelineView, HomeTim
 
     @OnClick(R.id.img_icon)
     void imgIconClick() {
-        mRecyclerView.getRecycler().smoothScrollToPosition(0);
+        //mRecyclerView.getRecycler().smoothScrollToPosition(0);
+        ShareDialog dialog = new ShareDialog();
+        dialog.show(getFragmentManager());
     }
 
     class User {

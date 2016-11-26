@@ -26,10 +26,12 @@ import com.flyco.tablayout.widget.MsgView;
 import com.pgyersdk.javabean.AppBean;
 import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
+import com.tencent.tauth.Tencent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 import me.shaohui.sicillylib.utils.ToastUtils;
+import me.shaohui.vistashareutil.VistaShareUtil;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -205,13 +207,18 @@ public class IndexActivity extends BaseActivity
         tabData.add(new TabEntity(getString(R.string.bottom_tab_user), R.drawable.ic_user_selected,
                 R.drawable.ic_user));
 
-        if (mFragments == null) {
-            mFragments = new ArrayList<>();
-            mFragments.add(HomeTimelineFragmentBuilder.newHomeTimelineFragment(
-                    HomeTimelineFragment.TYPE_HOME));
-            mFragments.add(new MessageFragment());
-            mFragments.add(new ProfileFragment());
-        }
+        //if (savedInstance == null) {
+        //    mFragments = new ArrayList<>();
+        //    mFragments.add(HomeTimelineFragmentBuilder.newHomeTimelineFragment(
+        //            HomeTimelineFragment.TYPE_HOME));
+        //    mFragments.add(new MessageFragment());
+        //    mFragments.add(new ProfileFragment());
+        //}
+        mFragments = new ArrayList<>();
+        mFragments.add(HomeTimelineFragmentBuilder.newHomeTimelineFragment(
+                HomeTimelineFragment.TYPE_HOME));
+        mFragments.add(new MessageFragment());
+        mFragments.add(new ProfileFragment());
 
         bottomTab.setTabData(tabData, this, R.id.main_frame, mFragments);
         bottomTab.setOnTabSelectListener(new OnTabSelectListener() {
@@ -358,6 +365,16 @@ public class IndexActivity extends BaseActivity
     @Override
     public Retrofit getRetrofit() {
         return mRetrofit;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        VistaShareUtil.handleQQResult(data);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        VistaShareUtil.handleWeiboResponse(this, intent);
     }
 
     class TabEntity implements CustomTabEntity {

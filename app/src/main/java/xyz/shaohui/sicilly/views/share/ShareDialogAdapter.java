@@ -1,4 +1,4 @@
-package xyz.shaohui.sicilly.share;
+package xyz.shaohui.sicilly.views.share;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
