@@ -17,8 +17,11 @@ import xyz.shaohui.sicilly.app.di.AppComponent;
 public abstract class BaseMvpActivity<V extends MvpView, T extends MvpPresenter<V>>
         extends MvpActivity<V, T> {
 
+    private Bundle mSavedInstanceState;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        mSavedInstanceState = savedInstanceState;
         injectDependencies();
         super.onCreate(savedInstanceState);
         try {
@@ -27,6 +30,10 @@ public abstract class BaseMvpActivity<V extends MvpView, T extends MvpPresenter<
             }
         } catch (Exception ignored) {
         }
+    }
+
+    public Bundle getSavedInstanceState() {
+        return mSavedInstanceState;
     }
 
     @Override

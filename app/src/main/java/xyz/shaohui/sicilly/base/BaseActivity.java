@@ -6,14 +6,19 @@ import android.support.v7.app.AppCompatActivity;
 import com.umeng.analytics.MobclickAgent;
 import javax.inject.Inject;
 import org.greenrobot.eventbus.EventBus;
+import retrofit2.Retrofit;
 import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.app.di.AppComponent;
+import xyz.shaohui.sicilly.views.create_status.DialogController;
 
 /**
  * Created by shaohui on 16/9/10.
  */
 
-public abstract class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity implements DialogController {
+
+    @Inject
+    Retrofit mRetrofit;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,5 +58,10 @@ public abstract class BaseActivity extends AppCompatActivity {
             getBus().unregister(this);
         }
         super.onDestroy();
+    }
+
+    @Override
+    public Retrofit getRetrofit() {
+        return mRetrofit;
     }
 }

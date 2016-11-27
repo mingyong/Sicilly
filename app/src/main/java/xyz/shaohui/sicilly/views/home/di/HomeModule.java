@@ -6,6 +6,8 @@ import xyz.shaohui.sicilly.views.home.chat.MessageListPresenterImpl;
 import xyz.shaohui.sicilly.views.home.chat.mvp.MessageListPresenter;
 import xyz.shaohui.sicilly.views.home.profile.ProfilePresenterImpl;
 import xyz.shaohui.sicilly.views.home.profile.mvp.ProfilePresenter;
+import xyz.shaohui.sicilly.views.home.test.TimelinePresenterImpl;
+import xyz.shaohui.sicilly.views.home.test.mvp.TimelineMVP;
 import xyz.shaohui.sicilly.views.home.timeline.HomeTimelinePresenterImpl;
 import xyz.shaohui.sicilly.views.home.timeline.mvp.HomeTimelinePresenter;
 
@@ -28,6 +30,11 @@ public class HomeModule {
 
     @Provides
     MessageListPresenter provideMessageListPresenter(MessageListPresenterImpl presenter) {
+        return presenter;
+    }
+
+    @Provides
+    TimelineMVP.Presenter provideTimelinePresenter(TimelinePresenterImpl presenter) {
         return presenter;
     }
 }

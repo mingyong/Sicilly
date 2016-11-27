@@ -12,6 +12,9 @@ import xyz.shaohui.sicilly.views.home.chat.MessageListFragment;
 import xyz.shaohui.sicilly.views.home.chat.mvp.MessageListPresenter;
 import xyz.shaohui.sicilly.views.home.profile.ProfileFragment;
 import xyz.shaohui.sicilly.views.home.profile.mvp.ProfilePresenter;
+import xyz.shaohui.sicilly.views.home.test.TimelineFragment;
+import xyz.shaohui.sicilly.views.home.test.TimelinePresenterImpl;
+import xyz.shaohui.sicilly.views.home.test.mvp.TimelineMVP;
 import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragment;
 import xyz.shaohui.sicilly.views.home.timeline.mvp.HomeTimelinePresenter;
 import xyz.shaohui.sicilly.views.login.LoginDialogFragment;
@@ -43,6 +46,10 @@ public interface HomeComponent {
     void inject(SwitchAccountDialog dialog);
 
     void inject(LoginDialogFragment fragment);
+
+    void inject(TimelineFragment fragment);
+
+    TimelineMVP.Presenter testTimelinePresenter();
 
     HomeTimelinePresenter timelinePresenter();
 

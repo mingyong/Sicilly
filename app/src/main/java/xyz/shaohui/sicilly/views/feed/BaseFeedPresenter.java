@@ -1,45 +1,40 @@
-package xyz.shaohui.sicilly.views.user_info.timeline;
+package xyz.shaohui.sicilly.views.feed;
 
-import javax.inject.Inject;
-import javax.inject.Named;
+import java.lang.ref.WeakReference;
+import java.util.List;
 import okhttp3.MediaType;
 import okhttp3.RequestBody;
-import org.greenrobot.eventbus.EventBus;
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.network.api.FavoriteAPI;
 import xyz.shaohui.sicilly.data.network.api.StatusAPI;
 import xyz.shaohui.sicilly.utils.ErrorUtils;
-import xyz.shaohui.sicilly.views.user_info.di.UserInfoPresenterModule;
-import xyz.shaohui.sicilly.views.user_info.timeline.mvp.UserTimelinePresenter;
 
 /**
- * Created by shaohui on 16/9/18.
+ * Created by shaohui on 2016/11/26.
  */
 
-public class UserTimelinePresenterImpl extends UserTimelinePresenter {
+public abstract class BaseFeedPresenter<V extends FeedMVP.View> implements FeedMVP.Presenter<V> {
 
-    private EventBus mBus;
+    private WeakReference<V> mViewRef;
 
-    private StatusAPI mStatusService;
+    public final FavoriteAPI mFavoriteService;
+    public final StatusAPI mStatusService;
 
-    private FavoriteAPI mFavoriteService;
-
-    private final String mUserId;
-
-    @Inject
-    UserTimelinePresenterImpl(EventBus bus, StatusAPI statusAPI, FavoriteAPI favoriteService,
-            @Named(UserInfoPresenterModule.USER_ID) String userId) {
-        mBus = bus;
-        mStatusService = statusAPI;
-        mFavoriteService = favoriteService;
-        mUserId = userId;
+    protected BaseFeedPresenter(FavoriteAPI favoriteService, StatusAPI statusService) {
+        this.mFavoriteService = favoriteService;
+        this.mStatusService = statusService;
     }
 
+    protected abstract Observable<List<Status>> loadStatus();
+
+    public abstract Observable<List<Status>> loadMoreStatus(int page, Status lastStatus);
+
     @Override
-    public void loadStatus(String userId) {
-        mStatusService.userTimeline(mUserId)
+    public void loadMessage() {
+        loadStatus()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(statuses -> {
@@ -47,26 +42,30 @@ public class UserTimelinePresenterImpl extends UserTimelinePresenter {
                         getView().showMessage(statuses);
                     }
                 }, throwable -> {
-                    ErrorUtils.catchException(throwable);
                     if (isViewAttached()) {
                         getView().networkError();
                     }
+                    ErrorUtils.catchException(throwable);
                 });
     }
 
     @Override
-    public void loadMoreStatus(String userId, int page, Status lastStatus) {
-        mStatusService.userTimelineNext(userId, page, lastStatus.rawid())
+    public void loadMoreMessage(int page, Status lastStatus) {
+        loadMoreStatus(page, lastStatus)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(statuses -> {
                     if (isViewAttached()) {
-                        getView().showMoreMessage(statuses);
+                        if (statuses.isEmpty()) {
+                            getView().showMoreMessage(statuses);
+                        } else {
+                            getView().loadNoMore();
+                        }
                     }
                 }, throwable -> {
                     ErrorUtils.catchException(throwable);
                     if (isViewAttached()) {
-                        getView().loadMoreFailure();
+                        getView().loadMoreError();
                     }
                 });
     }
@@ -84,7 +83,8 @@ public class UserTimelinePresenterImpl extends UserTimelinePresenter {
         mFavoriteService.createFavorite(messageId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(status -> {}, throwable -> {
+                .subscribe(status -> {
+                }, throwable -> {
                     if (isViewAttached()) {
                         getView().opStarFailure(position);
                     }
@@ -95,23 +95,46 @@ public class UserTimelinePresenterImpl extends UserTimelinePresenter {
         mFavoriteService.destroyFavorite(messageId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(status -> {}, throwable -> {
+                .subscribe(status -> {
+                }, throwable -> {
                     if (isViewAttached()) {
                         getView().opStarFailure(position);
                     }
                 });
     }
+
     @Override
-    public void deleteStatus(Status status, int position) {
+    public void opDelete(Status status, int position) {
         mStatusService.destroyStatus(RequestBody.create(MediaType.parse("text/plain"), status.id()))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(status1 -> {
                 }, throwable -> {
                     if (isViewAttached()) {
-                        getView().deleteStatusFailure(status, position);
+                        getView().opDeleteFailure(status, position);
                     }
                     throwable.printStackTrace();
                 });
+    }
+
+    @Override
+    public void attachView(V view) {
+        mViewRef = new WeakReference<>(view);
+    }
+
+    public FeedMVP.View getView() {
+        return mViewRef.get();
+    }
+
+    public Boolean isViewAttached() {
+        return mViewRef != null && mViewRef.get() != null;
+    }
+
+    @Override
+    public void detachView(boolean retainInstance) {
+        if (mViewRef != null) {
+            mViewRef.clear();
+            mViewRef = null;
+        }
     }
 }

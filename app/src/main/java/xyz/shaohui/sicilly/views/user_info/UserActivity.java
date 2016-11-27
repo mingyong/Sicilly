@@ -46,6 +46,7 @@ import xyz.shaohui.sicilly.views.friend_list.FriendListActivity;
 import xyz.shaohui.sicilly.views.timeline.TimelineActivity;
 import xyz.shaohui.sicilly.views.user_info.di.DaggerUserInfoComponent;
 import xyz.shaohui.sicilly.views.user_info.di.UserInfoComponent;
+import xyz.shaohui.sicilly.views.user_info.di.UserInfoPresenterModule;
 import xyz.shaohui.sicilly.views.user_info.mvp.UserInfoPresenter;
 import xyz.shaohui.sicilly.views.user_info.mvp.UserInfoView;
 import xyz.shaohui.sicilly.views.user_info.photo.UserPhotoFragmentBuilder;
@@ -105,15 +106,6 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-        if (savedInstanceState == null) {
-            if (getIntent().getData() != null) {
-                userId = HtmlUtils.cleanUserScheme(getIntent().getData());
-            } else {
-                userId = getIntent().getStringExtra("user_id");
-            }
-        } else {
-            userId = savedInstanceState.getString("user_id");
-        }
         ButterKnife.bind(this);
         fragmentList = new ArrayList<>();
     }
@@ -132,7 +124,19 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
 
     @Override
     public void injectDependencies() {
-        mComponent = DaggerUserInfoComponent.builder().appComponent(getAppComponent()).build();
+        if (getSavedInstanceState() == null) {
+            if (getIntent().getData() != null) {
+                userId = HtmlUtils.cleanUserScheme(getIntent().getData());
+            } else {
+                userId = getIntent().getStringExtra("user_id");
+            }
+        } else {
+            userId = getSavedInstanceState().getString("user_id");
+        }
+        mComponent = DaggerUserInfoComponent.builder()
+                .appComponent(getAppComponent())
+                .userInfoPresenterModule(new UserInfoPresenterModule(userId))
+                .build();
         mComponent.inject(this);
         presenter = mComponent.userInfoPresenter();
     }

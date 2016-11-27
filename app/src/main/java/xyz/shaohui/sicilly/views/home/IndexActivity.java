@@ -58,6 +58,7 @@ import xyz.shaohui.sicilly.views.home.chat.MessageFragment;
 import xyz.shaohui.sicilly.views.home.di.DaggerHomeComponent;
 import xyz.shaohui.sicilly.views.home.di.HomeComponent;
 import xyz.shaohui.sicilly.views.home.profile.ProfileFragment;
+import xyz.shaohui.sicilly.views.home.test.TimelineFragment;
 import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragment;
 import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragmentBuilder;
 
@@ -215,8 +216,9 @@ public class IndexActivity extends BaseActivity
         //    mFragments.add(new ProfileFragment());
         //}
         mFragments = new ArrayList<>();
-        mFragments.add(HomeTimelineFragmentBuilder.newHomeTimelineFragment(
-                HomeTimelineFragment.TYPE_HOME));
+        //mFragments.add(HomeTimelineFragmentBuilder.newHomeTimelineFragment(
+        //        HomeTimelineFragment.TYPE_HOME));
+        mFragments.add(new TimelineFragment());
         mFragments.add(new MessageFragment());
         mFragments.add(new ProfileFragment());
 
