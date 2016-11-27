@@ -1,8 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
 <me.shaohui.vistarecyclerview.VistaRecyclerView
         xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/recycler"
+        android:id="@id/recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:refresh_color="@color/accent"
+        app:empty_layout="@layout/tip_public_square"
         />

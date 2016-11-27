@@ -1,117 +1,38 @@
 package xyz.shaohui.sicilly.views.user_info.timeline;
 
+import java.util.List;
 import javax.inject.Inject;
 import javax.inject.Named;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
-import org.greenrobot.eventbus.EventBus;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import rx.Observable;
 import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.network.api.FavoriteAPI;
 import xyz.shaohui.sicilly.data.network.api.StatusAPI;
-import xyz.shaohui.sicilly.utils.ErrorUtils;
+import xyz.shaohui.sicilly.views.feed.BaseFeedPresenter;
+import xyz.shaohui.sicilly.views.feed.FeedMVP;
 import xyz.shaohui.sicilly.views.user_info.di.UserInfoPresenterModule;
-import xyz.shaohui.sicilly.views.user_info.timeline.mvp.UserTimelinePresenter;
 
 /**
  * Created by shaohui on 16/9/18.
  */
 
-public class UserTimelinePresenterImpl extends UserTimelinePresenter {
-
-    private EventBus mBus;
-
-    private StatusAPI mStatusService;
-
-    private FavoriteAPI mFavoriteService;
+public class UserTimelinePresenterImpl extends BaseFeedPresenter<FeedMVP.View> {
 
     private final String mUserId;
 
     @Inject
-    UserTimelinePresenterImpl(EventBus bus, StatusAPI statusAPI, FavoriteAPI favoriteService,
+    UserTimelinePresenterImpl(FavoriteAPI favoriteService, StatusAPI statusService,
             @Named(UserInfoPresenterModule.USER_ID) String userId) {
-        mBus = bus;
-        mStatusService = statusAPI;
-        mFavoriteService = favoriteService;
+        super(favoriteService, statusService);
         mUserId = userId;
     }
 
     @Override
-    public void loadStatus(String userId) {
-        mStatusService.userTimeline(mUserId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(statuses -> {
-                    if (isViewAttached()) {
-                        getView().showMessage(statuses);
-                    }
-                }, throwable -> {
-                    ErrorUtils.catchException(throwable);
-                    if (isViewAttached()) {
-                        getView().networkError();
-                    }
-                });
+    protected Observable<List<Status>> loadStatus() {
+        return mStatusService.userTimeline(mUserId);
     }
 
     @Override
-    public void loadMoreStatus(String userId, int page, Status lastStatus) {
-        mStatusService.userTimelineNext(userId, page, lastStatus.rawid())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(statuses -> {
-                    if (isViewAttached()) {
-                        getView().showMoreMessage(statuses);
-                    }
-                }, throwable -> {
-                    ErrorUtils.catchException(throwable);
-                    if (isViewAttached()) {
-                        getView().loadMoreFailure();
-                    }
-                });
-    }
-
-    @Override
-    public void opStar(Status status, int position) {
-        if (status.favorited()) {
-            unStarMessage(status.id(), position);
-        } else {
-            starMessage(status.id(), position);
-        }
-    }
-
-    private void starMessage(String messageId, int position) {
-        mFavoriteService.createFavorite(messageId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(status -> {}, throwable -> {
-                    if (isViewAttached()) {
-                        getView().opStarFailure(position);
-                    }
-                });
-    }
-
-    private void unStarMessage(String messageId, int position) {
-        mFavoriteService.destroyFavorite(messageId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(status -> {}, throwable -> {
-                    if (isViewAttached()) {
-                        getView().opStarFailure(position);
-                    }
-                });
-    }
-    @Override
-    public void deleteStatus(Status status, int position) {
-        mStatusService.destroyStatus(RequestBody.create(MediaType.parse("text/plain"), status.id()))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(status1 -> {
-                }, throwable -> {
-                    if (isViewAttached()) {
-                        getView().deleteStatusFailure(status, position);
-                    }
-                    throwable.printStackTrace();
-                });
+    public Observable<List<Status>> loadMoreStatus(int page, Status lastStatus) {
+        return mStatusService.userTimelineNext(mUserId, page, lastStatus.id());
     }
 }

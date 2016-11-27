@@ -1,4 +1,4 @@
-package xyz.shaohui.sicilly.views.home.test;
+package xyz.shaohui.sicilly.views.home.chat.mention;
 
 import java.util.List;
 import javax.inject.Inject;
@@ -7,27 +7,26 @@ import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.network.api.FavoriteAPI;
 import xyz.shaohui.sicilly.data.network.api.StatusAPI;
 import xyz.shaohui.sicilly.views.feed.BaseFeedPresenter;
-import xyz.shaohui.sicilly.views.home.test.mvp.TimelineMVP;
+import xyz.shaohui.sicilly.views.feed.FeedMVP;
 
 /**
  * Created by shaohui on 2016/11/27.
  */
 
-public class TimelinePresenterImpl extends BaseFeedPresenter<TimelineMVP.View>
-        implements TimelineMVP.Presenter {
+public class MentionPresenter extends BaseFeedPresenter<FeedMVP.View> {
 
     @Inject
-    protected TimelinePresenterImpl(FavoriteAPI favoriteService, StatusAPI statusService) {
+    MentionPresenter(FavoriteAPI favoriteService, StatusAPI statusService) {
         super(favoriteService, statusService);
     }
 
     @Override
     protected Observable<List<Status>> loadStatus() {
-        return mStatusService.homeStatus();
+        return mStatusService.mentionsStatus();
     }
 
     @Override
     public Observable<List<Status>> loadMoreStatus(int page, Status lastStatus) {
-        return mStatusService.homeStatusNext(page, lastStatus.id());
+        return mStatusService.mentionsStatusNext(page, lastStatus.id());
     }
 }

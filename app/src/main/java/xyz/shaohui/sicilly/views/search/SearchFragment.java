@@ -1,31 +1,34 @@
 package xyz.shaohui.sicilly.views.search;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import javax.inject.Inject;
 import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.R;
-import xyz.shaohui.sicilly.base.BaseFragment;
+import xyz.shaohui.sicilly.base.HasComponent;
 import xyz.shaohui.sicilly.views.search.di.SearchComponent;
 import xyz.shaohui.sicilly.views.search.event.SearchTimelineEvent;
 import xyz.shaohui.sicilly.views.search.event.SearchUserEvent;
-import xyz.shaohui.sicilly.views.search.mvp.SearchMVP;
 
 /**
  * Created by shaohui on 2016/10/26.
  */
 
-public class SearchFragment extends BaseFragment<SearchMVP.View, SearchMVP.Presenter>
-        implements SearchMVP.View {
+public class SearchFragment extends Fragment {
 
     @Inject
     EventBus mBus;
@@ -39,25 +42,35 @@ public class SearchFragment extends BaseFragment<SearchMVP.View, SearchMVP.Prese
     @BindView(R.id.edit_search)
     EditText mSearch;
 
-    @NonNull
     @Override
-    public EventBus getBus() {
-        return mBus;
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        injectDependencies();
     }
 
+    @Nullable
     @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+            Bundle savedInstanceState) {
+        View v = inflater.inflate(layoutRes(), container, false);
+        ButterKnife.bind(this, v);
+        bindViews(v);
+        return v;
+    }
+
     public void injectDependencies() {
         SearchComponent component = getComponent(SearchComponent.class);
         component.inject(this);
-        presenter = component.presenter();
     }
 
-    @Override
+    public <C> C getComponent(Class<C> componentType) {
+        return componentType.cast(((HasComponent<C>) getActivity()).getComponent());
+    }
+
     public int layoutRes() {
         return R.layout.activity_search;
     }
 
-    @Override
     public void bindViews(View view) {
         SearchAdapter adapter = new SearchAdapter(getFragmentManager(), getContext());
         mViewPager.setAdapter(adapter);
@@ -108,7 +121,6 @@ public class SearchFragment extends BaseFragment<SearchMVP.View, SearchMVP.Prese
         } else {
             mBus.post(new SearchUserEvent(key));
         }
-
     }
 
     @OnClick(R.id.btn_back)

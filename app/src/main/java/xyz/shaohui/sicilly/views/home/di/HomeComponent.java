@@ -9,14 +9,13 @@ import xyz.shaohui.sicilly.data.network.di.StatusModule;
 import xyz.shaohui.sicilly.data.network.di.UserModule;
 import xyz.shaohui.sicilly.views.home.IndexActivity;
 import xyz.shaohui.sicilly.views.home.chat.MessageListFragment;
+import xyz.shaohui.sicilly.views.home.chat.mention.MentionFragment;
+import xyz.shaohui.sicilly.views.home.chat.mention.MentionPresenter;
 import xyz.shaohui.sicilly.views.home.chat.mvp.MessageListPresenter;
 import xyz.shaohui.sicilly.views.home.profile.ProfileFragment;
 import xyz.shaohui.sicilly.views.home.profile.mvp.ProfilePresenter;
-import xyz.shaohui.sicilly.views.home.test.TimelineFragment;
-import xyz.shaohui.sicilly.views.home.test.TimelinePresenterImpl;
-import xyz.shaohui.sicilly.views.home.test.mvp.TimelineMVP;
 import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragment;
-import xyz.shaohui.sicilly.views.home.timeline.mvp.HomeTimelinePresenter;
+import xyz.shaohui.sicilly.views.home.timeline.HomeTimelinePresenterImpl;
 import xyz.shaohui.sicilly.views.login.LoginDialogFragment;
 import xyz.shaohui.sicilly.views.login.SwitchAccountDialog;
 
@@ -24,15 +23,12 @@ import xyz.shaohui.sicilly.views.login.SwitchAccountDialog;
  * Created by shaohui on 16/9/10.
  */
 
-@Component(
-        dependencies = AppComponent.class,
-        modules = {
-                StatusModule.class,
-                FavoriteModule.class, UserModule.class, MessageModule.class, AccountModule.class,
+@Component(dependencies = AppComponent.class, modules = {
+        StatusModule.class, FavoriteModule.class, UserModule.class, MessageModule.class,
+        AccountModule.class,
 
-                HomeModule.class
-        }
-)
+        HomeModule.class
+})
 public interface HomeComponent {
 
     void inject(IndexActivity activity);
@@ -47,14 +43,13 @@ public interface HomeComponent {
 
     void inject(LoginDialogFragment fragment);
 
-    void inject(TimelineFragment fragment);
+    void inject(MentionFragment fragment);
 
-    TimelineMVP.Presenter testTimelinePresenter();
+    MentionPresenter mentionPresenter();
 
-    HomeTimelinePresenter timelinePresenter();
+    HomeTimelinePresenterImpl timelinePresenter();
 
     ProfilePresenter profilePresenter();
 
     MessageListPresenter messageListPresenter();
-
 }

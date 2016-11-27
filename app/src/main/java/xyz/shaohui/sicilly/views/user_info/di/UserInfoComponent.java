@@ -12,17 +12,16 @@ import xyz.shaohui.sicilly.views.user_info.mvp.UserInfoPresenter;
 import xyz.shaohui.sicilly.views.user_info.photo.UserPhotoFragment;
 import xyz.shaohui.sicilly.views.user_info.photo.mvp.UserPhotoPresenter;
 import xyz.shaohui.sicilly.views.user_info.timeline.UserTimelineFragment;
-import xyz.shaohui.sicilly.views.user_info.timeline.mvp.UserTimelinePresenter;
+import xyz.shaohui.sicilly.views.user_info.timeline.UserTimelinePresenterImpl;
 
 /**
  * Created by shaohui on 16/9/18.
  */
-@Component(dependencies = AppComponent.class,
-        modules = {
-                UserInfoPresenterModule.class,
+@Component(dependencies = AppComponent.class, modules = {
+        UserInfoPresenterModule.class,
 
-                UserModule.class, StatusModule.class, FavoriteModule.class, FriendshipModule.class
-        })
+        UserModule.class, StatusModule.class, FavoriteModule.class, FriendshipModule.class
+})
 public interface UserInfoComponent {
     void inject(UserActivity activity);
 
@@ -34,7 +33,7 @@ public interface UserInfoComponent {
 
     UserInfoPresenter userInfoPresenter();
 
-    UserTimelinePresenter userTimelinePresenter();
+    UserTimelinePresenterImpl userTimelinePresenter();
 
     UserPhotoPresenter userPhotoPresenter();
 }

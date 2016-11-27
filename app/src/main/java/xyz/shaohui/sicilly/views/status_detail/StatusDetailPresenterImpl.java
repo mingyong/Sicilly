@@ -3,72 +3,37 @@ package xyz.shaohui.sicilly.views.status_detail;
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
-import okhttp3.MediaType;
-import okhttp3.RequestBody;
 import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 import xyz.shaohui.sicilly.data.models.Status;
+import xyz.shaohui.sicilly.data.network.api.FavoriteAPI;
 import xyz.shaohui.sicilly.data.network.api.StatusAPI;
-import xyz.shaohui.sicilly.utils.RxUtils;
-import xyz.shaohui.sicilly.views.status_detail.mvp.StatusDetailPresenter;
+import xyz.shaohui.sicilly.views.feed.BaseFeedPresenter;
+import xyz.shaohui.sicilly.views.feed.FeedMVP;
 
 /**
  * Created by shaohui on 16/9/17.
  */
 
-public class StatusDetailPresenterImpl extends StatusDetailPresenter {
+public class StatusDetailPresenterImpl extends BaseFeedPresenter<FeedMVP.View> {
 
-    private final StatusAPI mStatusService;
+    private final Status mOriginStatus;
 
     @Inject
-    StatusDetailPresenterImpl(StatusAPI statusService) {
-
-        mStatusService = statusService;
+    StatusDetailPresenterImpl(StatusAPI statusService, FavoriteAPI favoriteService, Status status) {
+        super(favoriteService, statusService);
+        mOriginStatus = status;
     }
 
     @Override
-    public void loadStatus(Status origin) {
-        List<Status> originList = new ArrayList<>();
-        originList.add(origin);
-        Observable<List<Status>> local = Observable.just(originList);
-
-        Observable<List<Status>> remote = mStatusService.context(origin.id());
-
-        Observable.concat(local, remote)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(statuses -> {
-                    if (isViewAttached()) {
-                        getView().showStatus(statuses);
-                    }
-                }, RxUtils.ignoreNetError);
-
+    protected Observable<List<Status>> loadStatus() {
+        List<Status> origin = new ArrayList<>();
+        origin.add(mOriginStatus);
+        return Observable.concat(Observable.just(origin),
+                mStatusService.context(mOriginStatus.id()).filter(statuses -> statuses.size() > 1));
     }
 
     @Override
-    public void loadStatusById(String id) {
-        mStatusService.context(id)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(statuses -> {
-                    if (isViewAttached()) {
-                        getView().showStatus(statuses);
-                    }
-                }, RxUtils.ignoreNetError);
-    }
-
-    @Override
-    public void deleteMessage(Status status, int position) {
-        mStatusService.destroyStatus(RequestBody.create(MediaType.parse("text/plain"), status.id()))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(status1 -> {
-                }, throwable -> {
-                    if (isViewAttached()) {
-                        getView().deleteStatusFailure(status, position);
-                    }
-                    throwable.printStackTrace();
-                });
+    public Observable<List<Status>> loadMoreStatus(int page, Status lastStatus) {
+        return Observable.empty();
     }
 }

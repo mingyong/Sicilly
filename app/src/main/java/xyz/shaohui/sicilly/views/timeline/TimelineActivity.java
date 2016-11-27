@@ -23,9 +23,6 @@ public class TimelineActivity extends BaseActivity implements HasComponent<Timel
     @Inject
     EventBus mBus;
 
-    @Inject
-    Retrofit mRetrofit;
-
     private TimelineComponent mComponent;
 
     public static Intent newIntent(Context context, String userId, int dataType) {
@@ -70,10 +67,5 @@ public class TimelineActivity extends BaseActivity implements HasComponent<Timel
                     .build();
         }
         return mComponent;
-    }
-
-    @Override
-    public Retrofit getRetrofit() {
-        return mRetrofit;
     }
 }

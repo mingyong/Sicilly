@@ -50,7 +50,6 @@ public class SearchUserFragment extends BaseFragment<SearchUserMVP.View, SearchU
     public void injectDependencies() {
         SearchComponent component = getComponent(SearchComponent.class);
         component.inject(this);
-        presenter = component.userPresenter();
     }
 
     @Override

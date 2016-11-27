@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -26,9 +25,7 @@ import com.flyco.tablayout.widget.MsgView;
 import com.pgyersdk.javabean.AppBean;
 import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
-import com.tencent.tauth.Tencent;
 import java.util.ArrayList;
-import java.util.List;
 import javax.inject.Inject;
 import me.shaohui.sicillylib.utils.ToastUtils;
 import me.shaohui.vistashareutil.VistaShareUtil;
@@ -58,9 +55,7 @@ import xyz.shaohui.sicilly.views.home.chat.MessageFragment;
 import xyz.shaohui.sicilly.views.home.di.DaggerHomeComponent;
 import xyz.shaohui.sicilly.views.home.di.HomeComponent;
 import xyz.shaohui.sicilly.views.home.profile.ProfileFragment;
-import xyz.shaohui.sicilly.views.home.test.TimelineFragment;
 import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragment;
-import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragmentBuilder;
 
 public class IndexActivity extends BaseActivity
         implements HasComponent<HomeComponent>, DialogController {
@@ -153,8 +148,7 @@ public class IndexActivity extends BaseActivity
                     case SicillyService.EVENT_TYPE_REQUEST:
                         origin = SPDataManager.getInt(SPDataManager.SP_KEY_FRIEND_REQUEST, 0);
                         if (origin != count) {
-                            SPDataManager.setInt(SPDataManager.SP_KEY_FRIEND_REQUEST, count,
-                                    false);
+                            SPDataManager.setInt(SPDataManager.SP_KEY_FRIEND_REQUEST, count, false);
                             mBus.post(new FriendRequestEvent(count));
                         }
                         break;
@@ -218,7 +212,7 @@ public class IndexActivity extends BaseActivity
         mFragments = new ArrayList<>();
         //mFragments.add(HomeTimelineFragmentBuilder.newHomeTimelineFragment(
         //        HomeTimelineFragment.TYPE_HOME));
-        mFragments.add(new TimelineFragment());
+        mFragments.add(new HomeTimelineFragment());
         mFragments.add(new MessageFragment());
         mFragments.add(new ProfileFragment());
 

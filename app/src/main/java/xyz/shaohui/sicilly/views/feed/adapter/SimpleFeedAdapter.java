@@ -32,7 +32,6 @@ import xyz.shaohui.sicilly.utils.NoUnderlineSpan;
 import xyz.shaohui.sicilly.utils.SimpleUtils;
 import xyz.shaohui.sicilly.utils.TimeUtils;
 import xyz.shaohui.sicilly.views.feed.FeedItemListener;
-import xyz.shaohui.sicilly.views.home.timeline.TimelineItemListener;
 import xyz.shaohui.sicilly.views.photo.PictureActivity;
 import xyz.shaohui.sicilly.views.status_detail.StatusDetailActivity;
 import xyz.shaohui.sicilly.views.user_info.UserActivity;

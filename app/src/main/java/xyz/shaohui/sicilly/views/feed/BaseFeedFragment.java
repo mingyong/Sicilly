@@ -12,7 +12,6 @@ import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseFragment;
 import xyz.shaohui.sicilly.data.models.Status;
-import xyz.shaohui.sicilly.views.home.timeline.TimelineItemListener;
 
 /**
  * Created by shaohui on 2016/11/26.

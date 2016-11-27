@@ -25,6 +25,7 @@ import xyz.shaohui.sicilly.event.MentionEvent;
 import xyz.shaohui.sicilly.event.MentionUpdateEvent;
 import xyz.shaohui.sicilly.event.MessageEvent;
 import xyz.shaohui.sicilly.provider.BusProvider;
+import xyz.shaohui.sicilly.views.home.chat.mention.MentionFragment;
 import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragment;
 import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragmentBuilder;
 
@@ -192,8 +193,7 @@ public class MessageFragment extends Fragment {
         @Override
         public Fragment getItem(int position) {
             if (position == 0) {
-                return HomeTimelineFragmentBuilder.newHomeTimelineFragment(
-                        HomeTimelineFragment.TYPE_ABOUT_ME);
+                return new MentionFragment();
             } else {
                 return new MessageListFragment();
             }

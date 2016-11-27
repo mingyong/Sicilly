@@ -3,8 +3,6 @@ package xyz.shaohui.sicilly.views.timeline.di;
 import dagger.Module;
 import dagger.Provides;
 import javax.inject.Named;
-import xyz.shaohui.sicilly.views.timeline.TimelinePresenterImpl;
-import xyz.shaohui.sicilly.views.timeline.mvp.TimelineMVP;
 
 /**
  * Created by shaohui on 2016/10/19.
@@ -27,11 +25,6 @@ public class TimelineModule {
     }
 
     @Provides
-    TimelineMVP.Presenter provideTimelinePresenter(TimelinePresenterImpl presenter) {
-        return presenter;
-    }
-
-    @Provides
     @Named(TIMELINE_USER_ID)
     String provideUserId() {
         return mUserId;
@@ -42,5 +35,4 @@ public class TimelineModule {
     int provideDataType() {
         return mDataType;
     }
-
 }

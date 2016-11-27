@@ -41,7 +41,7 @@ public class AppModule {
     @Provides
     OkHttpClient provideHttpClient() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.NONE);
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         return new OkHttpClient.Builder().connectTimeout(30, TimeUnit.SECONDS)  // 超时20s
                 .addInterceptor(interceptor)

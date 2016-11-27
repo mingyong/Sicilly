@@ -56,7 +56,7 @@ public abstract class BaseFeedPresenter<V extends FeedMVP.View> implements FeedM
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(statuses -> {
                     if (isViewAttached()) {
-                        if (statuses.isEmpty()) {
+                        if (!statuses.isEmpty()) {
                             getView().showMoreMessage(statuses);
                         } else {
                             getView().loadNoMore();
@@ -122,7 +122,7 @@ public abstract class BaseFeedPresenter<V extends FeedMVP.View> implements FeedM
         mViewRef = new WeakReference<>(view);
     }
 
-    public FeedMVP.View getView() {
+    public V getView() {
         return mViewRef.get();
     }
 

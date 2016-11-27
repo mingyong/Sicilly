@@ -29,7 +29,7 @@ public interface StatusAPI {
 
     @GET("statuses/user_timeline.json?format=html")
     Observable<List<Status>> userTimelineNext(@Query("id") String userId, @Query("page") int page,
-            @Query("since_id") int id);
+            @Query("max_id") String id);
 
     @GET("statuses/mentions.json?format=html")
     Observable<List<Status>> mentionsStatus();
@@ -38,7 +38,7 @@ public interface StatusAPI {
     Observable<List<Status>> mentionsStatus(@Query("count")int count);
 
     @GET("statuses/mentions.json?format=html")
-    Observable<List<Status>> mentionsStatusNext(@Query("page") int page, @Query("since_id")int id);
+    Observable<List<Status>> mentionsStatusNext(@Query("page") int page, @Query("max_id")String id);
 
     @Multipart
     @POST("statuses/update.json?format=html")

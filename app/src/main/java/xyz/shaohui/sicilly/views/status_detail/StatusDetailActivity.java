@@ -13,6 +13,7 @@ import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.views.create_status.DialogController;
 import xyz.shaohui.sicilly.views.status_detail.di.DaggerStatusDetailComponent;
 import xyz.shaohui.sicilly.views.status_detail.di.StatusDetailComponent;
+import xyz.shaohui.sicilly.views.status_detail.di.StatusDetailModule;
 
 public class StatusDetailActivity extends BaseActivity
         implements HasComponent<StatusDetailComponent>, DialogController {
@@ -42,8 +43,7 @@ public class StatusDetailActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportFragmentManager().beginTransaction()
-                .replace(android.R.id.content, StatusDetailFragmentBuilder.newStatusDetailFragment(
-                        getIntent().getParcelableExtra("status")))
+                .replace(android.R.id.content, new StatusDetailFragment())
                 .commit();
         boolean forMention = getIntent().getBooleanExtra("for_mention", false);
         if (forMention) {
@@ -56,7 +56,11 @@ public class StatusDetailActivity extends BaseActivity
 
     @Override
     public void initializeInjector() {
-        mComponent = DaggerStatusDetailComponent.builder().appComponent(getAppComponent()).build();
+        Status status = getIntent().getParcelableExtra("status");
+        mComponent = DaggerStatusDetailComponent.builder()
+                .appComponent(getAppComponent())
+                .statusDetailModule(new StatusDetailModule(status))
+                .build();
         mComponent.inject(this);
     }
 
