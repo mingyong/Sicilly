@@ -33,6 +33,6 @@ public class UserTimelinePresenterImpl extends BaseFeedPresenter<FeedMVP.View> {
 
     @Override
     public Observable<List<Status>> loadMoreStatus(int page, Status lastStatus) {
-        return mStatusService.userTimelineNext(mUserId, page, lastStatus.id());
+        return mStatusService.userTimelineNext(mUserId, page, null);
     }
 }

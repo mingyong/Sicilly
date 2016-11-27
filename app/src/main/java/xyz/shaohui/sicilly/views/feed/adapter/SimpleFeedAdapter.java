@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import butterknife.BindView;
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.List;
@@ -40,8 +41,7 @@ import xyz.shaohui.sicilly.views.user_info.UserActivity;
  * Created by shaohui on 2016/11/27.
  */
 
-public class SimpleFeedAdapter
-        extends BaseFeedAdapter<SimpleFeedAdapter.SimpleStatusViewHolder> {
+public class SimpleFeedAdapter extends BaseFeedAdapter<SimpleFeedAdapter.SimpleStatusViewHolder> {
 
     private FeedItemListener mListener;
 
@@ -171,6 +171,9 @@ public class SimpleFeedAdapter
             holder.actionStar.setImageResource(R.drawable.ic_star);
         }
 
+        // extra_action
+        holder.actionExtra.setOnClickListener(v -> showExtraMenu(context, status, holder));
+
         // 因为导致卡顿，所以暂时去掉首页的动画
         // 动画效果
         //if (holder.getAdapterPosition() > mLastPosition) {
@@ -179,6 +182,25 @@ public class SimpleFeedAdapter
         //} else {
         //    clearAnimator(holder.itemView);
         //}
+    }
+
+    private void showExtraMenu(Context context, Status status, SimpleStatusViewHolder viewHolder) {
+        new MaterialDialog.Builder(context).items(
+                context.getResources().getStringArray(R.array.extra_action))
+                .itemsCallback((dialog, itemView, position, text) -> {
+                    if (TextUtils.equals(text,
+                            context.getString(R.string.extra_menu_share_image))) {
+                        ToastUtils.showToast(context, "分享图片");
+                    } else if (TextUtils.equals(text,
+                            context.getString(R.string.extra_menu_share_text))) {
+                        ToastUtils.showToast(context, "分享文字");
+                    } else if (TextUtils.equals(text,
+                            context.getString(R.string.extra_menu_copy_text))) {
+                        SimpleUtils.copyText(context, HtmlUtils.cleanAllTag(status.text()));
+                        ToastUtils.showToast(context, R.string.copy_text_tip);
+                    }
+                })
+                .show();
     }
 
     class SimpleStatusViewHolder extends BaseFeedViewHolder {
@@ -201,6 +223,8 @@ public class SimpleFeedAdapter
         ImageButton actionStar;
         @BindView(R.id.status_header)
         RelativeLayout header;
+        @BindView(R.id.action_extra)
+        ImageView actionExtra;
 
         public SimpleStatusViewHolder(View itemView) {
             super(itemView);

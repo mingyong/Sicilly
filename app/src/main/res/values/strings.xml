@@ -26,6 +26,16 @@
     <string name="confirm_delete_status">确认要删除这条消息?</string>
     <string name="delete_status_failure">删除失败, 请重试</string>
 
+    // item
+    <string-array name="extra_action">
+        <item>@string/extra_menu_share_text</item>
+        <item>@string/extra_menu_share_image</item>
+        <item>@string/extra_menu_copy_text</item>
+    </string-array>
+    <string name="extra_menu_share_text">文字形式分享</string>
+    <string name="extra_menu_share_image">卡片形式分享</string>
+    <string name="extra_menu_copy_text">复制文字</string>
+
     // login
     <string name="login_username">饭否账号</string>
     <string name="login_password">密码</string>
