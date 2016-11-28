@@ -4,6 +4,10 @@ import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.support.v4.app.FragmentManager;
 import android.text.Html;
 import android.text.Spannable;
@@ -11,6 +15,7 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,18 +27,27 @@ import butterknife.BindView;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.Target;
+import java.io.File;
 import java.util.List;
 import me.shaohui.sicillylib.utils.ToastUtils;
+import me.shaohui.smartiannotes.SmartisanNotes;
+import rx.Observable;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyApplication;
 import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.models.User;
+import xyz.shaohui.sicilly.utils.ErrorUtils;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
 import xyz.shaohui.sicilly.utils.NoUnderlineSpan;
+import xyz.shaohui.sicilly.utils.RxUtils;
 import xyz.shaohui.sicilly.utils.SimpleUtils;
 import xyz.shaohui.sicilly.utils.TimeUtils;
 import xyz.shaohui.sicilly.views.feed.FeedItemListener;
 import xyz.shaohui.sicilly.views.photo.PictureActivity;
+import xyz.shaohui.sicilly.views.share.ShareDialog;
 import xyz.shaohui.sicilly.views.status_detail.StatusDetailActivity;
 import xyz.shaohui.sicilly.views.user_info.UserActivity;
 
@@ -172,7 +186,7 @@ public class SimpleFeedAdapter extends BaseFeedAdapter<SimpleFeedAdapter.SimpleS
         }
 
         // extra_action
-        holder.actionExtra.setOnClickListener(v -> showExtraMenu(context, status, holder));
+        holder.actionExtra.setOnClickListener(v -> showExtraMenu(context, status));
 
         // 因为导致卡顿，所以暂时去掉首页的动画
         // 动画效果
@@ -184,16 +198,17 @@ public class SimpleFeedAdapter extends BaseFeedAdapter<SimpleFeedAdapter.SimpleS
         //}
     }
 
-    private void showExtraMenu(Context context, Status status, SimpleStatusViewHolder viewHolder) {
+    private void showExtraMenu(Context context, Status status) {
         new MaterialDialog.Builder(context).items(
                 context.getResources().getStringArray(R.array.extra_action))
                 .itemsCallback((dialog, itemView, position, text) -> {
                     if (TextUtils.equals(text,
                             context.getString(R.string.extra_menu_share_image))) {
-                        ToastUtils.showToast(context, "分享图片");
+                        shareImage(context, status);
                     } else if (TextUtils.equals(text,
                             context.getString(R.string.extra_menu_share_text))) {
-                        ToastUtils.showToast(context, "分享文字");
+                        ShareDialog.shareText(mFragmentManager,
+                                HtmlUtils.cleanAllTag(status.text()));
                     } else if (TextUtils.equals(text,
                             context.getString(R.string.extra_menu_copy_text))) {
                         SimpleUtils.copyText(context, HtmlUtils.cleanAllTag(status.text()));
@@ -201,6 +216,33 @@ public class SimpleFeedAdapter extends BaseFeedAdapter<SimpleFeedAdapter.SimpleS
                     }
                 })
                 .show();
+    }
+
+    private void shareImage(Context context, Status status) {
+        Observable.fromCallable(() -> {
+            SmartisanNotes notes = SmartisanNotes.with(context)
+                    .author(status.user().screen_name() + " via 尚饭")
+                    .content(HtmlUtils.cleanAllTag(status.text()))
+                    .template(SmartisanNotes.TEMPLATE_SMARTISAN);
+            if (status.photo() != null) {
+                File imageFile = Glide.with(context)
+                        .load(status.photo().getLargeurl())
+                        .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                        .get();
+                Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
+                Log.i("bitmap_size", bitmap.getWidth() +" , " + bitmap.getHeight());
+                Drawable drawable = new BitmapDrawable(context.getResources(), bitmap);
+                notes.drawable(drawable);
+            }
+            File file = notes.saveCacheFile();
+            return file.getAbsolutePath();
+        })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(path -> ShareDialog.shareImage(mFragmentManager, path), throwable -> {
+                    ErrorUtils.catchException(throwable);
+                    ToastUtils.showToast(context, "分享失败，请重试");
+                });
     }
 
     class SimpleStatusViewHolder extends BaseFeedViewHolder {

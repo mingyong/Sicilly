@@ -21,6 +21,7 @@ import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
 import xyz.shaohui.sicilly.utils.SimpleUtils;
+import xyz.shaohui.sicilly.views.share.ShareDialog;
 
 public class WebActivity extends BaseActivity {
 
@@ -119,7 +120,7 @@ public class WebActivity extends BaseActivity {
                 ToastUtils.showToast(this, R.string.copy_text_tip);
                 return true;
             case R.id.share_url:
-
+                ShareDialog.shareUrl(getSupportFragmentManager(), mWebView.getTitle(), mUrl);
                 return true;
         }
         return false;

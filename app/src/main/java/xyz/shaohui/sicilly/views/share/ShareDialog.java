@@ -1,11 +1,10 @@
 package xyz.shaohui.sicilly.views.share;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.DrawableRes;
-import android.support.annotation.LayoutRes;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,7 +13,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import java.util.ArrayList;
@@ -23,7 +21,6 @@ import me.shaohui.bottomdialog.BaseBottomDialog;
 import me.shaohui.sicillylib.utils.ToastUtils;
 import me.shaohui.vistashareutil.VistaShareUtil;
 import me.shaohui.vistashareutil.share.ShareListener;
-import me.shaohui.vistashareutil.share.SharePlatform;
 import xyz.shaohui.sicilly.R;
 
 /**
@@ -32,9 +29,11 @@ import xyz.shaohui.sicilly.R;
 
 public class ShareDialog extends BaseBottomDialog {
 
-    private static final String WX_ID = "wxe57249751eecd1f5";
+    public static final int TYPE_TEXT = 1;
+    public static final int TYPE_IMAGE = 2;
+    public static final int TYPE_WEB = 3;
 
-    //private static final String WX_ID_PLUS = "wxab4bcc9bc760bf09";
+    private static final String WX_ID = "wxe57249751eecd1f5";
 
     private static final String WEIBO_ID = "3116987924";
 
@@ -44,6 +43,34 @@ public class ShareDialog extends BaseBottomDialog {
 
     @BindView(R.id.recycler)
     RecyclerView mRecyclerView;
+
+    public static void shareText(FragmentManager fragmentManager, String text) {
+        ShareDialog dialog = new ShareDialog();
+        Bundle args = new Bundle();
+        args.putInt("type", TYPE_TEXT);
+        args.putString("data", text);
+        dialog.setArguments(args);
+        dialog.show(fragmentManager);
+    }
+
+    public static void shareImage(FragmentManager fragmentManager, String path) {
+        ShareDialog dialog = new ShareDialog();
+        Bundle args = new Bundle();
+        args.putInt("type", TYPE_IMAGE);
+        args.putString("data", path);
+        dialog.setArguments(args);
+        dialog.show(fragmentManager);
+    }
+
+    public static void shareUrl(FragmentManager fragmentManager, String title, String url) {
+        ShareDialog dialog = new ShareDialog();
+        Bundle args = new Bundle();
+        args.putInt("type", TYPE_WEB);
+        args.putString("data", url);
+        args.putString("title", title);
+        dialog.setArguments(args);
+        dialog.show(fragmentManager);
+    }
 
     @Override
     public int getLayoutRes() {
@@ -77,10 +104,28 @@ public class ShareDialog extends BaseBottomDialog {
         VistaShareUtil.setWeiboId(WEIBO_ID);
         VistaShareUtil.setWXId(WX_ID);
 
-
         mRecyclerView.setLayoutManager(layoutManager);
-        ShareAdapter adapter = new ShareAdapter(getContext());
+        ShareAdapter adapter = new ShareAdapter(getContext(), getShareListener());
         mRecyclerView.setAdapter(adapter);
+    }
+
+    private ShareItemListener getShareListener() {
+        return new ShareItemListener(mVistaShareUtil, getContext()) {
+            @Override
+            int getType() {
+                return getArguments().getInt("type", TYPE_TEXT);
+            }
+
+            @Override
+            String getData() {
+                return getArguments().getString("data");
+            }
+
+            @Override
+            String getTitle() {
+                return getArguments().getString("title");
+            }
+        };
     }
 
     @Override
@@ -88,27 +133,32 @@ public class ShareDialog extends BaseBottomDialog {
         return 0.5f;
     }
 
-    class ShareAdapter extends RecyclerView.Adapter<ShareViewHolder> {
+    private class ShareAdapter extends RecyclerView.Adapter<ShareViewHolder> {
 
         private List<ShareItem> mShareItems;
 
-        ShareAdapter(Context context) {
+        private final ShareItemListener mShareItemListener;
+
+        ShareAdapter(Context context, ShareItemListener listener) {
             mShareItems = new ArrayList<>();
             Resources resources = context.getResources();
+            mShareItems.add(new ShareItem("饭否", resources.getDrawable(R.mipmap.share_fan)));
             mShareItems.add(new ShareItem("微信", resources.getDrawable(R.mipmap.share_wechat)));
             mShareItems.add(new ShareItem("朋友圈", resources.getDrawable(R.mipmap.share_moment)));
             mShareItems.add(new ShareItem("微博", resources.getDrawable(R.mipmap.share_weibo)));
             mShareItems.add(new ShareItem("QQ", resources.getDrawable(R.mipmap.share_qq)));
             mShareItems.add(new ShareItem("QQ空间", resources.getDrawable(R.mipmap.share_qzone)));
-            mShareItems.add(new ShareItem("复制文字", resources.getDrawable(R.mipmap.share_card)));
+            mShareItems.add(new ShareItem(listener.getExtraActionTitle(),
+                    resources.getDrawable(R.mipmap.share_card)));
             mShareItems.add(new ShareItem("更多", resources.getDrawable(R.mipmap.share_more)));
-            mShareItems.add(new ShareItem("更多", resources.getDrawable(R.mipmap.share_more)));
+
+            mShareItemListener = listener;
         }
 
         @Override
         public ShareViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return new ShareViewHolder(LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.dialog_share_item, parent, false));
+                    .inflate(R.layout.dialog_share_item, parent, false), mShareItemListener);
         }
 
         @Override
@@ -127,14 +177,6 @@ public class ShareDialog extends BaseBottomDialog {
         }
     }
 
-    private String title = "测试消息";
-
-    private String summary = "这是详细信息";
-
-    private String targetUrl = "http://shaohui.me";
-
-    private String imageUrl = "https://pic4.zhimg.com/04ac29e7aef928fd867385286c17f09f_r.jpg";
-
     class ShareViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.item_title)
@@ -143,39 +185,16 @@ public class ShareDialog extends BaseBottomDialog {
         @BindView(R.id.item_image)
         ImageView icon;
 
-        public ShareViewHolder(View itemView) {
+        private final ShareItemListener mListener;
+
+        public ShareViewHolder(View itemView, ShareItemListener listener) {
             super(itemView);
             ButterKnife.bind(this, itemView);
+            mListener = listener;
 
             itemView.setOnClickListener(v -> {
                 int position = (int) v.getTag();
-                switch (position) {
-                    case 0:
-                        mVistaShareUtil.shareText(SharePlatform.WEIBO, summary);
-                        break;
-                    case 1:
-                        mVistaShareUtil.shareImage(SharePlatform.WEIBO, imageUrl);
-                        break;
-                    case 2:
-                        mVistaShareUtil.shareMedia(SharePlatform.WEIBO, summary, summary, targetUrl, imageUrl);
-                        break;
-                    case 3:
-                        mVistaShareUtil.shareImage(SharePlatform.QZONE, imageUrl);
-                        break;
-                    case 4:
-                        mVistaShareUtil.shareImage(SharePlatform.WX, imageUrl);
-                        break;
-                    case 5:
-                        mVistaShareUtil.shareImage(SharePlatform.WX_TIMELINE, imageUrl);
-                        break;
-                    case 6:
-                        mVistaShareUtil.shareText(SharePlatform.WX, summary);
-                        break;
-                    case 7:
-                        //mVistaShareUtil.shareMedia(SharePlatform.WX, summary, summary, targetUrl, imageUrl);
-                        mVistaShareUtil.shareImage(SharePlatform.DEFAULT, imageUrl);
-                        break;
-                }
+                mListener.opShare(position);
             });
         }
     }

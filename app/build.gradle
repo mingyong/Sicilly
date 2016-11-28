@@ -93,6 +93,7 @@ dependencies {
     compile 'me.shaohui:bottomdialog:1.1.9'
     compile 'me.shaohui.advancedluban:library:1.2.1'
     compile 'com.qiniu:qiniu-android-sdk:7.3.0'
+    compile 'me.shaohui:smartisannotes:1.1'
     compile('com.crashlytics.sdk.android:crashlytics:2.6.5@aar') {
         transitive = true;
     }
