@@ -17,9 +17,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import javax.inject.Inject;
+import javax.inject.Named;
 import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.HasComponent;
+import xyz.shaohui.sicilly.views.search.di.SearchActivityModule;
 import xyz.shaohui.sicilly.views.search.di.SearchComponent;
 import xyz.shaohui.sicilly.views.search.event.SearchTimelineEvent;
 import xyz.shaohui.sicilly.views.search.event.SearchUserEvent;
@@ -41,6 +43,10 @@ public class SearchFragment extends Fragment {
 
     @BindView(R.id.edit_search)
     EditText mSearch;
+
+    @Named(SearchActivityModule.SEARCH_KEY)
+    @Inject
+    String mCatalogKey;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -102,6 +108,10 @@ public class SearchFragment extends Fragment {
 
             }
         });
+
+        if (TextUtils.isEmpty(mCatalogKey)) {
+            mBus.post(new SearchTimelineEvent(mCatalogKey));
+        }
     }
 
     private void hideSoftInput() {

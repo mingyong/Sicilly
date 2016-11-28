@@ -3,6 +3,7 @@ package xyz.shaohui.sicilly.views.search.di;
 import dagger.Component;
 import xyz.shaohui.sicilly.app.di.AppComponent;
 import xyz.shaohui.sicilly.data.network.di.FavoriteModule;
+import xyz.shaohui.sicilly.data.network.di.SearchModule;
 import xyz.shaohui.sicilly.data.network.di.StatusModule;
 import xyz.shaohui.sicilly.views.search.SearchActivity;
 import xyz.shaohui.sicilly.views.search.SearchFragment;
@@ -15,8 +16,7 @@ import xyz.shaohui.sicilly.views.search.user.SearchUserFragment;
  */
 
 @Component(dependencies = AppComponent.class, modules = {
-        SearchModule.class, StatusModule.class, FavoriteModule.class,
-        xyz.shaohui.sicilly.data.network.di.SearchModule.class
+        SearchActivityModule.class, StatusModule.class, FavoriteModule.class, SearchModule.class
 })
 public interface SearchComponent {
 

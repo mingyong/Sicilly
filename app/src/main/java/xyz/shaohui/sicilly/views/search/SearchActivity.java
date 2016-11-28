@@ -1,20 +1,19 @@
 package xyz.shaohui.sicilly.views.search;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
 import javax.inject.Inject;
 import org.greenrobot.eventbus.EventBus;
 import retrofit2.Retrofit;
-import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.base.HasComponent;
+import xyz.shaohui.sicilly.utils.HtmlUtils;
 import xyz.shaohui.sicilly.views.create_status.DialogController;
 import xyz.shaohui.sicilly.views.search.di.DaggerSearchComponent;
 import xyz.shaohui.sicilly.views.search.di.SearchComponent;
+import xyz.shaohui.sicilly.views.search.di.SearchActivityModule;
 
-public class SearchActivity extends BaseActivity implements HasComponent<SearchComponent>,
-        DialogController {
+public class SearchActivity extends BaseActivity
+        implements HasComponent<SearchComponent>, DialogController {
 
     @Inject
     EventBus mBus;
@@ -36,7 +35,14 @@ public class SearchActivity extends BaseActivity implements HasComponent<SearchC
 
     @Override
     public void initializeInjector() {
-        mComponent = DaggerSearchComponent.builder().appComponent(getAppComponent()).build();
+        String key = "";
+        if (getIntent().getData() != null) {
+            key = HtmlUtils.cleanCatalogScheme(getIntent().getData());
+        }
+        mComponent = DaggerSearchComponent.builder()
+                .appComponent(getAppComponent())
+                .searchActivityModule(new SearchActivityModule(key))
+                .build();
         mComponent.inject(this);
     }
 

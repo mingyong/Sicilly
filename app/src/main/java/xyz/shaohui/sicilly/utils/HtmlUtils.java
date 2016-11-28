@@ -38,6 +38,11 @@ public class HtmlUtils {
         return uriString.replace("me.shaohui.sicilly.user://fanfou.com/", "");
     }
 
+    public static String cleanCatalogScheme(Uri uri) {
+        String uriString = uri.toString();
+        return uriString.replace("me.shaohui.sicilly.catalog://", "");
+    }
+
     public static String revertHttpScheme(Uri uri) {
         String uriString = uri.toString();
         return uriString.replace("me.shaohui.sicilly.http://", "http://");
