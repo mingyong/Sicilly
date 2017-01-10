@@ -2,12 +2,15 @@ package xyz.shaohui.sicilly.views.search.timeline;
 
 import android.text.TextUtils;
 import android.view.View;
+import javax.inject.Inject;
+import javax.inject.Named;
 import me.shaohui.vistarecyclerview.decoration.SpacingDecoration;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.views.feed.BaseFeedFragment;
 import xyz.shaohui.sicilly.views.feed.adapter.SimpleFeedAdapter;
+import xyz.shaohui.sicilly.views.search.di.SearchActivityModule;
 import xyz.shaohui.sicilly.views.search.di.SearchComponent;
 import xyz.shaohui.sicilly.views.search.event.SearchTimelineEvent;
 
@@ -19,7 +22,7 @@ public class SearchTimelineFragment
         extends BaseFeedFragment<SearchTimelineMVP.View, SearchTimelinePresenterImpl>
         implements SearchTimelineMVP.View {
 
-    private String key;
+    String key;
 
     @Override
     public void injectDependencies() {

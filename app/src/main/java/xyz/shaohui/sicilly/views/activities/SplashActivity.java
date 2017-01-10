@@ -3,6 +3,7 @@ package xyz.shaohui.sicilly.views.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import javax.inject.Inject;
+import javax.inject.Named;
 import org.greenrobot.eventbus.EventBus;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyApplication;
@@ -13,6 +14,7 @@ import xyz.shaohui.sicilly.data.database.AppUserDbAccessor;
 import xyz.shaohui.sicilly.data.models.AppUser;
 import xyz.shaohui.sicilly.views.home.IndexActivity;
 import xyz.shaohui.sicilly.views.login.LoginActivity;
+import xyz.shaohui.sicilly.views.search.di.SearchActivityModule;
 
 public class SplashActivity extends BaseActivity {
 
