@@ -263,12 +263,14 @@ public class ShareDialog extends BaseBottomDialog {
                     break;
                 case ShareDialog.TYPE_IMAGE:
                     Observable.fromCallable(
-                            () -> FileUtils.saveImage(getContext(), new File(mImagePath)))
+                            () -> FileUtils.saveImage(SicillyApplication.getContext(),
+                                    new File(mImagePath)))
                             .subscribeOn(Schedulers.io())
                             .observeOn(AndroidSchedulers.mainThread())
                             .subscribe(path -> {
-                                ToastUtils.showToast(getContext(),
-                                        String.format(getString(R.string.save_image), path));
+                                ToastUtils.showToast(SicillyApplication.getContext(), String.format(
+                                        SicillyApplication.getContext()
+                                                .getString(R.string.save_image), path));
                             }, throwable -> {
                                 ToastUtils.showToast(SicillyApplication.getContext(),
                                         R.string.save_image_fail);
