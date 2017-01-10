@@ -1,1 +1,1 @@
-include ':app', ':sicillylib', ':scrollablelayout', ':vistashareutil'
+include ':app', ':sicillylib', ':scrollablelayout'

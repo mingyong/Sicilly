@@ -18,9 +18,6 @@ import butterknife.ButterKnife;
 import java.util.ArrayList;
 import java.util.List;
 import me.shaohui.bottomdialog.BaseBottomDialog;
-import me.shaohui.sicillylib.utils.ToastUtils;
-import me.shaohui.vistashareutil.VistaShareUtil;
-import me.shaohui.vistashareutil.share.ShareListener;
 import xyz.shaohui.sicilly.R;
 
 /**
@@ -38,8 +35,6 @@ public class ShareDialog extends BaseBottomDialog {
     private static final String WEIBO_ID = "3116987924";
 
     private static final String QQ_ID = "101361383";
-
-    private VistaShareUtil mVistaShareUtil;
 
     @BindView(R.id.recycler)
     RecyclerView mRecyclerView;
@@ -83,49 +78,9 @@ public class ShareDialog extends BaseBottomDialog {
         GridLayoutManager layoutManager =
                 new GridLayoutManager(getContext(), 4, LinearLayoutManager.VERTICAL, false);
 
-        mVistaShareUtil = VistaShareUtil.init(getActivity());
-        mVistaShareUtil.setShareListener(new ShareListener() {
-            @Override
-            public void shareSuccess() {
-                ToastUtils.showToast(getContext(), "分享成功");
-            }
-
-            @Override
-            public void shareFailure() {
-                ToastUtils.showToast(getContext(), "分享失败");
-            }
-
-            @Override
-            public void shareCancel() {
-                ToastUtils.showToast(getContext(), "分享取消");
-            }
-        });
-        VistaShareUtil.setQQId(QQ_ID);
-        VistaShareUtil.setWeiboId(WEIBO_ID);
-        VistaShareUtil.setWXId(WX_ID);
-
         mRecyclerView.setLayoutManager(layoutManager);
-        ShareAdapter adapter = new ShareAdapter(getContext(), getShareListener());
+        ShareAdapter adapter = new ShareAdapter(getContext());
         mRecyclerView.setAdapter(adapter);
-    }
-
-    private ShareItemListener getShareListener() {
-        return new ShareItemListener(mVistaShareUtil, getContext()) {
-            @Override
-            int getType() {
-                return getArguments().getInt("type", TYPE_TEXT);
-            }
-
-            @Override
-            String getData() {
-                return getArguments().getString("data");
-            }
-
-            @Override
-            String getTitle() {
-                return getArguments().getString("title");
-            }
-        };
     }
 
     @Override
@@ -137,9 +92,7 @@ public class ShareDialog extends BaseBottomDialog {
 
         private List<ShareItem> mShareItems;
 
-        private final ShareItemListener mShareItemListener;
-
-        ShareAdapter(Context context, ShareItemListener listener) {
+        ShareAdapter(Context context) {
             mShareItems = new ArrayList<>();
             Resources resources = context.getResources();
             mShareItems.add(new ShareItem("饭否", resources.getDrawable(R.mipmap.share_fan)));
@@ -148,17 +101,12 @@ public class ShareDialog extends BaseBottomDialog {
             mShareItems.add(new ShareItem("微博", resources.getDrawable(R.mipmap.share_weibo)));
             mShareItems.add(new ShareItem("QQ", resources.getDrawable(R.mipmap.share_qq)));
             mShareItems.add(new ShareItem("QQ空间", resources.getDrawable(R.mipmap.share_qzone)));
-            mShareItems.add(new ShareItem(listener.getExtraActionTitle(),
-                    resources.getDrawable(R.mipmap.share_card)));
-            mShareItems.add(new ShareItem("更多", resources.getDrawable(R.mipmap.share_more)));
-
-            mShareItemListener = listener;
         }
 
         @Override
         public ShareViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             return new ShareViewHolder(LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.dialog_share_item, parent, false), mShareItemListener);
+                    .inflate(R.layout.dialog_share_item, parent, false));
         }
 
         @Override
@@ -185,16 +133,12 @@ public class ShareDialog extends BaseBottomDialog {
         @BindView(R.id.item_image)
         ImageView icon;
 
-        private final ShareItemListener mListener;
-
-        public ShareViewHolder(View itemView, ShareItemListener listener) {
+        public ShareViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
-            mListener = listener;
 
             itemView.setOnClickListener(v -> {
                 int position = (int) v.getTag();
-                mListener.opShare(position);
 
                 // 隐藏dialog
                 dismiss();

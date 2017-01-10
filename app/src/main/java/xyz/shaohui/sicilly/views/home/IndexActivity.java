@@ -8,10 +8,8 @@ import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.PersistableBundle;
 import android.os.RemoteException;
 import android.support.annotation.NonNull;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -20,10 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.flyco.tablayout.CommonTabLayout;
 import com.flyco.tablayout.listener.CustomTabEntity;
-import com.flyco.tablayout.listener.OnTabSelectListener;
-import com.flyco.tablayout.widget.MsgView;
 import com.pgyersdk.javabean.AppBean;
 import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
@@ -33,7 +28,6 @@ import me.shaohui.centertablayout.CenterTabLayout;
 import me.shaohui.centertablayout.TabClickListener;
 import me.shaohui.centertablayout.TabItem;
 import me.shaohui.sicillylib.utils.ToastUtils;
-import me.shaohui.vistashareutil.VistaShareUtil;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -47,7 +41,6 @@ import xyz.shaohui.sicilly.data.SPDataManager;
 import xyz.shaohui.sicilly.data.database.FeedbackDbAccessor;
 import xyz.shaohui.sicilly.event.FriendRequestEvent;
 import xyz.shaohui.sicilly.event.HomeMessageEvent;
-import xyz.shaohui.sicilly.event.HomeUpdateEvent;
 import xyz.shaohui.sicilly.event.MentionEvent;
 import xyz.shaohui.sicilly.event.MessageEvent;
 import xyz.shaohui.sicilly.leanCloud.service.RemoteService;
@@ -223,21 +216,21 @@ public class IndexActivity extends BaseActivity
         mFragments.add(new MessageFragment());
         mFragments.add(new ProfileFragment());
 
-        TabItem tabItem1 = new TabItem(null,
-                getResources().getDrawable(R.drawable.drawable_bottom_index),
-                new HomeTimelineFragment(), "home");
+        TabItem tabItem1 =
+                new TabItem(null, getResources().getDrawable(R.drawable.drawable_bottom_index),
+                        new HomeTimelineFragment(), "home");
 
-        TabItem tabItem2 = new TabItem(null,
-                getResources().getDrawable(R.drawable.drawable_bottom_message),
-                new MessageFragment(), "message");
+        TabItem tabItem2 =
+                new TabItem(null, getResources().getDrawable(R.drawable.drawable_bottom_message),
+                        new MessageFragment(), "message");
 
-        TabItem tabItem3 = new TabItem(null,
-                getResources().getDrawable(R.drawable.drawable_bottom_user),
-                new ProfileFragment(), "user");
+        TabItem tabItem3 =
+                new TabItem(null, getResources().getDrawable(R.drawable.drawable_bottom_user),
+                        new ProfileFragment(), "user");
 
-        TabItem tabItem4 = new TabItem(null,
-                getResources().getDrawable(R.drawable.drawable_bottom_discover),
-                new ChoiceFragment(), "discover");
+        TabItem tabItem4 =
+                new TabItem(null, getResources().getDrawable(R.drawable.drawable_bottom_discover),
+                        new ChoiceFragment(), "discover");
 
         mTabLayout.setTabs(getSupportFragmentManager(), R.id.main_frame, tabItem1, tabItem4,
                 tabItem2, tabItem3);
@@ -392,11 +385,6 @@ public class IndexActivity extends BaseActivity
     @Override
     public Retrofit getRetrofit() {
         return mRetrofit;
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        VistaShareUtil.handleWeiboResponse(this, intent);
     }
 
     class TabEntity implements CustomTabEntity {
