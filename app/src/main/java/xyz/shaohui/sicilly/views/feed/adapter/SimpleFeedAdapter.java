@@ -48,6 +48,7 @@ import xyz.shaohui.sicilly.utils.TimeUtils;
 import xyz.shaohui.sicilly.views.feed.FeedItemListener;
 import xyz.shaohui.sicilly.views.photo.PictureActivity;
 import xyz.shaohui.sicilly.views.share.ShareDialog;
+import xyz.shaohui.sicilly.views.share.ShareDialogBuilder;
 import xyz.shaohui.sicilly.views.status_detail.StatusDetailActivity;
 import xyz.shaohui.sicilly.views.user_info.UserActivity;
 
@@ -207,8 +208,10 @@ public class SimpleFeedAdapter extends BaseFeedAdapter<SimpleFeedAdapter.SimpleS
                         shareImage(context, status);
                     } else if (TextUtils.equals(text,
                             context.getString(R.string.extra_menu_share_text))) {
-                        ShareDialog.shareText(mFragmentManager,
-                                HtmlUtils.cleanAllTag(status.text()));
+                        new ShareDialogBuilder(ShareDialog.TYPE_TEXT).text(
+                                HtmlUtils.cleanAllTag(status.text()))
+                                .build()
+                                .show(mFragmentManager);
                     } else if (TextUtils.equals(text,
                             context.getString(R.string.extra_menu_copy_text))) {
                         SimpleUtils.copyText(context, HtmlUtils.cleanAllTag(status.text()));
@@ -230,7 +233,7 @@ public class SimpleFeedAdapter extends BaseFeedAdapter<SimpleFeedAdapter.SimpleS
                         .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                         .get();
                 Bitmap bitmap = BitmapFactory.decodeFile(imageFile.getAbsolutePath());
-                Log.i("bitmap_size", bitmap.getWidth() +" , " + bitmap.getHeight());
+                Log.i("bitmap_size", bitmap.getWidth() + " , " + bitmap.getHeight());
                 Drawable drawable = new BitmapDrawable(context.getResources(), bitmap);
                 notes.drawable(drawable);
             }
@@ -239,7 +242,9 @@ public class SimpleFeedAdapter extends BaseFeedAdapter<SimpleFeedAdapter.SimpleS
         })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(path -> ShareDialog.shareImage(mFragmentManager, path), throwable -> {
+                .subscribe(path -> new ShareDialogBuilder(ShareDialog.TYPE_IMAGE).imagePath(path)
+                        .build()
+                        .show(mFragmentManager), throwable -> {
                     ErrorUtils.catchException(throwable);
                     ToastUtils.showToast(context, "分享失败，请重试");
                 });

@@ -149,12 +149,21 @@
 
     <string name="app_market_uri">market://details?id=xyz.shaohui.sicilly</string>
 
+    // share
+    <string name="share_save_image">保存图片</string>
+    <string name="share_copy_text">复制文字</string>
+    <string name="share_copy_url">复制链接</string>
+    <string name="share_success">分享成功</string>
+    <string name="share_cancel">取消分享</string>
+    <string name="share_failure">分享失败</string>
+
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="login_register">-- 注册账号 --</string>
     <string name="status_detail">消息详情</string>
     <string name="public_square">随便看看</string>
     <string name="save_image">图片已保存至：%s</string>
+    <string name="save_image_fail">图片保存失败，请重试</string>
     <string name="dialog_share_cancel">取消</string>
     <string name="copy_text_tip">已复制到剪切板</string>
 </resources>

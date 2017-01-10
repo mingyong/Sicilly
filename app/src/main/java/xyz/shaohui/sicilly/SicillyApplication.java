@@ -10,6 +10,8 @@ import com.crashlytics.android.Crashlytics;
 import com.xiaomi.mipush.sdk.MiPushClient;
 import io.fabric.sdk.android.Fabric;
 import java.util.List;
+import me.shaohui.shareutil.ShareConfig;
+import me.shaohui.shareutil.ShareManager;
 import xyz.shaohui.sicilly.app.di.AppComponent;
 import xyz.shaohui.sicilly.app.di.DaggerAppComponent;
 import xyz.shaohui.sicilly.data.SPDataManager;
@@ -33,6 +35,13 @@ public class SicillyApplication extends Application {
 
         // 初始化小米推送
         initMiPush();
+
+        // init share
+        ShareConfig config = ShareConfig.instance()
+                .qqId("101361383")
+                .weiboId("3116987924")
+                .wxId("wxe57249751eecd1f5");
+        ShareManager.init(config);
     }
 
     @Override

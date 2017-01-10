@@ -9,6 +9,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -70,17 +71,36 @@ public final class FileUtils {
         //no instance
     }
 
+    public static String saveImage(Context context, File srcFile) throws IOException {
+        File dir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "尚饭");
+        dir.mkdirs();
+        File dest = new File(dir, System.currentTimeMillis() + getImageExtension(srcFile));
+        org.apache.commons.io.FileUtils.copyFile(srcFile, dest);
+        MediaScannerConnection.scanFile(context, new String[]{dest.getAbsolutePath()}, null, null);
+        return dest.getAbsolutePath();
+    }
+
+    private static String getImageExtension(File file) {
+        int index = file.getName().lastIndexOf(".");
+        if (index > 0) {
+            return file.getName().substring(index);
+        } else {
+            return ".jpg";
+        }
+    }
+
+    /**
+     *  待删除代码
+     *
+     */
+
     public static Uri res2Uri(int resId) {
         return Uri.parse("res://" + mContext.getPackageName() + "/" + resId);
     }
 
     public static Uri path2Uri(String path) {
         return Uri.parse("file://" + path);
-    }
-
-    public static void copyAssetFile(InputStream in, File toFile) throws IOException {
-        FileOutputStream out = new FileOutputStream(toFile);
-        copyFile(in, out);
     }
 
     //public static Func1<String, Observable<File>> flatmapUrl2File(OkHttpClient client,
@@ -129,43 +149,6 @@ public final class FileUtils {
     //        }
     //    };
     //}
-
-    public static void copyAllAssetsFile(AssetManager assetManager) {
-        String[] files = null;
-        try {
-            files = assetManager.list("");
-        } catch (IOException e) {
-            Log.e("tag", "Failed to get asset file list.", e);
-        }
-        for (String filename : files) {
-            InputStream in = null;
-            OutputStream out = null;
-            try {
-                in = assetManager.open(filename);
-                File outFile = new File(Environment.getExternalStorageDirectory(), filename);
-                out = new FileOutputStream(outFile);
-                copyFile(in, out);
-            } catch (IOException e) {
-                Log.e("tag", "Failed to copy asset file: " + filename, e);
-            }
-        }
-    }
-
-    private static void copyFile(InputStream in, OutputStream out) {
-        try {
-            byte[] buffer = new byte[1024];
-            int read;
-            while ((read = in.read(buffer)) != -1) {
-                out.write(buffer, 0, read);
-            }
-            out.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            closeSilently(out);
-            closeSilently(in);
-        }
-    }
 
     /**
      * Gets the extension of a file name, like ".png" or ".jpg".

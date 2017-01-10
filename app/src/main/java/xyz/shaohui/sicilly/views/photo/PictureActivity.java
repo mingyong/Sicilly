@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.media.MediaScannerConnection;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import butterknife.BindView;
@@ -14,20 +14,18 @@ import butterknife.OnClick;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.target.Target;
-import com.google.common.io.Files;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import me.shaohui.sicillylib.utils.ToastUtils;
 import org.greenrobot.eventbus.EventBus;
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 import uk.co.senab.photoview.PhotoViewAttacher;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.base.BaseActivity;
+import xyz.shaohui.sicilly.utils.FileUtils;
 
 public class PictureActivity extends BaseActivity {
 
@@ -102,33 +100,41 @@ public class PictureActivity extends BaseActivity {
                 .load(url)
                 .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                 .get())
-                .map(file1 -> {
-                    File dir = new File(Environment.getExternalStoragePublicDirectory(
-                            Environment.DIRECTORY_PICTURES), "尚饭");
-                    dir.mkdirs();
-                    File result = new File(dir, System.currentTimeMillis() + ".jpg");
+                .map(srcFile -> {
+                    //File dir = new File(Environment.getExternalStoragePublicDirectory(
+                    //        Environment.DIRECTORY_PICTURES), "尚饭");
+                    //dir.mkdirs();
+                    //File result = new File(dir, System.currentTimeMillis() + ".jpg");
+                    //try {
+                    //    FileInputStream in = new FileInputStream(file1);
+                    //    FileOutputStream out = new FileOutputStream(result);
+                    //
+                    //    byte[] buffer = new byte[1024];
+                    //    while(in.read(buffer) > 0) {
+                    //        out.write(buffer);
+                    //    }
+                    //    out.flush();
+                    //    out.close();
+                    //    in.close();
+                    //    return result.getAbsolutePath();
+                    //} catch (IOException e) {
+                    //    e.printStackTrace();
+                    //    return null;
+                    //}
                     try {
-                        FileInputStream in = new FileInputStream(file1);
-                        FileOutputStream out = new FileOutputStream(result);
-
-                        byte[] buffer = new byte[1024];
-                        while(in.read(buffer) > 0) {
-                            out.write(buffer);
-                        }
-                        out.flush();
-                        out.close();
-                        in.close();
-                        return result.getAbsolutePath();
+                        return FileUtils.saveImage(this, srcFile);
                     } catch (IOException e) {
-                        e.printStackTrace();
                         return null;
                     }
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(path -> {
-                    ToastUtils.showToast(this, "图片已保存至：" + path);
-                    MediaScannerConnection.scanFile(this, new String[]{path}, null, null);
+                    if (!TextUtils.isEmpty(path)) {
+                        ToastUtils.showToast(this, "图片已保存至：" + path);
+                    } else {
+                        ToastUtils.showToast(this, "图片保存失败， 请重试");
+                    }
                 }, throwable -> {
                     ToastUtils.showToast(this, "图片保存失败， 请重试");
                 });
