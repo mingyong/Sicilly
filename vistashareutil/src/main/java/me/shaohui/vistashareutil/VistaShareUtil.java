@@ -51,7 +51,7 @@ public class VistaShareUtil {
 
     private WeakReference<Activity> mActivityWeakReference;
 
-    private static ShareListener mShareListener;
+    public static ShareListener mShareListener;
 
     /**
      * VistaShareUtil 初始化

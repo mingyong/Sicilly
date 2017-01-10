@@ -7,7 +7,10 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs;
 import me.shaohui.vistarecyclerview.decoration.SpacingDecoration;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.event.HomeUpdateEvent;
 import xyz.shaohui.sicilly.views.create_status.CreateStatusActivity;
 import xyz.shaohui.sicilly.views.feed.BaseFeedFragment;
 import xyz.shaohui.sicilly.views.feed.FeedMVP;
@@ -70,16 +73,10 @@ public class HomeTimelineFragment extends BaseFeedFragment<FeedMVP.View, HomeTim
         mRecyclerView.getRecycler().smoothScrollToPosition(0);
     }
 
-    //@Subscribe(threadMode = ThreadMode.MAIN)
-    //public void updateStatus(Status status) {
-    //    mStatusList.add(0, status);
-    //    mRecyclerView.notifyDataSetChanged();
-    //}
-    //
-    //@Subscribe(threadMode = ThreadMode.MAIN)
-    //public void updateHome(HomeUpdateEvent event) {
-    //    mRecyclerView.getRecycler().scrollToPosition(0);
-    //    presenter.loadMessage();
-    //    mRecyclerView.setRefreshing(true);
-    //}
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void updateHome(HomeUpdateEvent event) {
+        mRecyclerView.getRecycler().scrollToPosition(0);
+        presenter.loadMessage();
+        mRecyclerView.setRefreshing(true);
+    }
 }

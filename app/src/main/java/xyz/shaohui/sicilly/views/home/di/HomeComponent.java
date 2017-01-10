@@ -12,6 +12,8 @@ import xyz.shaohui.sicilly.views.home.chat.MessageListFragment;
 import xyz.shaohui.sicilly.views.home.chat.mention.MentionFragment;
 import xyz.shaohui.sicilly.views.home.chat.mention.MentionPresenter;
 import xyz.shaohui.sicilly.views.home.chat.mvp.MessageListPresenter;
+import xyz.shaohui.sicilly.views.home.choice.ChoiceFragment;
+import xyz.shaohui.sicilly.views.home.choice.ChoicePresenterImpl;
 import xyz.shaohui.sicilly.views.home.profile.ProfileFragment;
 import xyz.shaohui.sicilly.views.home.profile.mvp.ProfilePresenter;
 import xyz.shaohui.sicilly.views.home.timeline.HomeTimelineFragment;
@@ -45,6 +47,8 @@ public interface HomeComponent {
 
     void inject(MentionFragment fragment);
 
+    void inject(ChoiceFragment fragment);
+
     MentionPresenter mentionPresenter();
 
     HomeTimelinePresenterImpl timelinePresenter();
@@ -52,4 +56,6 @@ public interface HomeComponent {
     ProfilePresenter profilePresenter();
 
     MessageListPresenter messageListPresenter();
+
+    ChoicePresenterImpl choicePresenter();
 }

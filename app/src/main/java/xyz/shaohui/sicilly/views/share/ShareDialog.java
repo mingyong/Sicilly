@@ -195,6 +195,9 @@ public class ShareDialog extends BaseBottomDialog {
             itemView.setOnClickListener(v -> {
                 int position = (int) v.getTag();
                 mListener.opShare(position);
+
+                // 隐藏dialog
+                dismiss();
             });
         }
     }

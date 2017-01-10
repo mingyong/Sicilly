@@ -1,6 +1,7 @@
 package xyz.shaohui.sicilly.views.search;
 
 import android.os.Bundle;
+import android.util.Log;
 import javax.inject.Inject;
 import org.greenrobot.eventbus.EventBus;
 import retrofit2.Retrofit;
@@ -39,6 +40,7 @@ public class SearchActivity extends BaseActivity
         if (getIntent().getData() != null) {
             key = HtmlUtils.cleanCatalogScheme(getIntent().getData());
         }
+        Log.i("catalog", key);
         mComponent = DaggerSearchComponent.builder()
                 .appComponent(getAppComponent())
                 .searchActivityModule(new SearchActivityModule(key))

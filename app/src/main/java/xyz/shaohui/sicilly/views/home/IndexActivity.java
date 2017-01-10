@@ -8,8 +8,10 @@ import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.os.PersistableBundle;
 import android.os.RemoteException;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -27,6 +29,9 @@ import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
 import java.util.ArrayList;
 import javax.inject.Inject;
+import me.shaohui.centertablayout.CenterTabLayout;
+import me.shaohui.centertablayout.TabClickListener;
+import me.shaohui.centertablayout.TabItem;
 import me.shaohui.sicillylib.utils.ToastUtils;
 import me.shaohui.vistashareutil.VistaShareUtil;
 import org.greenrobot.eventbus.EventBus;
@@ -52,6 +57,7 @@ import xyz.shaohui.sicilly.service.aidl.ISicillyService;
 import xyz.shaohui.sicilly.utils.RxUtils;
 import xyz.shaohui.sicilly.views.create_status.DialogController;
 import xyz.shaohui.sicilly.views.home.chat.MessageFragment;
+import xyz.shaohui.sicilly.views.home.choice.ChoiceFragment;
 import xyz.shaohui.sicilly.views.home.di.DaggerHomeComponent;
 import xyz.shaohui.sicilly.views.home.di.HomeComponent;
 import xyz.shaohui.sicilly.views.home.profile.ProfileFragment;
@@ -65,8 +71,11 @@ public class IndexActivity extends BaseActivity
     public static final int ACTION_USER = 3;
     public static final int ACTION_NONE = 0;
 
-    @BindView(R.id.bottom_tab)
-    CommonTabLayout bottomTab;
+    //@BindView(R.id.bottom_tab)
+    //CommonTabLayout bottomTab;
+
+    @BindView(R.id.bottom_tab_layout)
+    CenterTabLayout mTabLayout;
 
     @Inject
     EventBus mBus;
@@ -100,8 +109,6 @@ public class IndexActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
         ButterKnife.bind(this);
-        bottomTab = (CommonTabLayout) findViewById(R.id.bottom_tab);
-
         initBottomTab(savedInstanceState);
 
         // 检查更新
@@ -216,20 +223,50 @@ public class IndexActivity extends BaseActivity
         mFragments.add(new MessageFragment());
         mFragments.add(new ProfileFragment());
 
-        bottomTab.setTabData(tabData, this, R.id.main_frame, mFragments);
-        bottomTab.setOnTabSelectListener(new OnTabSelectListener() {
+        TabItem tabItem1 = new TabItem(null,
+                getResources().getDrawable(R.drawable.drawable_bottom_index),
+                new HomeTimelineFragment(), "home");
+
+        TabItem tabItem2 = new TabItem(null,
+                getResources().getDrawable(R.drawable.drawable_bottom_message),
+                new MessageFragment(), "message");
+
+        TabItem tabItem3 = new TabItem(null,
+                getResources().getDrawable(R.drawable.drawable_bottom_user),
+                new ProfileFragment(), "user");
+
+        TabItem tabItem4 = new TabItem(null,
+                getResources().getDrawable(R.drawable.drawable_bottom_discover),
+                new ChoiceFragment(), "discover");
+
+        mTabLayout.setTabs(getSupportFragmentManager(), R.id.main_frame, tabItem1, tabItem4,
+                tabItem2, tabItem3);
+        mTabLayout.setCenterTab(new TabClickListener() {
             @Override
-            public void onTabSelect(int position) {
+            public void onSelect(int position) {
 
             }
 
             @Override
-            public void onTabReselect(int position) {
-                if (position == 0) {
-                    mBus.post(new HomeUpdateEvent());
-                }
+            public void onReselect(int position) {
+
             }
         });
+
+        //bottomTab.setTabData(tabData, this, R.id.main_frame, mFragments);
+        //bottomTab.setOnTabSelectListener(new OnTabSelectListener() {
+        //    @Override
+        //    public void onTabSelect(int position) {
+        //
+        //    }
+        //
+        //    @Override
+        //    public void onTabReselect(int position) {
+        //        if (position == 0) {
+        //            mBus.post(new HomeUpdateEvent());
+        //        }
+        //    }
+        //});
     }
 
     /**
@@ -238,11 +275,9 @@ public class IndexActivity extends BaseActivity
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void subscirbeMessaegTab(HomeMessageEvent event) {
         if (event.show) {
-            bottomTab.showDot(1);
-            MsgView msgView = bottomTab.getMsgView(1);
-            msgView.setBackgroundColor(getResources().getColor(R.color.red));
+            mTabLayout.showBadge(1);
         } else {
-            bottomTab.hideMsg(1);
+            mTabLayout.clearBadge(1);
         }
     }
 
@@ -265,11 +300,9 @@ public class IndexActivity extends BaseActivity
                 .subscribe(integer -> {
                     if (integer > 0
                             || SPDataManager.getInt(SPDataManager.SP_KEY_FRIEND_REQUEST, 0) > 0) {
-                        bottomTab.showDot(2);
-                        MsgView msgView = bottomTab.getMsgView(2);
-                        msgView.setBackgroundColor(getResources().getColor(R.color.red));
+                        mTabLayout.showBadge(2);
                     } else {
-                        bottomTab.hideMsg(2);
+                        mTabLayout.clearBadge(2);
                     }
                 }, RxUtils.ignoreError);
     }
@@ -277,11 +310,9 @@ public class IndexActivity extends BaseActivity
     private void checkForShowMessageBadge() {
         if (SPDataManager.getInt(SPDataManager.SP_KEY_MENTION, 0) > 0
                 || SPDataManager.getInt(SPDataManager.SP_KEY_MESSAGE, 0) > 0) {
-            bottomTab.showDot(1);
-            MsgView msgView = bottomTab.getMsgView(1);
-            msgView.setBackgroundColor(getResources().getColor(R.color.red));
+            mTabLayout.showBadge(1);
         } else {
-            bottomTab.hideMsg(1);
+            mTabLayout.clearBadge(1);
         }
     }
 
@@ -361,11 +392,6 @@ public class IndexActivity extends BaseActivity
     @Override
     public Retrofit getRetrofit() {
         return mRetrofit;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        VistaShareUtil.handleQQResult(data);
     }
 
     @Override

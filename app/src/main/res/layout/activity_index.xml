@@ -1,37 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="xyz.shaohui.sicilly.views.home.IndexActivity">
-
-    <FrameLayout
-        android:id="@+id/main_frame"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/bottom_size"/>
+        android:clipChildren="false"
+        tools:context="xyz.shaohui.sicilly.views.home.IndexActivity">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_alignParentBottom="true">
-        <View
+    <FrameLayout
+            android:id="@+id/main_frame"
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/gray_tag"/>
-        <com.flyco.tablayout.CommonTabLayout
-            android:id="@+id/bottom_tab"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/bottom_size"/>
+
+    <me.shaohui.centertablayout.CenterTabLayout
+            android:id="@+id/bottom_tab_layout"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:background="@color/white"
-            app:tl_iconGravity="TOP"
-            app:tl_iconHeight="20dp"
-            app:tl_iconWidth="20dp"
-            app:tl_iconVisible="true"
-            app:tl_textsize="12sp"
-            app:tl_textSelectColor="@color/positive"
-            app:tl_textUnselectColor="@color/negative"/>
-    </LinearLayout>
+            android:layout_alignParentBottom="true"
+            app:background_color="@color/divider"
+            app:badge_color="@color/red"
+            app:center_drawable="@mipmap/ic_center"
+            app:text_color_negative="@color/negative"
+            app:text_color_positive="@color/positive"
+    />
 </RelativeLayout>

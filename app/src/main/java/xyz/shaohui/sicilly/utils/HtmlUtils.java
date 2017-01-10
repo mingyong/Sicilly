@@ -40,7 +40,7 @@ public class HtmlUtils {
 
     public static String cleanCatalogScheme(Uri uri) {
         String uriString = uri.toString();
-        return uriString.replace("me.shaohui.sicilly.catalog://", "");
+        return uriString.replace("me.shaohui.sicilly.catalog://q/", "");
     }
 
     public static String revertHttpScheme(Uri uri) {

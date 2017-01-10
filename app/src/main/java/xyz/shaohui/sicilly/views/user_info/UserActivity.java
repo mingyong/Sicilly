@@ -78,6 +78,10 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
     TextView title;
     @BindView(R.id.btn_follow)
     ImageButton actionFollow;
+    @BindView(R.id.btn_chat)
+    ImageButton actionChat;
+    @BindView(R.id.btn_at)
+    ImageButton actionAt;
     @BindView(R.id.tab_layout)
     SegmentTabLayout tabLayout;
     @BindView(R.id.view_pager)
@@ -247,6 +251,8 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
 
         if (SicillyApplication.isSelf(mUser.id())) {
             actionFollow.setVisibility(View.GONE);
+            actionAt.setVisibility(View.GONE);
+            actionChat.setVisibility(View.GONE);
         } else if (mUser.following()) {
             actionFollow.setImageResource(R.drawable.ic_followed);
         }

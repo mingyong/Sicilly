@@ -8,6 +8,7 @@ import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import me.shaohui.vistashareutil.VistaShareUtil;
 
 /**
  * Created by shaohui on 2016/11/19.
@@ -27,6 +28,18 @@ public class WXEntryParent extends Activity implements IWXAPIEventHandler {
 
     @Override
     public void onResp(BaseResp baseResp) {
-
+        if (VistaShareUtil.mShareListener != null) {
+            switch (baseResp.errCode) {
+                case BaseResp.ErrCode.ERR_SENT_FAILED:
+                    VistaShareUtil.mShareListener.shareFailure();
+                    break;
+                case BaseResp.ErrCode.ERR_OK:
+                    VistaShareUtil.mShareListener.shareSuccess();
+                    break;
+                case BaseResp.ErrCode.ERR_USER_CANCEL:
+                    VistaShareUtil.mShareListener.shareCancel();
+            }
+        }
+        finish();
     }
 }

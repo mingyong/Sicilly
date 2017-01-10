@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.os.Process;
+import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 import com.crashlytics.android.Crashlytics;
 import com.xiaomi.mipush.sdk.MiPushClient;
@@ -32,6 +33,12 @@ public class SicillyApplication extends Application {
 
         // 初始化小米推送
         initMiPush();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
     }
 
     public static Context getContext() {

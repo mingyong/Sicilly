@@ -22,15 +22,17 @@ android {
         versionCode 14
         versionName "1.1.0"
         vectorDrawables.useSupportLibrary = true
+
+        multiDexEnabled true
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-//        debug {
-//            signingConfig signingConfigs.config
-//        }
+        debug {
+            signingConfig signingConfigs.config
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -48,6 +50,7 @@ dependencies {
     compile 'com.android.support:recyclerview-v7:24.2.1'
     compile 'com.android.support:cardview-v7:24.2.1'
     compile 'com.android.support:support-vector-drawable:24.2.1'
+    compile 'com.android.support:multidex:1.0.1'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
     compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
@@ -101,4 +104,5 @@ dependencies {
         transitive = true;
     }
     compile project(':vistashareutil')
+    compile 'me.shaohui:centertablayout:1.0.1'
 }

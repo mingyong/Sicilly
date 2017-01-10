@@ -110,7 +110,8 @@ public class SearchFragment extends Fragment {
         });
 
         if (TextUtils.isEmpty(mCatalogKey)) {
-            mBus.post(new SearchTimelineEvent(mCatalogKey));
+            mSearch.setText(mCatalogKey);
+            preformSearch();
         }
     }
 
