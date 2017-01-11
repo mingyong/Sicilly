@@ -11,6 +11,8 @@ import xyz.shaohui.sicilly.views.user_info.UserActivity;
 import xyz.shaohui.sicilly.views.user_info.mvp.UserInfoPresenter;
 import xyz.shaohui.sicilly.views.user_info.photo.UserPhotoFragment;
 import xyz.shaohui.sicilly.views.user_info.photo.mvp.UserPhotoPresenter;
+import xyz.shaohui.sicilly.views.user_info.star.UserStarFragment;
+import xyz.shaohui.sicilly.views.user_info.star.UserStarPresenterImpl;
 import xyz.shaohui.sicilly.views.user_info.timeline.UserTimelineFragment;
 import xyz.shaohui.sicilly.views.user_info.timeline.UserTimelinePresenterImpl;
 
@@ -30,6 +32,10 @@ public interface UserInfoComponent {
     void inject(UserPhotoFragment fragment);
 
     void inject(PrivacyFragment fragment);
+
+    void inject(UserStarFragment fragment);
+
+    UserStarPresenterImpl userStarPresenter();
 
     UserInfoPresenter userInfoPresenter();
 

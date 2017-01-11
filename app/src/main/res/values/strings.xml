@@ -85,6 +85,7 @@
     <string name="user_un_follow">UnFollow</string>
     <string name="user_tab_1">消息</string>
     <string name="user_tab_2">照片</string>
+    <string name="user_tab_3">收藏</string>
     <string name="load_user_failure">用户信息加载失败, 请重试</string>
     <string name="confirm_un_follow_message">确认取消Follow?</string>
     <string name="follow_error">Sorry, 刚才的请求好像出了点问题, 请重试</string>

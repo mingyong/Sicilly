@@ -50,6 +50,7 @@ import xyz.shaohui.sicilly.views.user_info.di.UserInfoPresenterModule;
 import xyz.shaohui.sicilly.views.user_info.mvp.UserInfoPresenter;
 import xyz.shaohui.sicilly.views.user_info.mvp.UserInfoView;
 import xyz.shaohui.sicilly.views.user_info.photo.UserPhotoFragmentBuilder;
+import xyz.shaohui.sicilly.views.user_info.star.UserStarFragment;
 import xyz.shaohui.sicilly.views.user_info.timeline.UserTimelineFragmentBuilder;
 
 public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresenter>
@@ -154,6 +155,7 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
     private void initViewPager() {
 
         UserPagerAdapter adapter = new UserPagerAdapter(getSupportFragmentManager(), fragmentList);
+        viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(adapter);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -175,7 +177,7 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
             }
         });
         tabLayout.setTabData(new String[] {
-                getString(R.string.user_tab_1), getString(R.string.user_tab_2)
+                getString(R.string.user_tab_1), getString(R.string.user_tab_2), getString(R.string.user_tab_3)
         });
         tabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
@@ -275,6 +277,7 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
     private void showSimpleFragment() {
         fragmentList.add(UserTimelineFragmentBuilder.newUserTimelineFragment(userId));
         fragmentList.add(UserPhotoFragmentBuilder.newUserPhotoFragment(userId));
+        fragmentList.add(new UserStarFragment());
     }
 
     @Override
@@ -362,7 +365,7 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
     }
 }
