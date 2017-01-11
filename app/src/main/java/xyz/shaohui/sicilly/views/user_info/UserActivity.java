@@ -2,7 +2,6 @@ package xyz.shaohui.sicilly.views.user_info;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,8 +14,8 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.TextAppearanceSpan;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -79,7 +78,7 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
     ImageView userBackground;
 
     @BindView(R.id.title_bar)
-    RelativeLayout titleBar;
+    FrameLayout titleBar;
     @BindView(R.id.title)
     TextView title;
     @BindView(R.id.btn_follow)
@@ -182,7 +181,8 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
             }
         });
         tabLayout.setTabData(new String[] {
-                getString(R.string.user_tab_1), getString(R.string.user_tab_2), getString(R.string.user_tab_3)
+                getString(R.string.user_tab_1), getString(R.string.user_tab_2),
+                getString(R.string.user_tab_3)
         });
         tabLayout.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
@@ -208,6 +208,7 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
                     ColorUtils.setAlphaComponent(getResources().getColor(R.color.positive), alpha);
             titleBar.setBackgroundColor(color);
         });
+        scrollableLayout.setMinHeigth(titleBar.getHeight());
     }
 
     @OnClick(R.id.user_profile_follower)
@@ -263,9 +264,7 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
         brief.setText(string);
         brief.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(user.description())) {
-                new MaterialDialog.Builder(UserActivity.this)
-                        .content(user.description())
-                        .show();
+                new MaterialDialog.Builder(UserActivity.this).content(user.description()).show();
             }
         });
 

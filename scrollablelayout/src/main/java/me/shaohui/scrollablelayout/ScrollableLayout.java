@@ -81,6 +81,10 @@ public class ScrollableLayout extends LinearLayout{
         this.mOnScrollListener = listener;
     }
 
+    public void setMinHeigth(int height) {
+        this.mMinHeight = height;
+    }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (mHeaderView != null) {
