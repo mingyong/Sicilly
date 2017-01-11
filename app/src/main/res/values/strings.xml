@@ -91,6 +91,7 @@
     <string name="follow_error">Sorry, 刚才的请求好像出了点问题, 请重试</string>
     <string name="request_follow_success">请求发送成功</string>
     <string name="user_info_protected">由于对方的设置，请先请求关注(点击右上角请求关注)</string>
+    <string name="more_user_info">点击展开</string>
 
     // new
     <string name="commit">发饭</string>

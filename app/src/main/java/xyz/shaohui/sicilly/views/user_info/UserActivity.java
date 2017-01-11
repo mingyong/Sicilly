@@ -2,6 +2,7 @@ package xyz.shaohui.sicilly.views.user_info;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -10,7 +11,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.graphics.ColorUtils;
 import android.support.v4.view.ViewPager;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.TextAppearanceSpan;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -247,7 +252,23 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
         if (!TextUtils.isEmpty(user.location())) {
             location.setText(user.location());
         }
-        brief.setText(user.description().replaceAll("\\n", " "));
+
+        String description =
+                user.description() != null ? user.description().replaceAll("\\n", " ") : "";
+        SpannableString string = new SpannableString(
+                (description.length() > 20 ? description.substring(0, 20) : description)
+                        + getString(R.string.more_user_info));
+        string.setSpan(new ForegroundColorSpan(getResources().getColor(R.color.accent)),
+                string.length() - 4, string.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        brief.setText(string);
+        brief.setOnClickListener(v -> {
+            if (!TextUtils.isEmpty(user.description())) {
+                new MaterialDialog.Builder(UserActivity.this)
+                        .content(user.description())
+                        .show();
+            }
+        });
+
         Glide.with(this).load(user.profile_image_url_large()).into(avatar);
         Glide.with(this).load(user.profile_background_image_url()).into(userBackground);
 
