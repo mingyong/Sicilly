@@ -5,7 +5,7 @@
 1. 分享图片
 2. 底部按钮
 3. 增加收藏
-4. VistaRecyclerView
+4. VistaRecyclerView  调用多次
 5. 图片裁剪
 6. 大图浏览
 7. 意见反馈

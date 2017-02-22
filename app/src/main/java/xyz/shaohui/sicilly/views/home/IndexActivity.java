@@ -14,6 +14,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.View;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import com.afollestad.materialdialogs.DialogAction;
@@ -48,6 +50,7 @@ import xyz.shaohui.sicilly.service.SicillyService;
 import xyz.shaohui.sicilly.service.aidl.IEventListener;
 import xyz.shaohui.sicilly.service.aidl.ISicillyService;
 import xyz.shaohui.sicilly.utils.RxUtils;
+import xyz.shaohui.sicilly.views.create_status.CreateStatusActivity;
 import xyz.shaohui.sicilly.views.create_status.DialogController;
 import xyz.shaohui.sicilly.views.home.chat.MessageFragment;
 import xyz.shaohui.sicilly.views.home.choice.ChoiceFragment;
@@ -245,6 +248,8 @@ public class IndexActivity extends BaseActivity
 
             }
         });
+        mTabLayout.setCenterClickListener(
+                v -> startActivity(new Intent(this, CreateStatusActivity.class)));
 
         //bottomTab.setTabData(tabData, this, R.id.main_frame, mFragments);
         //bottomTab.setOnTabSelectListener(new OnTabSelectListener() {

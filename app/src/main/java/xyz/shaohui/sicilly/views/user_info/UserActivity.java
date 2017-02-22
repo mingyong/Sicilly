@@ -181,7 +181,8 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
             }
         });
         tabLayout.setTabData(new String[] {
-                getString(R.string.user_tab_1), getString(R.string.user_tab_2),
+                getString(R.string.user_tab_1),
+                getString(R.string.user_tab_2),
                 getString(R.string.user_tab_3)
         });
         tabLayout.setOnTabSelectListener(new OnTabSelectListener() {
@@ -290,6 +291,7 @@ public class UserActivity extends BaseMvpActivity<UserInfoView, UserInfoPresente
     }
 
     private void showPrivacyFragment() {
+        fragmentList.add(new PrivacyFragment());
         fragmentList.add(new PrivacyFragment());
         fragmentList.add(new PrivacyFragment());
     }

@@ -22,13 +22,13 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/white">
             <ImageButton
-                    android:id="@+id/btn_add"
+                    android:id="@+id/btn_search"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:paddingLeft="@dimen/spacing_normal"
                     android:paddingRight="@dimen/spacing_normal"
-                    app:srcCompat="@drawable/ic_add_big"
+                    app:srcCompat="@drawable/ic_search"
                     android:background="@null" />
             <ImageView
                     android:id="@+id/img_icon"
@@ -38,10 +38,11 @@
                     android:layout_centerInParent="true"
                     android:src="@mipmap/img_logo"/>
             <ImageButton
-                    android:id="@+id/btn_search"
+                    android:id="@+id/btn_add"
                     android:padding="@dimen/spacing_normal"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:visibility="gone"
                     app:srcCompat="@drawable/ic_search"
                     android:layout_marginRight="@dimen/spacing_normal"
                     android:background="@null"/>

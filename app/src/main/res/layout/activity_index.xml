@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_alignParentBottom="true"
-            app:background_color="@color/divider"
+            app:background_color="#F7F7F7"
             app:badge_color="@color/red"
             app:center_drawable="@mipmap/ic_center"
             app:text_color_negative="@color/negative"
