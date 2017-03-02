@@ -1,5 +1,15 @@
 package xyz.shaohui.sicilly.views.home;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.pgyersdk.javabean.AppBean;
+import com.pgyersdk.update.PgyUpdateManager;
+import com.pgyersdk.update.UpdateManagerListener;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import android.Manifest;
 import android.content.ComponentName;
 import android.content.Context;
@@ -14,25 +24,17 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-import android.view.View;
+
+import java.util.ArrayList;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import com.afollestad.materialdialogs.DialogAction;
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.flyco.tablayout.listener.CustomTabEntity;
-import com.pgyersdk.javabean.AppBean;
-import com.pgyersdk.update.PgyUpdateManager;
-import com.pgyersdk.update.UpdateManagerListener;
-import java.util.ArrayList;
-import javax.inject.Inject;
 import me.shaohui.centertablayout.CenterTabLayout;
 import me.shaohui.centertablayout.TabClickListener;
 import me.shaohui.centertablayout.TabItem;
 import me.shaohui.sicillylib.utils.ToastUtils;
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 import retrofit2.Retrofit;
 import rx.android.schedulers.AndroidSchedulers;
 import xyz.shaohui.sicilly.R;
@@ -41,8 +43,10 @@ import xyz.shaohui.sicilly.base.BaseActivity;
 import xyz.shaohui.sicilly.base.HasComponent;
 import xyz.shaohui.sicilly.data.SPDataManager;
 import xyz.shaohui.sicilly.data.database.FeedbackDbAccessor;
+import xyz.shaohui.sicilly.event.ChoiceUpdateEvent;
 import xyz.shaohui.sicilly.event.FriendRequestEvent;
 import xyz.shaohui.sicilly.event.HomeMessageEvent;
+import xyz.shaohui.sicilly.event.HomeUpdateEvent;
 import xyz.shaohui.sicilly.event.MentionEvent;
 import xyz.shaohui.sicilly.event.MessageEvent;
 import xyz.shaohui.sicilly.leanCloud.service.RemoteService;
@@ -63,12 +67,12 @@ public class IndexActivity extends BaseActivity
         implements HasComponent<HomeComponent>, DialogController {
 
     public static final int ACTION_CHAT = 1;
-    public static final int ACTION_MENTION = 2;
-    public static final int ACTION_USER = 3;
-    public static final int ACTION_NONE = 0;
 
-    //@BindView(R.id.bottom_tab)
-    //CommonTabLayout bottomTab;
+    public static final int ACTION_MENTION = 2;
+
+    public static final int ACTION_USER = 3;
+
+    public static final int ACTION_NONE = 0;
 
     @BindView(R.id.bottom_tab_layout)
     CenterTabLayout mTabLayout;
@@ -197,24 +201,8 @@ public class IndexActivity extends BaseActivity
     }
 
     private void initBottomTab(Bundle savedInstance) {
-        ArrayList<CustomTabEntity> tabData = new ArrayList<>();
-        tabData.add(new TabEntity(getString(R.string.bottom_tab_home), R.drawable.ic_home_selected,
-                R.drawable.ic_home));
-        tabData.add(new TabEntity(getString(R.string.bottom_tab_message),
-                R.drawable.ic_message_selected, R.drawable.ic_message));
-        tabData.add(new TabEntity(getString(R.string.bottom_tab_user), R.drawable.ic_user_selected,
-                R.drawable.ic_user));
 
-        //if (savedInstance == null) {
-        //    mFragments = new ArrayList<>();
-        //    mFragments.add(HomeTimelineFragmentBuilder.newHomeTimelineFragment(
-        //            HomeTimelineFragment.TYPE_HOME));
-        //    mFragments.add(new MessageFragment());
-        //    mFragments.add(new ProfileFragment());
-        //}
         mFragments = new ArrayList<>();
-        //mFragments.add(HomeTimelineFragmentBuilder.newHomeTimelineFragment(
-        //        HomeTimelineFragment.TYPE_HOME));
         mFragments.add(new HomeTimelineFragment());
         mFragments.add(new MessageFragment());
         mFragments.add(new ProfileFragment());
@@ -245,26 +233,21 @@ public class IndexActivity extends BaseActivity
 
             @Override
             public void onReselect(int position) {
+                switch (position) {
+                    case 0:
+                        mBus.post(new HomeUpdateEvent());
+                        break;
+                    case 1:
+                        mBus.post(new ChoiceUpdateEvent());
+                        break;
+                    case 2:
 
+                        break;
+                }
             }
         });
         mTabLayout.setCenterClickListener(
                 v -> startActivity(new Intent(this, CreateStatusActivity.class)));
-
-        //bottomTab.setTabData(tabData, this, R.id.main_frame, mFragments);
-        //bottomTab.setOnTabSelectListener(new OnTabSelectListener() {
-        //    @Override
-        //    public void onTabSelect(int position) {
-        //
-        //    }
-        //
-        //    @Override
-        //    public void onTabReselect(int position) {
-        //        if (position == 0) {
-        //            mBus.post(new HomeUpdateEvent());
-        //        }
-        //    }
-        //});
     }
 
     /**
@@ -287,8 +270,8 @@ public class IndexActivity extends BaseActivity
     @Override
     protected void onResume() {
         super.onResume();
-        checkForShowProfileBadge();
 
+        checkForShowProfileBadge();
         checkForShowMessageBadge();
     }
 
@@ -356,11 +339,11 @@ public class IndexActivity extends BaseActivity
                 ToastUtils.showToast(this, R.string.update_permission_request);
 
                 ActivityCompat.requestPermissions(this,
-                        new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         REQUEST_PERMISSION_CODE);
             } else {
                 ActivityCompat.requestPermissions(this,
-                        new String[] { Manifest.permission.WRITE_EXTERNAL_STORAGE },
+                        new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                         REQUEST_PERMISSION_CODE);
             }
         } else {
@@ -390,33 +373,5 @@ public class IndexActivity extends BaseActivity
     @Override
     public Retrofit getRetrofit() {
         return mRetrofit;
-    }
-
-    class TabEntity implements CustomTabEntity {
-
-        private String title;
-        private int selected;
-        private int unSelected;
-
-        public TabEntity(String title, int selected, int unSelected) {
-            this.title = title;
-            this.selected = selected;
-            this.unSelected = unSelected;
-        }
-
-        @Override
-        public String getTabTitle() {
-            return title;
-        }
-
-        @Override
-        public int getTabSelectedIcon() {
-            return selected;
-        }
-
-        @Override
-        public int getTabUnselectedIcon() {
-            return unSelected;
-        }
     }
 }

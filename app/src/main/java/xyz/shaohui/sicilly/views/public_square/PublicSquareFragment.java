@@ -1,6 +1,7 @@
 package xyz.shaohui.sicilly.views.public_square;
 
 import android.view.View;
+
 import butterknife.OnClick;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.views.feed.BaseFeedFragment;
@@ -46,7 +47,7 @@ public class PublicSquareFragment extends BaseFeedFragment<FeedMVP.View, PublicS
     @OnClick(R.id.action_refresh)
     void actionRefresh() {
         mRecyclerView.getRecycler().scrollToPosition(0);
-        mRecyclerView.setRefreshing(true);
         presenter.loadMessage();
+        mRecyclerView.setRefreshing(true);
     }
 }
