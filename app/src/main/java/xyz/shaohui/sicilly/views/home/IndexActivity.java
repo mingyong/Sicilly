@@ -273,9 +273,9 @@ public class IndexActivity extends BaseActivity
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void subscirbeMessaegTab(HomeMessageEvent event) {
         if (event.show) {
-            mTabLayout.showBadge(1);
+            mTabLayout.showBadge(2);
         } else {
-            mTabLayout.clearBadge(1);
+            mTabLayout.clearBadge(2);
         }
     }
 
