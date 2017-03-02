@@ -17,6 +17,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.ShareEvent;
 import com.hannesdorfmann.fragmentargs.FragmentArgs;
 import com.hannesdorfmann.fragmentargs.annotation.Arg;
 import com.hannesdorfmann.fragmentargs.annotation.FragmentWithArgs;
@@ -232,6 +235,11 @@ public class ShareDialog extends BaseBottomDialog {
         }
 
         private void socialShare(int platform) {
+            // 打点，记录分享
+            Answers.getInstance().logShare(new ShareEvent()
+                    .putMethod(String.valueOf(platform))
+                    .putContentType(String.valueOf(mType)));
+
             switch (mType) {
                 case TYPE_IMAGE:
                     ShareUtil.shareImage(getContext(), platform, mImagePath, SHARE_LISTENER);

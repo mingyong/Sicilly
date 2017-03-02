@@ -1,5 +1,8 @@
 package xyz.shaohui.sicilly.views.search;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.SearchEvent;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -129,6 +132,9 @@ public class SearchFragment extends Fragment {
         if (TextUtils.isEmpty(key)) {
             return;
         }
+
+        // 打点，记录搜索
+        Answers.getInstance().logSearch(new SearchEvent().putQuery(key));
 
         if (mViewPager.getCurrentItem() == 0) {
             mBus.post(new SearchTimelineEvent(key));
