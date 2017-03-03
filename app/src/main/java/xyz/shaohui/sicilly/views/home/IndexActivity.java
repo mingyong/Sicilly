@@ -292,9 +292,9 @@ public class IndexActivity extends BaseActivity
                 .subscribe(integer -> {
                     if (integer > 0
                             || SPDataManager.getInt(SPDataManager.SP_KEY_FRIEND_REQUEST, 0) > 0) {
-                        mTabLayout.showBadge(2);
+                        mTabLayout.showBadge(3);
                     } else {
-                        mTabLayout.clearBadge(2);
+                        mTabLayout.clearBadge(3);
                     }
                 }, RxUtils.ignoreError);
     }
@@ -302,9 +302,9 @@ public class IndexActivity extends BaseActivity
     private void checkForShowMessageBadge() {
         if (SPDataManager.getInt(SPDataManager.SP_KEY_MENTION, 0) > 0
                 || SPDataManager.getInt(SPDataManager.SP_KEY_MESSAGE, 0) > 0) {
-            mTabLayout.showBadge(1);
+            mTabLayout.showBadge(2);
         } else {
-            mTabLayout.clearBadge(1);
+            mTabLayout.clearBadge(2);
         }
     }
 
