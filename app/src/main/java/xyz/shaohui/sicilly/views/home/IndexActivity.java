@@ -16,13 +16,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
 import android.support.annotation.NonNull;
+import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.content.res.AppCompatResources;
+import android.support.v7.widget.AppCompatDrawableManager;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -202,25 +207,31 @@ public class IndexActivity extends BaseActivity
 
     private void initBottomTab(Bundle savedInstance) {
 
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+
         mFragments = new ArrayList<>();
         mFragments.add(new HomeTimelineFragment());
         mFragments.add(new MessageFragment());
         mFragments.add(new ProfileFragment());
 
         TabItem tabItem1 =
-                new TabItem(null, getResources().getDrawable(R.drawable.drawable_bottom_index),
+                new TabItem(null, AppCompatResources
+                        .getDrawable(this, R.drawable.drawable_bottom_index),
                         new HomeTimelineFragment(), "home");
 
         TabItem tabItem2 =
-                new TabItem(null, getResources().getDrawable(R.drawable.drawable_bottom_message),
+                new TabItem(null, AppCompatResources
+                        .getDrawable(this, R.drawable.drawable_bottom_message),
                         new MessageFragment(), "message");
 
         TabItem tabItem3 =
-                new TabItem(null, getResources().getDrawable(R.drawable.drawable_bottom_user),
+                new TabItem(null, AppCompatResources
+                        .getDrawable(this, R.drawable.drawable_bottom_user),
                         new ProfileFragment(), "user");
 
         TabItem tabItem4 =
-                new TabItem(null, getResources().getDrawable(R.drawable.drawable_bottom_discover),
+                new TabItem(null, AppCompatResources
+                        .getDrawable(this, R.drawable.drawable_bottom_discover),
                         new ChoiceFragment(), "discover");
 
         mTabLayout.setTabs(getSupportFragmentManager(), R.id.main_frame, tabItem1, tabItem4,

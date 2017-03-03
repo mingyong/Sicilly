@@ -74,6 +74,12 @@ public class FriendListActivity extends BaseActivity implements HasComponent<Fri
 
     @Override
     public FriendListComponent getComponent() {
+        if (mComponent == null) {
+            mComponent = DaggerFriendListComponent.builder()
+                    .appComponent(getAppComponent())
+                    .friendListModule(new FriendListModule(mUserId, mDataType, mViewType))
+                    .build();
+        }
         return mComponent;
     }
 }
