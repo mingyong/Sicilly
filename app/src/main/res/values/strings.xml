@@ -184,6 +184,13 @@
     <string name="share_success">分享成功</string>
     <string name="share_cancel">取消分享</string>
     <string name="share_failure">分享失败</string>
+    
+    // about
+    <string name="about_open_source">开源协议</string>
+    <string name="about_github">GitHub地址</string>
+    <string name="about_github_site">https://github.com/shaohui10086/sicilly</string>
+    <string name="about_contact">联系开发者</string>
+    <string name="about_developer">\@邵辉Vista</string>
 
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
