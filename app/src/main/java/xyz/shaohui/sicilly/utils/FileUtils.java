@@ -90,6 +90,29 @@ public final class FileUtils {
         }
     }
 
+    public static String getImagePath(Context context, Uri uri) {
+        File file = new File(uri.getPath());
+        if (file.exists()) {
+            return file.getAbsolutePath();
+        }
+
+        Cursor cursor = null;
+        try {
+            String[] proj = {MediaStore.Images.ImageColumns.DATA};
+            cursor = context.getContentResolver().query(uri, proj, null, null, null);
+            int columnIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.ImageColumns.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(columnIndex);
+        } catch (Exception e) {
+            ErrorUtils.catchException(e);
+            return null;
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+
     /**
      *  待删除代码
      *
@@ -102,53 +125,6 @@ public final class FileUtils {
     public static Uri path2Uri(String path) {
         return Uri.parse("file://" + path);
     }
-
-    //public static Func1<String, Observable<File>> flatmapUrl2File(OkHttpClient client,
-    //        String savePath) {
-    //    return url1 -> {
-    //        Request request = new Request.Builder().url(url1).build();
-    //        FileOutputStream outputStream = null;
-    //        InputStream inputStream = null;
-    //        try {
-    //            File file = new File(savePath);
-    //            Response response = client.newCall(request).execute();
-    //            outputStream = new FileOutputStream(file);
-    //            inputStream = response.body().byteStream();
-    //            IOUtils.copy(inputStream, outputStream);
-    //            return Observable.just(file);
-    //        } catch (IOException e) {
-    //            e.printStackTrace();
-    //            return Observable.just(null);
-    //        } finally {
-    //            IOUtils.closeQuietly(inputStream);
-    //            IOUtils.closeQuietly(outputStream);
-    //        }
-    //    };
-    //}
-
-    //public static Func1<String, File> mapUrl2File(OkHttpClient client, String savePath) {
-    //    return url1 -> {
-    //        Request request = new Request.Builder().url(url1).build();
-    //        FileOutputStream outputStream = null;
-    //        InputStream inputStream = null;
-    //        try {
-    //            File file = new File(savePath);
-    //            file.createNewFile();
-    //
-    //            Response response = client.newCall(request).execute();
-    //            outputStream = new FileOutputStream(file);
-    //            inputStream = response.body().byteStream();
-    //            IOUtils.copy(inputStream, outputStream);
-    //            return file;
-    //        } catch (IOException e) {
-    //            e.printStackTrace();
-    //            return null;
-    //        } finally {
-    //            IOUtils.closeQuietly(inputStream);
-    //            IOUtils.closeQuietly(outputStream);
-    //        }
-    //    };
-    //}
 
     /**
      * Gets the extension of a file name, like ".png" or ".jpg".
@@ -738,37 +714,5 @@ public final class FileUtils {
         }
     }
 
-    /**
-     * get image height and width from url
-     * e.g. http://debug.img.xueba.mobi/15435f36d2b87c8-23196471__440x4170.jpeg
-     * H: 440  W: 4170
-     */
-    //public static Integer[] getWidthHeightFromUrl(String url) {
-    //    if (TextUtils.isEmpty(url)) {
-    //        return null;
-    //    }
-    //    Integer[] result = null; // 0--width, 1--height
-    //
-    //    String filename = FileUtils.getFileNameFromUrl(url);
-    //    if (TextUtils.isEmpty(filename)) {
-    //        return null;
-    //    }
-    //    Matcher matcher = Patterns.IMAGE_DENISITY.matcher(filename);
-    //    while (matcher.find() && matcher.groupCount() >= 2) {
-    //        try {
-    //            Integer width = Integer.parseInt(matcher.group(1));
-    //            Integer height = Integer.parseInt(matcher.group(2));
-    //            Timber.d("width: " + width + " height: " + height);
-    //            result = new Integer[2];
-    //            result[0] = width;
-    //            result[1] = height;
-    //            return result;
-    //        } catch (java.lang.NumberFormatException e) {
-    //            e.printStackTrace();
-    //            continue;
-    //        }
-    //    }
-    //    return result;
-    //}
 }
 //CHECKSTYLE:ON

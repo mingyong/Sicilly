@@ -191,6 +191,7 @@ public class IndexActivity extends BaseActivity
     @Override
     protected void onDestroy() {
         unbindService(mServiceConnection);
+        PgyUpdateManager.unregister();
         super.onDestroy();
     }
 
