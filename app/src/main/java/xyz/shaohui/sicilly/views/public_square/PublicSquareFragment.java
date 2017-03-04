@@ -25,7 +25,8 @@ public class PublicSquareFragment extends BaseFeedFragment<FeedMVP.View, PublicS
 
     @Override
     public void bindViews(View view) {
-        SimpleFeedAdapter adapter = new SimpleFeedAdapter(mStatusList, this, getFragmentManager());
+        SimpleFeedAdapter adapter = new SimpleFeedAdapter(getContext(), mStatusList, this,
+                getFragmentManager());
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setRefreshListener(() -> presenter.loadMessage());
 

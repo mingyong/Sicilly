@@ -43,7 +43,8 @@ public class HomeTimelineFragment extends BaseFeedFragment<FeedMVP.View, HomeTim
 
     @Override
     public void bindViews(View view) {
-        SimpleFeedAdapter mAdapter = new SimpleFeedAdapter(mStatusList, this, getFragmentManager());
+        SimpleFeedAdapter mAdapter = new SimpleFeedAdapter(getContext(), mStatusList, this,
+                getFragmentManager());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addItemDecoration(new SpacingDecoration(8));
         mRecyclerView.setOnMoreListener((total, left, current) -> {

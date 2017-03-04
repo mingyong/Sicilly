@@ -121,7 +121,6 @@
     <string name="timeline_message_title">%s的消息</string>
     <string name="timeline_favorite_title">%s的收藏</string>
 
-
     // setting
     <string name="setting_title">设置</string>
     <string name="setting_notification">通知</string>
@@ -130,6 +129,21 @@
     <string name="setting_notification_request">好友关注请求提醒</string>
     <string name="setting_notification_sound">提示音</string>
     <string name="setting_no_sound">静音模式</string>
+    <string name="setting_diy">个性化设置</string>
+    <string name="setting_text_size">字体大小</string>
+    <string name="setting_text_size_key">setting_text_size</string>
+    <string-array name="text_size_list">
+        <item>12</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>18</item>
+        <item>20</item>
+    </string-array>
+    <string name="setting_share_card_suffix">分享卡片后缀</string>
+    <string name="setting_share_suffix_key">setting_share_suffix</string>
+    <string name="setting_share_card_suffix_default">via 尚饭</string>
+    <string name="setting_clear_cache">清理缓存</string>
 
     // search
     <string name="search_tab_timeline">消息</string>

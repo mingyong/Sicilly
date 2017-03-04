@@ -16,6 +16,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 import xyz.shaohui.sicilly.R;
 import xyz.shaohui.sicilly.SicillyApplication;
+import xyz.shaohui.sicilly.data.SPDataManager;
 import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.ErrorUtils;
@@ -60,9 +62,9 @@ public class SimpleFeedAdapter extends BaseFeedAdapter<SimpleFeedAdapter.SimpleS
 
     private FeedItemListener mListener;
 
-    public SimpleFeedAdapter(List<Status> dataList, FeedItemListener listener,
+    public SimpleFeedAdapter(Context context, List<Status> dataList, FeedItemListener listener,
             FragmentManager fragmentManager) {
-        super(dataList, fragmentManager);
+        super(context, dataList, fragmentManager);
         mListener = listener;
     }
 
@@ -224,7 +226,9 @@ public class SimpleFeedAdapter extends BaseFeedAdapter<SimpleFeedAdapter.SimpleS
     private void shareImage(Context context, Status status) {
         Observable.fromCallable(() -> {
             SmartisanNotes notes = SmartisanNotes.with(context)
-                    .author(status.user().screen_name() + " via 尚饭")
+                    .author(SPDataManager
+                            .getString(context.getString(R.string.setting_share_suffix_key),
+                                    context.getString(R.string.setting_share_card_suffix_default)))
                     .content(HtmlUtils.cleanAllTag(status.text()))
                     .template(SmartisanNotes.TEMPLATE_SMARTISAN);
             if (status.photo() != null) {

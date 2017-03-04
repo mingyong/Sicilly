@@ -35,7 +35,8 @@ public class UserStarFragment extends BaseFeedFragment<FeedMVP.View, UserStarPre
 
     @Override
     public void bindViews(View view) {
-        SimpleFeedAdapter adapter = new SimpleFeedAdapter(mStatusList, this, getFragmentManager());
+        SimpleFeedAdapter adapter = new SimpleFeedAdapter(getContext(), mStatusList, this,
+                getFragmentManager());
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.addItemDecoration(new SpacingDecoration(8));
         mRecyclerView.setOnMoreListener((total, left, current) -> {

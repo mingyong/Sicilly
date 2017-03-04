@@ -67,6 +67,11 @@ public class SPDataManager {
         return sp.getInt(key, defaultValue);
     }
 
+    public static String getString(String key, String defaultValue) {
+        SharedPreferences sp = getSetting();
+        return sp.getString(key, defaultValue);
+    }
+
     public static boolean setInt(String key, int value, boolean isAsync) {
         SharedPreferences sp = getSetting();
         SharedPreferences.Editor editor = sp.edit().putInt(key, value);

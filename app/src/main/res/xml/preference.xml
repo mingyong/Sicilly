@@ -33,12 +33,14 @@
                 <!--/>-->
 
     </PreferenceCategory>
-    <!--<PreferenceCategory>-->
-        <!--<Preference-->
-            <!--android:title="@string/setting_log_out">-->
-            <!--<intent-->
-                <!--android:action="android.intent.action.VIEW"-->
-                <!--android:data="@string/app_market_uri"/>-->
-        <!--</Preference>-->
-    <!--</PreferenceCategory>-->
+    <PreferenceCategory android:title="@string/setting_diy">
+        <ListPreference android:title="@string/setting_text_size"
+                android:key="@string/setting_text_size_key"
+                android:entries="@array/text_size_list"
+                android:entryValues="@array/text_size_list"
+                android:defaultValue="15"/>
+        <EditTextPreference android:title="@string/setting_share_card_suffix"
+                            android:key="@string/setting_share_suffix_key"
+                android:defaultValue="@string/setting_share_card_suffix_default"/>
+    </PreferenceCategory>
 </PreferenceScreen>

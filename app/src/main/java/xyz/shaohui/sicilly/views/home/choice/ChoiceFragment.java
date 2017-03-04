@@ -28,7 +28,8 @@ public class ChoiceFragment extends BaseFeedFragment<FeedMVP.View, ChoicePresent
 
     @Override
     public void bindViews(View view) {
-        SimpleFeedAdapter mAdapter = new SimpleFeedAdapter(mStatusList, this, getFragmentManager());
+        SimpleFeedAdapter mAdapter = new SimpleFeedAdapter(getContext(), mStatusList, this,
+                getFragmentManager());
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.addItemDecoration(new SpacingDecoration(4));
         mRecyclerView.setRefreshListener(() -> presenter.loadMessage());

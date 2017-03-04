@@ -59,7 +59,8 @@ public class TimelineFragment extends BaseFeedFragment<FeedMVP.View, TimelinePre
             mTitle.setText(String.format(getString(R.string.timeline_favorite_title), name));
         }
 
-        SimpleFeedAdapter adapter = new SimpleFeedAdapter(mStatusList, this, getFragmentManager());
+        SimpleFeedAdapter adapter = new SimpleFeedAdapter(getContext(), mStatusList, this,
+                getFragmentManager());
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.addItemDecoration(new SpacingDecoration(8));
         mRecyclerView.setOnMoreListener((total, left, current) -> {

@@ -14,12 +14,14 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
+import android.util.TypedValue;
 import android.view.View;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.List;
 import me.shaohui.sicillylib.utils.ToastUtils;
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.data.SPDataManager;
 import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.data.models.User;
 import xyz.shaohui.sicilly.utils.HtmlUtils;
@@ -36,13 +38,18 @@ import xyz.shaohui.sicilly.views.photo.PictureActivity;
 
 public abstract class BaseFeedAdapter<T extends BaseFeedViewHolder> extends RecyclerView.Adapter<T> {
 
+    private static final String TEXT_SIZE_DEFAULT = "15";
+
     public List<Status> dataList;
     public int mLastPosition = 0;
     public FragmentManager mFragmentManager;
+    private int mTextSize;
 
-    public BaseFeedAdapter(List<Status> dataList, FragmentManager fragmentManager) {
+    public BaseFeedAdapter(Context context, List<Status> dataList, FragmentManager fragmentManager) {
         this.dataList = dataList;
         mFragmentManager = fragmentManager;
+        mTextSize = Integer.parseInt(SPDataManager
+                .getString(context.getString(R.string.setting_text_size_key), TEXT_SIZE_DEFAULT));
     }
 
     @Override
@@ -64,6 +71,7 @@ public abstract class BaseFeedAdapter<T extends BaseFeedViewHolder> extends Recy
             ToastUtils.showToast(context, R.string.copy_text_tip);
             return true;
         });
+        holder.text.setTextSize(TypedValue.COMPLEX_UNIT_SP, mTextSize);
 
         if (status.photo() != null) {
             holder.image.setVisibility(View.VISIBLE);
