@@ -7,8 +7,12 @@ import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.media.RingtoneManager;
 import android.net.Uri;
+import android.text.TextUtils;
+
 import xyz.shaohui.sicilly.R;
+import xyz.shaohui.sicilly.data.SPDataManager;
 import xyz.shaohui.sicilly.data.models.Message;
 import xyz.shaohui.sicilly.data.models.Status;
 import xyz.shaohui.sicilly.views.chat.ChatActivity;
@@ -43,8 +47,8 @@ public class NotificationUtils {
                 .setSmallIcon(R.mipmap.ic_message)
                 .setLargeIcon(
                         BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_icon))
-                .setContentIntent(pendingIntent)
-                .setSound(Uri.parse("android.resource://xyz.shaohui.sicilly/raw/sound"));
+                .setContentIntent(pendingIntent);
+        setNotiSound(context, builder);
 
         NotificationManager manager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -64,8 +68,8 @@ public class NotificationUtils {
                 .setSmallIcon(R.mipmap.ic_at)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
                         R.mipmap.ic_icon))
-                .setContentIntent(pendingIntent)
-                .setSound(Uri.parse("android.resource://xyz.shaohui.sicilly/raw/sound"));
+                .setContentIntent(pendingIntent);
+        setNotiSound(context, builder);
 
         NotificationManager manager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -85,12 +89,28 @@ public class NotificationUtils {
                 .setSmallIcon(R.drawable.ic_follow)
                 .setLargeIcon(BitmapFactory.decodeResource(context.getResources(),
                         R.drawable.ic_follow))
-                .setContentIntent(pendingIntent)
-                .setSound(Uri.parse("android.resource://xyz.shaohui.sicilly/raw/sound"));
+                .setContentIntent(pendingIntent);
+        setNotiSound(context, builder);
 
         NotificationManager manager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         manager.notify(REQUEST_ID, builder.build());
+    }
+
+    private static void setNotiSound(Context context, Notification.Builder builder) {
+        final String defaultSound = context.getString(R.string.setting_notification_sound_sicilly);
+        String soundSetting = SPDataManager
+                .getString(context.getString(R.string.setting_notification_sound_key),
+                        defaultSound);
+        if (TextUtils.equals(soundSetting, defaultSound)) {
+            builder.setSound(Uri.parse("android.resource://xyz.shaohui.sicilly/raw/sound"));
+        } else if (TextUtils.equals(soundSetting,
+                context.getString(R.string.setting_notification_sound_default))) {
+            Uri uri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            builder.setSound(uri);
+        } else {
+            builder.setSound(null);
+        }
     }
 
     public static void clearMessageNoti(Context context) {

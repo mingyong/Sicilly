@@ -127,8 +127,16 @@
     <string name="setting_notification_message">私信提醒</string>
     <string name="setting_notification_mention">有人@我提醒</string>
     <string name="setting_notification_request">好友关注请求提醒</string>
-    <string name="setting_notification_sound">提示音</string>
-    <string name="setting_no_sound">静音模式</string>
+    <string name="setting_notification_sound">提示音设置</string>
+    <string name="setting_notification_sound_key">setting_notification_sound</string>
+    <string-array name="setting_notification_sound_list">
+        <item>@string/setting_notification_sound_sicilly</item>
+        <item>@string/setting_notification_sound_default</item>
+        <item>@string/setting_notification_sound_no</item>
+    </string-array>
+    <string name="setting_notification_sound_sicilly">尚饭提示音</string>
+    <string name="setting_notification_sound_default">系统默认</string>
+    <string name="setting_notification_sound_no">静音模式</string>
     <string name="setting_diy">个性化设置</string>
     <string name="setting_text_size">字体大小</string>
     <string name="setting_text_size_key">setting_text_size</string>

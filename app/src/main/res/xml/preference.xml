@@ -18,14 +18,13 @@
                 android:key="send_request"
                 android:title="@string/setting_notification_request"
                 />
-        <!--<ListPreference-->
-                <!--android:defaultValue="@integer/notification_sound_type_default"-->
-                <!--android:dialogTitle="@string/setting_notification_sound"-->
-                <!--android:entries="@array/notification_sound_type_list"-->
-                <!--android:entryValues="@array/notification_sound_value_list"-->
-                <!--android:key="notification_sound"-->
-                <!--android:title="@string/setting_notification_sound"-->
-                <!--/>-->
+        <ListPreference
+                android:entries="@array/setting_notification_sound_list"
+                android:entryValues="@array/setting_notification_sound_list"
+                android:key="@string/setting_notification_sound_key"
+                android:title="@string/setting_notification_sound"
+                android:defaultValue="@string/setting_notification_sound_sicilly"
+                />
         <!--<SwitchPreference-->
                 <!--android:defaultValue="false"-->
                 <!--android:key="no_sound"-->
