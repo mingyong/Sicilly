@@ -199,6 +199,10 @@
         <activity
                 android:name=".views.setting.AboutActivity"
                 android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="me.shaohui.sicilly.about"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
         <activity
                 android:name=".views.friend_list.FriendListActivity"

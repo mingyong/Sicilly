@@ -111,6 +111,8 @@
     <string name="update_confirm">更新</string>
     <string name="update_cancel">拒绝你</string>
     <string name="update_permission_request">没有权限, 不能下载更新</string>
+    <string name="update_no_new">您已经是最新版</string>
+    <string name="update_not_remind">不再提醒这个版本</string>
 
     // notification
     <string name="notification_new_request">你有新的关注请求</string>
@@ -152,6 +154,8 @@
     <string name="setting_share_suffix_key">setting_share_suffix</string>
     <string name="setting_share_card_suffix_default">via 尚饭</string>
     <string name="setting_clear_cache">清理缓存</string>
+    <string name="setting_check_update">检查更新</string>
+    <string name="setting_check_update_key">setting_check_update</string>
 
     // search
     <string name="search_tab_timeline">消息</string>

@@ -42,4 +42,11 @@
                             android:key="@string/setting_share_suffix_key"
                 android:defaultValue="@string/setting_share_card_suffix_default"/>
     </PreferenceCategory>
+    <PreferenceCategory android:title="@string/app_name">
+        <Preference android:title="@string/setting_check_update"
+                android:key="@string/setting_check_update_key"/>
+        <PreferenceScreen android:title="@string/setting_about">
+            <intent android:action="me.shaohui.sicilly.about"/>
+        </PreferenceScreen>
+    </PreferenceCategory>
 </PreferenceScreen>

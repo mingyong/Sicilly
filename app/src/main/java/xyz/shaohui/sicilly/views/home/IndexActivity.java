@@ -28,7 +28,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.AppCompatDrawableManager;
+import android.text.TextUtils;
 import android.util.Log;
+import android.widget.CompoundButton;
 
 import java.util.ArrayList;
 
@@ -316,13 +318,17 @@ public class IndexActivity extends BaseActivity
         PgyUpdateManager.register(this, new UpdateManagerListener() {
             @Override
             public void onNoUpdateAvailable() {
-                Log.i("TAG", "没有新版本");
             }
 
             @Override
             public void onUpdateAvailable(String s) {
                 final AppBean appBean = getAppBeanFromString(s);
                 downloadUrl = appBean.getDownloadURL();
+
+                if (TextUtils.equals(appBean.getVersionCode(),
+                        SPDataManager.getString(SPDataManager.UPDATE_NOT_REMIND, null))) {
+                    return;
+                }
 
                 new MaterialDialog.Builder(IndexActivity.this).title(R.string.update_version)
                         .content(appBean.getReleaseNote())
@@ -337,6 +343,17 @@ public class IndexActivity extends BaseActivity
                                 }
                             }
                         })
+                        .onAny(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog,
+                                    @NonNull DialogAction which) {
+                                if (dialog.isPromptCheckBoxChecked()) {
+                                    SPDataManager.setString(SPDataManager.UPDATE_NOT_REMIND,
+                                            appBean.getVersionCode());
+                                }
+                            }
+                        })
+                        .checkBoxPromptRes(R.string.update_not_remind, false, null)
                         .show();
             }
         });

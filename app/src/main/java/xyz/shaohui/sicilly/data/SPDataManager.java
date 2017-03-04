@@ -25,6 +25,8 @@ public class SPDataManager {
     private static final String APP_USER_TOKEN = "app_user_token";
     private static final String APP_USER_SECRET = "app_user_secret";
 
+    public static final String UPDATE_NOT_REMIND = "update_not_remind";
+
     public static SharedPreferences getSetting() {
         return PreferenceManager.getDefaultSharedPreferences(SicillyApplication.getContext());
     }
@@ -81,5 +83,10 @@ public class SPDataManager {
             return editor.commit();
         }
         return true;
+    }
+
+    public static void setString(String key, String value) {
+        SharedPreferences sp = getSetting();
+        sp.edit().putString(key, value).apply();
     }
 }
