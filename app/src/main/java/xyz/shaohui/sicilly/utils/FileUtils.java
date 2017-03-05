@@ -72,19 +72,25 @@ public final class FileUtils {
     }
 
     public static String saveImage(Context context, File srcFile) throws IOException {
+        return saveImage(context, srcFile, false);
+    }
+
+    public static String saveImage(Context context, File srcFile, boolean isGif)
+            throws IOException {
         File dir = new File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), "尚饭");
         dir.mkdirs();
-        File dest = new File(dir, System.currentTimeMillis() + getImageExtension(srcFile));
+        File dest = new File(dir, System.currentTimeMillis() + (isGif ? ".gif" : ".jpg"));
         org.apache.commons.io.FileUtils.copyFile(srcFile, dest);
         MediaScannerConnection.scanFile(context, new String[]{dest.getAbsolutePath()}, null, null);
         return dest.getAbsolutePath();
     }
 
     private static String getImageExtension(File file) {
-        int index = file.getName().lastIndexOf(".");
+        Log.i("image", file.getAbsolutePath());
+        int index = file.getAbsolutePath().lastIndexOf(".");
         if (index > 0) {
-            return file.getName().substring(index);
+            return file.getAbsolutePath().substring(index);
         } else {
             return ".jpg";
         }

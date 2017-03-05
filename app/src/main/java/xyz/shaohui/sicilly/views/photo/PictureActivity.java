@@ -92,6 +92,15 @@ public class PictureActivity extends BaseActivity {
                 saveLocalImage();
                 return true;
             });
+        } else {
+            imageView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    ToastUtils.showToast(getApplicationContext(), "正在保存图片到本地...");
+                    saveLocalImage();
+                    return true;
+                }
+            });
         }
     }
 
@@ -101,28 +110,9 @@ public class PictureActivity extends BaseActivity {
                 .downloadOnly(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                 .get())
                 .map(srcFile -> {
-                    //File dir = new File(Environment.getExternalStoragePublicDirectory(
-                    //        Environment.DIRECTORY_PICTURES), "尚饭");
-                    //dir.mkdirs();
-                    //File result = new File(dir, System.currentTimeMillis() + ".jpg");
-                    //try {
-                    //    FileInputStream in = new FileInputStream(file1);
-                    //    FileOutputStream out = new FileOutputStream(result);
-                    //
-                    //    byte[] buffer = new byte[1024];
-                    //    while(in.read(buffer) > 0) {
-                    //        out.write(buffer);
-                    //    }
-                    //    out.flush();
-                    //    out.close();
-                    //    in.close();
-                    //    return result.getAbsolutePath();
-                    //} catch (IOException e) {
-                    //    e.printStackTrace();
-                    //    return null;
-                    //}
                     try {
-                        return FileUtils.saveImage(this, srcFile);
+                        return FileUtils.saveImage(this, srcFile,
+                                url.contains(".gif") || url.contains(".GIF"));
                     } catch (IOException e) {
                         return null;
                     }

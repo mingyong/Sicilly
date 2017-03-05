@@ -132,6 +132,7 @@ public class ChatFragment extends BaseFragment<ChatView, ChatPresenter> implemen
     public void showMessage(List<Message> messages) {
         mDataList.addAll(messages);
         recyclerView.notifyDataSetChanged();
+        recyclerView.getRecycler().scrollToPosition(0);
     }
 
     @Override

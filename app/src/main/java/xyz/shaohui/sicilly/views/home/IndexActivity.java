@@ -403,4 +403,9 @@ public class IndexActivity extends BaseActivity
     public Retrofit getRetrofit() {
         return mRetrofit;
     }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
+    }
 }
